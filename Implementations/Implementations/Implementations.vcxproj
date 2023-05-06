@@ -139,7 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CATCH.cpp" />
     <ClCompile Include="Implementations.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CATCH.h" />
+    <ClInclude Include="TCA_Calculation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
