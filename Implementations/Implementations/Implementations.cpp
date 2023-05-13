@@ -2,10 +2,24 @@
 //
 
 #include <iostream>
-
+#include "CATCH.h"
+class TestFunction : public Function<double>
+{
+public:
+    double getValue(double x)
+    {
+        return 0;
+    }
+};
 int main()
 {
-    std::cout << "Hello World!\n";
+    CATCH c;
+    TestFunction t;
+
+    VectorFunction f1(&t,&t,&t), f2(&t, &t, &t);
+    double gamma = 100, tmax = 100;
+    TCA tca = c.CatchAlgorithm(&f1, &f2, gamma, tmax);
+    std::cout << "result:\nTime: "<< tca.time <<"\nDistance:"<< tca.distance << "\n";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

@@ -1,11 +1,19 @@
 #pragma once
 #include "TCA_Calculation.h"
+#include "Functions.h"
 #include <limits>
 #include <math.h>
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/io.hpp>
+#include <boost/numeric/ublas/vector.hpp>
+
+using namespace boost::numeric::ublas;
+
 #define _USE_MATH_DEFINES
 
 #define N 16
-
+const double pi = 2 * acos(0.0);
 // Conjunction Assessment Through Chebyshev Polynomials (CATCH)method
 using namespace TCA_Calculation;
 struct DistanceInTime {
@@ -15,25 +23,32 @@ struct DistanceInTime {
 class CATCH
 {
 public:
-	CATCH(int order, double maxError);
-	TCA CatchAlgorithm(definedFunctionInInterval g,int Gamma, int t_max);
+	CATCH() {};
+	TCA CatchAlgorithm(VectorFunction* f1, VectorFunction* f2, double Gamma, double t_max);
 private:
-	void fitCPP(int intervalStart, int intervalEnd, definedFunctionInInterval g, double MaxError, int Order);
-	void computeCompanionMatrix();
-	void getEigenvalues();
-	double calculateDistance();
-	void calculateInterpolationMatrix(double interpolationMatrix[N + 1][N + 1]);
-	double getX(double a, double b, int j);
 	//member variables
-	int Order;
-	double MaxError;
-	double Tau[1024];//temp size
-	int TauSize;
-	double CompanionMatrix[N][N];
-	double pi = 2 * acos(0.0);
-	double a[N + 1];
+	int TauSize = N;
 
 };
 
+class CPP
+{
+public:
+	CPP() : coefficients(N+1), interpolationMatrix(N + 1, N + 1), companionMatrix(N, N) { ; }
+	void fitCPP(int intervalStart, int intervalEnd, Function<double>* g);
+	vector<double> getRoots();
+	double getValue(double x);
+private:
+	double getX(double a, double b, int j);
+	void computeCompanionMatrix();
+	void calculateInterpolationMatrix();
+	int getPj(int j);
+	int Delta(int q, int r);
+	double getTj(double x, int j);
+	vector<double> coefficients;
+	matrix<double> interpolationMatrix;
+	matrix<double> companionMatrix;
+	double m_intervalStart, m_intervalEnd;
+};
 
 
