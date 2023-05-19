@@ -141,10 +141,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ANCAS.cpp" />
     <ClCompile Include="CATCH.cpp" />
     <ClCompile Include="Implementations.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ANCAS.h" />
     <ClInclude Include="CATCH.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="TCA_Calculation.h" />
