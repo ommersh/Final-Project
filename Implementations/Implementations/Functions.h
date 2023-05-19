@@ -1,10 +1,8 @@
 #pragma once
 #include <math.h>
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/io.hpp>
-#include <boost/numeric/ublas/vector.hpp>
-using namespace boost::numeric::ublas;
+#include <Eigen/Eigenvalues>
+
+using namespace Eigen;
 
 template <class T>
 
@@ -30,16 +28,16 @@ private:
 	Function<U>* f1;
 	Function<U>* f2;
 };
-class VectorFunction : public Function<vector<double>>
+class VectorFunction : public Function<Vector3d>
 {
 public:
 	VectorFunction(Function<double> *x, Function<double> *y, Function<double> *z)
 	{
 		X = x; Y = y;Z = z;
 	}
-	vector<double> getValue(double x)
+	Vector3d getValue(double x)
 	{
-		vector<double> v(3);
+		Vector3d v(3);
 		v(0) = X->getValue(x);
 		v(1) = Y->getValue(x);
 		v(2) = Z->getValue(x);
@@ -59,10 +57,10 @@ public:
 	}
 	double getValue(double x)
 	{
-		return norm_2(f.getValue(x));
+		return f.getValue(x).norm();
 	}
 private:
-	RelativeFunction<vector<double>> f;
+	RelativeFunction<Vector3d> f;
 };
 class RelativeFunctionInIndex : public Function<double>
 {

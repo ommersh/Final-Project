@@ -8,17 +8,41 @@ class TestFunction : public Function<double>
 public:
     double getValue(double x)
     {
-        return 0;
+        return sin(x);
     }
+};
+class TestFunctiontag : public Function<double>
+{
+public:
+    double getValue(double y)
+    {
+        return cos(y);
+    }
+};
+class TestFunctionConst : public Function<double>
+{
+public:
+    TestFunctionConst(double num)
+    {
+        mConst = num;
+    }
+    double getValue(double x)
+    {
+        return sin(x);
+    }
+private:
+    double mConst;
 };
 int main()
 {
     CATCH c;
     TestFunction t;
-
-    VectorFunction f1(&t,&t,&t), f2(&t, &t, &t);
+    TestFunctiontag ttag;
+    TestFunctionConst tconst1(1), tconst0(0), tconst100(100);
+    VectorFunction f1(&t,&tconst1,&tconst1), f2(&ttag, &tconst0, &tconst0);
+    VectorFunction g1(&tconst100, &tconst100, &tconst100), g2(&tconst0, &tconst0, &tconst0);
     double gamma = 100, tmax = 100;
-    TCA tca = c.CatchAlgorithm(&f1, &f2, gamma, tmax);
+    TCA tca = c.CatchAlgorithm(&f1, &g1, &f2, &g2, gamma, tmax);
     std::cout << "result:\nTime: "<< tca.time <<"\nDistance:"<< tca.distance << "\n";
 }
 

@@ -8,12 +8,13 @@
 /// <param name="Gamma">The time interval size</param>
 /// <param name="t_max">the given function latest time(from 0 to t max)</param>
 /// <returns></returns>
-TCA CATCH::CatchAlgorithm(VectorFunction* f1, VectorFunction* f2, double Gamma, double t_max)
+TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,
+	VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double Gamma, double t_max)
 {
-	RelativeDistanceFunction g(f1,f2);
-	RelativeFunctionInIndex gx(f1, f2,0);
-	RelativeFunctionInIndex gy(f1, f2, 1);
-	RelativeFunctionInIndex gz(f1, f2, 2);
+	RelativeDistanceFunction relativeVelocity(velocityInTimeObject1, velocityInTimeObject2);
+	RelativeFunctionInIndex relativeLocationX(locationInTimeObject1, locationInTimeObject2,0);
+	RelativeFunctionInIndex relativeLocationY(locationInTimeObject1, locationInTimeObject2, 1);
+	RelativeFunctionInIndex relativeLocationZ(locationInTimeObject1, locationInTimeObject2, 2);
 	TCA tca;
 	CPP distCpp,xCpp,yCpp,zCpp;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
@@ -22,23 +23,24 @@ TCA CATCH::CatchAlgorithm(VectorFunction* f1, VectorFunction* f2, double Gamma, 
 	int b = Gamma;
 	double time;
 	double dist;
-	vector<double> v1(3);
-	vector<double> Tau(N);
+	Vector3d v1;
+	VectorXd Tau;
 	while (b <= t_max)
 	{
-		distCpp.fitCPP(a,b, &g);
+		distCpp.fitCPP(a,b, &relativeVelocity);
 		//get the roots
 		Tau = distCpp.getRoots();
+		TauSize = Tau.size();
 		//fit cpp to x\y\z
-		xCpp.fitCPP(a, b, &gx);
-		yCpp.fitCPP(a, b, &gy);
-		zCpp.fitCPP(a, b, &gz);
+		xCpp.fitCPP(a, b, &relativeLocationX);
+		yCpp.fitCPP(a, b, &relativeLocationY);
+		zCpp.fitCPP(a, b, &relativeLocationZ);
 		for (int i = 0; i < TauSize; i++)
 		{
 			v1(0) = xCpp.getValue(Tau[i]);
 			v1(1) = yCpp.getValue(Tau[i]);
 			v1(2) = zCpp.getValue(Tau[i]);
-			dist = norm_2(v1);
+			dist = v1.norm();
 			if (dist < tca.distance)
 			{
 				tca.distance = dist;
@@ -183,9 +185,10 @@ int  CPP::Delta(int q, int r)
 /// The roots are the companion matrix eigenvalues
 /// </summary>
 /// <returns></returns>
-vector<double> CPP::getRoots()
+VectorXd CPP::getRoots()
 {
 	//vector<double> eigenvalues = ; // Compute the eigenvalues
-	vector<double> eigenvalues(N);
-	return eigenvalues;
+	EigenSolver<Eigen::MatrixXd> solver(companionMatrix);
+	VectorXcd eigenvalues = solver.eigenvalues();
+	return eigenvalues.real();
 }

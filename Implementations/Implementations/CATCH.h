@@ -3,12 +3,9 @@
 #include "Functions.h"
 #include <limits>
 #include <math.h>
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/io.hpp>
-#include <boost/numeric/ublas/vector.hpp>
+#include <Eigen/Eigenvalues>
 
-using namespace boost::numeric::ublas;
+using namespace Eigen;
 
 #define _USE_MATH_DEFINES
 
@@ -24,7 +21,8 @@ class CATCH
 {
 public:
 	CATCH() {};
-	TCA CatchAlgorithm(VectorFunction* f1, VectorFunction* f2, double Gamma, double t_max);
+	TCA CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,
+		VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double Gamma, double t_max);
 private:
 	//member variables
 	int TauSize = N;
@@ -36,7 +34,7 @@ class CPP
 public:
 	CPP() : coefficients(N+1), interpolationMatrix(N + 1, N + 1), companionMatrix(N, N) { ; }
 	void fitCPP(int intervalStart, int intervalEnd, Function<double>* g);
-	vector<double> getRoots();
+	VectorXd getRoots();
 	double getValue(double x);
 private:
 	double getX(double a, double b, int j);
@@ -45,9 +43,9 @@ private:
 	int getPj(int j);
 	int Delta(int q, int r);
 	double getTj(double x, int j);
-	vector<double> coefficients;
-	matrix<double> interpolationMatrix;
-	matrix<double> companionMatrix;
+	VectorXd coefficients;
+	MatrixXd interpolationMatrix;
+	MatrixXd companionMatrix;
 	double m_intervalStart, m_intervalEnd;
 };
 
