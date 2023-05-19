@@ -4,3 +4,6 @@ Implementations/Implementations/.vs/
 Implementations/Implementations/Debug/
 Implementations/Implementations/Implementations/Debug/
 boost_1_82_0/
+eigen-3.4.0/.gitignore
+eigen-3.4.0/.gitlab-ci.yml
+eigen-3.4.0/.hgeol
