@@ -1,5 +1,7 @@
 #include "CATCH.h"
 
+
+
 /// <summary>
 /// Alg.2: Get the TCA usnig the catch algorithm
 /// </summary>
@@ -19,8 +21,8 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 	CPP distCpp,xCpp,yCpp,zCpp;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.time = 0;
-	int a = 0;
-	int b = Gamma;
+	double a = 0;
+	double b = Gamma;
 	double time;
 	double dist;
 	Vector3d v1;
@@ -40,7 +42,7 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 			v1(0) = xCpp.getValue(Tau[i]);
 			v1(1) = yCpp.getValue(Tau[i]);
 			v1(2) = zCpp.getValue(Tau[i]);
-			dist = v1.norm();
+			dist = abs(v1.norm());
 			if (dist < tca.distance)
 			{
 				tca.distance = dist;
@@ -59,7 +61,7 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 /// <param name="intervalStart"></param>
 /// <param name="intervalEnd"></param>
 /// <param name="g"></param>
-void CPP::fitCPP(int intervalStart, int intervalEnd, Function<double>* g)
+void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g)
 {
 	m_intervalStart = intervalStart;
 	m_intervalEnd = intervalEnd;
@@ -70,9 +72,8 @@ void CPP::fitCPP(int intervalStart, int intervalEnd, Function<double>* g)
 		double sum = 0;
 		for (int k = 0; k <= N; k++)
 		{
-			sum += interpolationMatrix(j,k) * g->getValue(getX(intervalStart, intervalEnd,k));
+			sum += interpolationMatrix(j, k) * g->getValue(getX(intervalStart, intervalEnd, k));
 		}
-		coefficients(j) = sum;
 	}
 	computeCompanionMatrix();
 }
@@ -116,7 +117,9 @@ void CPP::calculateInterpolationMatrix()
 	{
 		for (int k = 0; k <= N; k++)
 		{
-			interpolationMatrix(j,k) = 2 / (getPj(j) * getPj(k) * N) * cos(j * k * pi);
+			interpolationMatrix(j,k) = 2 / (double)(getPj(j) * getPj(k) * N) * cos(j * k * pi/N);
+			//std::cout << interpolationMatrix(j, k) << " at " << j << " " << k << "\n";
+			//std::cout << cos(j * k * pi / N)<< " \n";
 		}
 	}
 }
@@ -153,7 +156,7 @@ void CPP::computeCompanionMatrix()
 			}
 			else
 			{
-				companionMatrix(j,k) = -(coefficients(k) / (2 * coefficients(N)) + 0.5 * Delta(N - 2, k));
+				companionMatrix(j,k) = -(coefficients(k) / (double)(2 * coefficients(N)) + 0.5 * Delta(N - 2, k));
 			}
 		}
 	}
@@ -190,5 +193,6 @@ VectorXd CPP::getRoots()
 	//vector<double> eigenvalues = ; // Compute the eigenvalues
 	EigenSolver<Eigen::MatrixXd> solver(companionMatrix);
 	VectorXcd eigenvalues = solver.eigenvalues();
+	std::cout << eigenvalues << " \n";
 	return eigenvalues.real();
 }

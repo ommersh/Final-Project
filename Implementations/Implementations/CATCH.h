@@ -4,6 +4,7 @@
 #include <limits>
 #include <math.h>
 #include <Eigen/Eigenvalues>
+#include <iostream>
 
 using namespace Eigen;
 
@@ -33,7 +34,7 @@ class CPP
 {
 public:
 	CPP() : coefficients(N+1), interpolationMatrix(N + 1, N + 1), companionMatrix(N, N) { ; }
-	void fitCPP(int intervalStart, int intervalEnd, Function<double>* g);
+	void fitCPP(double intervalStart, double intervalEnd, Function<double>* g);
 	VectorXd getRoots();
 	double getValue(double x);
 private:

@@ -9,7 +9,7 @@ template <class T>
 class Function
 {
 public:
-	virtual T getValue(double x) = 0;
+	virtual T getValue(double i) = 0;
 };
 template <class U>
 class RelativeFunction : public Function<U>
@@ -31,21 +31,14 @@ private:
 class VectorFunction : public Function<Vector3d>
 {
 public:
-	VectorFunction(Function<double> *x, Function<double> *y, Function<double> *z)
-	{
-		X = x; Y = y;Z = z;
-	}
-	Vector3d getValue(double x)
+	Vector3d getValue(int x)
 	{
 		Vector3d v(3);
-		v(0) = X->getValue(x);
-		v(1) = Y->getValue(x);
-		v(2) = Z->getValue(x);
+		v(0) = 0;
+		v(1) = 0;
+		v(2) = 0;
 		return v;
 	};
-	Function<double>* X;
-	Function<double>* Y;
-	Function<double>* Z;
 };
 
 class RelativeDistanceFunction : public Function<double>
@@ -57,7 +50,7 @@ public:
 	}
 	double getValue(double x)
 	{
-		return f.getValue(x).norm();
+		return f.getValue(x).dot(f.getValue(x));
 	}
 private:
 	RelativeFunction<Vector3d> f;

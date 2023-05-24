@@ -143,4 +143,5 @@ Vector3d ANCAS::calculateAccelelation(Vector3d r)
 	Accelelation(1) = -Mu * r(1) / pow(R_Norm, 3) * (1 + 3 * J2 * ePower2 / (2 * pow(R_Norm, 2)) * (1 - 5 * rk_Power_2 / pow(R_Norm, 2)));
 	//Eq.4(c)
 	Accelelation(2) = -Mu * r(2) / pow(R_Norm, 3) * (1 + 3 * J2 * ePower2 / (2 * pow(R_Norm, 2)) * (3 - 5 * rk_Power_2 / pow(R_Norm, 2)));
+	return Accelelation;
 }
