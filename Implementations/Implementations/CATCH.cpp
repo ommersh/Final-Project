@@ -14,11 +14,13 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 	VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double Gamma, double t_max)
 {
 	RelativeDistanceFunction relativeVelocity(velocityInTimeObject1, velocityInTimeObject2);
+	RelativeDistanceFunction relativeLocation(locationInTimeObject1, locationInTimeObject2);
+	Fd fd = Fd(&relativeLocation, &relativeVelocity);
 	RelativeFunctionInIndex relativeLocationX(locationInTimeObject1, locationInTimeObject2,0);
 	RelativeFunctionInIndex relativeLocationY(locationInTimeObject1, locationInTimeObject2, 1);
 	RelativeFunctionInIndex relativeLocationZ(locationInTimeObject1, locationInTimeObject2, 2);
 	TCA tca;
-	CPP distCpp,xCpp,yCpp,zCpp;
+	CPP FdCpp,xCpp,yCpp,zCpp;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.time = 0;
 	double a = 0;
@@ -29,9 +31,9 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 	VectorXd Tau;
 	while (b <= t_max)
 	{
-		distCpp.fitCPP(a,b, &relativeVelocity);
+		FdCpp.fitCPP(a,b, &fd);
 		//get the roots
-		Tau = distCpp.getRoots();
+		Tau = FdCpp.getRoots();
 		TauSize = Tau.size();
 		//fit cpp to x\y\z
 		xCpp.fitCPP(a, b, &relativeLocationX);
@@ -39,6 +41,8 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 		zCpp.fitCPP(a, b, &relativeLocationZ);
 		for (int i = 0; i < TauSize; i++)
 		{
+			std::cout << "Tau " << i << ":" << Tau[i] * b << "\n";
+			std::cout << "FdCpp " << Tau[i] * b << ":" << FdCpp.getValue(Tau[i]) << "\n";
 			v1(0) = xCpp.getValue(Tau[i]);
 			v1(1) = yCpp.getValue(Tau[i]);
 			v1(2) = zCpp.getValue(Tau[i]);
@@ -46,7 +50,7 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 			if (dist < tca.distance)
 			{
 				tca.distance = dist;
-				tca.time = Tau[i];
+				tca.time = Tau[i] * b;
 			}
 		}
 		a = b;
@@ -72,7 +76,8 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g)
 		double sum = 0;
 		for (int k = 0; k <= N; k++)
 		{
-			sum += interpolationMatrix(j, k) * g->getValue(getX(intervalStart, intervalEnd, k));
+			//std::cout <<" X "<< k << " = "<< getX(intervalStart, intervalEnd, k) << " gxj ="<< g->getValue(N - k) << "\n";
+			sum += interpolationMatrix(j, k) * g->getValue(N - k);
 		}
 	}
 	computeCompanionMatrix();
@@ -193,6 +198,6 @@ VectorXd CPP::getRoots()
 	//vector<double> eigenvalues = ; // Compute the eigenvalues
 	EigenSolver<Eigen::MatrixXd> solver(companionMatrix);
 	VectorXcd eigenvalues = solver.eigenvalues();
-	std::cout << eigenvalues << " \n";
+	//std::cout << eigenvalues << " \n";
 	return eigenvalues.real();
 }
