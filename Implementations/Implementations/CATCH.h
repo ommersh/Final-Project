@@ -10,7 +10,7 @@ using namespace Eigen;
 
 #define _USE_MATH_DEFINES
 
-#define N 16
+#define N 15
 const double pi = 2 * acos(0.0);
 // Conjunction Assessment Through Chebyshev Polynomials (CATCH)method
 using namespace TCA_Calculation;
@@ -33,7 +33,7 @@ private:
 class CPP
 {
 public:
-	CPP() : coefficients(N+1), interpolationMatrix(N + 1, N + 1), companionMatrix(N, N) { ; }
+	CPP() : coefficients(N+1), interpolationMatrix(N+1, N+1), companionMatrix(N, N) { ; }
 	void fitCPP(double intervalStart, double intervalEnd, Function<double>* g);
 	VectorXd getRoots();
 	double getValue(double x);
