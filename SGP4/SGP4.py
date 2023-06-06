@@ -15,28 +15,35 @@ THORAD AGENA D DEB
 
 from sgp4.api import Satrec
 import numpy as np
-np.set_printoptions(precision=2)
 from sgp4 import omm
+import math
+
+
 np.set_printoptions(precision=2)
-seconds_in_day = 60*60*24
+seconds_in_day = 86400 #60*60*24
 
 def secToDayFraction(sec):
     return sec/seconds_in_day
 
+def getX(a,b,i,n):
+    x = ( b - a) / 2 * math.cos(math.pi * i / n) + ( b + a ) / 2
+    return x
+
+def getXvaluesInSeconds(startTime, EndTime, numberOfIndex):
+    xList = []
+    for i in range(numberOfIndex):
+        xList.append(getX(startTime,EndTime,i,numberOfIndex))
+    return xList
+
+def getJdAndFr(startJd,startFr,sec):
+    resFr = secToDayFraction((sec + startJd*seconds_in_day)  % seconds_in_day)
+    resJd = int((sec + startJd*seconds_in_day) / seconds_in_day)
+    return resJd,resFr    
+        
+    
 s = '1 25544U 98067A   19343.69339541  .00001764  00000-0  38792-4 0  9991'
 t = '2 25544  51.6439 211.2001 0007417  17.6667  85.6398 15.50103472202482'
 satellite = Satrec.twoline2rv(s, t)
-
-
-jd = np.array((0, 100, 222, 300))
-fr = np.array((0.0001, 0.0002, 0.0003, 0.0004))
-
-e, r, v = satellite.sgp4_array(jd, fr)
-
-print(e)
-print(r)
-print(v)
-
 
 with open('LEMUR2.xml') as f:
     fields = next(omm.parse_xml(f))
@@ -45,11 +52,22 @@ omm.initialize(sat, fields)
 jd_ep = sat.jdsatepoch
 fr_ep = sat.jdsatepochF
 
-jd = np.array((jd_ep,jd_ep))
-fr = np.array((fr_ep,fr_ep + secToDayFraction(175.5612722)))
+#get the x values
+XValues = getXvaluesInSeconds(0, 2808.980355, 17)
+jdList = []
+frList = []
+for x in XValues:
+    jd,fr = getJdAndFr(jd_ep,fr_ep,x)
+    jdList.append(jd)
+    frList.append(fr)
+
+jd = np.array((jdList))
+fr = np.array((frList))
 
 e, r, v = sat.sgp4_array(jd, fr)
 
 print(e)
+for num in r:
+    print(str(num[0]) + " " + str(num[1]) + " " + str(num[2]) + " ")
 print(r)
 print(v)

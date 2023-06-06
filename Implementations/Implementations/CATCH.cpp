@@ -19,6 +19,10 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 	RelativeFunctionInIndex relativeLocationX(locationInTimeObject1, locationInTimeObject2,0);
 	RelativeFunctionInIndex relativeLocationY(locationInTimeObject1, locationInTimeObject2, 1);
 	RelativeFunctionInIndex relativeLocationZ(locationInTimeObject1, locationInTimeObject2, 2);
+	for (int i = 0; i <= N; i++)
+	{
+		std::cout << "Rd : x = " << relativeLocationX.getValue(i) << " y = " << relativeLocationY.getValue(i) << " z = " << relativeLocationZ.getValue(i) << "\n";
+	}
 	TCA tca;
 	CPP FdCpp,xCpp,yCpp,zCpp;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
@@ -27,6 +31,7 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 	double b = Gamma;
 	double time;
 	double dist;
+	double tempX;
 	Vector3d v1;
 	VectorXd Tau;
 	while (b <= t_max)
@@ -41,19 +46,27 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 		zCpp.fitCPP(a, b, &relativeLocationZ);
 		for (int i = 0; i < TauSize; i++)
 		{
-			std::cout << "Tau " << i << ":" << Tau[i] * b << "\n";
-			std::cout << "FdCpp " << Tau[i] * b << ":" << FdCpp.getValue(Tau[i]) << "\n";
-			v1(0) = xCpp.getValue(Tau[i]);
-			v1(1) = yCpp.getValue(Tau[i]);
-			v1(2) = zCpp.getValue(Tau[i]);
-			std::cout << "location :\n" << v1;
+			tempX = ((b + a) / 2 + Tau[i] * (b - a) / 2);
+			std::cout << "Tau " << i << ":" << tempX << "\n";
+			std::cout << "FdCpp " << tempX << ":" << FdCpp.getValue(tempX) << "\n";
+			v1(0) = xCpp.getValue(tempX);
+			v1(1) = yCpp.getValue(tempX);
+			v1(2) = zCpp.getValue(tempX);
+			std::cout << "distance vector: " << v1(0) << "," << v1(1) << "," << v1(2) << "\n";
 			dist = abs(v1.norm());
 			if (dist < tca.distance)
 			{
 				tca.distance = dist;
-				tca.time = Tau[i] * b;
+				tca.time = ((b + a) / 2 + Tau[i] * (b - a) / 2);
 			}
 		}
+		//test
+		tempX = 2540.746599;
+		std::cout << "\n\n\nFdCpp " << tempX << ":" << FdCpp.getValue(tempX) << "\n";
+		v1(0) = xCpp.getValue(tempX);
+		v1(1) = yCpp.getValue(tempX);
+		v1(2) = zCpp.getValue(tempX);
+		std::cout << "distance vector: " << v1(0) << "," << v1(1) << "," << v1(2) << "\n";
 		a = b;
 		b += Gamma;
 	}
@@ -95,7 +108,7 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g)
 double CPP::getValue(double x)
 {
 	double result = 0;
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i <= N; i++)
 	{
 		result += coefficients(i) * getTj((2 * x - m_intervalEnd - m_intervalStart) / (m_intervalEnd - m_intervalStart),i);
 	}
@@ -215,7 +228,7 @@ VectorXd CPP::getRoots()
 	int index = 0;
 	for (int i = 0; i < eigenvalues.size(); i++)
 	{
-		if (eigenvalues(i).imag() == 0 && eigenvalues(i).real() <= 1 && eigenvalues(i).real() >= 0)
+		if (eigenvalues(i).imag() == 0 && eigenvalues(i).real() <= 1 && eigenvalues(i).real() >= -1)
 		{
 			temp(index++) = eigenvalues(i).real();
 		}
