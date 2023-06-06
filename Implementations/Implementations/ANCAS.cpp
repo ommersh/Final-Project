@@ -1,50 +1,64 @@
 #include "ANCAS.h"
 
-TCA ANCAS::ANCASAlgorithm(Vector3d Object1Location_tn, Vector3d Object1Location_tn1, Vector3d Object2Location_tn,
-	Vector3d Object2Location_tn1, Vector3d Object1Velocity_tn, Vector3d Object1Velocity_tn1, Vector3d Object2Velocity_tn,
-	Vector3d Object2Velocity_tn1, double tn, double tn1)
+
+void CubicPolynomial::createCoefficients(double f[4], double Tau[4])
+{
+	double T1_1, T1_2,T1_3, T2_1, T2_2, T2_3;
+	T1_1 = Tau[1];
+	T1_2 = pow(Tau[1], 2);
+	T1_3 = pow(Tau[1], 3);
+	T2_1 = Tau[2];
+	T2_2 = pow(Tau[2], 2);
+	T2_3 = pow(Tau[2], 3);
+	double Lambda = T1_3* T2_2 + T1_2* T2_1 + T1_1* T2_3 - T1_3* T2_1 - T1_1* T2_2;
+	coefficients(0) = f[0];
+	coefficients(1) = (T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
+		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0]) / Lambda;
+
+	coefficients(2) = (T2_1 - T2_3) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
+		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0]) / Lambda;
+
+	coefficients(3) = (T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
+		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0]) / Lambda;
+}
+
+
+
+
+
+TCA ANCAS::ANCASAlgorithm(Vector3d Object1Location[4], Vector3d Object2Location[4], Vector3d Object1Velocity[4], Vector3d Object2Velocity[4],
+	double timePoints[4])
 {
 	TCA tca;
 	tca.time = 0;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	//1. Prepare the variables
-	double delta_t = tn1 - tn;
-	Vector3d v_relativeDistance_tn = Object1Location_tn - Object2Location_tn;
-	Vector3d v_relativeDistance_tn1 = Object1Location_tn1 - Object2Location_tn1;
-	Vector3d v_relativeVelocity_tn = Object1Velocity_tn - Object2Velocity_tn;
-	Vector3d v_relativeVelocity_tn1 = Object1Velocity_tn1 - Object2Velocity_tn1;
-	Vector3d v_relativeAcceleration_tn = calculateAccelelation(Object1Location_tn) - calculateAccelelation(Object2Location_tn);
-	Vector3d v_relativeAcceleration_tn1 = calculateAccelelation(Object1Location_tn1) - calculateAccelelation(Object2Location_tn1);
-	//Eq.5(a)
-	double f_tn = v_relativeDistance_tn.dot(v_relativeDistance_tn);
-	double f_tn1 = v_relativeDistance_tn1.dot(v_relativeDistance_tn1);
-	//Eq.5(b)
-	double fdot_tn = 2 * v_relativeVelocity_tn.dot(v_relativeDistance_tn);
-	double fdot_tn1 = 2 * v_relativeVelocity_tn1.dot(v_relativeDistance_tn1);
-	//Eq.5(c)
-	double fddot_tn = 2 * (v_relativeAcceleration_tn.dot(v_relativeDistance_tn) + v_relativeVelocity_tn.dot(v_relativeVelocity_tn));
-	double fddot_tn1 = 2 * (v_relativeAcceleration_tn1.dot(v_relativeDistance_tn1) + v_relativeVelocity_tn1.dot(v_relativeVelocity_tn1));
-	//2.Calculate the cubic polynomial Ctau
+	double Tau[4];
+	double Fd[4], Fx[4], Fy[4], Fz[4];
+	Vector3d F[4];
+	for (int i = 0; i < 4; i++)
+	{
+		//Tau = [0,Tau2,Tau3,1]
+		Tau[i] = (timePoints[i] - timePoints[0]) / (timePoints[3] - timePoints[0]);
+		//Fd = 2*rddot * rd
+		// 2 * (v1 - v2)*(r1 - r2)...
+		Fd[i] = 2 * ((Object1Velocity[i] - Object2Velocity[i]).dot(Object1Location[i] - Object2Location[i]));
+		F[i] = Object1Location[i] - Object2Location[i];
+		Fx[i] = F[i](0);
+		Fy[i] = F[i](0);
+		Fz[i] = F[i](0);
+
+	}
 	CubicPolynomial C_fdot_tau;
-	//Eq.6(a)
-	C_fdot_tau.coefficients(0) = fdot_tn;
-	//Eq.6(b)
-	C_fdot_tau.coefficients(1) = fddot_tn* delta_t;
-	//Eq.6(c)
-	C_fdot_tau.coefficients(2) = -3* fdot_tn - 2* fddot_tn* delta_t + 3* fdot_tn1 - fddot_tn1* delta_t;
-	//Eq.6(d)
-	C_fdot_tau.coefficients(3) = 2 * fdot_tn + fddot_tn * delta_t - 2 * fdot_tn1 + fddot_tn1 * delta_t;
-	//3. Calculate the quintic polynomial
-	QuinticPolynomial Qi, Qj, Qk;
-	//Qi
-	calculateQuinticPolynomial(Qi, v_relativeDistance_tn(0), v_relativeVelocity_tn(0), v_relativeAcceleration_tn(0),
-		v_relativeDistance_tn1(0), v_relativeVelocity_tn1(0), v_relativeAcceleration_tn1(0), delta_t);
-	//Qj
-	calculateQuinticPolynomial(Qj, v_relativeDistance_tn(1), v_relativeVelocity_tn(1), v_relativeAcceleration_tn(1),
-		v_relativeDistance_tn1(1), v_relativeVelocity_tn1(1), v_relativeAcceleration_tn1(1), delta_t);
-	//Qk
-	calculateQuinticPolynomial(Qk, v_relativeDistance_tn(2), v_relativeVelocity_tn(2), v_relativeAcceleration_tn(2),
-		v_relativeDistance_tn1(2), v_relativeVelocity_tn1(2), v_relativeAcceleration_tn1(2), delta_t);
+	CubicPolynomial Qx, Qy, Qz;
+
+	//2.Calculate the cubic polynomial Ctau
+	C_fdot_tau.createCoefficients(Fd, Tau);
+
+	//3. Calculate polynomial for x,y,z
+	Qx.createCoefficients(Fx, Tau);
+	Qy.createCoefficients(Fy, Tau);
+	Qz.createCoefficients(Fz, Tau);
 	//3.Find the real roots
 	Vector3d roots = findCubicPolynomialRoots(C_fdot_tau);
 	//4.Find the minimum distance
@@ -54,37 +68,17 @@ TCA ANCAS::ANCASAlgorithm(Vector3d Object1Location_tn, Vector3d Object1Location_
 	{
 		tau = roots(i);
 		//Eq.7
-		tempDistance = sqrt(pow(Qi.getValue(tau), 2) + pow(Qj.getValue(tau), 2) + pow(Qk.getValue(tau), 2));
+		tempDistance = sqrt(pow(Qx.getValue(tau), 2) + pow(Qy.getValue(tau), 2) + pow(Qz.getValue(tau), 2));
 		if (tempDistance < tca.distance)
 		{
 			tca.distance = tempDistance;
 			//Eq.8
-			tca.time = tn + tau * delta_t;
+			tca.time = timePoints[0] + tau * (timePoints[3] - timePoints[0]);
 		}
 	}
 	return tca;
 }
 
-void ANCAS::calculateQuinticPolynomial(QuinticPolynomial &q,double f_tn, double f_dot_tn, double f_ddot_tn, double f_tn_1,
-	double f_dott_n1, double f_ddott_n1, double delta_t)
-{
-	//Eq.2(a)
-	q.coefficients(0) = f_tn;
-	//Eq.2(b)
-	q.coefficients(1) = f_dot_tn*delta_t;
-	//Eq.2(c)
-	q.coefficients(2) = 0.5 * f_ddot_tn * pow(delta_t,2);
-	//Eq.2(d)
-	q.coefficients(3) = -10 * f_tn - 6 * f_dot_tn * delta_t - 1.5 * f_ddot_tn * pow(delta_t, 2) +
-		10 * f_tn_1 - 4 * f_dott_n1 * delta_t + 0.5 * f_ddott_n1 * pow(delta_t, 2);
-	//Eq.2(e)
-	q.coefficients(4) = 15 * f_tn + 8 * f_dot_tn * delta_t + 1.5 * f_ddot_tn * pow(delta_t, 2) 
-		- 15 * f_tn_1 + 7 * f_dott_n1 * delta_t - f_ddott_n1 * pow(delta_t, 2);
-	//Eq.2(f)
-	q.coefficients(5) = - 6 * f_tn - 3 * f_dot_tn * delta_t - 0.5 * f_ddot_tn * pow(delta_t, 2) 
-		+ 6 * f_tn_1 - 3 * f_dott_n1 * delta_t + 0.5 * f_ddott_n1 * pow(delta_t, 2);
-
-}
 
 Vector3d ANCAS::findCubicPolynomialRoots(CubicPolynomial P)
 {
@@ -130,18 +124,3 @@ Vector3d ANCAS::findCubicPolynomialRoots(CubicPolynomial P)
 	return roots.real();
 }
 
-
-Vector3d ANCAS::calculateAccelelation(Vector3d r)
-{
-	Vector3d Accelelation;
-	double R_Norm = r.norm();
-	double rk_Power_2 = pow(r(2), 2);
-	//vector with IJK units 
-	//Eq.4(a)
-	Accelelation(0) = -Mu * r(0) / pow(R_Norm, 3) * (1 + 3 * J2 * ePower2 / (2 * pow(R_Norm, 2)) * (1 - 5 * rk_Power_2 / pow(R_Norm, 2)));
-	//Eq.4(b)
-	Accelelation(1) = -Mu * r(1) / pow(R_Norm, 3) * (1 + 3 * J2 * ePower2 / (2 * pow(R_Norm, 2)) * (1 - 5 * rk_Power_2 / pow(R_Norm, 2)));
-	//Eq.4(c)
-	Accelelation(2) = -Mu * r(2) / pow(R_Norm, 3) * (1 + 3 * J2 * ePower2 / (2 * pow(R_Norm, 2)) * (3 - 5 * rk_Power_2 / pow(R_Norm, 2)));
-	return Accelelation;
-}

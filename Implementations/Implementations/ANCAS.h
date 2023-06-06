@@ -9,18 +9,6 @@
 using namespace TCA_Calculation;
 using namespace Eigen;
 
-class QuinticPolynomial
-{
-public:
-	VectorXd coefficients = VectorXd(6);
-	double getValue(double x)
-	{
-		double x2 = x * x;
-		double x4 = x2 * x2;
-		return coefficients(0) + coefficients(1) * x + coefficients(2) * x2 + coefficients(3) * x2 * x + coefficients(4) * x4
-			+ coefficients(5) * x4 * x + coefficients(6) * x4 * x2;
-	}
-};
 
 class CubicPolynomial
 {
@@ -30,14 +18,14 @@ public:
 	{
 		return coefficients(0) + coefficients(1) * x + coefficients(2) * x * x + coefficients(3) * x * x * x;
 	}
+	void createCoefficients(double f[4], double Tau[4]);
 };
 
 class ANCAS
 {
 public:
-	TCA ANCASAlgorithm(Vector3d Object1Location_tn, Vector3d Object1Location_tn1, Vector3d Object2Location_tn,
-		Vector3d Object2Location_tn1, Vector3d Object1Velocity_tn, Vector3d Object1Velocity_tn1, Vector3d Object2Velocity_tn,
-		Vector3d Object2Velocity_tn1,double t,double tn );
+	TCA ANCASAlgorithm(Vector3d Object1Location[4], Vector3d Object2Location[4], Vector3d Object1Velocity[4], Vector3d Object2Velocity[4],
+		double timePoints[4]);
 private:
 	Vector3d calculateAccelelation(Vector3d ObjectLocation);
 	Vector3d findCubicPolynomialRoots(CubicPolynomial c);
