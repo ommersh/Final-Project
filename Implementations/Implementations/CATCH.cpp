@@ -46,6 +46,7 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 			v1(0) = xCpp.getValue(Tau[i]);
 			v1(1) = yCpp.getValue(Tau[i]);
 			v1(2) = zCpp.getValue(Tau[i]);
+			std::cout << "location :\n" << v1;
 			dist = abs(v1.norm());
 			if (dist < tca.distance)
 			{
@@ -79,6 +80,7 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g)
 			//std::cout <<" X "<< k << " = "<< getX(intervalStart, intervalEnd, k) << " gxj ="<< g->getValue(N - k) << "\n";
 			sum += interpolationMatrix(j, k) * g->getValue(N - k);
 		}
+		coefficients(j) = sum;
 	}
 	computeCompanionMatrix();
 }
@@ -93,7 +95,7 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g)
 double CPP::getValue(double x)
 {
 	double result = 0;
-	for (int i = 0; i <= N; i++)
+	for (int i = 0; i < N; i++)
 	{
 		result += coefficients(i) * getTj((2 * x - m_intervalEnd - m_intervalStart) / (m_intervalEnd - m_intervalStart),i);
 	}
@@ -147,24 +149,34 @@ double CPP::getX(double a, double b,int j)
 /// </summary>
 void CPP::computeCompanionMatrix()
 {
+	for (int j = 1; j <= N; j++)
+	{
+		for (int k = 1; k <= N; k++)
+		{
+			if (j == 1)
+			{
+				companionMatrix(j-1,k-1) = Delta(2, k);
+			}
+			else if (j < (N -1))
+			{
+				companionMatrix(j-1,k-1) = 0.5 * (Delta(j, k + 1) + Delta(j, k - 1));
+			}
+			else
+			{
+				companionMatrix(j-1,k-1) = -(coefficients(k-1) / (double)(2 * coefficients(N))) + 0.5 * Delta(N - 1, k);
+			}
+		}
+	}
+/*	std::cout << " \n";
+
 	for (int j = 0; j < N; j++)
 	{
 		for (int k = 0; k < N; k++)
 		{
-			if (j == 1)
-			{
-				companionMatrix(j,k) = Delta(1, k);
-			}
-			else if (j < (N -1))
-			{
-				companionMatrix(j,k) = 0.5 * (Delta(j, k + 1) + Delta(j, k - 1));
-			}
-			else
-			{
-				companionMatrix(j,k) = -(coefficients(k) / (double)(2 * coefficients(N)) + 0.5 * Delta(N - 2, k));
-			}
+			std::cout <<"\t"<< companionMatrix(j, k) << " ";
 		}
-	}
+		std::cout  << " \n";
+	}*/
 }
 /// <summary>
 /// Eq.13: Get Pj value where:
@@ -175,7 +187,7 @@ void CPP::computeCompanionMatrix()
 /// <returns>Pj</returns>
 int CPP::getPj(int j)
 {
-	return j == 0 || j == N ? 2 : 1;
+	return j == 0 || j == (N -1)? 2 : 1;
 }
 /// <summary>
 /// Eq.19: Binary function, 
@@ -198,6 +210,21 @@ VectorXd CPP::getRoots()
 	//vector<double> eigenvalues = ; // Compute the eigenvalues
 	EigenSolver<Eigen::MatrixXd> solver(companionMatrix);
 	VectorXcd eigenvalues = solver.eigenvalues();
-	//std::cout << eigenvalues << " \n";
-	return eigenvalues.real();
+	std::cout << eigenvalues << " \n";
+	VectorXd temp = VectorXd(eigenvalues.size());
+	int index = 0;
+	for (int i = 0; i < eigenvalues.size(); i++)
+	{
+		if (eigenvalues(i).imag() == 0 && eigenvalues(i).real() <= 1 && eigenvalues(i).real() >= 0)
+		{
+			temp(index++) = eigenvalues(i).real();
+		}
+	}
+	VectorXd result = VectorXd(index);
+	for (int i = 0; i < index; i++)
+	{
+		result(i) = temp(i);
+	}
+	std::cout <<"result :\n" << result << " \n";
+	return result;
 }
