@@ -29,7 +29,6 @@ public:
 private:
 	Vector3d calculateAccelelation(Vector3d ObjectLocation);
 	Vector3d findCubicPolynomialRoots(CubicPolynomial c);
-	void calculateQuinticPolynomial(QuinticPolynomial& q, double f_tn, double f_dot_tn, double f_ddot_tn, double f_tn_1, double f_dott_n1, double f_ddott_n1, double delta_t);
 
 	const double earthRadius = 6378.1363;//km
 	const double ePower2 = earthRadius * earthRadius;

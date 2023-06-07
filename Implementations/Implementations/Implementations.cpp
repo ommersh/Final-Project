@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "CATCH.h"
+#include "ANCAS.h"
 int GetIndexInTime(double time)
 {
     double times[16] = {
@@ -201,7 +202,8 @@ int main()
     TestFunctionV2 v2;
     double gamma = 2808.980355, tmax = 2808.980355;
     TCA tca = c.CatchAlgorithm(&r1, &r2, &v1, &v2, gamma, tmax);
-    std::cout << "result:\nTime: "<< tca.time <<"\nDistance:"<< tca.distance << "\n";
+    std::cout << "Catch result:\nTime: "<< tca.time <<"\nDistance:"<< tca.distance << "\n";
+    
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
