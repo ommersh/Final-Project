@@ -23,7 +23,7 @@ class CATCH
 public:
 	CATCH() {};
 	TCA CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,
-		VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double Gamma, double t_max);
+		VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double* timePoints, int lastPointIndex);
 private:
 	//member variables
 	int TauSize = N;
@@ -34,7 +34,7 @@ class CPP
 {
 public:
 	CPP() : coefficients(N+1), interpolationMatrix(N+1, N+1), companionMatrix(N, N) { ; }
-	void fitCPP(double intervalStart, double intervalEnd, Function<double>* g);
+	void fitCPP(double intervalStart, double intervalEnd, Function<double>* g, int offset);
 	VectorXd getRoots();
 	double getValue(double x);
 private:

@@ -30,6 +30,9 @@
     <ClCompile Include="ANCAS.cpp">
       <Filter>ANCAS</Filter>
     </ClCompile>
+    <ClCompile Include="FileReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TCA_Calculation.h">
@@ -43,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="ANCAS.h">
       <Filter>ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="FileReader.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

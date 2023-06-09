@@ -1,7 +1,7 @@
 #include "ANCAS.h"
 
 
-void CubicPolynomial::createCoefficients(double f[4], double Tau[4])
+void CubicPolynomial::createCoefficients(Function<double>* f, double Tau[4], int offset)
 {
 	double T1_1, T1_2,T1_3, T2_1, T2_2, T2_3;
 	T1_1 = Tau[1];
@@ -11,116 +11,155 @@ void CubicPolynomial::createCoefficients(double f[4], double Tau[4])
 	T2_2 = pow(Tau[2], 2);
 	T2_3 = pow(Tau[2], 3);
 	double Lambda = T1_3* T2_2 + T1_2* T2_1 + T1_1* T2_3 - T1_3* T2_1 - T1_1* T2_2;
-	coefficients(0) = f[0];
-	coefficients(1) = (T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
-		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0]) / Lambda;
+	coefficients(0) = f->getValue(offset + 0);
+	coefficients(1) = ((T2_3 - T2_2) * (f->getValue(offset + 1) - f->getValue(offset + 0)) + (T1_2 - T1_3) * (f->getValue(offset + 2) - f->getValue(offset + 0))
+		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f->getValue(offset + 3) - f->getValue(offset + 0))) / Lambda;
 
-	coefficients(2) = (T2_1 - T2_3) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
-		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0]) / Lambda;
+	coefficients(2) = ((T2_1 - T2_3) * (f->getValue(offset + 1) - f->getValue(offset + 0)) + (T1_1 - T1_2) * (f->getValue(offset + 2) - f->getValue(offset + 0))
+		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f->getValue(offset + 3) - f->getValue(offset + 0))) / Lambda;
 
-	coefficients(3) = (T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
-		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0]) / Lambda;
+	coefficients(3) = ((T2_2 - T2_1) * (f->getValue(offset + 1) - f->getValue(offset + 0)) + (T1_1 - T1_2) * (f->getValue(offset + 2) - f->getValue(offset + 0))
+		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f->getValue(offset + 3) - f->getValue(offset + 0))) / Lambda;
 }
 
 
 
 
 
-TCA ANCAS::ANCASAlgorithm(Vector3d Object1Location[4], Vector3d Object2Location[4], Vector3d Object1Velocity[4], Vector3d Object2Velocity[4],
-	double timePoints[4])
+TCA ANCAS::ANCASAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2, VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2,
+	double* timePoints, int lastPointIndex)
 {
 	TCA tca;
 	tca.time = 0;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	//1. Prepare the variables
 	double Tau[4];
-	double Fd[4], Fx[4], Fy[4], Fz[4];
-	Vector3d F[4];
-	for (int i = 0; i < 4; i++)
-	{
-		//Tau = [0,Tau2,Tau3,1]
-		Tau[i] = (timePoints[i] - timePoints[0]) / (timePoints[3] - timePoints[0]);
-		//Fd = 2*rddot * rd
-		// 2 * (v1 - v2)*(r1 - r2)...
-		Fd[i] = 2 * ((Object1Velocity[i] - Object2Velocity[i]).dot(Object1Location[i] - Object2Location[i]));
-		F[i] = Object1Location[i] - Object2Location[i];
-		Fx[i] = F[i](0);
-		Fy[i] = F[i](0);
-		Fz[i] = F[i](0);
-
-	}
+	RelativeDistanceFunction relativeVelocity(velocityInTimeObject1, velocityInTimeObject2);
+	RelativeDistanceFunction relativeLocation(locationInTimeObject1, locationInTimeObject2);
+	Fd fd = Fd(&relativeLocation, &relativeVelocity);
+	RelativeFunctionInIndex Fx(locationInTimeObject1, locationInTimeObject2, 0);
+	RelativeFunctionInIndex Fy(locationInTimeObject1, locationInTimeObject2, 1);
+	RelativeFunctionInIndex Fz(locationInTimeObject1, locationInTimeObject2, 2);	
 	CubicPolynomial C_fdot_tau;
 	CubicPolynomial Qx, Qy, Qz;
-
-	//2.Calculate the cubic polynomial Ctau
-	C_fdot_tau.createCoefficients(Fd, Tau);
-
-	//3. Calculate polynomial for x,y,z
-	Qx.createCoefficients(Fx, Tau);
-	Qy.createCoefficients(Fy, Tau);
-	Qz.createCoefficients(Fz, Tau);
-	//3.Find the real roots
-	Vector3d roots = findCubicPolynomialRoots(C_fdot_tau);
-	//4.Find the minimum distance
-	double tau = 0;
-	double tempDistance = 0;
-	for (int i = 0; i < roots.size(); i++)
+	Vector3d roots;
+	int startPointIndex, endPointIndex;
+	int roundNumber = 0;
+	int offset,numberOfRoots;
+	double tau, tempDistance;
+	startPointIndex = 0;
+	endPointIndex = 3;
+	//run over all the data
+	while (endPointIndex <= lastPointIndex)
 	{
-		tau = roots(i);
-		//Eq.7
-		tempDistance = sqrt(pow(Qx.getValue(tau), 2) + pow(Qy.getValue(tau), 2) + pow(Qz.getValue(tau), 2));
-		if (tempDistance < tca.distance)
+		offset = (3)*roundNumber;
+		for (int i = 0; i < 4; i++)
 		{
-			tca.distance = tempDistance;
-			//Eq.8
-			tca.time = timePoints[0] + tau * (timePoints[3] - timePoints[0]);
+			//Tau = [0,Tau2,Tau3,1]
+			Tau[i] = (timePoints[offset + i] - timePoints[offset + 0]) / (timePoints[offset + 3] - timePoints[offset + 0]);
 		}
+		//2.Calculate the cubic polynomial Ctau
+		C_fdot_tau.createCoefficients(&fd, Tau, offset);
+
+		//3.Find the real roots
+		numberOfRoots = findCubicPolynomialRoots(C_fdot_tau, roots);
+		//4.Find the minimum distance
+		for (int i = 0; i < numberOfRoots; i++)
+		{
+			if (i == 0)
+			{
+				tau = 0;
+				tempDistance = 0;
+				//5. Calculate polynomial for x,y,z
+				Qx.createCoefficients(&Fx, Tau, offset);
+				Qy.createCoefficients(&Fy, Tau, offset);
+				Qz.createCoefficients(&Fz, Tau, offset);
+			}
+			tau = roots(i);
+			//Eq.7
+			tempDistance = sqrt(pow(Qx.getValue(tau), 2) + pow(Qy.getValue(tau), 2) + pow(Qz.getValue(tau), 2));
+			if (tempDistance < tca.distance)
+			{
+				tca.distance = tempDistance;
+				//Eq.8
+				tca.time = timePoints[offset + 0] + tau * (timePoints[offset + 3] - timePoints[offset + 0]);
+			}
+		}
+
+		//
+		startPointIndex = endPointIndex;
+		endPointIndex = endPointIndex + 3;
+		roundNumber++;
 	}
 	return tca;
 }
 
+//#include "../../boost_1_82_0/boost/math/tools/quadratic_roots.hpp"
 
-Vector3d ANCAS::findCubicPolynomialRoots(CubicPolynomial P)
+int ANCAS::findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result)
 {
-	Vector3cd roots;
 	//calculate roots
 	double a = P.coefficients(3);
 	double b = P.coefficients(2);
 	double c = P.coefficients(1);
 	double d = P.coefficients(0);
-
-	std::complex<double> p, q, r; // Roots of the cubic equation
-	// Calculate discriminant and intermediate values
-	double discriminant = 18 * a * b * c * d - 4 * pow(b, 3) * d + pow(b, 2) * pow(c, 2) - 4 * a * pow(c, 3) - 27 * pow(a, 2) * pow(d, 2);
-	double delta0 = pow(b, 2) - 3 * a * c;
-	double delta1 = 2 * pow(b, 3) - 9 * a * b * c + 27 * pow(a, 2) * d;
-
-	if (discriminant == 0 && delta0 == 0 && delta1 == 0) {
-		// Case of three equal real roots
-		p = q = r = -b / (3 * a);
+	double temp;
+	//the cubic equasion is ax^3 + bx^2 + cx + d = 0
+	//int num_roots = boost::math::tools::quadratic_roots(coefficients[0], coefficients[1], coefficients[2], coefficients[3], roots[0], roots[1], roots[2]);
+	double roots[3];
+	int numberOfRoots = 0,numberOfRootsInRange = 0;
+	calculateCubicRoots(a, b, c, d, roots, numberOfRoots);
+	for (int i = 0; i < numberOfRoots; i++)
+	{
+		if (roots[i] >= 0 && roots[i] < 1)
+		{
+			result(numberOfRootsInRange) = roots[i];
+			numberOfRootsInRange++;
+		}
 	}
-	else if (discriminant > 0) {
-		// Case of one real root and two complex conjugate roots
-		double sqrt_discriminant = std::sqrt(discriminant);
-		double C = pow((delta1 + sqrt_discriminant) / 2, 1.0 / 3.0);
-		double D = pow((delta1 - sqrt_discriminant) / 2, 1.0 / 3.0);
-
-		p = (-b / (3 * a)) + C + D;
-		q = std::complex<double>(-1.0 / (3 * a), sqrt(3.0) / (3 * a)) * (C + D) - 0.5 * (C - D) * std::complex<double>(0, 1);
-		r = std::complex<double>(-1.0 / (3 * a), -sqrt(3.0) / (3 * a)) * (C + D) - 0.5 * (C - D) * std::complex<double>(0, 1);
-	}
-	else {
-		// Case of three distinct real roots
-		double C = std::sqrt(-delta0 / 3);
-		double theta = std::acos(3 * a * C / b) / 3;
-
-		p = (-b / (3 * a)) - 2 * C * std::cos(theta);
-		q = (-b / (3 * a)) + C * (std::cos(theta) + std::sqrt(3.0) * std::sin(theta));
-		r = (-b / (3 * a)) + C * (std::cos(theta) - std::sqrt(3.0) * std::sin(theta));
-	}
-	roots(0) = p;
-	roots(1) = q;
-	roots(2) = r;
-	return roots.real();
+	return numberOfRootsInRange;
 }
 
+#include <cmath>
+// Function to calculate the roots of a cubic equation using Cardano's method
+void ANCAS::calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots) {
+	if (a == 0.0) {
+		std::cout << "Not a cubic equation." << std::endl;
+		return;
+	}
+	double p = (3 * a * c - b * b) / (3 * a * a);
+	double q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
+	double discriminant = q * q / 4 + p * p * p / 27;
+	if (discriminant > 0) {
+		double r = -q / 2 + std::sqrt(discriminant);
+		double s = std::cbrt(r);
+		double t = -q / 2 - std::sqrt(discriminant);
+		double u = std::cbrt(t);
+
+		double root1 = s + u - b / (3 * a);
+		numberOfRoots = 1;
+		roots[0] = root1;
+	}
+	else if (discriminant == 0) {
+		double r = -q / 2;
+		double s = std::cbrt(r);
+
+		double root1 = 2 * s - b / (3 * a);
+		double root2 = -s - b / (3 * a);
+		numberOfRoots = 2;
+		roots[0] = root1;
+		roots[1] = root2;
+	}
+	else {
+		double alpha = std::sqrt(-p / 3);
+		double beta = std::acos(-q / (2 * std::sqrt(-p * p * p / 27)));
+		double root1 = 2 * alpha * std::cos(beta / 3) - b / (3 * a);
+		double root2 = 2 * alpha * std::cos((beta + 2 * M_PI) / 3) - b / (3 * a);
+		double root3 = 2 * alpha * std::cos((beta + 4 * M_PI) / 3) - b / (3 * a);
+
+		numberOfRoots = 3;
+		roots[0] = root1;
+		roots[1] = root2;
+		roots[2] = root3;
+	}
+}

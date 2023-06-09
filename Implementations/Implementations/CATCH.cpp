@@ -11,7 +11,7 @@
 /// <param name="t_max">the given function latest time(from 0 to t max)</param>
 /// <returns></returns>
 TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,
-	VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double Gamma, double t_max)
+	VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double *timePoints, int lastPointIndex)
 {
 	RelativeDistanceFunction relativeVelocity(velocityInTimeObject1, velocityInTimeObject2);
 	RelativeDistanceFunction relativeLocation(locationInTimeObject1, locationInTimeObject2);
@@ -24,24 +24,30 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.time = 0;
 	double a = 0;
-	double b = Gamma;
+	double b = timePoints[N];
+	int startPointIndex, endPointIndex;
+	startPointIndex = 0;
+	endPointIndex = N;
 	double time;
 	double dist;
 	long double tempX;
 	Vector3d v1;
 	VectorXd Tau;
 	int roundNumber = 0;
-	while (b <= t_max)
+	int offset;
+	while (endPointIndex <= lastPointIndex)
 	{
-		roundNumber++;
-		FdCpp.fitCPP(a,b, &fd);
+		a = timePoints[startPointIndex];
+		b = timePoints[endPointIndex];
+		offset = (N) * roundNumber;
+		FdCpp.fitCPP(a, b, &fd, offset);
 		//get the roots
 		Tau = FdCpp.getRoots();
 		TauSize = Tau.size();
 		//fit cpp to x\y\z
-		xCpp.fitCPP(a, b, &relativeLocationX);
-		yCpp.fitCPP(a, b, &relativeLocationY);
-		zCpp.fitCPP(a, b, &relativeLocationZ);
+		xCpp.fitCPP(a, b, &relativeLocationX, offset);
+		yCpp.fitCPP(a, b, &relativeLocationY, offset);
+		zCpp.fitCPP(a, b, &relativeLocationZ, offset);
 		for (int i = 0; i < TauSize; i++)
 		{
 			tempX = ((b + a) / 2 + Tau[i] * (b - a) / 2);
@@ -55,8 +61,9 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 				tca.time = ((b + a) / 2 + Tau[i] * (b - a) / 2);
 			}
 		}
-		a = b;
-		b += Gamma;
+		startPointIndex = endPointIndex;
+		endPointIndex = endPointIndex + N;
+		roundNumber++;
 	}
 	return tca;
 }
@@ -67,7 +74,7 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 /// <param name="intervalStart"></param>
 /// <param name="intervalEnd"></param>
 /// <param name="g"></param>
-void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g)
+void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g, int offset)
 {
 	m_intervalStart = intervalStart;
 	m_intervalEnd = intervalEnd;
@@ -78,7 +85,7 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g)
 		double sum = 0;
 		for (int k = 0; k <= N; k++)
 		{
-			sum += interpolationMatrix(j, k) * g->getValue(N - k);
+			sum += interpolationMatrix(j, k) * g->getValue(offset + N - k);
 		}
 		coefficients(j) = sum;
 	}
