@@ -1,6 +1,5 @@
 #pragma once
 #include "TCA_Calculation.h"
-#include "Functions.h"
 #include <limits>
 #include <math.h>
 #include <Eigen/Eigenvalues>
@@ -22,8 +21,7 @@ class CATCH
 {
 public:
 	CATCH() {};
-	TCA CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,
-		VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double* timePoints, int lastPointIndex);
+	TCA CatchAlgorithm(sPointData * pointsInTime, double* timePoints, int lastPointIndex);
 private:
 	//member variables
 	int TauSize = N;
@@ -34,7 +32,7 @@ class CPP
 {
 public:
 	CPP() : coefficients(N+1), interpolationMatrix(N+1, N+1), companionMatrix(N, N) { ; }
-	void fitCPP(double intervalStart, double intervalEnd, Function<double>* g, int offset);
+	void fitCPP(double intervalStart, double intervalEnd, double * g);
 	VectorXd getRoots();
 	double getValue(double x);
 private:

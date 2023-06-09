@@ -1,5 +1,4 @@
 #include "FileReader.h"
-
 sFileData FileReader::readDataFromFile(string filePath)
 {
     sFileData fileData;

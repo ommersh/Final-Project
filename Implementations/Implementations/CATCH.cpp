@@ -10,15 +10,10 @@
 /// <param name="Gamma">The time interval size</param>
 /// <param name="t_max">the given function latest time(from 0 to t max)</param>
 /// <returns></returns>
-TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,
-	VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double *timePoints, int lastPointIndex)
+TCA CATCH::CatchAlgorithm(sPointData* pointsInTime, double *timePoints, int lastPointIndex)
 {
-	RelativeDistanceFunction relativeVelocity(velocityInTimeObject1, velocityInTimeObject2);
-	RelativeDistanceFunction relativeLocation(locationInTimeObject1, locationInTimeObject2);
-	Fd fd = Fd(&relativeLocation, &relativeVelocity);
-	RelativeFunctionInIndex relativeLocationX(locationInTimeObject1, locationInTimeObject2,0);
-	RelativeFunctionInIndex relativeLocationY(locationInTimeObject1, locationInTimeObject2, 1);
-	RelativeFunctionInIndex relativeLocationZ(locationInTimeObject1, locationInTimeObject2, 2);
+
+	double fd[N+1], fx[N + 1], fy[N + 1], fz[N + 1];
 	TCA tca;
 	CPP FdCpp,xCpp,yCpp,zCpp;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
@@ -39,15 +34,25 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 	{
 		a = timePoints[startPointIndex];
 		b = timePoints[endPointIndex];
-		offset = (N) * roundNumber;
-		FdCpp.fitCPP(a, b, &fd, offset);
+		offset = (N)*roundNumber;
+		//Calculate Fd for the N current points
+		for (int i = 0; i <= N; i++)
+		{
+			fx[i] = pointsInTime[offset + i].r1x - pointsInTime[offset + i].r2x;
+			fy[i] = pointsInTime[offset + i].r1y - pointsInTime[offset + i].r2y;
+			fz[i] = pointsInTime[offset + i].r1z - pointsInTime[offset + i].r2z;
+			fd[i] = 2 * (((fx[i])* (pointsInTime[offset + i].v1x - pointsInTime[offset + i].v2x)) +
+						((fy[i]) * (pointsInTime[offset + i].v1y - pointsInTime[offset + i].v2y)) +
+						((fz[i]) * (pointsInTime[offset + i].v1z - pointsInTime[offset + i].v2z)));
+		}
+		FdCpp.fitCPP(a, b, fd);
 		//get the roots
 		Tau = FdCpp.getRoots();
 		TauSize = Tau.size();
 		//fit cpp to x\y\z
-		xCpp.fitCPP(a, b, &relativeLocationX, offset);
-		yCpp.fitCPP(a, b, &relativeLocationY, offset);
-		zCpp.fitCPP(a, b, &relativeLocationZ, offset);
+		xCpp.fitCPP(a, b, fx);
+		yCpp.fitCPP(a, b, fy);
+		zCpp.fitCPP(a, b, fz);
 		for (int i = 0; i < TauSize; i++)
 		{
 			tempX = ((b + a) / 2 + Tau[i] * (b - a) / 2);
@@ -74,7 +79,7 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 /// <param name="intervalStart"></param>
 /// <param name="intervalEnd"></param>
 /// <param name="g"></param>
-void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g, int offset)
+void CPP::fitCPP(double intervalStart, double intervalEnd, double* g)
 {
 	m_intervalStart = intervalStart;
 	m_intervalEnd = intervalEnd;
@@ -85,7 +90,7 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g, 
 		double sum = 0;
 		for (int k = 0; k <= N; k++)
 		{
-			sum += interpolationMatrix(j, k) * g->getValue(offset + N - k);
+			sum += interpolationMatrix(j, k) * g[N - k];
 		}
 		coefficients(j) = sum;
 	}
