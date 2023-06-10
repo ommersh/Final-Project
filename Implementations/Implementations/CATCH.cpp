@@ -1,6 +1,6 @@
 #include "CATCH.h"
 
-
+extern double getCurrentTymeInMicroSec();
 
 /// <summary>
 /// Alg.2: Get the TCA usnig the catch algorithm
@@ -73,6 +73,29 @@ TCA CATCH::CatchAlgorithm(sPointData* pointsInTime, double *timePoints, int last
 	return tca;
 }
 
+CPP::CPP() : coefficients(N + 1), interpolationMatrix(N + 1, N + 1), companionMatrix(N, N) {
+	calculateInterpolationMatrix();
+	InitCompanionMatrix();
+}
+
+void CPP::InitCompanionMatrix()
+{
+	for (int j = 1; j <= N; j++)
+	{
+		for (int k = 1; k <= N; k++)
+		{
+			if (j == 1)
+			{
+				companionMatrix(j - 1, k - 1) = Delta(2, k);
+			}
+			else if (j < N)
+			{
+				companionMatrix(j - 1, k - 1) = 0.5 * (Delta(j, k + 1) + Delta(j, k - 1));
+			}
+		}
+	}
+}
+
 /// <summary>
 /// Alg.1: Fit a CPP in interval where N is constant 
 /// </summary>
@@ -83,7 +106,6 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, double* g)
 {
 	m_intervalStart = intervalStart;
 	m_intervalEnd = intervalEnd;
-	calculateInterpolationMatrix();
 	//Eq.14/15
 	for (int j = 0; j <= N; j++)
 	{
@@ -160,23 +182,10 @@ double CPP::getX(double a, double b,int j)
 /// </summary>
 void CPP::computeCompanionMatrix()
 {
-	for (int j = 1; j <= N; j++)
+	for (int k = 1; k <= N; k++)
 	{
-		for (int k = 1; k <= N; k++)
-		{
-			if (j == 1)
-			{
-				companionMatrix(j-1,k-1) = Delta(2, k);
-			}
-			else if (j < (N -1))
-			{
-				companionMatrix(j-1,k-1) = 0.5 * (Delta(j, k + 1) + Delta(j, k - 1));
-			}
-			else
-			{
-				companionMatrix(j-1,k-1) = -(coefficients(k-1) / (double)(2 * coefficients(N))) + 0.5 * Delta(N - 1, k);
-			}
-		}
+		companionMatrix(N - 1, k - 1) = -(coefficients(k - 1) / (double)(2 * coefficients(N))) + 0.5 * Delta(N - 1, k);
+
 	}
 }
 /// <summary>

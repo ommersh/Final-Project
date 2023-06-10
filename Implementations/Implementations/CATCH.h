@@ -31,12 +31,13 @@ private:
 class CPP
 {
 public:
-	CPP() : coefficients(N+1), interpolationMatrix(N+1, N+1), companionMatrix(N, N) { ; }
+	CPP();
 	void fitCPP(double intervalStart, double intervalEnd, double * g);
 	VectorXd getRoots();
 	double getValue(double x);
 private:
 	double getX(double a, double b, int j);
+	void InitCompanionMatrix();
 	void computeCompanionMatrix();
 	void calculateInterpolationMatrix();
 	int getPj(int j);
