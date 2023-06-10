@@ -33,3 +33,27 @@ def savePointToFile(point, time_points, name):
         for row in range(len(time_points)):
             writer.writerow([point[row], time_points[row]])
         file.close()
+
+
+def savePointForAncasAndCatch(time_points, r1, v1, r2, v2, f, name):
+    with open('data/' + name + ".csv", 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(['t', 'r1x', 'r1y', 'r1z', 'v1x', 'v1y', 'v1z', 'r2x', 'r2y', 'r2z', 'v2x', 'v2y', 'v2z', 'f'])
+        for row in range(len(time_points)):
+            writer.writerow(
+                [time_points[row], r1[row][0], r1[row][1], r1[row][2], v1[row][0], v1[row][1], v1[row][2], r2[row][0],
+                 r2[row][1], r2[row][2], v2[row][0], v2[row][1], v2[row][2], f[row]])
+        file.close()
+
+
+def calculateXforN(n, Gamma):
+    times = []
+    for i in range(0, n):
+        j = n - 1 - i
+        times.append(calculateXj(0, Gamma, j, n))
+    return times
+
+
+def calculateXj(a, b, j, n):
+    x = ((b - a) / 2) * np.cos(np.pi * j / (n-1)) + (b + a) / 2
+    return x
