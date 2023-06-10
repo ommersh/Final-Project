@@ -1,7 +1,7 @@
 #include "ANCAS.h"
 
 
-void CubicPolynomial::createCoefficients(Function<double>* f, double Tau[4], int offset)
+void CubicPolynomial::createCoefficients(double* f, double Tau[4])
 {
 	double T1_1, T1_2,T1_3, T2_1, T2_2, T2_3;
 	T1_1 = Tau[1];
@@ -11,35 +11,29 @@ void CubicPolynomial::createCoefficients(Function<double>* f, double Tau[4], int
 	T2_2 = pow(Tau[2], 2);
 	T2_3 = pow(Tau[2], 3);
 	double Lambda = T1_3* T2_2 + T1_2* T2_1 + T1_1* T2_3 - T1_3* T2_1 - T1_1* T2_2;
-	coefficients(0) = f->getValue(offset + 0);
-	coefficients(1) = ((T2_3 - T2_2) * (f->getValue(offset + 1) - f->getValue(offset + 0)) + (T1_2 - T1_3) * (f->getValue(offset + 2) - f->getValue(offset + 0))
-		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f->getValue(offset + 3) - f->getValue(offset + 0))) / Lambda;
+	coefficients(0) = f[0];
+	coefficients(1) = ((T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
+		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0])) / Lambda;
 
-	coefficients(2) = ((T2_1 - T2_3) * (f->getValue(offset + 1) - f->getValue(offset + 0)) + (T1_1 - T1_2) * (f->getValue(offset + 2) - f->getValue(offset + 0))
-		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f->getValue(offset + 3) - f->getValue(offset + 0))) / Lambda;
+	coefficients(2) = ((T2_1 - T2_3) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
+		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0])) / Lambda;
 
-	coefficients(3) = ((T2_2 - T2_1) * (f->getValue(offset + 1) - f->getValue(offset + 0)) + (T1_1 - T1_2) * (f->getValue(offset + 2) - f->getValue(offset + 0))
-		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f->getValue(offset + 3) - f->getValue(offset + 0))) / Lambda;
+	coefficients(3) = ((T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
+		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0])) / Lambda;
 }
 
 
 
 
 
-TCA ANCAS::ANCASAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2, VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2,
-	double* timePoints, int lastPointIndex)
+TCA ANCAS::ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int lastPointIndex)
 {
 	TCA tca;
 	tca.time = 0;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	//1. Prepare the variables
 	double Tau[4];
-	RelativeDistanceFunction relativeVelocity(velocityInTimeObject1, velocityInTimeObject2);
-	RelativeDistanceFunction relativeLocation(locationInTimeObject1, locationInTimeObject2);
-	Fd fd = Fd(&relativeLocation, &relativeVelocity);
-	RelativeFunctionInIndex Fx(locationInTimeObject1, locationInTimeObject2, 0);
-	RelativeFunctionInIndex Fy(locationInTimeObject1, locationInTimeObject2, 1);
-	RelativeFunctionInIndex Fz(locationInTimeObject1, locationInTimeObject2, 2);	
+	double fd[4], fx[4], fy[4], fz[4];	
 	CubicPolynomial C_fdot_tau;
 	CubicPolynomial Qx, Qy, Qz;
 	Vector3d roots;
@@ -55,11 +49,20 @@ TCA ANCAS::ANCASAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 		offset = (3)*roundNumber;
 		for (int i = 0; i < 4; i++)
 		{
+			fx[i] = pointsInTime[offset + i].r1x - pointsInTime[offset + i].r2x;
+			fy[i] = pointsInTime[offset + i].r1y - pointsInTime[offset + i].r2y;
+			fz[i] = pointsInTime[offset + i].r1z - pointsInTime[offset + i].r2z;
+			fd[i] = 2 * (((fx[i]) * (pointsInTime[offset + i].v1x - pointsInTime[offset + i].v2x)) +
+				((fy[i]) * (pointsInTime[offset + i].v1y - pointsInTime[offset + i].v2y)) +
+				((fz[i]) * (pointsInTime[offset + i].v1z - pointsInTime[offset + i].v2z)));
+		}
+		for (int i = 0; i < 4; i++)
+		{
 			//Tau = [0,Tau2,Tau3,1]
 			Tau[i] = (timePoints[offset + i] - timePoints[offset + 0]) / (timePoints[offset + 3] - timePoints[offset + 0]);
 		}
 		//2.Calculate the cubic polynomial Ctau
-		C_fdot_tau.createCoefficients(&fd, Tau, offset);
+		C_fdot_tau.createCoefficients(fd, Tau);
 
 		//3.Find the real roots
 		numberOfRoots = findCubicPolynomialRoots(C_fdot_tau, roots);
@@ -71,9 +74,9 @@ TCA ANCAS::ANCASAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 				tau = 0;
 				tempDistance = 0;
 				//5. Calculate polynomial for x,y,z
-				Qx.createCoefficients(&Fx, Tau, offset);
-				Qy.createCoefficients(&Fy, Tau, offset);
-				Qz.createCoefficients(&Fz, Tau, offset);
+				Qx.createCoefficients(fx, Tau);
+				Qy.createCoefficients(fy, Tau);
+				Qz.createCoefficients(fz, Tau);
 			}
 			tau = roots(i);
 			//Eq.7
@@ -93,8 +96,6 @@ TCA ANCAS::ANCASAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 	}
 	return tca;
 }
-
-//#include "../../boost_1_82_0/boost/math/tools/quadratic_roots.hpp"
 
 int ANCAS::findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result)
 {
@@ -124,8 +125,47 @@ int ANCAS::findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result)
 // Function to calculate the roots of a cubic equation using Cardano's method
 void ANCAS::calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots) {
 	if (a == 0.0) {
-		std::cout << "Not a cubic equation." << std::endl;
-		return;
+		if (b == 0)
+		{
+			//cx + d
+			if (c != 0)
+			{
+				roots[0] = -d / c;
+				numberOfRoots = 1;
+				return;
+			}
+			else
+			{
+				//no roots
+				numberOfRoots = 0;
+				return;
+			}
+		}
+		// bx^2 + cx + d
+		//x12 = -c += sqrt ( c^2 - 4 bd)/2b
+		double discriminant = c * c - 4 * b * d;
+		if (discriminant < 0)
+		{
+			//no real roots
+			numberOfRoots = 0;
+			return;
+		}
+		else if (discriminant == 0)
+		{
+			//one real root
+			numberOfRoots = 1;
+			roots[0] = -c / (2 * b);
+			return;
+		}
+		else
+		{
+			//two real roots
+			discriminant = sqrt(discriminant);
+			roots[0] = (-c + discriminant)/ (2 * b);
+			roots[1] = (-c - discriminant) / (2 * b);
+			numberOfRoots = 2;
+			return;
+		}
 	}
 	double p = (3 * a * c - b * b) / (3 * a * a);
 	double q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);

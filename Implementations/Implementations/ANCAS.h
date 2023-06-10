@@ -21,14 +21,13 @@ public:
 	{
 		return coefficients(0) + coefficients(1) * x + coefficients(2) * pow(x,2) + coefficients(3) * pow(x, 3);
 	}
-	void createCoefficients(Function<double> * f, double Tau[4],int offset);
+	void createCoefficients(double * f, double Tau[4]);
 };
 
 class ANCAS
 {
 public:
-	TCA ANCASAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2,
-		double* timePoints, int lastPointIndex);
+	TCA ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int lastPointIndex);
 private:
 	int findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result);
 	void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
