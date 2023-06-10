@@ -126,7 +126,7 @@ int main()
 {
 
     runCatch();
-    //runAncas();
+    runAncas();
     
     return 0;
 
@@ -166,37 +166,6 @@ void runAncas()
     int lastPointIndex = fileData.size;
     double startTime, endTime;
     double temp;
-    //test time
-    RelativeDistanceFunction relativeVelocity(&v1, &v2);
-    RelativeDistanceFunction relativeLocation(&r1, &r2);
-    Fd fd = Fd(&relativeLocation, &relativeVelocity);
-    RelativeFunctionInIndex relativeLocationX(&r1, &r2, 0);
-    RelativeFunctionInIndex relativeLocationY(&r1, &r2, 1);
-    RelativeFunctionInIndex relativeLocationZ(&r1, &r2, 2);
-    startTime = getCurrentTymeInMicroSec();
-    for(int k = 0; k < 16; k ++)
-        for (int i = 0; i < 16; i++)
-        {
-            temp = 2 * (relativeLocation.getValue(i).dot(relativeVelocity.getValue(i)));
-        }
-   
-    endTime = getCurrentTymeInMicroSec();
-
-    std::cout << "test1 took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
-    double testfd[16];
-    startTime = getCurrentTymeInMicroSec();
-    for (int i = 0; i < 16; i++)
-    {
-        testfd[i] = 2 * (relativeLocation.getValue(i).dot(relativeVelocity.getValue(i)));
-
-    }
-    for (int k = 0; k < 16; k++)
-        temp = testfd[k];
-    endTime = getCurrentTymeInMicroSec();
-
-    std::cout << "test2 took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
-    //printData(fileData);
-
     startTime = getCurrentTymeInMicroSec();
     TCA tca = a.ANCASAlgorithm(&r1, &r2, &v1, &v2, timePoints, lastPointIndex);
     endTime = getCurrentTymeInMicroSec();

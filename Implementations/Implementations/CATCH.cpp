@@ -210,6 +210,7 @@ int  CPP::Delta(int q, int r)
 {
 	return q == r ? 1 : 0;
 }
+
 /// <summary>
 /// Get the rootes of the fitted CPP
 /// The roots are the companion matrix eigenvalues
