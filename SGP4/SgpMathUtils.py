@@ -1,10 +1,12 @@
 import math
 import numpy as np
+import csv
+
 seconds_in_day = 86400
 
 def getJdAndFr(jd_ep, fr_ep, x):
-    jd = jd_ep + math.floor(x / 86400)
-    fr = fr_ep +  (x % 86400) / 86400
+    jd = jd_ep + math.floor(x / seconds_in_day)
+    fr = fr_ep + (x % seconds_in_day) / seconds_in_day
     return jd, fr
 
 def GetJdAndFrArrayForSattelite(sat, time_points):
@@ -24,3 +26,10 @@ def GetJdAndFrArrayForSattelite(sat, time_points):
 
     return jd, fr
 
+def savePointToFile(point, time_points, name):
+    with open('data/' + name + ".csv", 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(['distance', 'time'])
+        for row in range(len(time_points)):
+            writer.writerow([point[row], time_points[row]])
+        file.close()
