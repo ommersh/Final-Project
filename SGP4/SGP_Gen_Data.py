@@ -4,7 +4,6 @@ from SgpMathUtils import *
 
 N_Catch_const = 16
 
-
 def calculate_distance(tle1, tle2, t_end, st_min, p_max, factor, init_step_size, name):
     min_distance = float('inf')
     step_size = init_step_size
@@ -16,7 +15,7 @@ def calculate_distance(tle1, tle2, t_end, st_min, p_max, factor, init_step_size,
         num_blocks = math.ceil(num_point / p_max)
         last_min_distance = min_distance
 
-        counter = 2
+        counter = 20
 
         sat1 = Satrec()
         sat2 = Satrec()
@@ -48,7 +47,7 @@ def calculate_distance(tle1, tle2, t_end, st_min, p_max, factor, init_step_size,
 
             min_idx = np.argmin(distance_vector)
 
-            savePointToFile(distance_vector, time_points, name + '_' + str(step_size))
+            savePointToFile(distance_vector, time_points, name + '_stepSize' + str(step_size) + '_block' + str(block))
 
             if distance_vector[min_idx] < min_distance:
                 min_distance = distance_vector[min_idx]
