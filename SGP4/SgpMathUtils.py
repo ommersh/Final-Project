@@ -6,7 +6,8 @@ seconds_in_day = 86400
 
 def getJdAndFr(jd_ep, fr_ep, x):
     jd = jd_ep + math.floor(x / seconds_in_day)
-    fr = fr_ep + (x % seconds_in_day) / seconds_in_day
+    fr = (fr_ep + x / seconds_in_day) % 1
+    #print(fr, jd)
     return jd, fr
 
 def GetJdAndFrArrayForSattelite(sat, time_points):

@@ -1,12 +1,12 @@
 from SGP_Gen_Data import *
 
-t_end = 1209600  # two weeks
-st_min = 0.01  # millisecond
+t_end = 604800  # two weeks
+st_min = 0.0001  # millisecond
 
 factor = 2
 p_max = 193536000 #avoid MemoryError
 
-init_step_size = 0.4
+init_step_size = 0.1
 
 sat1_name = 'LEMUR2'
 sat2_name = 'COSMOS'
