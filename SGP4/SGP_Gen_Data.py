@@ -52,7 +52,7 @@ def calculate_distance(tle1, tle2, t_end, st_min, p_max, factor, init_step_size,
             if distance_vector[min_idx] < min_distance:
                 min_distance = distance_vector[min_idx]
                 min_time = time_points[min_idx]
-                print("new minimal distance: ", min_distance, "in jd", jd[min_idx], "and fr", fr[min_idx], "with step size:", step_size)
+                print("new minimal distance: ", min_distance, "in , ",min_time," jd", jd[min_idx], "and fr", fr[min_idx], "with step size:", step_size)
                 print("r1: ", r1[min_idx])
                 print("r2: ", r2[min_idx])
 
