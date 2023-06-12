@@ -1,6 +1,11 @@
 #include "ANCAS.h"
 
-
+/// <summary>
+/// Create the cubic polynomial coefficients for ANCAS, based on 4 data points
+/// Eq.1(f-j)
+/// </summary>
+/// <param name="f"></param>
+/// <param name="Tau"></param>
 void CubicPolynomial::createCoefficients(double* f, double Tau[4])
 {
 	double T1_1, T1_2,T1_3, T2_1, T2_2, T2_3;
@@ -10,14 +15,17 @@ void CubicPolynomial::createCoefficients(double* f, double Tau[4])
 	T2_1 = Tau[2];
 	T2_2 = pow(Tau[2], 2);
 	T2_3 = pow(Tau[2], 3);
+	//Eq.1(j)
 	double Lambda = T1_3* T2_2 + T1_2* T2_1 + T1_1* T2_3 - T1_3* T2_1 - T1_1* T2_2;
+	//Eq.1(f) 
 	coefficients(0) = f[0];
+	//Eq.1(g)
 	coefficients(1) = ((T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
 		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0])) / Lambda;
-
+	//Eq.1(h)
 	coefficients(2) = ((T2_1 - T2_3) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
 		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0])) / Lambda;
-
+	//Eq.1(i)
 	coefficients(3) = ((T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
 		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0])) / Lambda;
 }
@@ -25,7 +33,21 @@ void CubicPolynomial::createCoefficients(double* f, double Tau[4])
 
 
 
-
+/// <summary>
+/// The ANCAS algorithm
+/// </summary>
+/// <param name="pointsInTime">
+/// Points in time(r1,r2,v1,v2)
+/// </param>
+/// <param name="timePoints">
+/// The time points, respective times for the data points
+/// </param>
+/// <param name="lastPointIndex">
+///	The index of the last point(data + time) 
+/// </param>
+/// <returns>
+/// TCA, time of closest approach and the corresponding distance
+/// </returns>
 TCA ANCAS::ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int lastPointIndex)
 {
 	TCA tca;
@@ -88,15 +110,24 @@ TCA ANCAS::ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int last
 				tca.time = timePoints[offset + 0] + tau * (timePoints[offset + 3] - timePoints[offset + 0]);
 			}
 		}
-
-		//
 		startPointIndex = endPointIndex;
 		endPointIndex = endPointIndex + 3;
 		roundNumber++;
 	}
 	return tca;
 }
-
+/// <summary>
+/// Find the cubic polynomial roots in the interval [0 , 1)
+/// </summary>
+/// <param name="P">
+/// The cubic polynomial
+/// </param>
+/// <param name="result">
+/// vector for the result
+/// </param>
+/// <returns>
+/// the number of roots found
+/// </returns>
 int ANCAS::findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result)
 {
 	//calculate roots
@@ -106,7 +137,6 @@ int ANCAS::findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result)
 	double d = P.coefficients(0);
 	double temp;
 	//the cubic equasion is ax^3 + bx^2 + cx + d = 0
-	//int num_roots = boost::math::tools::quadratic_roots(coefficients[0], coefficients[1], coefficients[2], coefficients[3], roots[0], roots[1], roots[2]);
 	double roots[3];
 	int numberOfRoots = 0,numberOfRootsInRange = 0;
 	calculateCubicRoots(a, b, c, d, roots, numberOfRoots);
@@ -122,12 +152,23 @@ int ANCAS::findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result)
 }
 
 #include <cmath>
-// Function to calculate the roots of a cubic equation using Cardano's method
+/// <summary>
+/// Calculate all the real roots of a cubic equation ax^3 + bx^2 + cx + d
+/// </summary>
+/// <param name="a"></param>
+/// <param name="b"></param>
+/// <param name="c"></param>
+/// <param name="d"></param>
+/// <param name="roots"></param>
+/// <param name="numberOfRoots"></param>
 void ANCAS::calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots) {
+	//if a=0 its a second degree equation
 	if (a == 0.0) {
+		//if b = 0 and a = 0 its first degree equation
 		if (b == 0)
 		{
-			//cx + d
+			//cx + d = 0
+			// x = -d/c
 			if (c != 0)
 			{
 				roots[0] = -d / c;
@@ -167,6 +208,7 @@ void ANCAS::calculateCubicRoots(double a, double b, double c, double d, double* 
 			return;
 		}
 	}
+	//Solve the cubic equation
 	double p = (3 * a * c - b * b) / (3 * a * a);
 	double q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
 	double discriminant = q * q / 4 + p * p * p / 27;
@@ -175,31 +217,22 @@ void ANCAS::calculateCubicRoots(double a, double b, double c, double d, double* 
 		double s = std::cbrt(r);
 		double t = -q / 2 - std::sqrt(discriminant);
 		double u = std::cbrt(t);
-
-		double root1 = s + u - b / (3 * a);
+		roots[0] = s + u - b / (3 * a);
 		numberOfRoots = 1;
-		roots[0] = root1;
 	}
 	else if (discriminant == 0) {
 		double r = -q / 2;
 		double s = std::cbrt(r);
-
-		double root1 = 2 * s - b / (3 * a);
-		double root2 = -s - b / (3 * a);
+		roots[0] = 2 * s - b / (3 * a);
+		roots[1] = -s - b / (3 * a);
 		numberOfRoots = 2;
-		roots[0] = root1;
-		roots[1] = root2;
 	}
 	else {
 		double alpha = std::sqrt(-p / 3);
 		double beta = std::acos(-q / (2 * std::sqrt(-p * p * p / 27)));
-		double root1 = 2 * alpha * std::cos(beta / 3) - b / (3 * a);
-		double root2 = 2 * alpha * std::cos((beta + 2 * M_PI) / 3) - b / (3 * a);
-		double root3 = 2 * alpha * std::cos((beta + 4 * M_PI) / 3) - b / (3 * a);
-
+		roots[0] = 2 * alpha * std::cos(beta / 3) - b / (3 * a);
+		roots[1] = 2 * alpha * std::cos((beta + 2 * M_PI) / 3) - b / (3 * a);
+		roots[2] = 2 * alpha * std::cos((beta + 4 * M_PI) / 3) - b / (3 * a);
 		numberOfRoots = 3;
-		roots[0] = root1;
-		roots[1] = root2;
-		roots[2] = root3;
 	}
 }

@@ -13,10 +13,9 @@ using namespace Eigen;
 const double pi = 2 * acos(0.0);
 // Conjunction Assessment Through Chebyshev Polynomials (CATCH)method
 using namespace TCA_Calculation;
-struct DistanceInTime {
-	int time;
-	double distance;
-};
+/// <summary>
+/// Implementation of the CATCH(Conjunction Assessment Through Chebyshev Polynomials) algorithm baes on Satellite closest approach calculation through Chebyshev Proxy Polynomials by Elad Denenberg
+/// </summary>
 class CATCH
 {
 public:

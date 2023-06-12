@@ -7,12 +7,14 @@
 #include <Eigen/Dense>
 #include <cmath>
 #ifndef M_PI
-const double M_PI = 3.14159265358979323846;
+const double M_PI = 2 * acos(0.0);
 #endif
 using namespace TCA_Calculation;
 using namespace Eigen;
 
-
+/// <summary>
+/// Implementation of Cubic polynomial for ANCAS
+/// </summary>
 class CubicPolynomial
 {
 public:
@@ -23,7 +25,10 @@ public:
 	}
 	void createCoefficients(double * f, double Tau[4]);
 };
-
+/// <summary>
+/// Implentation of ANCAS(Alfano\Negron Close Approach Software) - based on Determining Satellite Close Approaches,Part 2 by Salvatore Alfano
+/// 
+/// </summary>
 class ANCAS
 {
 public:

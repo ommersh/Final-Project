@@ -1,6 +1,9 @@
 #pragma once
 namespace TCA_Calculation
 {
+	/// <summary>
+	/// Time of Closest Approach (TCA)
+	/// </summary>
 	struct TCA {
 		long double time;
 		long double distance;

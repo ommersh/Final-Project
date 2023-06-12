@@ -12,22 +12,11 @@
 double getCurrentTymeInMicroSec();
 void runCatch();
 void runAncas();
-void printData(sFileData fileData)
-{
-    for (int i = 0; i < fileData.size; i++)
-    {
-        std::cout << i << ") " << fileData.timePoints[i] << "\n";
-    }
-}
-
 int main()
 {
-
     runCatch();
     runAncas();
-    
     return 0;
-
 }
 
 void runCatch()
@@ -35,7 +24,7 @@ void runCatch()
     //run catch
     CATCH c;
     FileReader fr;
-    sFileData fileData = fr.readDataFromFile("../LEMUR_COSMOS_GAUSS.csv");
+    sFileData fileData = fr.readDataFromFile("../../SGP4/data/LEMUR2_COSMOS_GAUSS.csv");
     //printData(fileData);
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
@@ -55,7 +44,7 @@ void runAncas()
     //run ancas
     ANCAS a;
     FileReader fr;
-    sFileData fileData = fr.readDataFromFile("../LEMUR_COSMOS_CONST.csv");
+    sFileData fileData = fr.readDataFromFile("../../SGP4/data/LEMUR2_COSMOS_GAUSS.csv");
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double startTime, endTime;
