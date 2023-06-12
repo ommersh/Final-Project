@@ -28,7 +28,7 @@ def GetJdAndFrArrayForSattelite(sat, time_points):
     return jd, fr
 
 def savePointToFile(point, time_points, name):
-    with open('data/' + name + ".csv", 'w') as file:
+    with open('data/' + name + ".csv", 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['distance', 'time'])
         for row in range(len(time_points)):
@@ -36,14 +36,14 @@ def savePointToFile(point, time_points, name):
         file.close()
 
 
-def savePointForAncasAndCatch(time_points, r1, v1, r2, v2, f, name):
-    with open('data/' + name + ".csv", 'w') as file:
+def savePointForAncasAndCatch(time_points, r1, v1, r2, v2, f,df, name):
+    with open('data/' + name + ".csv", 'w',newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['t', 'r1x', 'r1y', 'r1z', 'v1x', 'v1y', 'v1z', 'r2x', 'r2y', 'r2z', 'v2x', 'v2y', 'v2z', 'f'])
+        writer.writerow(['t', 'r1x', 'r1y', 'r1z', 'v1x', 'v1y', 'v1z', 'r2x', 'r2y', 'r2z', 'v2x', 'v2y', 'v2z', 'f','df', 'distance'])
         for row in range(len(time_points)):
             writer.writerow(
                 [time_points[row], r1[row][0], r1[row][1], r1[row][2], v1[row][0], v1[row][1], v1[row][2], r2[row][0],
-                 r2[row][1], r2[row][2], v2[row][0], v2[row][1], v2[row][2], f[row]])
+                 r2[row][1], r2[row][2], v2[row][0], v2[row][1], v2[row][2], f[row], df[row], math.sqrt(f[row])])
         file.close()
 
 
@@ -58,3 +58,4 @@ def calculateXforN(n, Gamma):
 def calculateXj(a, b, j, n):
     x = ((b - a) / 2) * np.cos(np.pi * j / (n-1)) + (b + a) / 2
     return x
+
