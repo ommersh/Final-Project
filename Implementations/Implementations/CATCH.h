@@ -1,6 +1,5 @@
 #pragma once
 #include "TCA_Calculation.h"
-#include "Functions.h"
 #include <limits>
 #include <math.h>
 #include <Eigen/Eigenvalues>
@@ -14,16 +13,14 @@ using namespace Eigen;
 const double pi = 2 * acos(0.0);
 // Conjunction Assessment Through Chebyshev Polynomials (CATCH)method
 using namespace TCA_Calculation;
-struct DistanceInTime {
-	int time;
-	double distance;
-};
+/// <summary>
+/// Implementation of the CATCH(Conjunction Assessment Through Chebyshev Polynomials) algorithm baes on Satellite closest approach calculation through Chebyshev Proxy Polynomials by Elad Denenberg
+/// </summary>
 class CATCH
 {
 public:
 	CATCH() {};
-	TCA CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,
-		VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double Gamma, double t_max);
+	TCA CatchAlgorithm(sPointData * pointsInTime, double* timePoints, int lastPointIndex);
 private:
 	//member variables
 	int TauSize = N;
@@ -33,12 +30,13 @@ private:
 class CPP
 {
 public:
-	CPP() : coefficients(N+1), interpolationMatrix(N+1, N+1), companionMatrix(N, N) { ; }
-	void fitCPP(double intervalStart, double intervalEnd, Function<double>* g);
+	CPP();
+	void fitCPP(double intervalStart, double intervalEnd, double * g);
 	VectorXd getRoots();
 	double getValue(double x);
 private:
 	double getX(double a, double b, int j);
+	void InitCompanionMatrix();
 	void computeCompanionMatrix();
 	void calculateInterpolationMatrix();
 	int getPj(int j);

@@ -1,6 +1,6 @@
 #include "CATCH.h"
 
-
+extern double getCurrentTymeInMicroSec();
 
 /// <summary>
 /// Alg.2: Get the TCA usnig the catch algorithm
@@ -10,38 +10,49 @@
 /// <param name="Gamma">The time interval size</param>
 /// <param name="t_max">the given function latest time(from 0 to t max)</param>
 /// <returns></returns>
-TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction* locationInTimeObject2,
-	VectorFunction* velocityInTimeObject1, VectorFunction* velocityInTimeObject2, double Gamma, double t_max)
+TCA CATCH::CatchAlgorithm(sPointData* pointsInTime, double *timePoints, int lastPointIndex)
 {
-	RelativeDistanceFunction relativeVelocity(velocityInTimeObject1, velocityInTimeObject2);
-	RelativeDistanceFunction relativeLocation(locationInTimeObject1, locationInTimeObject2);
-	Fd fd = Fd(&relativeLocation, &relativeVelocity);
-	RelativeFunctionInIndex relativeLocationX(locationInTimeObject1, locationInTimeObject2,0);
-	RelativeFunctionInIndex relativeLocationY(locationInTimeObject1, locationInTimeObject2, 1);
-	RelativeFunctionInIndex relativeLocationZ(locationInTimeObject1, locationInTimeObject2, 2);
+
+	double fd[N+1], fx[N + 1], fy[N + 1], fz[N + 1];
 	TCA tca;
 	CPP FdCpp,xCpp,yCpp,zCpp;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.time = 0;
 	double a = 0;
-	double b = Gamma;
+	double b = timePoints[N];
+	int startPointIndex, endPointIndex;
+	startPointIndex = 0;
+	endPointIndex = N;
 	double time;
 	double dist;
 	long double tempX;
 	Vector3d v1;
 	VectorXd Tau;
 	int roundNumber = 0;
-	while (b <= t_max)
+	int offset;
+	while (endPointIndex <= lastPointIndex)
 	{
-		roundNumber++;
-		FdCpp.fitCPP(a,b, &fd);
+		a = timePoints[startPointIndex];
+		b = timePoints[endPointIndex];
+		offset = (N)*roundNumber;
+		//Calculate Fd for the N current points
+		for (int i = 0; i <= N; i++)
+		{
+			fx[i] = pointsInTime[offset + i].r1x - pointsInTime[offset + i].r2x;
+			fy[i] = pointsInTime[offset + i].r1y - pointsInTime[offset + i].r2y;
+			fz[i] = pointsInTime[offset + i].r1z - pointsInTime[offset + i].r2z;
+			fd[i] = 2 * (((fx[i])* (pointsInTime[offset + i].v1x - pointsInTime[offset + i].v2x)) +
+						((fy[i]) * (pointsInTime[offset + i].v1y - pointsInTime[offset + i].v2y)) +
+						((fz[i]) * (pointsInTime[offset + i].v1z - pointsInTime[offset + i].v2z)));
+		}
+		FdCpp.fitCPP(a, b, fd);
 		//get the roots
 		Tau = FdCpp.getRoots();
 		TauSize = Tau.size();
 		//fit cpp to x\y\z
-		xCpp.fitCPP(a, b, &relativeLocationX);
-		yCpp.fitCPP(a, b, &relativeLocationY);
-		zCpp.fitCPP(a, b, &relativeLocationZ);
+		xCpp.fitCPP(a, b, fx);
+		yCpp.fitCPP(a, b, fy);
+		zCpp.fitCPP(a, b, fz);
 		for (int i = 0; i < TauSize; i++)
 		{
 			tempX = ((b + a) / 2 + Tau[i] * (b - a) / 2);
@@ -55,10 +66,34 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 				tca.time = ((b + a) / 2 + Tau[i] * (b - a) / 2);
 			}
 		}
-		a = b;
-		b += Gamma;
+		startPointIndex = endPointIndex;
+		endPointIndex = endPointIndex + N;
+		roundNumber++;
 	}
 	return tca;
+}
+
+CPP::CPP() : coefficients(N + 1), interpolationMatrix(N + 1, N + 1), companionMatrix(N, N) {
+	calculateInterpolationMatrix();
+	InitCompanionMatrix();
+}
+
+void CPP::InitCompanionMatrix()
+{
+	for (int j = 1; j <= N; j++)
+	{
+		for (int k = 1; k <= N; k++)
+		{
+			if (j == 1)
+			{
+				companionMatrix(j - 1, k - 1) = Delta(2, k);
+			}
+			else if (j < N)
+			{
+				companionMatrix(j - 1, k - 1) = 0.5 * (Delta(j, k + 1) + Delta(j, k - 1));
+			}
+		}
+	}
 }
 
 /// <summary>
@@ -67,18 +102,17 @@ TCA CATCH::CatchAlgorithm(VectorFunction* locationInTimeObject1, VectorFunction*
 /// <param name="intervalStart"></param>
 /// <param name="intervalEnd"></param>
 /// <param name="g"></param>
-void CPP::fitCPP(double intervalStart, double intervalEnd, Function<double>* g)
+void CPP::fitCPP(double intervalStart, double intervalEnd, double* g)
 {
 	m_intervalStart = intervalStart;
 	m_intervalEnd = intervalEnd;
-	calculateInterpolationMatrix();
 	//Eq.14/15
 	for (int j = 0; j <= N; j++)
 	{
 		double sum = 0;
 		for (int k = 0; k <= N; k++)
 		{
-			sum += interpolationMatrix(j, k) * g->getValue(N - k);
+			sum += interpolationMatrix(j, k) * g[N - k];
 		}
 		coefficients(j) = sum;
 	}
@@ -148,23 +182,10 @@ double CPP::getX(double a, double b,int j)
 /// </summary>
 void CPP::computeCompanionMatrix()
 {
-	for (int j = 1; j <= N; j++)
+	for (int k = 1; k <= N; k++)
 	{
-		for (int k = 1; k <= N; k++)
-		{
-			if (j == 1)
-			{
-				companionMatrix(j-1,k-1) = Delta(2, k);
-			}
-			else if (j < (N -1))
-			{
-				companionMatrix(j-1,k-1) = 0.5 * (Delta(j, k + 1) + Delta(j, k - 1));
-			}
-			else
-			{
-				companionMatrix(j-1,k-1) = -(coefficients(k-1) / (double)(2 * coefficients(N))) + 0.5 * Delta(N - 1, k);
-			}
-		}
+		companionMatrix(N - 1, k - 1) = -(coefficients(k - 1) / (double)(2 * coefficients(N))) + 0.5 * Delta(N - 1, k);
+
 	}
 }
 /// <summary>
@@ -189,6 +210,7 @@ int  CPP::Delta(int q, int r)
 {
 	return q == r ? 1 : 0;
 }
+
 /// <summary>
 /// Get the rootes of the fitted CPP
 /// The roots are the companion matrix eigenvalues
