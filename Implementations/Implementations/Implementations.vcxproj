@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../boost_1_82_0;../../eigen-3.4.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../boost_1_82_0/math/tools;../../boost_1_82_0;../../eigen-3.4.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -103,7 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../boost_1_82_0;../../eigen-3.4.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../boost_1_82_0/math/tools;../../boost_1_82_0;../../eigen-3.4.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,11 +143,13 @@
   <ItemGroup>
     <ClCompile Include="ANCAS.cpp" />
     <ClCompile Include="CATCH.cpp" />
+    <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="Implementations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ANCAS.h" />
     <ClInclude Include="CATCH.h" />
+    <ClInclude Include="FileReader.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="TCA_Calculation.h" />
   </ItemGroup>
