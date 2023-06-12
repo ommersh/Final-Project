@@ -9,7 +9,6 @@ def calculate_distance(tle1, tle2, t_end, st_min, p_max, factor, init_step_size,
     step_size = init_step_size
     min_time = None
 
-
     while True:
         num_point = math.ceil(t_end / step_size)
         num_blocks = math.ceil(num_point / p_max)
@@ -101,11 +100,16 @@ def calculateAndSaveForAncasAndCatch(tle1, tle2, t_end, name):
     jd, fr = GetJdAndFrArrayForSattelite(sat_to_get_time, time_points_ancas)
     _, r1, v1 = sat1.sgp4_array(jd, fr)
     _, r2, v2 = sat2.sgp4_array(jd, fr)
-    distances = r2 - r1
+    relative_distances = r2 - r1
+    relative_vel = v1 - v2
+
     F = []
-    for point_vector in distances:
-        F.append(np.linalg.norm(np.array(point_vector)))
-    savePointForAncasAndCatch(time_points_ancas, r1, v1, r2, v2, F, name + "_CONST")
+    dF = []
+    for r_vector, v_vector in zip(relative_distances, relative_vel):
+        F.append(r_vector[0] * r_vector[0] + r_vector[1] * r_vector[1] + r_vector[2] * r_vector[2])
+        dF.append(r_vector[0] * v_vector[0] + r_vector[1] * v_vector[1] + r_vector[2] * v_vector[2])
+
+    savePointForAncasAndCatch(time_points_ancas, r1, v1, r2, v2, F, dF, name + "_CONST")
     # create time points for catch
     jd, fr = GetJdAndFrArrayForSattelite(sat_to_get_time, time_points_catch)
     _, r1, v1 = sat1.sgp4_array(jd, fr)
@@ -114,4 +118,43 @@ def calculateAndSaveForAncasAndCatch(tle1, tle2, t_end, name):
     F = []
     for point_vector in distances:
         F.append(np.linalg.norm(np.array(point_vector)))
-    savePointForAncasAndCatch(time_points_catch, r1, v1, r2, v2, F, name + "_GAUSS")
+    savePointForAncasAndCatch(time_points_catch, r1, v1, r2, v2, F, dF, name + "_GAUSS")
+
+
+def calculate_distance_for_graph(tle1, tle2, t_end, init_step_size, name):
+    min_distance = float('inf')
+    step_size = init_step_size
+    min_time = None
+
+    num_point = math.ceil(t_end / step_size)
+    last_min_distance = min_distance
+
+    sat1 = Satrec()
+    sat2 = Satrec()
+    omm.initialize(sat1, tle1)
+    omm.initialize(sat2, tle2)
+    sat_to_get_time = sat1 if sat1.jdsatepoch > sat2.jdsatepoch else sat2
+
+    print("num_point", num_point)
+
+    start_time = 0
+    end_time = t_end
+
+    print("start_time", start_time, "end_time", end_time)
+
+    time_points = np.arange(start_time, end_time + step_size, step_size)
+
+    jd, fr = GetJdAndFrArrayForSattelite(sat_to_get_time, time_points)
+
+    e1, r1, v1 = sat1.sgp4_array(jd, fr)
+    e2, r2, v2 = sat2.sgp4_array(jd, fr)
+
+    relative_distances = r2 - r1
+    relative_vel = v1 - v2
+    F = []
+    dF = []
+    for r_vector, v_vector in zip(relative_distances, relative_vel):
+        F.append(r_vector[0] * r_vector[0] + r_vector[1] * r_vector[1] + r_vector[2] * r_vector[2])
+        dF.append(r_vector[0] * v_vector[0] + r_vector[1] * v_vector[1] + r_vector[2] * v_vector[2])
+
+    savePointForAncasAndCatch(time_points, r1, v1, r2, v2, F, dF, name + "_GraphData")
