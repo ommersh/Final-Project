@@ -41,7 +41,7 @@ void runCatch()
     printResult("CATCH", "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
-        delete[] fileData.data;
+        delete[] fileData.data, fileData.timePoints;
     }
 }
 void runAncas()
@@ -62,7 +62,7 @@ void runAncas()
     printResult("ANCAS", "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
-        delete[] fileData.data;
+        delete[] fileData.data, fileData.timePoints;
     }
 }
 
