@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="821.0" prefWidth="1113.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Label alignment="CENTER" layoutX="15.0" layoutY="46.0" style="&#10;" text="Details" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" fx:id="x1" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="73.0" style="&#10;" text="LEMUR2 - COSMOS  " textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x111" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x211" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="13.0" layoutY="100.0" style="&#10;" text="TLE creation date: 20/05/23" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x1111" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x2111" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="127.0" style="&#10;" text="Time interval(Days): 14" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x11111" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x21111" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="11.0" layoutY="154.0" style="&#10;" text="Number of iterations: 10000" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x111111" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x211111" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="11.0" layoutY="187.0" style="&#10;" text="SGP4 TCA accuracy[Sec]: 0.01" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x1111111" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x2111111" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="11.0" layoutY="217.0" style="&#10;" text="CATCH Polynomial degree[N] = 16 " textAlignment="CENTER" wrapText="false">
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x21111111" />
+               </textFill>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="15.0" layoutY="16.0" style="&#10;" text="Test report:" textAlignment="CENTER" wrapText="false">
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x21" />
+               </textFill>
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="132.0" layoutY="18.0" style="&#10;" text="LEMUR2 COSMOS  " textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x11" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x21" />
+               </textFill>
+            </Label>
+            <Separator layoutX="25.0" layoutY="244.0" prefHeight="16.0" prefWidth="1064.0" />
+            <Separator layoutX="25.0" layoutY="758.0" prefHeight="16.0" prefWidth="1064.0" />
+            <Label alignment="CENTER" layoutX="25.0" layoutY="260.0" style="&#10;" text="Real result" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" fx:id="x12" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x22" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="20.0" layoutY="287.0" style="&#10;" text="TCA:" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x1112" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x2112" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="20.0" layoutY="314.0" style="&#10;" text="Distance:" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x11121" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x21121" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="109.0" layoutY="287.0" style="&#10;" text="177095.76[sec]" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x11122" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x21122" />
+               </textFill>
+            </Label>
+            <Label alignment="CENTER" layoutX="109.0" layoutY="314.0" style="&#10;" text="0.084[km]" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x111221" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x211221" />
+               </textFill>
+            </Label>
+            <Separator layoutX="25.0" layoutY="341.0" prefHeight="16.0" prefWidth="1064.0" />
+            <GridPane gridLinesVisible="true" layoutX="28.0" layoutY="365.0" prefHeight="90.0" prefWidth="981.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="75.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="96.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="370.0" minWidth="10.0" prefWidth="144.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="335.0" minWidth="10.0" prefWidth="128.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="116.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="333.0" minWidth="10.0" prefWidth="105.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" style="&#10;" text=" iteration" textAlignment="CENTER" wrapText="false">
+                     <font>
+                        <Font size="18.0" fx:id="x11123" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x21123" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" algorithm" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="18.0" fx:id="x11124" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x21124" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="157.0" style="&#10;" text="numper of points" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="2">
+                     <font>
+                        <Font size="18.0" fx:id="x111241" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x211241" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" 1" textAlignment="CENTER" wrapText="false" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" fx:id="x1112411" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x2112411" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" 1" textAlignment="CENTER" wrapText="false" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" fx:id="x11124111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x21124111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" ANCAS" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" fx:id="x111241111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x211241111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" CATCH" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" fx:id="x1112411111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x2112411111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text="  6452" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" fx:id="x11124111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x21124111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text="  6452" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" fx:id="x111241111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x211241111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" run time[sec]" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="3">
+                     <font>
+                        <Font size="18.0" fx:id="x1112411111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x2112411111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" 0.00068" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" fx:id="x11124111111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x21124111111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" 0.052032" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" fx:id="x111241111111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x211241111111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" distance[km]" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="4">
+                     <font>
+                        <Font size="18.0" fx:id="x1112411111111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x2112411111111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" 0.06664503" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" fx:id="x11124111111111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x21124111111111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" 54.9975" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" fx:id="x111241111111111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x211241111111111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" TCA[sec]" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="5">
+                     <font>
+                        <Font size="18.0" fx:id="x1112411111111111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x2112411111111111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" 177106" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" fx:id="x11124111111111111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x21124111111111111111" />
+                     </textFill>
+                  </Label>
+                  <Label alignment="CENTER" style="&#10;" text=" 174306" textAlignment="CENTER" wrapText="false" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="18.0" fx:id="x111241111111111111111" />
+                     </font>
+                     <textFill>
+                        <Color red="0.624" green="0.624" blue="0.624" fx:id="x211241111111111111111" />
+                     </textFill>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
