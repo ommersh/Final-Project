@@ -33,7 +33,7 @@ class ANCAS
 {
 public:
 	TCA ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int lastPointIndex);
-private:
+protected:
 	int findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result);
 	void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
 };
