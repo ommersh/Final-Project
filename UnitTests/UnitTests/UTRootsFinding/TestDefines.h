@@ -1,22 +1,11 @@
-#include <gtest/gtest.h>
+#ifndef SHIELD_TestDefines_H    // Check if the symbol SHIELD_TestDefines_H is not defined
+#define SHIELD_TestDefines_H    // Define the symbol SHIELD_TestDefines_H
+
+#include "gtest/gtest.h"
 #include "ANCAS.h"
 
-bool CheckDoubleInArray(double* array, double value, int arraySize,double errSize)
-{
-    bool result = false;
-    if (nullptr != array)
-    {
-        for (int i = 0; i < arraySize; i++)
-        {
-            if (abs(array[i] - value) <= errSize)
-            {
-                result = true;
-                break;
-            }
-        }
-    }
-    return result;
-}
+
+
 
 class MockANCAS : public ANCAS
 {
@@ -42,3 +31,6 @@ protected:
         // Teardown code
     }
 };
+
+
+#endif //SHIELD_TestDefines_H
