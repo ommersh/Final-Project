@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SHIELD_TCA_Calculation_H    // Check if the symbol SHIELD_TCA_Calculation_H is not defined
+#define SHIELD_TCA_Calculation_H    // Define the symbol SHIELD_TCA_Calculation_H
+
+
 namespace TCA_Calculation
 {
 	/// <summary>
@@ -25,3 +28,5 @@ struct sPointData {
 	double v2y;
 	double v2z;
 };
+
+#endif //SHIELD_TCA_Calculation_H

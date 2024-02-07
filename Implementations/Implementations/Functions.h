@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SHIELD_Functions_H    // Check if the symbol SHIELD_Functions_H is not defined
+#define SHIELD_Functions_H    // Define the symbol SHIELD_Functions_H
+
 #include <math.h>
 #include <Eigen/Eigenvalues>
 #include <iostream>
@@ -100,3 +102,6 @@ private:
 	RelativeDistanceFunction* Rd;
 	RelativeDistanceFunction* Rd_dot;
 };
+
+
+#endif //SHIELD_Functions_H

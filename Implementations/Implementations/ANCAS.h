@@ -1,11 +1,13 @@
-#pragma once
-#include "TCA_Calculation.h"
-#include "Functions.h"
+#ifndef SHIELD_ANCAS_H    // Check if the symbol SHIELD_ANCAS_H is not defined
+#define SHIELD_ANCAS_H    // Define the symbol SHIELD_ANCAS_H
+
 #include <limits>
 #include <math.h>
-#include "Functions.h"
 #include <Eigen/Dense>
 #include <cmath>
+#include "TCA_Calculation.h"
+#include "Functions.h"
+
 #ifndef M_PI
 const double M_PI = 2 * acos(0.0);
 #endif
@@ -33,10 +35,11 @@ class ANCAS
 {
 public:
 	TCA ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int lastPointIndex);
-private:
+protected:
 	int findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result);
 	void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
 };
 
 
 
+#endif //SHIELD_ANCAS_H
