@@ -4,9 +4,9 @@
 /// Create the cubic polynomial coefficients for ANCAS, based on 4 data points
 /// Eq.1(f-j)
 /// </summary>
-/// <param name="f"></param>
+/// <param name="f">Array with 4 points in time</param>
 /// <param name="Tau"></param>
-void CubicPolynomial::createCoefficients(double* f, double Tau[4])
+void ANCASCubicPolynomial::createCoefficients(double f[4], double Tau[4])
 {
 	double T1_1, T1_2,T1_3, T2_1, T2_2, T2_3;
 	T1_1 = Tau[1];
@@ -16,21 +16,24 @@ void CubicPolynomial::createCoefficients(double* f, double Tau[4])
 	T2_2 = pow(Tau[2], 2);
 	T2_3 = pow(Tau[2], 3);
 	//Eq.1(j)
-	double Lambda = T1_3* T2_2 + T1_2* T2_1 + T1_1* T2_3 - T1_3* T2_1 - T1_1* T2_2;
+	double Lambda = T1_3 * T2_2 + T1_2 * T2_1 + T1_1 * T2_3 - T1_1 * T2_2 - T1_3 * T2_1 - T1_2 * T2_3;
 	//Eq.1(f) 
-	coefficients(0) = f[0];
+	coefficients[0] = f[0];
 	//Eq.1(g)
-	coefficients(1) = ((T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
+	coefficients[1] = ((T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
 		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0])) / Lambda;
 	//Eq.1(h)
-	coefficients(2) = ((T2_1 - T2_3) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
+	coefficients[2] = ((T2_1 - T2_3) * (f[1] - f[0]) + (T1_3 - T1_1) * (f[2] - f[0])
 		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0])) / Lambda;
 	//Eq.1(i)
-	coefficients(3) = ((T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
+	coefficients[3] = ((T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
 		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0])) / Lambda;
 }
 
-
+double ANCASCubicPolynomial::getValue(double x)
+{
+	return coefficients[0] + coefficients[1] * x + coefficients[2] * pow(x, 2) + coefficients[3] * pow(x, 3);
+}
 
 
 /// <summary>
@@ -56,9 +59,9 @@ TCA ANCAS::ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int last
 	//1. Prepare the variables
 	double Tau[4];
 	double fd[4], fx[4], fy[4], fz[4];	
-	CubicPolynomial C_fdot_tau;
-	CubicPolynomial Qx, Qy, Qz;
-	Vector3d roots;
+	ANCASCubicPolynomial C_fdot_tau;
+	ANCASCubicPolynomial Qx, Qy, Qz;
+	double roots[3];
 	int startPointIndex, endPointIndex;
 	int roundNumber = 0;
 	int offset,numberOfRoots;
@@ -87,7 +90,7 @@ TCA ANCAS::ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int last
 		C_fdot_tau.createCoefficients(fd, Tau);
 
 		//3.Find the real roots
-		numberOfRoots = findCubicPolynomialRoots(C_fdot_tau, roots);
+		numberOfRoots = getRootsInInterval(C_fdot_tau, roots);
 		//4.Find the minimum distance
 		for (int i = 0; i < numberOfRoots; i++)
 		{
@@ -100,7 +103,7 @@ TCA ANCAS::ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int last
 				Qy.createCoefficients(fy, Tau);
 				Qz.createCoefficients(fz, Tau);
 			}
-			tau = roots(i);
+			tau = roots[i];
 			//Eq.7
 			tempDistance = sqrt(pow(Qx.getValue(tau), 2) + pow(Qy.getValue(tau), 2) + pow(Qz.getValue(tau), 2));
 			if (tempDistance < tca.distance)
@@ -128,27 +131,27 @@ TCA ANCAS::ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int last
 /// <returns>
 /// the number of roots found
 /// </returns>
-int ANCAS::findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result)
+int ANCAS::getRootsInInterval(ANCASCubicPolynomial P, double result[3])
 {
 	//calculate roots
-	double a = P.coefficients(3);
-	double b = P.coefficients(2);
-	double c = P.coefficients(1);
-	double d = P.coefficients(0);
+	double a = P.coefficients[3];
+	double b = P.coefficients[2];
+	double c = P.coefficients[1];
+	double d = P.coefficients[0];
 	double temp;
 	//the cubic equasion is ax^3 + bx^2 + cx + d = 0
 	double roots[3];
-	int numberOfRoots = 0,numberOfRootsInRange = 0;
+	int numberOfRoots = 0,numberOfRootsInInterval = 0;
 	calculateCubicRoots(a, b, c, d, roots, numberOfRoots);
 	for (int i = 0; i < numberOfRoots; i++)
 	{
 		if (roots[i] >= 0 && roots[i] < 1)
 		{
-			result(numberOfRootsInRange) = roots[i];
-			numberOfRootsInRange++;
+			result[numberOfRootsInInterval] = roots[i];
+			numberOfRootsInInterval++;
 		}
 	}
-	return numberOfRootsInRange;
+	return numberOfRootsInInterval;
 }
 
 #include <cmath>

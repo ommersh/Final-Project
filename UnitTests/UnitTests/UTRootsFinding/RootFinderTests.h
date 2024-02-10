@@ -1,5 +1,5 @@
-#ifndef SHIELD_TestDefines_H    // Check if the symbol SHIELD_TestDefines_H is not defined
-#define SHIELD_TestDefines_H    // Define the symbol SHIELD_TestDefines_H
+#ifndef SHIELD_RootFinderTests_H    // Check if the symbol SHIELD_RootFinderTests_H is not defined
+#define SHIELD_RootFinderTests_H    // Define the symbol SHIELD_RootFinderTests_H
 
 #include "gtest/gtest.h"
 #include "ANCAS.h"
@@ -7,10 +7,10 @@
 
 
 
-class MockANCAS : public ANCAS
+class MockANCAS4CubicRoots : public ANCAS
 {
 public:
-    MockANCAS()
+    MockANCAS4CubicRoots()
     {
 
     }
@@ -33,4 +33,4 @@ protected:
 };
 
 
-#endif //SHIELD_TestDefines_H
+#endif //SHIELD_RootFinderTests_H

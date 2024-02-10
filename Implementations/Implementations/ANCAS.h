@@ -3,7 +3,6 @@
 
 #include <limits>
 #include <math.h>
-#include <Eigen/Dense>
 #include <cmath>
 #include "TCA_Calculation.h"
 #include "Functions.h"
@@ -17,15 +16,12 @@ using namespace Eigen;
 /// <summary>
 /// Implementation of Cubic polynomial for ANCAS
 /// </summary>
-class CubicPolynomial
+class ANCASCubicPolynomial
 {
 public:
-	Vector4d coefficients;
-	double getValue(double x)
-	{
-		return coefficients(0) + coefficients(1) * x + coefficients(2) * pow(x,2) + coefficients(3) * pow(x, 3);
-	}
-	void createCoefficients(double * f, double Tau[4]);
+	double coefficients[4];
+	void createCoefficients(double f[4], double Tau[4]);
+	double getValue(double x);
 };
 /// <summary>
 /// Implentation of ANCAS(Alfano\Negron Close Approach Software) - based on Determining Satellite Close Approaches,Part 2 by Salvatore Alfano
@@ -35,9 +31,11 @@ class ANCAS
 {
 public:
 	TCA ANCASAlgorithm(sPointData* pointsInTime, double* timePoints, int lastPointIndex);
+	virtual void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
+
 protected:
-	int findCubicPolynomialRoots(CubicPolynomial P, Vector3d &result);
-	void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
+	virtual int getRootsInInterval(ANCASCubicPolynomial P, double result[3]);
+
 };
 
 
