@@ -55,7 +55,7 @@ void runAncas()
     double startTime, endTime;
     double temp;
     startTime = getCurrentTymeInMicroSec();
-    TCA tca = a.ANCASAlgorithm(fileData.data, timePoints, lastPointIndex);
+    TCA tca = a.runAlgorithm(fileData.data, timePoints, lastPointIndex);
     endTime = getCurrentTymeInMicroSec();
     //std::cout << "Ancas result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Ancas took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
