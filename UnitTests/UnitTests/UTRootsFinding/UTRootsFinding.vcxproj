@@ -44,7 +44,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\Implementations\Implementations;..\..\..\eigen-3.4.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -61,7 +61,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\Implementations\Implementations;..\..\..\eigen-3.4.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -77,7 +77,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\Implementations\Implementations;..\..\..\eigen-3.4.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -95,7 +95,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\Implementations\Implementations;..\..\..\eigen-3.4.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -105,13 +105,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Implementations\Implementations\ANCAS.h" />
+    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
     <ClInclude Include="ANCASTests.h" />
     <ClInclude Include="RootFinderTests.h" />
     <ClInclude Include="TestUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Implementations\Implementations\ANCAS.cpp" />
+    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="ANCASTests.cpp" />
     <ClCompile Include="RootFinderTests.cpp" />
     <ClCompile Include="TestUtils.cpp" />

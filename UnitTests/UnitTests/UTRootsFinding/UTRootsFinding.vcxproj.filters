@@ -2,19 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="RootFinderTests.cpp" />
-    <ClCompile Include="..\..\..\Implementations\Implementations\ANCAS.cpp">
-      <Filter>Dependencies</Filter>
-    </ClCompile>
     <ClCompile Include="ANCASTests.cpp" />
     <ClCompile Include="TestUtils.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
+      <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc">
+      <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RootFinderTests.h" />
-    <ClInclude Include="..\..\..\Implementations\Implementations\ANCAS.h">
-      <Filter>Dependencies</Filter>
-    </ClInclude>
     <ClInclude Include="ANCASTests.h" />
     <ClInclude Include="TestUtils.h" />
+    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
