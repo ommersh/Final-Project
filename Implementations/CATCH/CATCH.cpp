@@ -4,67 +4,83 @@
 
 
 
-CATCH::CATCH(IRootsFindAlg * rootsFinder)
+CATCH::CATCH(IRootsFindAlg * rootsFinder,int degree)
 {
+	m_degree = degree;
 	m_rootsFinder = rootsFinder;
+
+	m_fd = new double[m_degree + 1];
+	m_fx = new double[m_degree + 1];
+	m_fy = new double[m_degree + 1];
+	m_fz = new double[m_degree + 1];
+	m_FdCpp = new CPP(m_degree);
+	m_xCpp = new CPP(m_degree);
+	m_yCpp = new CPP(m_degree);
+	m_zCpp = new CPP(m_degree);
+	Tau = new double[m_degree];
 }
 
-/// <summary>
-/// Alg.2: Get the TCA usnig the catch algorithm
-/// </summary>
-/// <param name="f1">Location in time of the first object(x,y,z)</param>
-/// <param name="f2">Location in time of the second object(x,y,z)</param>
-/// <param name="Gamma">The time interval size</param>
-/// <param name="t_max">the given function latest time(from 0 to t max)</param>
-/// <returns></returns>
+// Destructor
+CATCH::~CATCH() {
+
+	delete[] m_fd;
+	delete[] m_fx;
+	delete[] m_fy;
+	delete[] m_fz;
+	delete m_FdCpp;
+	delete m_xCpp;
+	delete m_yCpp;
+	delete m_zCpp;
+	delete[] Tau;
+
+}
+
+
 TCA CATCH::runAlgorithm(sPointData* pointsInTime, double *timePoints, int lastPointIndex)
 {
-
-	double fd[N+1], fx[N + 1], fy[N + 1], fz[N + 1];
 	TCA tca;
-	CPP FdCpp,xCpp,yCpp,zCpp;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.time = 0;
+	int numberOfRoots = 0;
 	double a = 0;
-	double b = timePoints[N];
-	int startPointIndex, endPointIndex;
-	startPointIndex = 0;
-	endPointIndex = N;
+	double b = timePoints[m_degree];
+	int startPointIndex = 0;
+	int endPointIndex = m_degree;
 	double dist;
 	long double tempX;
 	double v1[3];
-	double Tau[N];
 	int roundNumber = 0;
 	int offset;
+
 	while (endPointIndex <= lastPointIndex)
 	{
 		a = timePoints[startPointIndex];
 		b = timePoints[endPointIndex];
-		offset = (N)*roundNumber;
+		offset = (m_degree)*roundNumber;
 		//Calculate Fd for the N current points
-		for (int i = 0; i <= N; i++)
+		for (int i = 0; i <= m_degree; i++)
 		{
-			fx[i] = pointsInTime[offset + i].r1x - pointsInTime[offset + i].r2x;
-			fy[i] = pointsInTime[offset + i].r1y - pointsInTime[offset + i].r2y;
-			fz[i] = pointsInTime[offset + i].r1z - pointsInTime[offset + i].r2z;
-			fd[i] = 2 * (((fx[i])* (pointsInTime[offset + i].v1x - pointsInTime[offset + i].v2x)) +
-						((fy[i]) * (pointsInTime[offset + i].v1y - pointsInTime[offset + i].v2y)) +
-						((fz[i]) * (pointsInTime[offset + i].v1z - pointsInTime[offset + i].v2z)));
+			m_fx[i] = pointsInTime[offset + i].r1x - pointsInTime[offset + i].r2x;
+			m_fy[i] = pointsInTime[offset + i].r1y - pointsInTime[offset + i].r2y;
+			m_fz[i] = pointsInTime[offset + i].r1z - pointsInTime[offset + i].r2z;
+			m_fd[i] = 2 * (((m_fx[i])* (pointsInTime[offset + i].v1x - pointsInTime[offset + i].v2x)) +
+						((m_fy[i]) * (pointsInTime[offset + i].v1y - pointsInTime[offset + i].v2y)) +
+						((m_fz[i]) * (pointsInTime[offset + i].v1z - pointsInTime[offset + i].v2z)));
 		}
-		FdCpp.fitCPP(a, b, fd);
+		m_FdCpp->fitCPP(a, b, m_fd);
 		//get the roots
-		TauSize = m_rootsFinder->findRoots(FdCpp.coefficients, N, Tau);
+		numberOfRoots = m_rootsFinder->findRoots(m_FdCpp->coefficients, m_degree, Tau);
 
 		//fit cpp to x\y\z
-		xCpp.fitCPP(a, b, fx);
-		yCpp.fitCPP(a, b, fy);
-		zCpp.fitCPP(a, b, fz);
-		for (int i = 0; i < TauSize; i++)
+		m_xCpp->fitCPP(a, b, m_fx);
+		m_yCpp->fitCPP(a, b, m_fy);
+		m_zCpp->fitCPP(a, b, m_fz);
+		for (int i = 0; i < numberOfRoots; i++)
 		{
 			tempX = ((b + a) / 2 + Tau[i] * (b - a) / 2);
-			v1[0] = xCpp.getValue(tempX);
-			v1[1] = yCpp.getValue(tempX);
-			v1[2] = zCpp.getValue(tempX);
+			v1[0] = m_xCpp->getValue(tempX);
+			v1[1] = m_yCpp->getValue(tempX);
+			v1[2] = m_zCpp->getValue(tempX);
 			//calculate the distance
 			dist = sqrt(v1[0]* v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
 			if (dist < tca.distance)
@@ -74,14 +90,30 @@ TCA CATCH::runAlgorithm(sPointData* pointsInTime, double *timePoints, int lastPo
 			}
 		}
 		startPointIndex = endPointIndex;
-		endPointIndex = endPointIndex + N;
+		endPointIndex = endPointIndex + m_degree;
 		roundNumber++;
 	}
 	return tca;
 }
 
-CPP::CPP() {
+CPP::CPP(int degree) 
+{
+	m_degree = degree;
+	coefficients = new double [m_degree + 1];
+	interpolationMatrix = new double* [m_degree + 1];
+	for (int i = 0; i <= m_degree; i++) {
+		interpolationMatrix[i] = new double[m_degree + 1];
+	}
 	calculateInterpolationMatrix();
+}
+
+CPP::~CPP()
+{
+	delete[] coefficients;
+	for (int i = 0; i <= m_degree; i++) {
+		delete[] interpolationMatrix[i];
+	}
+	delete[] interpolationMatrix;
 }
 
 /// <summary>
@@ -95,12 +127,12 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, double* g)
 	m_intervalStart = intervalStart;
 	m_intervalEnd = intervalEnd;
 	//Eq.14/15
-	for (int j = 0; j <= N; j++)
+	for (int j = 0; j <= m_degree; j++)
 	{
 		double sum = 0;
-		for (int k = 0; k <= N; k++)
+		for (int k = 0; k <= m_degree; k++)
 		{
-			sum += interpolationMatrix[j][k] * g[N - k];
+			sum += interpolationMatrix[j][k] * g[m_degree - k];
 		}
 		coefficients[j] = sum;
 	}
@@ -116,7 +148,7 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, double* g)
 double CPP::getValue(double x)
 {
 	double result = 0;
-	for (int i = 0; i <= N; i++)
+	for (int i = 0; i <= m_degree; i++)
 	{
 		result += coefficients[i] * getTj((2 * x - m_intervalEnd - m_intervalStart) / (m_intervalEnd - m_intervalStart),i);
 	}
@@ -141,11 +173,11 @@ double CPP::getTj(double x,int j)
 /// </summary>
 void CPP::calculateInterpolationMatrix()
 {
-	for (int j = 0; j <= N; j++)
+	for (int j = 0; j <= m_degree; j++)
 	{
-		for (int k = 0; k <= N; k++)
+		for (int k = 0; k <= m_degree; k++)
 		{
-			interpolationMatrix[j][k] = 2 / (double)(getPj(j) * getPj(k) * N) * cos(j * k * pi/N);
+			interpolationMatrix[j][k] = 2 / (double)(getPj(j) * getPj(k) * m_degree) * cos(j * k * pi/ m_degree);
 
 		}
 	}
@@ -161,7 +193,7 @@ void CPP::calculateInterpolationMatrix()
 /// <returns></returns>
 double CPP::getX(double a, double b,int j)
 {
-	return ((b - a) / 2)*cos(pi * j / N) + ((b + a) / 2);
+	return ((b - a) / 2)*cos(pi * j / m_degree) + ((b + a) / 2);
 }
 
 /// <summary>
@@ -173,5 +205,5 @@ double CPP::getX(double a, double b,int j)
 /// <returns>Pj</returns>
 int CPP::getPj(int j)
 {
-	return j == 0 || j == (N -1)? 2 : 1;
+	return j == 0 || j == (m_degree -1)? 2 : 1;
 }

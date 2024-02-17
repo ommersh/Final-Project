@@ -11,9 +11,11 @@ namespace TCA_Calculation
 		long double time;
 		long double distance;
 	};
-	
-};
 
+};
+	/// <summary>
+	/// Struct contains set of location and velocity values for 2 objects in a single point in time
+	/// </summary>
 struct sPointData {
 	double r1x;
 	double r1y;
@@ -28,5 +30,6 @@ struct sPointData {
 	double v2y;
 	double v2z;
 };
+
 
 #endif //SHIELD_TCA_Calculation_H

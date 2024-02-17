@@ -12,25 +12,28 @@
 #include <iomanip>
 
 double getCurrentTymeInMicroSec();
-void runCatch();
+void runCatch(int degree);
 void runAncas();
 void startPrint();
-void printResult(string algName, string testName, int numberOfPoints, double runTime, TCA tca);
+void printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, TCA tca);
 
 int main()
 {
     startPrint();
-    runCatch();
     runAncas();
+    runCatch(14);
+    runCatch(15);
+    runCatch(16);
+    runCatch(17);
+
     return 0;
 }
 
-void runCatch()
+void runCatch(int degree)
 {
     //run catch
-    int degree = N;
     CompanionMatrixRootsFinder rootsFinder(degree);
-    CATCH c(&rootsFinder);
+    CATCH c(&rootsFinder, degree);
     FileReader fr;
     sFileData fileData = fr.readDataFromFile("../../../SGP4/data/LEMUR2_COSMOS_GAUSS.csv");
     //printData(fileData);
@@ -42,7 +45,7 @@ void runCatch()
     endTime = getCurrentTymeInMicroSec();
     //std::cout << "Catch result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Catch took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
-    printResult("CATCH", "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
+    printResult("CATCH", degree, "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
         delete[] fileData.data, fileData.timePoints;
@@ -63,17 +66,18 @@ void runAncas()
     endTime = getCurrentTymeInMicroSec();
     //std::cout << "Ancas result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Ancas took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
-    printResult("ANCAS", "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
+    printResult("ANCAS",3, "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
         delete[] fileData.data, fileData.timePoints;
     }
 }
 
-void printResult(string algName, string testName, int numberOfPoints, double runTime, TCA tca)
+void printResult(string algName,int degree, string testName, int numberOfPoints, double runTime, TCA tca)
 {
     std::cout << std::left << std::setw(15) << testName
         << "|" << std::left << std::setw(15) << algName
+        << "|" << std::left << std::setw(15) << degree
         << "|" << std::left << std::setw(20) << numberOfPoints
         << "|" << std::left << std::setw(20) << runTime / 1000000
         << "|" << std::left << std::setw(20) << runTime
@@ -85,6 +89,7 @@ void startPrint()
 {
     std::cout << std::left << std::setw(15) << "testName"
         << "|" << std::left << std::setw(15) << "algName"
+        << "|" << std::left << std::setw(15) << "degree"
         << "|" << std::left << std::setw(20) << "numberOfPoints"
         << "|" << std::left << std::setw(20) << "runTime(sec)"
         << "|" << std::left << std::setw(20) << "runTime(microSec)"
@@ -93,6 +98,7 @@ void startPrint()
 
 
     std::cout << std::left << std::setw(15) << std::setfill('-') << ""
+        << "|" << std::left << std::setw(15) << ""
         << "|" << std::left << std::setw(15) << ""
         << "|" << std::left << std::setw(20) << ""
         << "|" << std::left << std::setw(20) << ""
