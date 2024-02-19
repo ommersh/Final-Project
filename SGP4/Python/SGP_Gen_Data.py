@@ -114,10 +114,13 @@ def calculateAndSaveForAncasAndCatch(tle1, tle2, t_end, name):
     jd, fr = GetJdAndFrArrayForSattelite(sat_to_get_time, time_points_catch)
     _, r1, v1 = sat1.sgp4_array(jd, fr)
     _, r2, v2 = sat2.sgp4_array(jd, fr)
-    distances = r2 - r1
+    relative_distances = r2 - r1
+    relative_vel = v1 - v2
     F = []
-    for point_vector in distances:
-        F.append(np.linalg.norm(np.array(point_vector)))
+    dF = []
+    for r_vector, v_vector in zip(relative_distances, relative_vel):
+        F.append(r_vector[0] * r_vector[0] + r_vector[1] * r_vector[1] + r_vector[2] * r_vector[2])
+        dF.append(r_vector[0] * v_vector[0] + r_vector[1] * v_vector[1] + r_vector[2] * v_vector[2])
     savePointForAncasAndCatch(time_points_catch, r1, v1, r2, v2, F, dF, name + "_GAUSS")
 
 
