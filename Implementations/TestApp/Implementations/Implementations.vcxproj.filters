@@ -24,9 +24,6 @@
     <ClCompile Include="Implementations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ANCAS\ANCAS.cpp">
       <Filter>ANCAS</Filter>
     </ClCompile>
@@ -36,11 +33,11 @@
     <ClCompile Include="..\..\CATCH\CompanionMatrixRootsFinder.cpp">
       <Filter>CATCH</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\FileReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileReader.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ANCAS\ANCAS.h">
       <Filter>ANCAS</Filter>
     </ClInclude>
@@ -58,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="..\..\CATCH\CompanionMatrixRootsFinder.h">
       <Filter>CATCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FileReader.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

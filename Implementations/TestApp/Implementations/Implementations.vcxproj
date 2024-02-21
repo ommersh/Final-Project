@@ -146,17 +146,17 @@
     <ClCompile Include="..\..\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\CATCH\CompanionMatrixRootsFinder.cpp" />
-    <ClCompile Include="FileReader.cpp" />
+    <ClCompile Include="..\..\FileReader.cpp" />
     <ClCompile Include="Implementations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ANCAS\ANCAS.h" />
     <ClInclude Include="..\..\CATCH\CATCH.h" />
     <ClInclude Include="..\..\CATCH\CompanionMatrixRootsFinder.h" />
+    <ClInclude Include="..\..\FileReader.h" />
     <ClInclude Include="..\..\IRootsFindAlg.h" />
     <ClInclude Include="..\..\ITcaAlgorithm.h" />
     <ClInclude Include="..\..\TCA_Calculation.h" />
-    <ClInclude Include="FileReader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

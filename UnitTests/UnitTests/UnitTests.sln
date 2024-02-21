@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UTRootsFinding", "UTRootsFi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UTAncas", "UTAncas\UTAncas.vcxproj", "{2A180EEF-7DAC-4081-8B14-05520406EB24}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UTCatch", "UTCatch\UTCatch.vcxproj", "{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -28,6 +30,14 @@ Global
 		{2A180EEF-7DAC-4081-8B14-05520406EB24}.Release|x64.Build.0 = Release|x64
 		{2A180EEF-7DAC-4081-8B14-05520406EB24}.Release|x86.ActiveCfg = Release|Win32
 		{2A180EEF-7DAC-4081-8B14-05520406EB24}.Release|x86.Build.0 = Release|Win32
+		{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}.Debug|x64.ActiveCfg = Debug|x64
+		{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}.Debug|x64.Build.0 = Debug|x64
+		{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}.Debug|x86.ActiveCfg = Debug|Win32
+		{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}.Debug|x86.Build.0 = Debug|Win32
+		{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}.Release|x64.ActiveCfg = Release|x64
+		{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}.Release|x64.Build.0 = Release|x64
+		{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}.Release|x86.ActiveCfg = Release|Win32
+		{1EFA4768-AF5B-4A12-9EE3-04D53C8C9202}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

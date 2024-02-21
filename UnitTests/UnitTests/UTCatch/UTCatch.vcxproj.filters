@@ -2,15 +2,18 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\TestUtils.cpp" />
-    <ClCompile Include="ANCASTests.cpp" />
-    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp">
-      <Filter>Dependencies</Filter>
-    </ClCompile>
+    <ClCompile Include="CatchTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
       <Filter>config</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc">
       <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp">
+      <Filter>Dependencies</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
       <Filter>Dependencies</Filter>
@@ -18,8 +21,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\TestUtils.h" />
-    <ClInclude Include="ANCASTests.h" />
-    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h">
+    <ClInclude Include="CatchTests.h" />
+    <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h">
       <Filter>Dependencies</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\FileReader.h">
