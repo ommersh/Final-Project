@@ -35,7 +35,7 @@ void runCatch(int degree)
     CompanionMatrixRootsFinder rootsFinder(degree);
     CATCH c(&rootsFinder, degree);
     FileReader fr;
-    sFileData fileData = fr.readDataFromFile("../../../SGP4/data/LEMUR2_COSMOS_GAUSS.csv");
+    sFileData fileData = fr.readDataFromFile("../LEMUR2_COSMOS_GAUSS.csv");
     //printData(fileData);
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
@@ -56,7 +56,7 @@ void runAncas()
     //run ancas
     ANCAS a;
     FileReader fr;
-    sFileData fileData = fr.readDataFromFile("../../../SGP4/data/LEMUR2_COSMOS_CONST.csv");
+    sFileData fileData = fr.readDataFromFile("../LEMUR2_COSMOS_CONST.csv");
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double startTime, endTime;
