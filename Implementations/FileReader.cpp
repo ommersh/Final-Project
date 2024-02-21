@@ -55,6 +55,7 @@ sFileData FileReader::readDataFromFile(string filePath)
     {
         cout << "Could not open the file\n";
         ///
+        fileData.size = -1;
     }
     file.clear();
     file.close();

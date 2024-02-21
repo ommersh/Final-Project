@@ -293,3 +293,36 @@ TEST_F(ANCASTests, TEST_getRootsInInterval_1_roots_not_in_interval)
     //test the results
     EXPECT_EQ(numberOfRoots, expectedNumberOfRoots);
 }
+
+
+#include "FileReader.h"
+
+//Test a real test case
+TEST_F(ANCASTestCase, TEST_test_case_LEMUR2_COSMOS)
+{
+    double maxErrorTime = 2;
+    double maxErrorDistance = 0.0001;
+
+    //run ancas
+    FileReader fr;
+    sFileData fileData = fr.readDataFromFile("TestCaseData/LEMUR2_COSMOS_CONST.csv");
+    double* timePoints = fileData.timePoints;
+    int lastPointIndex = fileData.size;
+    double expectedResultsDistance = 1.17159;
+    double expectedResultsTime = 177096;
+
+    if (fileData.data != nullptr)
+    {
+        TCA tca = ancas.runAlgorithm(fileData.data, timePoints, lastPointIndex);
+        delete[] fileData.data, fileData.timePoints;
+        EXPECT_TRUE(TestUtils::CompareValues(tca.distance, expectedResultsDistance, maxErrorDistance));
+        EXPECT_TRUE(TestUtils::CompareValues(tca.time, expectedResultsTime, maxErrorTime));
+
+    }
+    else
+    {
+        //if we got here we couldnt read the input file
+        //and the test failed
+        EXPECT_TRUE(false);
+    }
+}

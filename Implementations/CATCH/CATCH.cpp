@@ -100,9 +100,9 @@ CPP::CPP(int degree)
 {
 	m_degree = degree;
 	coefficients = new double [m_degree + 1];
-	interpolationMatrix = new double* [m_degree + 1];
+	m_interpolationMatrix = new double* [m_degree + 1];
 	for (int i = 0; i <= m_degree; i++) {
-		interpolationMatrix[i] = new double[m_degree + 1];
+		m_interpolationMatrix[i] = new double[m_degree + 1];
 	}
 	calculateInterpolationMatrix();
 }
@@ -111,9 +111,9 @@ CPP::~CPP()
 {
 	delete[] coefficients;
 	for (int i = 0; i <= m_degree; i++) {
-		delete[] interpolationMatrix[i];
+		delete[] m_interpolationMatrix[i];
 	}
-	delete[] interpolationMatrix;
+	delete[] m_interpolationMatrix;
 }
 
 /// <summary>
@@ -132,7 +132,7 @@ void CPP::fitCPP(double intervalStart, double intervalEnd, double* g)
 		double sum = 0;
 		for (int k = 0; k <= m_degree; k++)
 		{
-			sum += interpolationMatrix[j][k] * g[m_degree - k];
+			sum += m_interpolationMatrix[j][k] * g[m_degree - k];
 		}
 		coefficients[j] = sum;
 	}
@@ -177,7 +177,7 @@ void CPP::calculateInterpolationMatrix()
 	{
 		for (int k = 0; k <= m_degree; k++)
 		{
-			interpolationMatrix[j][k] = 2 / (double)(getPj(j) * getPj(k) * m_degree) * cos(j * k * pi/ m_degree);
+			m_interpolationMatrix[j][k] = 2 / (double)(getPj(j) * getPj(k) * m_degree) * cos(j * k * pi/ m_degree);
 
 		}
 	}
@@ -205,5 +205,5 @@ double CPP::getX(double a, double b,int j)
 /// <returns>Pj</returns>
 int CPP::getPj(int j)
 {
-	return j == 0 || j == (m_degree -1)? 2 : 1;
+	return j == 0 || j == (m_degree)? 2 : 1;
 }

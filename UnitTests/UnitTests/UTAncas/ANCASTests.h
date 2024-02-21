@@ -60,4 +60,16 @@ protected:
         // Teardown code
     }
 };
+
+class ANCASTestCase : public ::testing::Test {
+protected:
+    ANCAS ancas;
+    void SetUp() override {
+        // Setup code
+    }
+
+    void TearDown() override {
+        // Teardown code
+    }
+};
 #endif //SHIELD_ANCASTests_H

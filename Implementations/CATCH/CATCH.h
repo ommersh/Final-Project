@@ -20,6 +20,9 @@ public:
 	double getValue(double x);
 	double *coefficients;
 
+protected:
+	double** m_interpolationMatrix;
+
 private:
 	const double pi = 2 * acos(0.0);
 	int m_degree;
@@ -27,7 +30,6 @@ private:
 	void calculateInterpolationMatrix();
 	int getPj(int j);
 	double getTj(double x, int j);
-	double **interpolationMatrix;
 	double m_intervalStart, m_intervalEnd;
 };
 
