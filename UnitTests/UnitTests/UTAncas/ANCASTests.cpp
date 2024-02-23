@@ -306,6 +306,10 @@ TEST_F(ANCASTestCase, TEST_test_case_LEMUR2_COSMOS)
     //run ancas
     FileReader fr;
     sFileData fileData = fr.readDataFromFile("TestCaseData/LEMUR2_COSMOS_CONST.csv");
+    if (fileData.size == -1)
+    {
+        fileData = fr.readDataFromFile("../UTAncas/TestCaseData/LEMUR2_COSMOS_CONST.csv");
+    }
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double expectedResultsDistance = 1.17159;

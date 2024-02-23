@@ -3,7 +3,6 @@
 
 
 
-
 TEST_F(CPPTests, TEST_interpolation_matrix_when_N_is_2)
 {
     //The interpolation matrix is define as
@@ -161,6 +160,10 @@ TEST_F(CATCHTestCase, TEST_test_case_LEMUR2_COSMOS)
     //run catch
     FileReader fr;
     sFileData fileData = fr.readDataFromFile("TestCaseData/LEMUR2_COSMOS_GAUSS.csv");
+    if (fileData.size == -1)
+    {
+        fileData = fr.readDataFromFile("../UTCatch/TestCaseData/LEMUR2_COSMOS_GAUSS.csv");
+    }
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double expectedResultsDistance = 0.0838348;
