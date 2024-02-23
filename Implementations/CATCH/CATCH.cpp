@@ -32,11 +32,10 @@ CATCH::~CATCH() {
 	delete m_yCpp;
 	delete m_zCpp;
 	delete[] Tau;
-
 }
 
 
-TCA CATCH::runAlgorithm(sPointData* pointsInTime, double *timePoints, int lastPointIndex)
+TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double *timePoints, int lastPointIndex)
 {
 	TCA tca;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf

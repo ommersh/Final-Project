@@ -3,7 +3,7 @@
 
 #include "TCA_Calculation.h"
 
-using namespace TCA_Calculation;
+using namespace TcaCalculation;
 
 class ITcaAlgorithm
 {
@@ -15,7 +15,7 @@ public:
 	/// <param name="timePoints">The points in time from 0 to n</param>
 	/// <param name="lastPointIndex">The index of the last point in the arrays</param>
 	/// <returns>The TCA</returns>
-	virtual TCA runAlgorithm(sPointData* pointsInTime, double* timePoints, int lastPointIndex) = 0;
+	virtual TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePoints, int lastPointIndex) = 0;
 
 
 };

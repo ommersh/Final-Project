@@ -9,7 +9,7 @@
 
 
 // Conjunction Assessment Through Chebyshev Polynomials (CATCH)method
-using namespace TCA_Calculation;
+using namespace TcaCalculation;
 
 class CPP
 {
@@ -41,7 +41,7 @@ class CATCH : public ITcaAlgorithm
 public:
 	CATCH(IRootsFindAlg* rootsFinder, int degree);
 	~CATCH();
-	TCA runAlgorithm(sPointData * pointsInTime, double* timePoints, int lastPointIndex);
+	TCA runAlgorithm(TcaCalculation::sPointData * pointsInTime, double* timePoints, int lastPointIndex);
 protected:
 	IRootsFindAlg* m_rootsFinder;
 private:

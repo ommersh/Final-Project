@@ -9,7 +9,7 @@
 #ifndef M_PI
 const double M_PI = 2 * acos(0.0);
 #endif
-using namespace TCA_Calculation;
+using namespace TcaCalculation;
 
 /// <summary>
 /// Implementation of Cubic polynomial for ANCAS
@@ -28,7 +28,7 @@ public:
 class ANCAS : public ITcaAlgorithm
 {
 public:
-	TCA runAlgorithm(sPointData* pointsInTime, double* timePoints, int lastPointIndex);
+	TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePoints, int lastPointIndex);
 	virtual void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
 
 protected:

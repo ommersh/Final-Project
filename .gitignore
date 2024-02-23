@@ -20,3 +20,5 @@ Implementations/TestApp/Implementations/x64/
 Implementations/TestApp/Release/
 UnitTests/UnitTests/UTAncas/Debug/
 UnitTests/UnitTests/UTCatch/Debug/
+TestedOBCApp/TestedOBCApp/TestedOBCApp/Release/
+TestedOBCApp/TestedOBCApp/.vs/

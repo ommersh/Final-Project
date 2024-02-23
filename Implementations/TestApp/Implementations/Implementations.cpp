@@ -11,7 +11,7 @@
 #include <chrono>
 #include <iomanip>
 
-double getCurrentTymeInMicroSec();
+double getCurrentTimeInMicroSec();
 void runCatch(int degree);
 void runAncas();
 void startPrint();
@@ -40,9 +40,9 @@ void runCatch(int degree)
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double startTime, endTime;
-    startTime = getCurrentTymeInMicroSec();
+    startTime = getCurrentTimeInMicroSec();
     TCA tca = c.runAlgorithm(fileData.data, timePoints, lastPointIndex);
-    endTime = getCurrentTymeInMicroSec();
+    endTime = getCurrentTimeInMicroSec();
     //std::cout << "Catch result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Catch took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
     printResult("CATCH", degree, "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
@@ -61,9 +61,9 @@ void runAncas()
     int lastPointIndex = fileData.size;
     double startTime, endTime;
     double temp;
-    startTime = getCurrentTymeInMicroSec();
+    startTime = getCurrentTimeInMicroSec();
     TCA tca = a.runAlgorithm(fileData.data, timePoints, lastPointIndex);
-    endTime = getCurrentTymeInMicroSec();
+    endTime = getCurrentTimeInMicroSec();
     //std::cout << "Ancas result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Ancas took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
     printResult("ANCAS",3, "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
@@ -107,7 +107,7 @@ void startPrint()
         << "|" << std::left << std::setw(15) << "" << std::setfill(' ') << std::endl;
 
 }
-double getCurrentTymeInMicroSec()
+double getCurrentTimeInMicroSec()
 {
     // Get the current time point
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();

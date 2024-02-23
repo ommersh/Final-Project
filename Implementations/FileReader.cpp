@@ -31,7 +31,7 @@ sFileData FileReader::readDataFromFile(string filePath)
         //lets get the number of rows!
         size = content.size() - 1;//The first row is just index names
         //Lets create the arrays for the data!
-        fileData.data = new sPointData[size];
+        fileData.data = new TcaCalculation::sPointData[size];
         fileData.timePoints = new double[size];
         fileData.size = size;
         //Lets get the data into the arrays!
