@@ -2,6 +2,8 @@
 //
 
 #include "CompanionMatrixRootsFinderEigen.h"
+#include "CompanionMatrixRootsFinderArmadillo.h"
+
 #include "FileReader.h"
 #include "CATCH.h"
 #include "ANCAS.h"
@@ -13,6 +15,8 @@
 
 double getCurrentTimeInMicroSec();
 void runCatch(int degree);
+void runCatchWithArmadillo(int degree);
+
 void runAncas();
 void startPrint();
 void printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, TCA tca);
@@ -22,9 +26,36 @@ int main()
     startPrint();
     runAncas();
     runCatch(15);
+    runCatchWithArmadillo(15);
+
     return 0;
 }
+void runCatchWithArmadillo(int degree)
+{
+    //run catch
+    CompanionMatrixRootsFinderArmadillo rootsFinder;
+    CATCH c;
+    c.init(&rootsFinder, degree);
+    FileReader fr;
+    sFileData fileData = fr.readDataFromFile("../LEMUR2_COSMOS_GAUSS.csv");
 
+    //std::cout << "CATCH Data Size:" << ((sizeof(sPointData)* fileData.size)/1024.0) <<"KB"<< std::endl;
+
+    //printData(fileData);
+    double* timePoints = fileData.timePoints;
+    int lastPointIndex = fileData.size;
+    double startTime, endTime;
+    startTime = getCurrentTimeInMicroSec();
+    TCA tca = c.runAlgorithm(fileData.data, timePoints, lastPointIndex);
+    endTime = getCurrentTimeInMicroSec();
+    //std::cout << "Catch result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
+    //std::cout << "Catch took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
+    printResult("CATCH_Armadillo", degree, "LEMUR2_COSMOS", tca.numberOfPoints, endTime - startTime, tca);
+    if (fileData.data != nullptr)
+    {
+        delete[] fileData.data, fileData.timePoints;
+    }
+}
 void runCatch(int degree)
 {
     //run catch

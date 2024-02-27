@@ -25,7 +25,7 @@ int CompanionMatrixRootsFinderEigen::findEigenValues()
 	int numberOfRealRoots = 0;
 	for (int i = 0; i < eigenvalues.size(); i++)
 	{
-		if (abs(eigenImagError - eigenvalues(i).imag()) <= eigenImagError && eigenvalues(i).real() <= 1 && eigenvalues(i).real() >= -1)
+		if (fabs(eigenImagError - eigenvalues(i).imag()) <= eigenImagError && eigenvalues(i).real() <= 1 && eigenvalues(i).real() >= -1)
 		{
 			m_eigenValues[numberOfRealRoots++] = eigenvalues(i).real();
 		}

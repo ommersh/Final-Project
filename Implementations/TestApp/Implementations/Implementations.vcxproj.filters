@@ -39,6 +39,9 @@
     <ClCompile Include="..\..\CATCH\CompanionMatrixRootsFinderEigen.cpp">
       <Filter>CATCH</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\CATCH\CompanionMatrixRootsFinderQRAlg.cpp">
+      <Filter>CATCH</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ANCAS\ANCAS.h">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\CATCH\CompanionMatrixRootsFinderEigen.h">
+      <Filter>CATCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CATCH\CompanionMatrixRootsFinderQRAlg.h">
       <Filter>CATCH</Filter>
     </ClInclude>
   </ItemGroup>

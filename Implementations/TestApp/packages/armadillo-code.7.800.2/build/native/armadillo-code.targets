@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="armadillo-code_init">
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkage-armadillo-code Condition="'$(Linkage-armadillo-code)' == ''">dynamic</Linkage-armadillo-code>
+    <CallingConvention-armadillo-code Condition="'$(CallingConvention-armadillo-code)' == ''">cdecl</CallingConvention-armadillo-code>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../..//build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Label="x64" Condition="'$(Platform.ToLower())' == 'x64'">
+    <Link>
+      <AdditionalDependencies>$(MSBuildThisFileDirectory)../..//build/native/lib/x64\armadillo.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <UsingTask TaskName="armadillo-code_Contains" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
+    <ParameterGroup>
+      <Text Output="false" ParameterType="System.String" />
+      <Library Output="false" Required="true" ParameterType="System.String" />
+      <Value Output="false" Required="true" ParameterType="System.String" />
+      <Result Output="true" ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code>Result = ((Text ?? "").Split(';').Contains(Library) ) ? Value : String.Empty;</Code>
+    </Task>
+  </UsingTask>
+  <Target Name="armadillo-code_init">
+    <armadillo-code_Contains Text="Linkage-dynamic" Library="armadillo-code" Value="dynamic" Condition="'$(Linkage-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-armadillo-code" />
+    </armadillo-code_Contains>
+    <armadillo-code_Contains Text="Linkage-static" Library="armadillo-code" Value="static" Condition="'$(Linkage-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-armadillo-code" />
+    </armadillo-code_Contains>
+    <armadillo-code_Contains Text="Linkage-ltcg" Library="armadillo-code" Value="ltcg" Condition="'$(Linkage-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-armadillo-code" />
+    </armadillo-code_Contains>
+    <armadillo-code_Contains Text="Linkage-sxs" Library="armadillo-code" Value="sxs" Condition="'$(Linkage-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-armadillo-code" />
+    </armadillo-code_Contains>
+    <armadillo-code_Contains Text="CallingConvention-cdecl" Library="armadillo-code" Value="cdecl" Condition="'$(CallingConvention-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-armadillo-code" />
+    </armadillo-code_Contains>
+    <armadillo-code_Contains Text="CallingConvention-stdcall" Library="armadillo-code" Value="stdcall" Condition="'$(CallingConvention-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-armadillo-code" />
+    </armadillo-code_Contains>
+    <armadillo-code_Contains Text="CallingConvention-fastcall" Library="armadillo-code" Value="fastcall" Condition="'$(CallingConvention-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-armadillo-code" />
+    </armadillo-code_Contains>
+    <armadillo-code_Contains Text="CallingConvention-thiscall" Library="armadillo-code" Value="thiscall" Condition="'$(CallingConvention-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-armadillo-code" />
+    </armadillo-code_Contains>
+    <armadillo-code_Contains Text="CallingConvention-clrcall" Library="armadillo-code" Value="clrcall" Condition="'$(CallingConvention-armadillo-code)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-armadillo-code" />
+    </armadillo-code_Contains>
+  </Target>
+</Project>

@@ -25,3 +25,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed the CompanionMatrixRootFinder to abstact class missing the findEigenvalues functions
 - Added implementation for CompanionMatrixRootFinder using eigen library
 - Added factory for creating object - CATCH or ANCAS 
+- Added implementation of the CompanionMatrixRootsFinder using the armadillo library
