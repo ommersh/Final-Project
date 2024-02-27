@@ -4,34 +4,26 @@
 
 
 
-CATCH::CATCH(IRootsFindAlg * rootsFinder,int degree)
+CATCH::CATCH()
 {
-	m_degree = degree;
-	m_rootsFinder = rootsFinder;
-
-	m_fd = new double[m_degree + 1];
-	m_fx = new double[m_degree + 1];
-	m_fy = new double[m_degree + 1];
-	m_fz = new double[m_degree + 1];
-	m_FdCpp = new CPP(m_degree);
-	m_xCpp = new CPP(m_degree);
-	m_yCpp = new CPP(m_degree);
-	m_zCpp = new CPP(m_degree);
-	Tau = new double[m_degree];
+	m_degree = 0;
+	m_rootsFinder = nullptr;
 }
 
 // Destructor
 CATCH::~CATCH() {
 
-	delete[] m_fd;
-	delete[] m_fx;
-	delete[] m_fy;
-	delete[] m_fz;
-	delete m_FdCpp;
-	delete m_xCpp;
-	delete m_yCpp;
-	delete m_zCpp;
-	delete[] Tau;
+}
+
+void CATCH::init(IRootsFindAlg* rootsFinder, int degree)
+{
+	m_degree = degree;
+	m_rootsFinder = rootsFinder;
+	rootsFinder->init(degree);
+	m_FdCpp.init(m_degree);
+	m_xCpp.init(m_degree);
+	m_yCpp.init(m_degree);
+	m_zCpp.init(m_degree);
 }
 
 
@@ -40,6 +32,7 @@ TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double *timePo
 	TCA tca;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.time = 0;
+	tca.numberOfPoints = 0;
 	int numberOfRoots = 0;
 	double a = 0;
 	double b = timePoints[m_degree];
@@ -66,20 +59,20 @@ TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double *timePo
 						((m_fy[i]) * (pointsInTime[offset + i].v1y - pointsInTime[offset + i].v2y)) +
 						((m_fz[i]) * (pointsInTime[offset + i].v1z - pointsInTime[offset + i].v2z)));
 		}
-		m_FdCpp->fitCPP(a, b, m_fd);
+		m_FdCpp.fitCPP(a, b, m_fd);
 		//get the roots
-		numberOfRoots = m_rootsFinder->findRoots(m_FdCpp->coefficients, m_degree, Tau);
+		numberOfRoots = m_rootsFinder->findRoots(m_FdCpp.coefficients, m_degree, Tau);
 
 		//fit cpp to x\y\z
-		m_xCpp->fitCPP(a, b, m_fx);
-		m_yCpp->fitCPP(a, b, m_fy);
-		m_zCpp->fitCPP(a, b, m_fz);
+		m_xCpp.fitCPP(a, b, m_fx);
+		m_yCpp.fitCPP(a, b, m_fy);
+		m_zCpp.fitCPP(a, b, m_fz);
 		for (int i = 0; i < numberOfRoots; i++)
 		{
 			tempX = ((b + a) / 2 + Tau[i] * (b - a) / 2);
-			v1[0] = m_xCpp->getValue(tempX);
-			v1[1] = m_yCpp->getValue(tempX);
-			v1[2] = m_zCpp->getValue(tempX);
+			v1[0] = m_xCpp.getValue(tempX);
+			v1[1] = m_yCpp.getValue(tempX);
+			v1[2] = m_zCpp.getValue(tempX);
 			//calculate the distance
 			dist = sqrt(v1[0]* v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
 			if (dist < tca.distance)
@@ -92,28 +85,26 @@ TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double *timePo
 		endPointIndex = endPointIndex + m_degree;
 		roundNumber++;
 	}
+	tca.numberOfPoints = 1 + offset + m_degree;
 	return tca;
 }
 
-CPP::CPP(int degree) 
+CPP::CPP() 
 {
-	m_degree = degree;
-	coefficients = new double [m_degree + 1];
-	m_interpolationMatrix = new double* [m_degree + 1];
-	for (int i = 0; i <= m_degree; i++) {
-		m_interpolationMatrix[i] = new double[m_degree + 1];
-	}
-	calculateInterpolationMatrix();
+	m_degree = 0;
 }
 
 CPP::~CPP()
 {
-	delete[] coefficients;
-	for (int i = 0; i <= m_degree; i++) {
-		delete[] m_interpolationMatrix[i];
-	}
-	delete[] m_interpolationMatrix;
+
 }
+
+void CPP::init(int degree)
+{
+	m_degree = degree;
+	calculateInterpolationMatrix();
+}
+
 
 /// <summary>
 /// Alg.1: Fit a CPP in interval where N is constant 
@@ -121,7 +112,7 @@ CPP::~CPP()
 /// <param name="intervalStart"></param>
 /// <param name="intervalEnd"></param>
 /// <param name="g"></param>
-void CPP::fitCPP(double intervalStart, double intervalEnd, double* g)
+void CPP::fitCPP(double intervalStart, double intervalEnd, double g[CATCH_MAX_DEGREE + 1])
 {
 	m_intervalStart = intervalStart;
 	m_intervalEnd = intervalEnd;

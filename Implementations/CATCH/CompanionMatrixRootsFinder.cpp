@@ -2,39 +2,45 @@
 
 
 
-CompanionMatrixRootsFinder::CompanionMatrixRootsFinder(int degree) : m_coefficients(degree + 1), m_companionMatrix(degree, degree) {
+CompanionMatrixRootsFinder::CompanionMatrixRootsFinder(){
+
+}
+void CompanionMatrixRootsFinder::init(int degree)
+{
 	m_polynomialDegree = degree;
 	InitCompanionMatrix();
 }
 
 void CompanionMatrixRootsFinder::InitCompanionMatrix()
 {
-	for (int j = 1; j <= m_polynomialDegree; j++)
+	for (int j = 0; j < m_polynomialDegree; j++)
 	{
-		for (int k = 1; k <= m_polynomialDegree; k++)
+		for (int k = 0; k < m_polynomialDegree; k++)
 		{
-			if (j == 1)
+			if (j == 0)
 			{
-				m_companionMatrix(j - 1, k - 1) = Delta(2, k);
+				m_companionMatrix[j][k] = Delta(1, k);
 			}
-			else if (j < m_polynomialDegree)
+			else if (j < (m_polynomialDegree - 1))
 			{
-				m_companionMatrix(j - 1, k - 1) = 0.5 * (Delta(j, k + 1) + Delta(j, k - 1));
+				m_companionMatrix[j][k] = 0.5 * (Delta(j, k + 1) + Delta(j, k - 1));
+			}
+			else
+			{
+				m_companionMatrix[j][k] = 0;
 			}
 		}
 	}
 }
-
 
 /// <summary>
 /// Eq.18: Compute the companion matrix
 /// </summary>
 void CompanionMatrixRootsFinder::computeCompanionMatrix()
 {
-	for (int k = 1; k <= m_polynomialDegree; k++)
+	for (int k = 0; k < m_polynomialDegree; k++)
 	{
-		m_companionMatrix(m_polynomialDegree - 1, k - 1) = -(m_coefficients(k - 1) / (double)(2 * m_coefficients(m_polynomialDegree))) + 0.5 * Delta(m_polynomialDegree - 1, k);
-
+		m_companionMatrix[m_polynomialDegree - 1][k] = -(m_coefficients[k] / (double)(2 * m_coefficients[m_polynomialDegree])) + 0.5 * Delta(m_polynomialDegree - 2, k);
 	}
 }
 
@@ -61,32 +67,6 @@ int  CompanionMatrixRootsFinder::Delta(int q, int r)
 	return q == r ? 1 : 0;
 }
 
-/// <summary>
-/// Get the rootes of the fitted CPP
-/// The roots are the companion matrix eigenvalues
-/// </summary>
-/// <returns></returns>
-VectorXd CompanionMatrixRootsFinder::getRoots()
-{
-	//vector<double> eigenvalues = ; // Compute the eigenvalues
-	EigenSolver<Eigen::MatrixXd> solver(m_companionMatrix);
-	VectorXcd eigenvalues = solver.eigenvalues();
-	VectorXd temp = VectorXd(eigenvalues.size());
-	int index = 0;
-	for (int i = 0; i < eigenvalues.size(); i++)
-	{
-		if (eigenvalues(i).imag() == 0 && eigenvalues(i).real() <= 1 && eigenvalues(i).real() >= -1)
-		{
-			temp(index++) = eigenvalues(i).real();
-		}
-	}
-	VectorXd result = VectorXd(index);
-	for (int i = 0; i < index; i++)
-	{
-		result(i) = temp(i);
-	}
-	return result;
-}
 
 int CompanionMatrixRootsFinder::findRoots(double* coefficients, int degree, double* roots)
 {
@@ -95,14 +75,13 @@ int CompanionMatrixRootsFinder::findRoots(double* coefficients, int degree, doub
 	{
 		for (int i = 0; i <= m_polynomialDegree; i++)
 		{
-			m_coefficients(i) = coefficients[i];
+			m_coefficients[i] = coefficients[i];
 		}
 		computeCompanionMatrix();
-		VectorXd result = getRoots();
-		numberOfRoots = result.size();
+		numberOfRoots = findEigenValues();
 		for (int i = 0; i < numberOfRoots; i++)
 		{
-			roots[i] = result(i);
+			roots[i] = m_eigenValues[i];
 		}
 	}
 	return numberOfRoots;

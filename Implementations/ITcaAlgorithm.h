@@ -8,6 +8,10 @@ using namespace TcaCalculation;
 class ITcaAlgorithm
 {
 public:
+	virtual ~ITcaAlgorithm()
+	{
+
+	};
 	/// <summary>
 	/// Get the TCA
 	/// </summary>

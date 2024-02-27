@@ -107,6 +107,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h" />
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h" />
     <ClInclude Include="..\..\..\Implementations\FileReader.h" />
     <ClInclude Include="..\TestUtils.h" />
     <ClInclude Include="CatchTests.h" />
@@ -114,6 +115,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp" />
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
     <ClCompile Include="..\TestUtils.cpp" />
     <ClCompile Include="CatchTests.cpp" />

@@ -11,11 +11,11 @@
 class MainProcess
 {
 public:
-	MainProcess(ITimer& timer);
-	~MainProcess();
+	MainProcess(TestManager* testManager);
+	virtual ~MainProcess();
 	virtual void process();
 private:
-	TestManager m_testManager;
+	TestManager* m_testManager;
 
 };
 

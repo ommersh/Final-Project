@@ -56,6 +56,7 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePo
 	TCA tca;
 	tca.time = 0;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
+	tca.numberOfPoints = 0;
 	//1. Prepare the variables
 	double Tau[4];
 	double fd[4], fx[4], fy[4], fz[4];	
@@ -64,7 +65,8 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePo
 	double roots[3];
 	int startPointIndex, endPointIndex;
 	int roundNumber = 0;
-	int offset,numberOfRoots;
+	int offset = 0;
+	int numberOfRoots = 0;
 	double tau, tempDistance;
 	startPointIndex = 0;
 	endPointIndex = 3;
@@ -117,6 +119,8 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePo
 		endPointIndex = endPointIndex + 3;
 		roundNumber++;
 	}
+	tca.numberOfPoints = 1 + offset + 3;
+
 	return tca;
 }
 /// <summary>

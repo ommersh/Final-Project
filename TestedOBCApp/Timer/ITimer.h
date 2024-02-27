@@ -4,7 +4,10 @@
 class ITimer
 {
 public:
-	
+	virtual ~ITimer()
+	{
+
+	};
 	virtual void startTimer() = 0;
 	virtual void stopTimer() = 0;
 	virtual double getTimeInMicroSec() = 0;

@@ -48,6 +48,15 @@
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp">
       <Filter>TestManager\Implementations\CATCH</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\CommManager\CommManager.cpp">
+      <Filter>CommManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Main\Factory.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp">
+      <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md">
@@ -90,6 +99,18 @@
       <Filter>TestManager\Implementations\CATCH</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h">
+      <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommManager\CommManager.h">
+      <Filter>CommManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Main\Factory.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Main\AppConfigurationManager.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h">
       <Filter>TestManager\Implementations\CATCH</Filter>
     </ClInclude>
   </ItemGroup>

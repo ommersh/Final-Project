@@ -14,17 +14,12 @@
 class TestManager
 {
 public:
-	TestManager(ITimer& timer);
-	~TestManager();
+	TestManager(ITimer* timer);
+	virtual ~TestManager();
 	virtual TestResults::TestResult runTest(TestParameters::TestParams params, TcaCalculation::sPointData* pointsData, double* timePoints, int numberOfPopints);
 protected:
-	IRootsFindAlg* getRootsFindAlg(TestParameters::CatchRootsAlg algType, int degree);
-	ANCAS* getAncas();
-	CATCH* getCatch(TestParameters::CatchRootsAlg algType, int degree);
-	double getCurrentTymeInMicroSec();
-	ITimer& m_timer;
+	ITimer* m_timer;
 };
-
 
 
 

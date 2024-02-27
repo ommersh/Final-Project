@@ -1,5 +1,6 @@
 ﻿#include "RootFinderTests.h"
 #include "TestUtils.h"
+#include <iostream>
 
 
 //Tests for the ANCAS roots finding - 3rd degree polynomials

@@ -11,17 +11,20 @@
 // Conjunction Assessment Through Chebyshev Polynomials (CATCH)method
 using namespace TcaCalculation;
 
+
 class CPP
 {
 public:
-	CPP(int degree);
+	CPP();
 	~CPP();
-	void fitCPP(double intervalStart, double intervalEnd, double* g);
+	void init( int degree);
+
+	void fitCPP(double intervalStart, double intervalEnd, double g[CATCH_MAX_DEGREE + 1]);
 	double getValue(double x);
-	double *coefficients;
+	double coefficients[CATCH_MAX_DEGREE + 1];
 
 protected:
-	double** m_interpolationMatrix;
+	double m_interpolationMatrix[CATCH_MAX_DEGREE + 1][CATCH_MAX_DEGREE + 1];
 
 private:
 	const double pi = 2 * acos(0.0);
@@ -39,18 +42,26 @@ private:
 class CATCH : public ITcaAlgorithm
 {
 public:
-	CATCH(IRootsFindAlg* rootsFinder, int degree);
+	CATCH();
 	~CATCH();
+	void init(IRootsFindAlg* rootsFinder, int degree);
+
 	TCA runAlgorithm(TcaCalculation::sPointData * pointsInTime, double* timePoints, int lastPointIndex);
 protected:
 	IRootsFindAlg* m_rootsFinder;
 private:
 	//member variables
 	int m_degree;
-	double *m_fd, *m_fx, *m_fy, *m_fz;
-	double *Tau;
+	double m_fd[CATCH_MAX_DEGREE + 1];
+	double m_fx[CATCH_MAX_DEGREE + 1];
+	double m_fy[CATCH_MAX_DEGREE + 1];
+	double m_fz[CATCH_MAX_DEGREE + 1];
+	double Tau[CATCH_MAX_DEGREE];
 
-	CPP *m_FdCpp, *m_xCpp, *m_yCpp, *m_zCpp;
+	CPP m_FdCpp;
+	CPP m_xCpp;
+	CPP m_yCpp;
+	CPP m_zCpp;
 
 
 };

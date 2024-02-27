@@ -1,7 +1,7 @@
 ﻿// Implementations.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "CompanionMatrixRootsFinder.h"
+#include "CompanionMatrixRootsFinderEigen.h"
 #include "FileReader.h"
 #include "CATCH.h"
 #include "ANCAS.h"
@@ -21,21 +21,21 @@ int main()
 {
     startPrint();
     runAncas();
-    runCatch(14);
     runCatch(15);
-    runCatch(16);
-    runCatch(17);
-
     return 0;
 }
 
 void runCatch(int degree)
 {
     //run catch
-    CompanionMatrixRootsFinder rootsFinder(degree);
-    CATCH c(&rootsFinder, degree);
+    CompanionMatrixRootsFinderEigen rootsFinder;
+    CATCH c;
+    c.init(&rootsFinder, degree);
     FileReader fr;
     sFileData fileData = fr.readDataFromFile("../LEMUR2_COSMOS_GAUSS.csv");
+
+    //std::cout << "CATCH Data Size:" << ((sizeof(sPointData)* fileData.size)/1024.0) <<"KB"<< std::endl;
+
     //printData(fileData);
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
@@ -45,7 +45,7 @@ void runCatch(int degree)
     endTime = getCurrentTimeInMicroSec();
     //std::cout << "Catch result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Catch took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
-    printResult("CATCH", degree, "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
+    printResult("CATCH", degree, "LEMUR2_COSMOS", tca.numberOfPoints, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
         delete[] fileData.data, fileData.timePoints;
@@ -57,6 +57,9 @@ void runAncas()
     ANCAS a;
     FileReader fr;
     sFileData fileData = fr.readDataFromFile("../LEMUR2_COSMOS_CONST.csv");
+
+    //std::cout << "ANCAS Data Size:" << ((sizeof(sPointData) * fileData.size) / 1024.0) << "KB" << std::endl;
+
     double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double startTime, endTime;
@@ -66,7 +69,7 @@ void runAncas()
     endTime = getCurrentTimeInMicroSec();
     //std::cout << "Ancas result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Ancas took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
-    printResult("ANCAS",3, "LEMUR2_COSMOS", lastPointIndex + 1, endTime - startTime, tca);
+    printResult("ANCAS",3, "LEMUR2_COSMOS", tca.numberOfPoints, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
         delete[] fileData.data, fileData.timePoints;

@@ -10,13 +10,19 @@
 class MockCpp : public CPP
 {
 public:
-    MockCpp(int degree) : CPP(degree)
+    MockCpp()
     {
 
     }
-    double** getInterpulationMatrix()
+    void getInterpulationMatrix(double interpolationMatrix[CATCH_MAX_DEGREE + 1][CATCH_MAX_DEGREE + 1])
     {
-        return m_interpolationMatrix;
+        for (int i = 0; i <= CATCH_MAX_DEGREE; i++)
+        {
+            for (int j = 0; j <= CATCH_MAX_DEGREE; j++)
+            {
+                interpolationMatrix[i][j] = m_interpolationMatrix[i][j];
+            }
+        }
     }
 };
 

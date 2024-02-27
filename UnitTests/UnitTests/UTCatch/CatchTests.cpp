@@ -26,16 +26,18 @@ TEST_F(CPPTests, TEST_interpolation_matrix_when_N_is_2)
             {0.25   , -0.5   , 0.25     }
     };
     // the interpulation matrix is calculated in the constructor
-    MockCpp cpp(2);
+    MockCpp cpp;
+    cpp.init(2);
     //get the resulted matrix
-    double** interpulationMatrix = cpp.getInterpulationMatrix();
+    double interpolationMatrix[CATCH_MAX_DEGREE + 1][CATCH_MAX_DEGREE + 1];
+    cpp.getInterpulationMatrix(interpolationMatrix);
 
     //compare the result
     for (int i = 0; i <= 2; i++)
     {
         for (int j = 0; j <= 2; j++)
         {
-            double value = interpulationMatrix[i][j];
+            double value = interpolationMatrix[i][j];
             double expectedValue = expectedResults[i][j];
             EXPECT_TRUE(TestUtils::CompareValues(value, expectedValue, maxError));
         }
@@ -51,7 +53,8 @@ TEST_F(CPPTests, TEST_Fitting_the_CPP)
     // [ 1 / 2   , 0       , - 1 / 2   ] 
     // [ 1 / 4   , - 1 / 2 , 1 / 4     ]   
     // the interpulation matrix is calculated in the constructor
-    MockCpp cpp(2);
+    MockCpp cpp;
+    cpp.init(2);
     
     double gx1[3] = { 1,0,0 };
     double expectedResults1[3] = { 0.25, -0.5, 0.25 } ;
@@ -99,7 +102,8 @@ TEST_F(CPPTests, TEST_GetValue)
     // [ 1 / 2   , 0       , - 1 / 2   ] 
     // [ 1 / 4   , - 1 / 2 , 1 / 4     ]   
     // the interpulation matrix is calculated in the constructor
-    MockCpp cpp(2);
+    MockCpp cpp;
+    cpp.init(2);
 
     double gx1[3] = { 1,0,0 };
     double expectedResults1[3] = { 0.25, -0.5, 0.25 };
@@ -149,10 +153,10 @@ TEST_F(CPPTests, TEST_GetValue)
 
 
 #include "FileReader.h"
-#include "CompanionMatrixRootsFinder.h"
+#include "CompanionMatrixRootsFinderEigen.h"
 
 //Test a real test case
-TEST_F(CATCHTestCase, TEST_test_case_LEMUR2_COSMOS)
+TEST_F(CATCHTestCase, TEST_test_case_LEMUR2_COSMOS_Eigen_Lib)
 {
     double maxErrorTime = 2;
     double maxErrorDistance = 0.0001;
@@ -169,9 +173,9 @@ TEST_F(CATCHTestCase, TEST_test_case_LEMUR2_COSMOS)
     double expectedResultsDistance = 0.0838348;
     double expectedResultsTime = 177096;
 
-    CompanionMatrixRootsFinder rootsFinder(degree);
-    CATCH Catch(&rootsFinder, degree);
-
+    CompanionMatrixRootsFinderEigen rootsFinder;
+    CATCH Catch;
+    Catch.init(&rootsFinder, degree);
     if (fileData.data != nullptr)
     {
         TCA tca = Catch.runAlgorithm(fileData.data, timePoints, lastPointIndex);

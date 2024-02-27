@@ -18,6 +18,9 @@
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
       <Filter>Dependencies</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\TestUtils.h" />
@@ -29,6 +32,9 @@
       <Filter>Dependencies</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\FileReader.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h">
       <Filter>Dependencies</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,15 +1,18 @@
 #ifndef SHIELD_TCA_Calculation_H    // Check if the symbol SHIELD_TCA_Calculation_H is not defined
 #define SHIELD_TCA_Calculation_H    // Define the symbol SHIELD_TCA_Calculation_H
 
+static const int CATCH_MAX_DEGREE = 32;
 
 namespace TcaCalculation
 {
+
 	/// <summary>
 	/// Time of Closest Approach (TCA)
 	/// </summary>
 	struct TCA {
 		long double time;
 		long double distance;
+		int numberOfPoints;
 	};
 
 

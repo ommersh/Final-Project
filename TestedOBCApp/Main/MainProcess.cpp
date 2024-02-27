@@ -7,7 +7,7 @@
 
 
 
-MainProcess::MainProcess(ITimer& timer) : m_testManager(timer)
+MainProcess::MainProcess(TestManager* testManager) : m_testManager(testManager)
 {
 
 }
@@ -24,7 +24,9 @@ void MainProcess::process()
 	{
 		//Check for a new data set and test setting from the communication channel
 
+
 		//run the test
+		//m_testManager->runTest()
 
 		//wait for the test to end
 

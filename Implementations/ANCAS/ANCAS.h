@@ -28,6 +28,10 @@ public:
 class ANCAS : public ITcaAlgorithm
 {
 public:
+	virtual ~ANCAS()
+	{
+
+	};
 	TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePoints, int lastPointIndex);
 	virtual void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
 

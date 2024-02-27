@@ -1,4 +1,5 @@
 #include "TestManager.h"
+#include "Factory.h"
 
 
 
@@ -6,8 +7,7 @@
 
 
 
-
-TestManager::TestManager(ITimer& timer) : m_timer(timer)
+TestManager::TestManager(ITimer* timer) : m_timer(timer)
 {
 
 }
@@ -25,33 +25,31 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestParams params, 
 	{
 	case TestParameters::Algorithm::ANCAS:
 	{
-		ANCAS ancasAlg;
+		ANCAS* ancasAlg = Factory::getReferance()->getANCAS();
 
-		m_timer.startTimer();
+		m_timer->startTimer();
 
-		results.tca = ancasAlg.runAlgorithm(pointsData, timePoints, numberOfPopints);
+		results.tca = ancasAlg->runAlgorithm(pointsData, timePoints, numberOfPopints);
 		
-		m_timer.stopTimer();
+		m_timer->stopTimer();
 
-		results.runTimeMicro = m_timer.getTimeInMicroSec();
+		results.runTimeMicro = m_timer->getTimeInMicroSec();
 
 	}
 		break;
 
 	case TestParameters::Algorithm::CATCH:
 	{
-		IRootsFindAlg* rootsFinder = getRootsFindAlg(params.catchRootsAlg, params.degree);
-		CATCH catchAlg(rootsFinder, params.degree);
+		CATCH* catchAlg = Factory::getReferance()->getCATCH(params.catchRootsAlg, params.degree);
 
-		m_timer.startTimer();
+		m_timer->startTimer();
 
-		results.tca = catchAlg.runAlgorithm(pointsData, timePoints, numberOfPopints);
+		results.tca = catchAlg->runAlgorithm(pointsData, timePoints, numberOfPopints);
 
-		m_timer.stopTimer();
+		m_timer->stopTimer();
 
-		results.runTimeMicro = m_timer.getTimeInMicroSec();
+		results.runTimeMicro = m_timer->getTimeInMicroSec();
 
-		delete rootsFinder;
 	}
 		break;
 
@@ -63,19 +61,3 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestParams params, 
 	return results;
 }
 
-
-IRootsFindAlg* TestManager::getRootsFindAlg(TestParameters::CatchRootsAlg algType, int degree)
-{
-	IRootsFindAlg* alg = nullptr;
-	switch (algType)
-	{
-	case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
-		alg = new CompanionMatrixRootsFinder(degree);
-		break;
-		
-	default:
-
-		break;
-	}
-	return alg;
-}

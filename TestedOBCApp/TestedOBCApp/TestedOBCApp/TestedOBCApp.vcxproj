@@ -134,6 +134,9 @@
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp" />
+    <ClCompile Include="..\..\CommManager\CommManager.cpp" />
+    <ClCompile Include="..\..\Main\Factory.cpp" />
     <ClCompile Include="..\..\Main\Main.cpp" />
     <ClCompile Include="..\..\Main\MainProcess.cpp" />
     <ClCompile Include="..\..\TestManager\TestManager.cpp" />
@@ -147,9 +150,13 @@
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h" />
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h" />
     <ClInclude Include="..\..\..\Implementations\IRootsFindAlg.h" />
     <ClInclude Include="..\..\..\Implementations\ITcaAlgorithm.h" />
     <ClInclude Include="..\..\..\Implementations\TCA_Calculation.h" />
+    <ClInclude Include="..\..\CommManager\CommManager.h" />
+    <ClInclude Include="..\..\Main\AppConfigurationManager.h" />
+    <ClInclude Include="..\..\Main\Factory.h" />
     <ClInclude Include="..\..\Main\MainProcess.h" />
     <ClInclude Include="..\..\Main\Version.h" />
     <ClInclude Include="..\..\TestManager\TestManager.h" />
