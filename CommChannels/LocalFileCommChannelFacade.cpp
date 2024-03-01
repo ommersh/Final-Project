@@ -7,6 +7,7 @@
 bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned int maxSize, unsigned int* size)
 {
 	bool returnValue = false;
+	static unsigned char switchCounter = 0;
 	switch (m_state)
 	{
 	case StateStart:
@@ -97,7 +98,14 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 			m_params.degree = 15;
 			m_params.numberOfPopints = m_fileData.size;
 			m_params.testedAlgorithm = TestParameters::Algorithm::CATCH;
-			m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+			if (switchCounter++ % 2 == 0)
+			{
+				m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+			}
+			else
+			{
+				m_params.catchRootsAlg = TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix;
+			}
 			memcpy(buffer + *size, reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestParams));
 			*size += sizeof(TestParameters::TestParams);
 
@@ -169,7 +177,10 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 		{
 		case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
 			printResult("CATCH_Eigen", m_params.degree, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.tca);
-
+			break;
+		case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
+			printResult("CATCH_Armadillo", m_params.degree, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.tca);
+			break;
 		default:
 			break;
 		}

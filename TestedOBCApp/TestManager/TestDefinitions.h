@@ -6,7 +6,8 @@
 namespace TestParameters
 {
     enum CatchRootsAlg {
-        EigenCompanionMatrix
+        EigenCompanionMatrix,
+        ArmadilloCompanionMatrix
     };
 
     enum Algorithm {
