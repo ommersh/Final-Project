@@ -27,7 +27,7 @@ void CATCH::init(IRootsFindAlg* rootsFinder, int degree)
 }
 
 
-TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double *timePoints, int lastPointIndex)
+TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
@@ -35,7 +35,7 @@ TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double *timePo
 	tca.numberOfPoints = 0;
 	int numberOfRoots = 0;
 	double a = 0;
-	double b = timePoints[m_degree];
+	double b = pointsInTime[m_degree].time;
 	int startPointIndex = 0;
 	int endPointIndex = m_degree;
 	double dist;
@@ -46,8 +46,8 @@ TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double *timePo
 
 	while (endPointIndex <= lastPointIndex)
 	{
-		a = timePoints[startPointIndex];
-		b = timePoints[endPointIndex];
+		a = pointsInTime[startPointIndex].time;
+		b = pointsInTime[endPointIndex].time;
 		offset = (m_degree)*roundNumber;
 		//Calculate Fd for the N current points
 		for (int i = 0; i <= m_degree; i++)

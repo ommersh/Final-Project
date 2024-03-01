@@ -32,7 +32,7 @@ public:
 	{
 
 	};
-	TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePoints, int lastPointIndex);
+	TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex);
 	virtual void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
 
 protected:

@@ -17,8 +17,8 @@ public:
 
 
 private:
-	double m_startTime;
-	double m_endTime;
+	long int m_startTime;
+	long int m_endTime;
 	double m_timeInMicro;
 };
 

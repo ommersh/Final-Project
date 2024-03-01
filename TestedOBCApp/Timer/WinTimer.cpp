@@ -17,7 +17,7 @@ void WinTimer::startTimer()
 
     // Get the duration in microseconds
     auto duration = now.time_since_epoch();
-    double microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    long int microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
     m_startTime= microseconds;
 }
 
@@ -28,7 +28,7 @@ void WinTimer::stopTimer()
 
     // Get the duration in microseconds
     auto duration = now.time_since_epoch();
-    double microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+    long int microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
     m_endTime = microseconds;
 
     m_timeInMicro = m_endTime - m_startTime;

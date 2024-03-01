@@ -8,7 +8,6 @@
 
 struct sFileData {
 	TcaCalculation::sPointData* data = nullptr;
-	double* timePoints = nullptr;
 	int size;
 };
 

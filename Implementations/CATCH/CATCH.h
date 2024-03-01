@@ -46,7 +46,7 @@ public:
 	~CATCH();
 	void init(IRootsFindAlg* rootsFinder, int degree);
 
-	TCA runAlgorithm(TcaCalculation::sPointData * pointsInTime, double* timePoints, int lastPointIndex);
+	TCA runAlgorithm(TcaCalculation::sPointData * pointsInTime, int lastPointIndex);
 protected:
 	IRootsFindAlg* m_rootsFinder;
 private:

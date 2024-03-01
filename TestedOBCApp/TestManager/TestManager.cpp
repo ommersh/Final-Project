@@ -17,7 +17,7 @@ TestManager::~TestManager()
 
 }
 
-TestResults::TestResult TestManager::runTest(TestParameters::TestParams params, TcaCalculation::sPointData * pointsData, double * timePoints, int numberOfPopints)
+TestResults::TestResult TestManager::runTest(TestParameters::TestParams params, TcaCalculation::sPointData * pointsData)
 {
 	TestResults::TestResult results = { 0 };
 
@@ -29,7 +29,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestParams params, 
 
 		m_timer->startTimer();
 
-		results.tca = ancasAlg->runAlgorithm(pointsData, timePoints, numberOfPopints);
+		results.tca = ancasAlg->runAlgorithm(pointsData, params.numberOfPopints);
 		
 		m_timer->stopTimer();
 
@@ -44,7 +44,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestParams params, 
 
 		m_timer->startTimer();
 
-		results.tca = catchAlg->runAlgorithm(pointsData, timePoints, numberOfPopints);
+		results.tca = catchAlg->runAlgorithm(pointsData, params.numberOfPopints);
 
 		m_timer->stopTimer();
 

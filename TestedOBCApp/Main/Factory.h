@@ -26,7 +26,7 @@ public:
 
 	
 private:
-	static Factory* m_referance;
+	static Factory* m_reference;
 	Factory();
 	ITimer* m_timer;
 	CATCH m_catch;

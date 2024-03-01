@@ -168,7 +168,6 @@ TEST_F(CATCHTestCase, TEST_test_case_LEMUR2_COSMOS_Eigen_Lib)
     {
         fileData = fr.readDataFromFile("../UTCatch/TestCaseData/LEMUR2_COSMOS_GAUSS.csv");
     }
-    double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double expectedResultsDistance = 0.0838348;
     double expectedResultsTime = 177096;
@@ -178,8 +177,8 @@ TEST_F(CATCHTestCase, TEST_test_case_LEMUR2_COSMOS_Eigen_Lib)
     Catch.init(&rootsFinder, degree);
     if (fileData.data != nullptr)
     {
-        TCA tca = Catch.runAlgorithm(fileData.data, timePoints, lastPointIndex);
-        delete[] fileData.data, fileData.timePoints;
+        TCA tca = Catch.runAlgorithm(fileData.data, lastPointIndex);
+        delete[] fileData.data;
         EXPECT_TRUE(TestUtils::CompareValues(tca.distance, expectedResultsDistance, maxErrorDistance));
         EXPECT_TRUE(TestUtils::CompareValues(tca.time, expectedResultsTime, maxErrorTime));
 

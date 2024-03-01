@@ -51,7 +51,7 @@ double ANCASCubicPolynomial::getValue(double x)
 /// <returns>
 /// TCA, time of closest approach and the corresponding distance
 /// </returns>
-TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePoints, int lastPointIndex)
+TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
 	tca.time = 0;
@@ -86,7 +86,7 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePo
 		for (int i = 0; i < 4; i++)
 		{
 			//Tau = [0,Tau2,Tau3,1]
-			Tau[i] = (timePoints[offset + i] - timePoints[offset + 0]) / (timePoints[offset + 3] - timePoints[offset + 0]);
+			Tau[i] = (pointsInTime[offset + i].time - pointsInTime[offset + 0].time) / (pointsInTime[offset + 3].time - pointsInTime[offset + 0].time);
 		}
 		//2.Calculate the cubic polynomial Ctau
 		C_fdot_tau.createCoefficients(fd, Tau);
@@ -112,7 +112,7 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePo
 			{
 				tca.distance = tempDistance;
 				//Eq.8
-				tca.time = timePoints[offset + 0] + tau * (timePoints[offset + 3] - timePoints[offset + 0]);
+				tca.time = pointsInTime[offset + 0].time + tau * (pointsInTime[offset + 3].time - pointsInTime[offset + 0].time);
 			}
 		}
 		startPointIndex = endPointIndex;

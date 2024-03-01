@@ -19,7 +19,7 @@ public:
 	/// <param name="timePoints">The points in time from 0 to n</param>
 	/// <param name="lastPointIndex">The index of the last point in the arrays</param>
 	/// <returns>The TCA</returns>
-	virtual TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, double* timePoints, int lastPointIndex) = 0;
+	virtual TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex) = 0;
 
 
 };

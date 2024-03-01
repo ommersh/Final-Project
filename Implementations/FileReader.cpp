@@ -32,11 +32,10 @@ sFileData FileReader::readDataFromFile(string filePath)
         size = content.size() - 1;//The first row is just index names
         //Lets create the arrays for the data!
         fileData.data = new TcaCalculation::sPointData[size];
-        fileData.timePoints = new double[size];
         fileData.size = size;
         //Lets get the data into the arrays!
         for (r = 0; r < size; r++) {
-            fileData.timePoints[r] = stod(content.at(r + 1).at(TIMES_COL));
+            fileData.data[r].time = stod(content.at(r + 1).at(TIMES_COL));
             fileData.data[r].r1x = stod(content.at(r + 1).at(R1X_COL));
             fileData.data[r].r1y = stod(content.at(r + 1).at(R1Y_COL));
             fileData.data[r].r1z = stod(content.at(r + 1).at(R1Z_COL));

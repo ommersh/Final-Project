@@ -7,6 +7,8 @@
 #include "Factory.h"
 #include "TestManager.h"
 #include "MainProcess.h"
+#include "CommManager.h"
+#include "LocalFileCommChannelFacade.h"
 
 int main() {
     std::cout << "Version " 
@@ -16,7 +18,9 @@ int main() {
 
     Factory *factory = Factory::getReferance();
     TestManager testManager(factory->getTimer());
-    MainProcess mainProcess(&testManager);
+    LocalFileCommChannelFacade commChannel;
+    CommManager commManager(commChannel);
+    MainProcess mainProcess(&testManager,&commManager);
     mainProcess.process();
     
     return 0;

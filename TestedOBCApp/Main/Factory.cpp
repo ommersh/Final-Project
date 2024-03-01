@@ -1,5 +1,6 @@
 #include "Factory.h"
 
+Factory* Factory::m_reference = nullptr; // Define the static member variable
 
 Factory::Factory()
 {
@@ -16,11 +17,11 @@ Factory::~Factory()
 
 Factory* Factory::getReferance()
 {
-	if (nullptr == m_referance)
+	if (nullptr == m_reference)
 	{
-		m_referance = new Factory();
+		m_reference = new Factory();
 	}
-	return m_referance;
+	return m_reference;
 }
 
 

@@ -16,7 +16,7 @@ class TestManager
 public:
 	TestManager(ITimer* timer);
 	virtual ~TestManager();
-	virtual TestResults::TestResult runTest(TestParameters::TestParams params, TcaCalculation::sPointData* pointsData, double* timePoints, int numberOfPopints);
+	virtual TestResults::TestResult runTest(TestParameters::TestParams params, TcaCalculation::sPointData* pointsData);
 protected:
 	ITimer* m_timer;
 };

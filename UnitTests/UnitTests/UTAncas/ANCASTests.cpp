@@ -310,15 +310,14 @@ TEST_F(ANCASTestCase, TEST_test_case_LEMUR2_COSMOS)
     {
         fileData = fr.readDataFromFile("../UTAncas/TestCaseData/LEMUR2_COSMOS_CONST.csv");
     }
-    double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double expectedResultsDistance = 1.17159;
     double expectedResultsTime = 177096;
 
     if (fileData.data != nullptr)
     {
-        TCA tca = ancas.runAlgorithm(fileData.data, timePoints, lastPointIndex);
-        delete[] fileData.data, fileData.timePoints;
+        TCA tca = ancas.runAlgorithm(fileData.data, lastPointIndex);
+        delete[] fileData.data;
         EXPECT_TRUE(TestUtils::CompareValues(tca.distance, expectedResultsDistance, maxErrorDistance));
         EXPECT_TRUE(TestUtils::CompareValues(tca.time, expectedResultsTime, maxErrorTime));
 

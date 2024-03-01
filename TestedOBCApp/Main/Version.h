@@ -13,7 +13,7 @@ namespace ProjectVersions {
 	/// <summary>
 	/// MAJOR version when you make incompatible API changes
 	/// </summary>
-	static const int VERSION_MAJOR = 0;
+	static const int VERSION_MAJOR = 1;
 	/// <summary>
 	/// MINOR version when you add functionality in a backward compatible manner
 	/// </summary>

@@ -21,10 +21,7 @@ namespace TestParameters
         int degree;                         // Degree of the polynomial
         CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
         Algorithm testedAlgorithm;
-
-        // Constructor for easy initialization
-        TestParams(int deg, CatchRootsAlg algType, Algorithm testAlg)
-            : degree(deg), catchRootsAlg(algType), testedAlgorithm(testAlg) {}
+        int numberOfPopints;
     };
 }
 

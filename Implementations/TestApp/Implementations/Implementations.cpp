@@ -42,18 +42,17 @@ void runCatchWithArmadillo(int degree)
     //std::cout << "CATCH Data Size:" << ((sizeof(sPointData)* fileData.size)/1024.0) <<"KB"<< std::endl;
 
     //printData(fileData);
-    double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double startTime, endTime;
     startTime = getCurrentTimeInMicroSec();
-    TCA tca = c.runAlgorithm(fileData.data, timePoints, lastPointIndex);
+    TCA tca = c.runAlgorithm(fileData.data, lastPointIndex);
     endTime = getCurrentTimeInMicroSec();
     //std::cout << "Catch result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Catch took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
     printResult("CATCH_Armadillo", degree, "LEMUR2_COSMOS", tca.numberOfPoints, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
-        delete[] fileData.data, fileData.timePoints;
+        delete[] fileData.data;
     }
 }
 void runCatch(int degree)
@@ -68,18 +67,17 @@ void runCatch(int degree)
     //std::cout << "CATCH Data Size:" << ((sizeof(sPointData)* fileData.size)/1024.0) <<"KB"<< std::endl;
 
     //printData(fileData);
-    double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double startTime, endTime;
     startTime = getCurrentTimeInMicroSec();
-    TCA tca = c.runAlgorithm(fileData.data, timePoints, lastPointIndex);
+    TCA tca = c.runAlgorithm(fileData.data, lastPointIndex);
     endTime = getCurrentTimeInMicroSec();
     //std::cout << "Catch result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Catch took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
     printResult("CATCH", degree, "LEMUR2_COSMOS", tca.numberOfPoints, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
-        delete[] fileData.data, fileData.timePoints;
+        delete[] fileData.data;
     }
 }
 void runAncas()
@@ -91,19 +89,18 @@ void runAncas()
 
     //std::cout << "ANCAS Data Size:" << ((sizeof(sPointData) * fileData.size) / 1024.0) << "KB" << std::endl;
 
-    double* timePoints = fileData.timePoints;
     int lastPointIndex = fileData.size;
     double startTime, endTime;
     double temp;
     startTime = getCurrentTimeInMicroSec();
-    TCA tca = a.runAlgorithm(fileData.data, timePoints, lastPointIndex);
+    TCA tca = a.runAlgorithm(fileData.data, lastPointIndex);
     endTime = getCurrentTimeInMicroSec();
     //std::cout << "Ancas result:\nTime: " << tca.time << "\nDistance:" << tca.distance << "\n";
     //std::cout << "Ancas took:\n " << endTime - startTime << " micro seconds\n" << (endTime - startTime) / 1000000 << " seconds \n";
     printResult("ANCAS",3, "LEMUR2_COSMOS", tca.numberOfPoints, endTime - startTime, tca);
     if (fileData.data != nullptr)
     {
-        delete[] fileData.data, fileData.timePoints;
+        delete[] fileData.data;
     }
 }
 

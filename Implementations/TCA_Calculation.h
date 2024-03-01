@@ -32,6 +32,7 @@ namespace TcaCalculation
 		double v2x;
 		double v2y;
 		double v2z;
+		double time;
 	};
 
 };
