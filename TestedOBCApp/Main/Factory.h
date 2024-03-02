@@ -10,7 +10,7 @@
 #include "ANCAS.h"
 
 #include "CompanionMatrixRootsFinderEigen.h"
-#include "CompanionMatrixRootsFinderArmadillo.h"
+//#include "CompanionMatrixRootsFinderArmadillo.h"
 
 #include "TestDefinitions.h"
 #include "AppConfigurationManager.h"
@@ -36,7 +36,7 @@ private:
 
 	//RootsFindAlg m_rootsFindAlg;
 	CompanionMatrixRootsFinderEigen m_companionMatrixRootsFinderEigen;
-	CompanionMatrixRootsFinderArmadillo m_companionMatrixRootsFinderAArmadillo;
+	//CompanionMatrixRootsFinderArmadillo m_companionMatrixRootsFinderAArmadillo;
 };
 
 

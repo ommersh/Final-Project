@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\CommManager;..\..\Main;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\CommChannels;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\CommManager;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\CommChannels;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\CommManager;..\..\Main;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\CommChannels;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\CommManager;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\CommChannels;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\CommManager;..\..\Main;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\CommChannels;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\CommManager;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\CommChannels;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\CommManager;..\..\Main;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\CommChannels;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\CommManager;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\CommChannels;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,7 +135,6 @@
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
-    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderArmadillo.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp" />
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
     <ClCompile Include="..\..\CommManager\CommManager.cpp" />
@@ -147,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommChannels\ICommChannel.h" />
@@ -155,7 +153,6 @@
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h" />
-    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderArmadillo.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h" />
     <ClInclude Include="..\..\..\Implementations\FileReader.h" />
     <ClInclude Include="..\..\..\Implementations\IRootsFindAlg.h" />
@@ -172,17 +169,5 @@
     <ClInclude Include="..\..\Timer\WinTimer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\Eigen.3.3.3\build\native\Eigen.targets" Condition="Exists('..\packages\Eigen.3.3.3\build\native\Eigen.targets')" />
-    <Import Project="..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets" Condition="Exists('..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets')" />
-    <Import Project="..\packages\armadillo-code.7.800.2\build\native\armadillo-code.targets" Condition="Exists('..\packages\armadillo-code.7.800.2\build\native\armadillo-code.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Eigen.3.3.3\build\native\Eigen.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Eigen.3.3.3\build\native\Eigen.targets'))" />
-    <Error Condition="!Exists('..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets'))" />
-    <Error Condition="!Exists('..\packages\armadillo-code.7.800.2\build\native\armadillo-code.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\armadillo-code.7.800.2\build\native\armadillo-code.targets'))" />
-  </Target>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

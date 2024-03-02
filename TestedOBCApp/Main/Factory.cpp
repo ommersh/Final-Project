@@ -49,9 +49,9 @@ IRootsFindAlg* Factory::getRootsFindAlg(TestParameters::CatchRootsAlg algType, i
 	case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
 		rootsFindAlg = &m_companionMatrixRootsFinderEigen;
 		break;
-	case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
+	/*case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
 		rootsFindAlg = &m_companionMatrixRootsFinderAArmadillo;
-		break;
+		break;*/
 	}
 	return rootsFindAlg;
 }

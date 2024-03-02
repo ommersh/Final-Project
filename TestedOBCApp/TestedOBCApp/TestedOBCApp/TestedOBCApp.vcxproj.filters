@@ -57,12 +57,15 @@
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp">
       <Filter>TestManager\Implementations\CATCH</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
+    <ClCompile Include="..\..\..\CommChannels\LocalFileCommChannelFacade.cpp">
+      <Filter>CommChannels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md">
       <Filter>Main</Filter>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Main\MainProcess.h">
@@ -112,6 +115,13 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h">
       <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\FileReader.h" />
+    <ClInclude Include="..\..\..\CommChannels\ICommChannel.h">
+      <Filter>CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommChannels\LocalFileCommChannelFacade.h">
+      <Filter>CommChannels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

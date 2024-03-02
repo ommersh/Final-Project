@@ -98,14 +98,14 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 			m_params.degree = 15;
 			m_params.numberOfPopints = m_fileData.size;
 			m_params.testedAlgorithm = TestParameters::Algorithm::CATCH;
-			if (switchCounter++ % 2 == 0)
-			{
+			//if (switchCounter++ % 2 == 0)
+			//{
 				m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
-			}
-			else
+			//}
+			/*else
 			{
 				m_params.catchRootsAlg = TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix;
-			}
+			}*/
 			memcpy(buffer + *size, reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestParams));
 			*size += sizeof(TestParameters::TestParams);
 
