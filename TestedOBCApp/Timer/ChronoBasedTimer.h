@@ -5,10 +5,10 @@
 #include "ITimer.h"
 
 
-class WinTimer : public ITimer
+class ChronoBasedTimer : public ITimer
 {
 public:
-	WinTimer();
+	ChronoBasedTimer();
 	void startTimer() override;
 	void stopTimer() override;
 	double getTimeInMicroSec() override;

@@ -12,7 +12,9 @@
 
 
 using namespace Eigen;
-
+/// <summary>
+/// Implementation of the CompanionMatrixRootsFinder class using the Eigen library
+/// </summary>
 class CompanionMatrixRootsFinderEigen : public CompanionMatrixRootsFinder
 {
 public:

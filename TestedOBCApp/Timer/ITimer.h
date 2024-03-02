@@ -1,6 +1,9 @@
 #ifndef SHIELD_ITimer_H    // Check if the symbol SHIELD_ITimer_H is not defined
 #define SHIELD_ITimer_H    // Define the symbol SHIELD_ITimer_H
 
+/// <summary>
+/// Timer to get the run time of a code segment
+/// </summary>
 class ITimer
 {
 public:

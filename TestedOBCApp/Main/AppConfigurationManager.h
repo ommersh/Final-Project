@@ -6,17 +6,19 @@ namespace AppConfiguration
 {
 	enum TimerType
 	{
-		WinChrono
+		ChronoTimer
 	};
 }
 
 
 
-
+/// <summary>
+/// Class to manage app configureations(like type of timer)
+/// </summary>
 class AppConfigurationManager
 {
 public:
-	static const AppConfiguration::TimerType timerType = AppConfiguration::TimerType::WinChrono;
+	static const AppConfiguration::TimerType timerType = AppConfiguration::TimerType::ChronoTimer;
 
 };
 

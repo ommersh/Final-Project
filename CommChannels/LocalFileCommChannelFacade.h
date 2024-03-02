@@ -6,7 +6,11 @@
 #include "TestDefinitions.h"
 
 using namespace MessagesDefinitions;
-
+/// <summary>
+/// Implementation of the ICommChannel interface.
+/// Reading a local files instead of an actual communication channel.
+/// can use for testing or a unsynchronized run.
+/// </summary>
 class LocalFileCommChannelFacade : public ICommChannel
 {
 public:
@@ -22,6 +26,10 @@ public:
 	void sendMessage(unsigned char* buffer, unsigned int size) override;
 	void reset() override;
 
+	/// <summary>
+	/// Internal state machine for the class.
+	/// Create a cyclic implementation of getting an input message for running ANCAS and CATCH repeatedly.
+	/// </summary>
 	enum InnerStateMachine
 	{
 		StateStart = 0,
@@ -44,6 +52,15 @@ protected:
 	int m_offset;
 	int m_sizeToCompy;
 	void startPrint();
+	/// <summary>
+	/// Instead of sending a message print the results
+	/// </summary>
+	/// <param name="algName"></param>
+	/// <param name="degree"></param>
+	/// <param name="testName"></param>
+	/// <param name="numberOfPoints"></param>
+	/// <param name="runTime"></param>
+	/// <param name="tca"></param>
 	void printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, TcaCalculation::TCA tca);
 
 };

@@ -3,7 +3,7 @@
 
 
 #include "Version.h"
-#include "WinTimer.h"
+#include "ChronoBasedTimer.h"
 #include "Factory.h"
 #include "TestManager.h"
 #include "MainProcess.h"
@@ -16,7 +16,7 @@ int main() {
         << ProjectVersions::VERSION_MINOR << "." 
         << ProjectVersions::VERSION_PATCH << std::endl;
 
-    Factory *factory = Factory::getReferance();
+    Factory *factory = Factory::getReference();
     TestManager testManager(factory->getTimer());
     LocalFileCommChannelFacade commChannel;
     CommManager commManager(commChannel);

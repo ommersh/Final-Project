@@ -9,12 +9,18 @@
 
 
 
-
+/// <summary>
+/// The main process of the TestedOBCApp
+/// Run nonstop, try to get a message, run a test, send the results back and wait for the next messgae.
+/// </summary>
 class MainProcess
 {
 public:
 	MainProcess(TestManager* testManager, CommManager* commManager);
 	virtual ~MainProcess();
+	/// <summary>
+	/// Run nonstop, try to get a message, run a test, send the results back and wait for the next messgae.
+	/// </summary>
 	virtual void process();
 private:
 	TestManager* m_testManager;

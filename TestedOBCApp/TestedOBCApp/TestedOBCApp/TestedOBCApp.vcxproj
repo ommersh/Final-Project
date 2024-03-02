@@ -142,7 +142,7 @@
     <ClCompile Include="..\..\Main\Main.cpp" />
     <ClCompile Include="..\..\Main\MainProcess.cpp" />
     <ClCompile Include="..\..\TestManager\TestManager.cpp" />
-    <ClCompile Include="..\..\Timer\WinTimer.cpp" />
+    <ClCompile Include="..\..\Timer\ChronoBasedTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md" />
@@ -166,7 +166,7 @@
     <ClInclude Include="..\..\TestManager\TestManager.h" />
     <ClInclude Include="..\..\TestManager\TestDefinitions.h" />
     <ClInclude Include="..\..\Timer\ITimer.h" />
-    <ClInclude Include="..\..\Timer\WinTimer.h" />
+    <ClInclude Include="..\..\Timer\ChronoBasedTimer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

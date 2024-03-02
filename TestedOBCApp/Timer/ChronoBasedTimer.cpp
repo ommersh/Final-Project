@@ -1,14 +1,14 @@
-#include "WinTimer.h"
+#include "ChronoBasedTimer.h"
 #include <chrono>
 
 
-WinTimer::WinTimer() :
+ChronoBasedTimer::ChronoBasedTimer() :
 	m_startTime(0),m_endTime(0),m_timeInMicro(0)
 {
 
 }
 
-void WinTimer::startTimer()
+void ChronoBasedTimer::startTimer()
 {
 	m_endTime = -1;
 	m_timeInMicro = -1;
@@ -21,7 +21,7 @@ void WinTimer::startTimer()
     m_startTime= microseconds;
 }
 
-void WinTimer::stopTimer()
+void ChronoBasedTimer::stopTimer()
 {
     // Get the current time point
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
@@ -34,18 +34,18 @@ void WinTimer::stopTimer()
     m_timeInMicro = m_endTime - m_startTime;
 }
 
-double WinTimer::getTimeInMicroSec()
+double ChronoBasedTimer::getTimeInMicroSec()
 {
     return m_timeInMicro;
 }
 
-double WinTimer::getTimeInMilliSec()
+double ChronoBasedTimer::getTimeInMilliSec()
 {
     // Convert microseconds to milliseconds
     return m_timeInMicro / 1000.0;
 }
 
-double WinTimer::getTimeInSec()
+double ChronoBasedTimer::getTimeInSec()
 {
     // Convert microseconds to seconds
     return m_timeInMicro / 1000000.0;

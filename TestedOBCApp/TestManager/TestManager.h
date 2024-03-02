@@ -11,11 +11,23 @@
 
 #include "ANCAS.h"
 
+/// <summary>
+/// Manager for running test on the TCA algorithms, giver a set of test parameters and test data, 
+/// Initialize a test run of the given algorithm with the given data,
+/// Test the run time and return the results.
+/// </summary>
 class TestManager
 {
 public:
 	TestManager(ITimer* timer);
 	virtual ~TestManager();
+	/// <summary>
+	/// Initialize a test run of the given algorithm with the given data,
+	/// Test the run time and return the results.
+	/// </summary>
+	/// <param name="params">The test parameters</param>
+	/// <param name="pointsData">The test data</param>
+	/// <returns>The test results</returns>
 	virtual TestResults::TestResult runTest(TestParameters::TestParams params, TcaCalculation::sPointData* pointsData);
 protected:
 	ITimer* m_timer;

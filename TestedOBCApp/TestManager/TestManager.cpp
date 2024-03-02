@@ -25,7 +25,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestParams params, 
 	{
 	case TestParameters::Algorithm::ANCAS:
 	{
-		ANCAS* ancasAlg = Factory::getReferance()->getANCAS();
+		ANCAS* ancasAlg = Factory::getReference()->getANCAS();
 
 		m_timer->startTimer();
 
@@ -40,7 +40,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestParams params, 
 
 	case TestParameters::Algorithm::CATCH:
 	{
-		CATCH* catchAlg = Factory::getReferance()->getCATCH(params.catchRootsAlg, params.degree);
+		CATCH* catchAlg = Factory::getReference()->getCATCH(params.catchRootsAlg, params.degree);
 
 		m_timer->startTimer();
 

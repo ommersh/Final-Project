@@ -3,20 +3,32 @@
 
 
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Function name: getNextMessage
+//		
+//	Description:
+//				Implement a state machine for getting the data of CATCH\ANCAS, creating a fake
+//				message and returning it as if we received a message
+//		
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////
 bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned int maxSize, unsigned int* size)
 {
 	bool returnValue = false;
 	static unsigned char switchCounter = 0;
+	//running the state machine
 	switch (m_state)
 	{
 	case StateStart:
+		//reset the offset and start immediately
 		m_offset = 0;
 		m_state = StateGetAncasData;
 
-		//break;
 	case StateGetAncasData:
+		//Get the data from the file
 		getAncasData();
+		//if we failed to get the data reset the state machine
 		if (m_fileData.size == -1)
 		{
 			std::cout << "Failed to read ANCAS data file...\n";
@@ -25,15 +37,19 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 		else
 		{
 			MessageHeader header;
+			//create header for ancas
 			header.opcode = MessagesDefinitions::TestRequestMessageOpcode;
 			header.dataSize = m_fileData.size * sizeof(TcaCalculation::sPointData);
+			//copy the header to the buffer
 			memcpy(buffer, reinterpret_cast<unsigned char*>(& header), sizeof(MessageHeader));
 			*size = sizeof(MessageHeader);
-
+			
+			//create the test parameters
 			m_params.degree = 15;
 			m_params.numberOfPopints = m_fileData.size;
 			m_params.testedAlgorithm = TestParameters::Algorithm::ANCAS;
 			m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+			//copy the test parameters to the buffer
 			memcpy(buffer + *size , reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestParams));
 			*size += sizeof(TestParameters::TestParams);
 
@@ -41,12 +57,15 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 
 			if (m_sizeToCompy < (maxSize - *size))
 			{
+				//if the buffer is big enough to copy all the data in one go
+				//copy the data and go to the next state(catch)
 				memcpy(buffer + *size, reinterpret_cast<unsigned char*>(m_fileData.data), m_sizeToCompy);
 				*size += m_sizeToCompy;
 				m_state = StateWaitForAncasEnd;
 
 			}
 			else {
+				//fill the buffer with data and go to the next state
 				memcpy(buffer + *size, reinterpret_cast<unsigned char*>(m_fileData.data), (maxSize - *size));
 				m_offset = (maxSize - *size);
 				m_sizeToCompy -= (maxSize - *size);
@@ -161,6 +180,14 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 
 #include <iomanip>
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Function name: sendMessage
+//		
+//	Description:
+//				Print the results based on the last parameters we "sent"
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////
 void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int size)
 {
 
@@ -193,18 +220,43 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 	
 }
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Function name:getAncasData
+//		
+//	Description: Read the data for ANCAS from a file
+// 
+//		
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////
 void LocalFileCommChannelFacade::getAncasData()
 {
 	FileReader fr;
 	m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_CONST.csv");
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Function name: getCatchData
+//		
+//	Description: Read the data for CATCH from a file
+//		
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////
 void LocalFileCommChannelFacade::getCatchData()
 {
 	FileReader fr;
 	m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_GAUSS.csv");
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Function name: reset
+//		
+//	Description: Reset between messages
+//		
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////
 void LocalFileCommChannelFacade::reset()
 {
 	switch (m_state)
@@ -233,6 +285,16 @@ void LocalFileCommChannelFacade::reset()
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Function name: printResult
+//		
+//	Description: Print the results in a table:
+//		testName		|algName        |degree         |numberOfPoints     |runTime(sec)        |runTime(microSec)   |TCA distance   |TCA time
+//		--------------- |---------------|---------------|-------------------|--------------------|--------------------|---------------|----------
+//		LEMUR2_COSMOS	| ANCAS			| 3				| 6451				| 0.000669			 | 669				  | 1.17159		  | 177096
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////
 void LocalFileCommChannelFacade::printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, TcaCalculation::TCA tca)
 {
 	std::cout << std::left << std::setw(15) << testName
@@ -245,6 +307,17 @@ void LocalFileCommChannelFacade::printResult(string algName, int degree, string 
 		<< "|" << std::left << std::setw(15) << tca.time << std::endl;
 
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Function name: startPrint
+//		
+//	Description: Print the start of the table:
+//		testName		|algName        |degree         |numberOfPoints     |runTime(sec)        |runTime(microSec)   |TCA distance   |TCA time
+//		--------------- |---------------|---------------|-------------------|--------------------|--------------------|---------------|----------
+//		LEMUR2_COSMOS	| ANCAS			| 3				| 6451				| 0.000669			 | 669				  | 1.17159		  | 177096
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////
 void LocalFileCommChannelFacade::startPrint()
 {
 	std::cout << std::left << std::setw(15) << "testName"

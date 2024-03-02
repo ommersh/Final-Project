@@ -36,7 +36,7 @@
     <ClCompile Include="..\..\TestManager\TestManager.cpp">
       <Filter>TestManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Timer\WinTimer.cpp">
+    <ClCompile Include="..\..\Timer\ChronoBasedTimer.cpp">
       <Filter>Timer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp">
@@ -92,7 +92,7 @@
     <ClInclude Include="..\..\Timer\ITimer.h">
       <Filter>Timer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Timer\WinTimer.h">
+    <ClInclude Include="..\..\Timer\ChronoBasedTimer.h">
       <Filter>Timer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h">
