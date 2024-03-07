@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CommManager">
+      <UniqueIdentifier>{3ae6c69a-26fb-4d3a-8711-ac230235e44d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{6b92ffd5-5a87-41da-ab3a-5d8eab4461e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timer">
+      <UniqueIdentifier>{6a5e46ed-5bf2-4249-9249-d6e15844df3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestManager">
+      <UniqueIdentifier>{f3af7fe4-68c7-4d6f-a663-871b1559ca40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestManager\Implementations">
+      <UniqueIdentifier>{cf1de467-fd09-4a81-a0c5-ef923dee340c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestManager\Implementations\ANCAS">
+      <UniqueIdentifier>{c19575e5-c6cb-41bb-97de-99fec4256bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestManager\Implementations\CATCH">
+      <UniqueIdentifier>{f9801faa-e4e1-40e9-9cb7-0f58d2e61f52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{92453dde-48f4-4137-8057-9845d5644aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\CommChannels">
+      <UniqueIdentifier>{29f1388f-6737-42d6-8496-bbc1d1c63ccd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Main\Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Main\MainProcess.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestManager\TestManager.cpp">
+      <Filter>TestManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Timer\ChronoBasedTimer.cpp">
+      <Filter>Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp">
+      <Filter>TestManager\Implementations\ANCAS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp">
+      <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp">
+      <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CommManager\CommManager.cpp">
+      <Filter>CommManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Main\Factory.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp">
+      <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\CHANGELOG.md">
+      <Filter>Main</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Main\MainProcess.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Main\Version.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestManager\TestManager.h">
+      <Filter>TestManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\IRootsFindAlg.h">
+      <Filter>TestManager\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\ITcaAlgorithm.h">
+      <Filter>TestManager\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\TcaCalculation.h">
+      <Filter>TestManager\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Timer\ITimer.h">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Timer\ChronoBasedTimer.h">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h">
+      <Filter>TestManager\Implementations\ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h">
+      <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h">
+      <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommManager\CommManager.h">
+      <Filter>CommManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Main\Factory.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Main\AppConfigurationManager.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h">
+      <Filter>TestManager\Implementations\CATCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\FileReader.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommonStructures.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="RootFinderTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
+      <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc">
+      <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TestUtils.cpp" />
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RootFinderTests.h" />
+    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TestUtils.h" />
+    <ClInclude Include="..\..\..\Implementations\IRootsFindAlg.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{908858ea-2e47-4bb7-a56d-ae8cb3a3fc0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{51ead573-1967-4931-87bb-fd6095ae19d9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <Filter>config</Filter>
+    </None>
+  </ItemGroup>
+</Project>
