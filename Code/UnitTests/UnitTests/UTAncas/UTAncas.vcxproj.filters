@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\TestUtils.cpp" />
+    <ClCompile Include="ANCASTests.cpp" />
+    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc">
+      <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc">
+      <Filter>config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\TestUtils.h" />
+    <ClInclude Include="ANCASTests.h" />
+    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\FileReader.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{cb1908a4-4aae-418c-8714-51eb3c423ff1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{cb2ce0cc-1e19-45ab-91fe-3c84aa458dea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <Filter>config</Filter>
+    </None>
+  </ItemGroup>
+</Project>
