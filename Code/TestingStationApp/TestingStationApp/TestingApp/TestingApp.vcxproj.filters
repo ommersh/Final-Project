@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{a95028ed-5686-470f-87c2-4a4f46591bc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Implementation">
+      <UniqueIdentifier>{03ef35b8-b29f-46ed-b250-83faee85b9b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\CommChannels">
+      <UniqueIdentifier>{08e0ffc6-950e-4f3f-8dfa-ca9f9d2f1df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Structures">
+      <UniqueIdentifier>{94592a5c-3159-4b1f-b81a-c95a39d1fd77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lab">
+      <UniqueIdentifier>{18b02c67-c055-43cd-959c-77fc172d5664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommManager">
+      <UniqueIdentifier>{e570c4fb-6e90-40ed-97b8-309673863a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestManager">
+      <UniqueIdentifier>{c622086d-1680-44b2-96b2-c3e6313457ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestManager\ResultManager">
+      <UniqueIdentifier>{3272c8a5-1ceb-4ec6-8b2e-e813b0f6bc05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\SGP4">
+      <UniqueIdentifier>{fd312e60-bb10-4718-be7c-6750c6f01cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestDataGenerationManager">
+      <UniqueIdentifier>{8ca59593-a2e2-4057-97ef-91401a53abff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestDataGenerationManager\Sgp4Facade">
+      <UniqueIdentifier>{4662f84e-2794-4143-97c9-af2526874268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Enum">
+      <UniqueIdentifier>{a656aa00-17b7-4f1c-9f81-6bb4781ce5e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enum">
+      <UniqueIdentifier>{79d7f41c-a8a7-44ad-a0bc-f49e570911c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CommManager\CommManager.cpp">
+      <Filter>CommManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestManager\TestManager.cpp">
+      <Filter>TestManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestManager\ResultManager\ResultManager.cpp">
+      <Filter>TestManager\ResultManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Lab\Lab.cpp">
+      <Filter>Lab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\AncasDataGenerator.cpp">
+      <Filter>Common\SGP4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.cpp">
+      <Filter>Common\SGP4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp">
+      <Filter>Common\SGP4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp">
+      <Filter>Common\SGP4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestDataGenerationManager\TestGenerationInfo.cpp">
+      <Filter>TestDataGenerationManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestDataGenerationManager\TestDataGenerationManager.cpp">
+      <Filter>TestDataGenerationManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Common\CommonStructures.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\TcaCalculation.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\ITcaAlgorithm.h">
+      <Filter>Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\FileReader.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\TestRecipe.h">
+      <Filter>Common\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommManager\CommManager.h">
+      <Filter>CommManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestManager\TestManager.h">
+      <Filter>TestManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestManager\ResultManager\ResultManager.h">
+      <Filter>TestManager\ResultManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Lab\Lab.h">
+      <Filter>Lab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestDataGenerationManager\TestDataGenerationManager.h">
+      <Filter>TestDataGenerationManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\AncasDataGenerator.h">
+      <Filter>Common\SGP4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.h">
+      <Filter>Common\SGP4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\DataGenerator.h">
+      <Filter>Common\SGP4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h">
+      <Filter>Common\SGP4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestDataGenerationManager\TestGenerationInfo.h">
+      <Filter>TestDataGenerationManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h">
+      <Filter>Common\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Enums\TimeUnitEnum.h">
+      <Filter>Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Enums\TleFormatEnum.h">
+      <Filter>Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestManager\ResultManager\TestResultInfo.h">
+      <Filter>TestManager\ResultManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
