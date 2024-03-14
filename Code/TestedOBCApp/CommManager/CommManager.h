@@ -49,5 +49,10 @@ protected:
 	ICommChannel& m_commChannel;
 	TestParameters::TestRecipe m_testParameters;
 	TcaCalculation::sPointData* m_pointsData;
+
+#ifdef STATIC_DATA_MEMORY
+	static const int DATA_MAX_SIZE = 8000;
+	TcaCalculation::sPointData m_pointsDataArray[DATA_MAX_SIZE];
+#endif
 };
 #endif //SHIELD_CommManager_H

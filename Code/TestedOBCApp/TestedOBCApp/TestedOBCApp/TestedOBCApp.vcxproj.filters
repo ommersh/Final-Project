@@ -28,6 +28,9 @@
     <Filter Include="Common\CommChannels">
       <UniqueIdentifier>{29f1388f-6737-42d6-8496-bbc1d1c63ccd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MemoryMonitor">
+      <UniqueIdentifier>{1edc7b8c-c880-4947-94d2-50950578070a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Main\Main.cpp">
@@ -65,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp">
       <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MemoryMonitor\WinMemoryMonitor.cpp">
+      <Filter>MemoryMonitor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +134,15 @@
       <Filter>Common\CommChannels</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\CommonStructures.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MemoryMonitor\IMemoryMonitor.h">
+      <Filter>MemoryMonitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MemoryMonitor\WinMemoryMonitor.h">
+      <Filter>MemoryMonitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\ResultsLogger.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>

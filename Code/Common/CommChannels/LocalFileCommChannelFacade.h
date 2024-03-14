@@ -4,6 +4,7 @@
 #include "ICommChannel.h"
 #include "FileReader.h"
 #include "CommonStructures.h"
+#include "ResultsLogger.h"
 
 using namespace MessagesDefinitions;
 /// <summary>
@@ -14,7 +15,16 @@ using namespace MessagesDefinitions;
 class LocalFileCommChannelFacade : public ICommChannel
 {
 public:
-	LocalFileCommChannelFacade()
+	LocalFileCommChannelFacade() :
+#ifdef STATIC_DATA_MEMORY
+		AncasResultsLogger("AncasResults_StaticDataMemory.csv"),
+		CatchEigenResultsLogger("CatchEigenResults_StaticDataMemory.csv"),
+		CatchArmadilloResultsLogger("CatchArmadilloResults_StaticDataMemory.csv")
+#else
+		AncasResultsLogger("AncasResults.csv"),
+		CatchEigenResultsLogger("CatchEigenResults.csv"),
+		CatchArmadilloResultsLogger("CatchArmadilloResults.csv")
+#endif
 	{
 		m_state = InnerStateMachine::StateStart;
 	}
@@ -61,7 +71,11 @@ protected:
 	/// <param name="numberOfPoints"></param>
 	/// <param name="runTime"></param>
 	/// <param name="tca"></param>
-	void printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, TcaCalculation::TCA tca);
+	void printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, long long maxMemory , TcaCalculation::TCA tca);
+
+	ResultsLogger AncasResultsLogger;
+	ResultsLogger CatchEigenResultsLogger;
+	ResultsLogger CatchArmadilloResultsLogger;
 
 };
 #endif //SHIELD_LocalFileCommChannelFacade_H

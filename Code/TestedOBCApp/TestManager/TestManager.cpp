@@ -7,7 +7,8 @@
 
 
 
-TestManager::TestManager(ITimer* timer) : m_timer(timer)
+TestManager::TestManager(ITimer* timer, IMemoryMonitor* memoryMonitor) 
+	: m_timer(timer),m_memoryMonitor(memoryMonitor)
 {
 
 }
@@ -20,43 +21,27 @@ TestManager::~TestManager()
 TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, TcaCalculation::sPointData * pointsData)
 {
 	TestResults::TestResult results = { 0 };
-
+	ITcaAlgorithm* Algoritm;
 	switch (params.testedAlgorithm)
 	{
-	case TestParameters::Algorithm::ANCAS:
-	{
-		ANCAS* ancasAlg = Factory::getReference()->getANCAS();
-
-		m_timer->startTimer();
-
-		results.tca = ancasAlg->runAlgorithm(pointsData, params.numberOfPopints);
-		
-		m_timer->stopTimer();
-
-		results.runTimeMicro = m_timer->getTimeInMicroSec();
-
-	}
-		break;
-
-	case TestParameters::Algorithm::CATCH:
-	{
-		CATCH* catchAlg = Factory::getReference()->getCATCH(params.catchRootsAlg, params.degree);
-
-		m_timer->startTimer();
-
-		results.tca = catchAlg->runAlgorithm(pointsData, params.numberOfPopints);
-
-		m_timer->stopTimer();
-
-		results.runTimeMicro = m_timer->getTimeInMicroSec();
-
-	}
-		break;
-
 	default:
-
+	case TestParameters::Algorithm::ANCAS:
+		Algoritm = Factory::getReference()->getANCAS();
+		break;
+	case TestParameters::Algorithm::CATCH:
+		Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.degree);
 		break;
 	}
+
+	m_memoryMonitor->startMonitoring();
+	m_timer->startTimer();
+
+	results.tca = Algoritm->runAlgorithm(pointsData, params.numberOfPopints);
+
+	m_timer->stopTimer();
+
+	results.runTimeMicro = m_timer->getTimeInMicroSec();
+	results.maxMemoryUsed = m_memoryMonitor->stopMonitoringAndGetPeakUsage();
 
 	return results;
 }

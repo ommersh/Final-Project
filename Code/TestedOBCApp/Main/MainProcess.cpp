@@ -47,9 +47,9 @@ void MainProcess::process()
 			m_commManager->endTest();
 		}
 		//sleep some time
-		std::cout << "Sleeping for 3 seconds...\n";
+		//std::cout << "Sleeping for 3 seconds...\n";
 
 		// Sleep for 3 seconds
-		std::this_thread::sleep_for(std::chrono::seconds(3));
+		//std::this_thread::sleep_for(std::chrono::seconds(3));
 	}
 }

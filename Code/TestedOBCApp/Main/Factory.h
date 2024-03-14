@@ -2,9 +2,11 @@
 #define SHIELD_Factory_H    // Define the symbol SHIELD_Factory_H
 
 #include "ITimer.h"
+#include "IMemoryMonitor.h"
 #include "ITcaAlgorithm.h"
 #include "IRootsFindAlg.h"
 
+#include "WinMemoryMonitor.h"
 #include "ChronoBasedTimer.h"
 #include "CATCH.h"
 #include "ANCAS.h"
@@ -55,7 +57,8 @@ public:
 	/// <returns></returns>
 	ANCAS*			getANCAS();
 
-	
+	IMemoryMonitor* getMemoryMonitor();
+
 private:
 	static Factory* m_reference;
 	Factory();
@@ -65,6 +68,7 @@ private:
 
 	CompanionMatrixRootsFinderEigen m_companionMatrixRootsFinderEigen;
 	//CompanionMatrixRootsFinderArmadillo m_companionMatrixRootsFinderAArmadillo;
+	IMemoryMonitor* m_memoryMonitor;
 };
 
 

@@ -17,7 +17,7 @@ int main() {
         << ProjectVersions::VERSION_PATCH << std::endl;
 
     Factory *factory = Factory::getReference();
-    TestManager testManager(factory->getTimer());
+    TestManager testManager(factory->getTimer(),factory->getMemoryMonitor());
     LocalFileCommChannelFacade commChannel;
     CommManager commManager(commChannel);
     MainProcess mainProcess(&testManager,&commManager);

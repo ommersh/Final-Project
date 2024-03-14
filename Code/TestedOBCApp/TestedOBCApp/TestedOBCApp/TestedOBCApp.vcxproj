@@ -74,9 +74,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);STATIC_DATA_MEMORY</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\MemoryMonitor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\MemoryMonitor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,9 +104,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);STATIC_DATA_MEMORY</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\MemoryMonitor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,9 +119,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);STATIC_DATA_MEMORY</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\MemoryMonitor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +141,7 @@
     <ClCompile Include="..\..\Main\Factory.cpp" />
     <ClCompile Include="..\..\Main\Main.cpp" />
     <ClCompile Include="..\..\Main\MainProcess.cpp" />
+    <ClCompile Include="..\..\MemoryMonitor\WinMemoryMonitor.cpp" />
     <ClCompile Include="..\..\TestManager\TestManager.cpp" />
     <ClCompile Include="..\..\Timer\ChronoBasedTimer.cpp" />
   </ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h" />
     <ClInclude Include="..\..\..\Common\CommonStructures.h" />
+    <ClInclude Include="..\..\..\Common\ResultsLogger.h" />
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h" />
@@ -164,6 +166,8 @@
     <ClInclude Include="..\..\Main\Factory.h" />
     <ClInclude Include="..\..\Main\MainProcess.h" />
     <ClInclude Include="..\..\Main\Version.h" />
+    <ClInclude Include="..\..\MemoryMonitor\IMemoryMonitor.h" />
+    <ClInclude Include="..\..\MemoryMonitor\WinMemoryMonitor.h" />
     <ClInclude Include="..\..\TestManager\TestManager.h" />
     <ClInclude Include="..\..\Timer\ITimer.h" />
     <ClInclude Include="..\..\Timer\ChronoBasedTimer.h" />

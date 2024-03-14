@@ -75,8 +75,13 @@ bool CommManager::getTheNextTest()
 			offset += sizeof(TestParameters::TestRecipe);
 
 			//get the data
+			#ifdef STATIC_DATA_MEMORY
+			if (header.dataSize > (DATA_MAX_SIZE* sizeof(TcaCalculation::sPointData)))
+				header.dataSize = (DATA_MAX_SIZE* sizeof(TcaCalculation::sPointData));
+			m_pointsData = m_pointsDataArray;
+			#else
 			m_pointsData = new TcaCalculation::sPointData[header.dataSize / sizeof(TcaCalculation::sPointData)];
-
+			#endif
 			memcpy(reinterpret_cast<unsigned char*>(m_pointsData), buffer + offset, size - offset);
 			remainingDataSize = header.dataSize - (size - offset);
 			offset = size - offset;
@@ -143,10 +148,15 @@ TcaCalculation::sPointData* CommManager::getTheTestData()
 //////////////////////////////////////////////////////////////////////////////////////////////
 void CommManager::endTest()
 {
+#ifdef STATIC_DATA_MEMORY
+
+#else
 	if (nullptr != m_pointsData)
 	{
 		delete[] m_pointsData;
 	}
+#endif
+	
 	m_commChannel.reset();
 }
 

@@ -2,6 +2,8 @@
 #define SHIELD_TestManager_H    // Define the symbol SHIELD_TestManager_H
 
 #include "ITimer.h"
+#include "IMemoryMonitor.h"
+
 #include "CommonStructures.h"
 #include "TcaCalculation.h"
 
@@ -19,7 +21,7 @@
 class TestManager
 {
 public:
-	TestManager(ITimer* timer);
+	TestManager(ITimer* timer, IMemoryMonitor* memoryMonitor);
 	virtual ~TestManager();
 	/// <summary>
 	/// Initialize a test run of the given algorithm with the given data,
@@ -31,6 +33,7 @@ public:
 	virtual TestResults::TestResult runTest(TestParameters::TestRecipe params, TcaCalculation::sPointData* pointsData);
 protected:
 	ITimer* m_timer;
+	IMemoryMonitor* m_memoryMonitor;
 };
 
 

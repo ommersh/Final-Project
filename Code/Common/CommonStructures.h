@@ -83,6 +83,7 @@ namespace TestResults
     struct TestResult {
         TcaCalculation::TCA tca;
         double runTimeMicro;
+		long long maxMemoryUsed;
     };
 }
 

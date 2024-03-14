@@ -203,10 +203,20 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 		switch (m_params.catchRootsAlg)
 		{
 		case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
-			printResult("CATCH_Eigen", m_params.degree, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.tca);
+			printResult("CATCH_Eigen", m_params.degree, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.maxMemoryUsed, testResults.tca);
+			CatchEigenResultsLogger.log("LEMUR2_COSMOS", "CATCH_Eigen",
+				m_params.degree, testResults.tca.numberOfPoints,
+				testResults.runTimeMicro / 1000000, testResults.runTimeMicro,
+				testResults.maxMemoryUsed / 1024,
+				testResults.tca.distance, testResults.tca.time);
 			break;
 		case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
-			printResult("CATCH_Armadillo", m_params.degree, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.tca);
+			printResult("CATCH_Armadillo", m_params.degree, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.maxMemoryUsed, testResults.tca);
+			CatchArmadilloResultsLogger.log("LEMUR2_COSMOS", "CATCH_Armadillo",
+				m_params.degree, testResults.tca.numberOfPoints,
+				testResults.runTimeMicro / 1000000, testResults.runTimeMicro,
+				testResults.maxMemoryUsed / 1024,
+				testResults.tca.distance, testResults.tca.time);
 			break;
 		default:
 			break;
@@ -214,10 +224,16 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 	}
 		break;
 	case TestParameters::Algorithm::ANCAS:
-		printResult("ANCAS", 3, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.tca);
+		printResult("ANCAS", 3, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.maxMemoryUsed, testResults.tca);
+		AncasResultsLogger.log("LEMUR2_COSMOS", "ANCAS",
+			m_params.degree, testResults.tca.numberOfPoints,
+			testResults.runTimeMicro / 1000000, testResults.runTimeMicro,
+			testResults.maxMemoryUsed / 1024,
+			testResults.tca.distance, testResults.tca.time);
 		break;
 	};
 	
+	//Save to the results csv file
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -295,7 +311,7 @@ void LocalFileCommChannelFacade::reset()
 //		LEMUR2_COSMOS	| ANCAS			| 3				| 6451				| 0.000669			 | 669				  | 1.17159		  | 177096
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, TcaCalculation::TCA tca)
+void LocalFileCommChannelFacade::printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, long long maxMemory, TcaCalculation::TCA tca)
 {
 	std::cout << std::left << std::setw(15) << testName
 		<< "|" << std::left << std::setw(15) << algName
@@ -303,6 +319,7 @@ void LocalFileCommChannelFacade::printResult(string algName, int degree, string 
 		<< "|" << std::left << std::setw(20) << numberOfPoints
 		<< "|" << std::left << std::setw(20) << runTime / 1000000
 		<< "|" << std::left << std::setw(20) << runTime
+		<< "|" << std::left << std::setw(20) << maxMemory/1024
 		<< "|" << std::left << std::setw(15) << tca.distance
 		<< "|" << std::left << std::setw(15) << tca.time << std::endl;
 
@@ -326,6 +343,7 @@ void LocalFileCommChannelFacade::startPrint()
 		<< "|" << std::left << std::setw(20) << "numberOfPoints"
 		<< "|" << std::left << std::setw(20) << "runTime(sec)"
 		<< "|" << std::left << std::setw(20) << "runTime(microSec)"
+		<< "|" << std::left << std::setw(20) << "Max Memory Used(KB)"
 		<< "|" << std::left << std::setw(15) << "TCA distance"
 		<< "|" << std::left << std::setw(15) << "TCA time" << std::endl;
 
@@ -333,6 +351,7 @@ void LocalFileCommChannelFacade::startPrint()
 	std::cout << std::left << std::setw(15) << std::setfill('-') << ""
 		<< "|" << std::left << std::setw(15) << ""
 		<< "|" << std::left << std::setw(15) << ""
+		<< "|" << std::left << std::setw(20) << ""
 		<< "|" << std::left << std::setw(20) << ""
 		<< "|" << std::left << std::setw(20) << ""
 		<< "|" << std::left << std::setw(20) << ""
