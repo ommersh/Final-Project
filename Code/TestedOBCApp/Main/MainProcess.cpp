@@ -7,7 +7,10 @@
 
 
 
-MainProcess::MainProcess(TestManager* testManager, CommManager* commManager) : m_testManager(testManager),m_commManager(commManager)
+MainProcess::MainProcess(TestManager* testManager, CommManager* commManager, ResultsLogger* logger) 
+	: m_testManager(testManager),
+	m_commManager(commManager),
+	resultsLogger(logger)
 {
 
 }
@@ -40,9 +43,11 @@ void MainProcess::process()
 			//wait for the test to end
 
 			//manage the test results
+			resultsLogger->log(testResults);
 
 			//send the test results back
 			m_commManager->sendTestResults(testResults);
+
 			//end the test, reset everything and free any memory
 			m_commManager->endTest();
 		}

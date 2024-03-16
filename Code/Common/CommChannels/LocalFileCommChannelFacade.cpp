@@ -1,4 +1,5 @@
 #include "LocalFileCommChannelFacade.h"
+#include <string.h>
 
 
 
@@ -49,6 +50,10 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 			m_params.numberOfPopints = m_fileData.size;
 			m_params.testedAlgorithm = TestParameters::Algorithm::ANCAS;
 			m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+			strcpy_s(m_params.testName,MAX_TEST_NAME_SIZE, "LEMUR2_COSMOS");
+			m_params.testID = testID++;
+			m_params.numberOfRuns = 100;
+
 			//copy the test parameters to the buffer
 			memcpy(buffer + *size , reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestRecipe));
 			*size += sizeof(TestParameters::TestRecipe);
@@ -117,6 +122,9 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 			m_params.degree = 15;
 			m_params.numberOfPopints = m_fileData.size;
 			m_params.testedAlgorithm = TestParameters::Algorithm::CATCH;
+			strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "LEMUR2_COSMOS");
+			m_params.testID = testID++;
+			m_params.numberOfRuns = 100;
 			//if (switchCounter++ % 2 == 0)
 			//{
 				m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
@@ -196,17 +204,17 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 	TestResults::TestResult testResults;
 	memcpy(reinterpret_cast<unsigned char*>(&testResults), buffer + sizeof(MessagesDefinitions::MessageHeader),  sizeof(TestResults::TestResult));
 	startPrint();
-	switch (m_params.testedAlgorithm)
+	switch (testResults.testedAlgorithm)
 	{
 	case TestParameters::Algorithm::CATCH:
 	{
-		switch (m_params.catchRootsAlg)
+		switch (testResults.catchRootsAlg)
 		{
 		case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
-			printResult("CATCH_Eigen", m_params.degree, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.tca);
+			printResult("CATCH_Eigen", testResults);
 			break;
 		case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
-			printResult("CATCH_Armadillo", m_params.degree, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.tca);
+			printResult("CATCH_Armadillo", testResults);
 			break;
 		default:
 			break;
@@ -214,7 +222,7 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 	}
 		break;
 	case TestParameters::Algorithm::ANCAS:
-		printResult("ANCAS", 3, "LEMUR2_COSMOS", testResults.tca.numberOfPoints, testResults.runTimeMicro, testResults.tca);
+		printResult("ANCAS", testResults);
 		break;
 	};
 	
@@ -290,21 +298,29 @@ void LocalFileCommChannelFacade::reset()
 //	Function name: printResult
 //		
 //	Description: Print the results in a table:
-//		testName		|algName        |degree         |numberOfPoints     |runTime(sec)        |runTime(microSec)   |TCA distance   |TCA time
-//		--------------- |---------------|---------------|-------------------|--------------------|--------------------|---------------|----------
-//		LEMUR2_COSMOS	| ANCAS			| 3				| 6451				| 0.000669			 | 669				  | 1.17159		  | 177096
+//		Test Name      |Test ID        |Alg Name       |Degree         |NumberOfPoints      |RunTime(sec)        |RunTime(microSec)   |NumberOfRuns   |avgTimeMicro   |minTimeMicro   |TCA distance		 |TCA time
+//		---------------|---------------|---------------|---------------|--------------------|--------------------|--------------------|---------------|---------------|---------------|------------------|---------------
+//		LEMUR2_COSMOS  | 0			   | ANCAS		   | 15			   | 6451				| 0.000676			 | 676				  | 100			  | 645.49		  | 627			  | 1.17159132160904 | 177095.670099459
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, TcaCalculation::TCA tca)
+void LocalFileCommChannelFacade::printResult(string algName, TestResults::TestResult results)
 {
-	std::cout << std::left << std::setw(15) << testName
+		std::cout << std::setprecision(15) <<
+		std::left << std::setw(15) << results.testName
+		<< "|" << std::left << std::setw(15) << results.testID
 		<< "|" << std::left << std::setw(15) << algName
-		<< "|" << std::left << std::setw(15) << degree
-		<< "|" << std::left << std::setw(20) << numberOfPoints
-		<< "|" << std::left << std::setw(20) << runTime / 1000000
-		<< "|" << std::left << std::setw(20) << runTime
-		<< "|" << std::left << std::setw(15) << tca.distance
-		<< "|" << std::left << std::setw(15) << tca.time << std::endl;
+		<< "|" << std::left << std::setw(15) << results.degree
+		<< "|" << std::left << std::setw(20) << results.tca.numberOfPoints
+		<< "|" << std::left << std::setw(20) << results.runTimeMicro / 1000000
+		<< "|" << std::left << std::setw(20) << results.runTimeMicro
+
+		<< "|" << std::left << std::setw(15) << results.numberOfRuns
+		<< "|" << std::left << std::setw(15) << results.avgTimeMicro
+		<< "|" << std::left << std::setw(15) << results.minTimeMicro
+
+
+		<< "|" << std::left << std::setw(20) << results.tca.distance
+		<< "|" << std::left << std::setw(20) << results.tca.time << std::endl;
 
 }
 
@@ -313,30 +329,43 @@ void LocalFileCommChannelFacade::printResult(string algName, int degree, string 
 //	Function name: startPrint
 //		
 //	Description: Print the start of the table:
-//		testName		|algName        |degree         |numberOfPoints     |runTime(sec)        |runTime(microSec)   |TCA distance   |TCA time
-//		--------------- |---------------|---------------|-------------------|--------------------|--------------------|---------------|----------
-//		LEMUR2_COSMOS	| ANCAS			| 3				| 6451				| 0.000669			 | 669				  | 1.17159		  | 177096
+//		Test Name      |Test ID        |Alg Name       |Degree         |NumberOfPoints      |RunTime(sec)        |RunTime(microSec)   |NumberOfRuns   |avgTimeMicro   |minTimeMicro   |TCA distance		 |TCA time
+//		---------------|---------------|---------------|---------------|--------------------|--------------------|--------------------|---------------|---------------|---------------|------------------|---------------
+//		LEMUR2_COSMOS  | 0			   | ANCAS		   | 15			   | 6451				| 0.000676			 | 676				  | 100			  | 645.49		  | 627			  | 1.17159132160904 | 177095.670099459
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
 void LocalFileCommChannelFacade::startPrint()
 {
-	std::cout << std::left << std::setw(15) << "testName"
-		<< "|" << std::left << std::setw(15) << "algName"
-		<< "|" << std::left << std::setw(15) << "degree"
-		<< "|" << std::left << std::setw(20) << "numberOfPoints"
-		<< "|" << std::left << std::setw(20) << "runTime(sec)"
-		<< "|" << std::left << std::setw(20) << "runTime(microSec)"
-		<< "|" << std::left << std::setw(15) << "TCA distance"
-		<< "|" << std::left << std::setw(15) << "TCA time" << std::endl;
+	std::cout << std::left << std::setw(15) << "Test Name"
+		<< "|" << std::left << std::setw(15) << "Test ID"
+		<< "|" << std::left << std::setw(15) << "Alg Name"
+		<< "|" << std::left << std::setw(15) << "Degree"
+		<< "|" << std::left << std::setw(20) << "NumberOfPoints"
+		<< "|" << std::left << std::setw(20) << "RunTime(sec)"
+		<< "|" << std::left << std::setw(20) << "RunTime(microSec)"
+
+		<< "|" << std::left << std::setw(15) << "NumberOfRuns"
+		<< "|" << std::left << std::setw(15) << "avgTimeMicro"
+		<< "|" << std::left << std::setw(15) << "minTimeMicro"
+
+		<< "|" << std::left << std::setw(20) << "TCA distance"
+		<< "|" << std::left << std::setw(20) << "TCA time" << std::endl;
 
 
 	std::cout << std::left << std::setw(15) << std::setfill('-') << ""
 		<< "|" << std::left << std::setw(15) << ""
 		<< "|" << std::left << std::setw(15) << ""
-		<< "|" << std::left << std::setw(20) << ""
-		<< "|" << std::left << std::setw(20) << ""
-		<< "|" << std::left << std::setw(20) << ""
 		<< "|" << std::left << std::setw(15) << ""
-		<< "|" << std::left << std::setw(15) << "" << std::setfill(' ') << std::endl;
+
+		<< "|" << std::left << std::setw(20) << ""
+		<< "|" << std::left << std::setw(20) << ""
+		<< "|" << std::left << std::setw(20) << ""
+
+		<< "|" << std::left << std::setw(15) << ""
+		<< "|" << std::left << std::setw(15) << ""
+		<< "|" << std::left << std::setw(15) << ""
+
+		<< "|" << std::left << std::setw(20) << ""
+		<< "|" << std::left << std::setw(20) << "" << std::setfill(' ') << std::endl;
 
 }

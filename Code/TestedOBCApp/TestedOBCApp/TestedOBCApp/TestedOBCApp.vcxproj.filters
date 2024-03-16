@@ -28,6 +28,9 @@
     <Filter Include="Common\CommChannels">
       <UniqueIdentifier>{29f1388f-6737-42d6-8496-bbc1d1c63ccd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Logger">
+      <UniqueIdentifier>{0e6b803e-4996-4594-b203-608146201e50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Main\Main.cpp">
@@ -65,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp">
       <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp">
+      <Filter>Common\Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\CommonStructures.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h">
+      <Filter>Common\Logger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,6 +17,7 @@ public:
 	LocalFileCommChannelFacade()
 	{
 		m_state = InnerStateMachine::StateStart;
+		testID = 0;
 	}
 	virtual ~LocalFileCommChannelFacade()
 	{
@@ -48,7 +49,7 @@ protected:
 	void getCatchData();
 	sFileData m_fileData;
 	TestParameters::TestRecipe m_params;
-
+	unsigned int testID;
 	int m_offset;
 	int m_sizeToCompy;
 	void startPrint();
@@ -61,7 +62,7 @@ protected:
 	/// <param name="numberOfPoints"></param>
 	/// <param name="runTime"></param>
 	/// <param name="tca"></param>
-	void printResult(string algName, int degree, string testName, int numberOfPoints, double runTime, TcaCalculation::TCA tca);
+	void printResult(string algName, TestResults::TestResult results);
 
 };
 #endif //SHIELD_LocalFileCommChannelFacade_H

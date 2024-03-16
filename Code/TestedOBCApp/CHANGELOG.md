@@ -7,10 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Released]
+### version 1.0.1
+#### Changed 16/03/2024
+- Added results logger
+- Added number of run(repeatedly calling the algorithm on the same input)
+- Added Test Name and Test ID to the tets recipe and results
+- Added MinRunTime and AvgRunTime to the test results
+- Added Eigen Library again to the External libraries folder
+
 ### version 1.0.0
 #### Changed 07/03/2024
 - Reorganized the folders and files
 - Renamed some files and structures
+
 #### Added 01/03/2024
 - Changed the PointData struct to include the time point and changed the algorithms implementation and interface accordingly, updated the FileReader class accordingly
 - Added CommManager class to receive incoming data using a ICommChannel and parse it + sending the results back
@@ -27,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added implementation for CompanionMatrixRootFinder using eigen library
 - Added factory for creating object - CATCH or ANCAS 
 - Added implementation of the CompanionMatrixRootsFinder using the armadillo library
-- 
+
 #### Added 23/02/2024
 - Added changelog
 - Created the testedObcApp project

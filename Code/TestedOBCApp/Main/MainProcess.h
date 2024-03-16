@@ -5,7 +5,7 @@
 #include "CommManager.h"
 
 #include "ITimer.h"
-
+#include "ResultsLogger.h"
 
 
 
@@ -16,7 +16,7 @@
 class MainProcess
 {
 public:
-	MainProcess(TestManager* testManager, CommManager* commManager);
+	MainProcess(TestManager* testManager, CommManager* commManager, ResultsLogger* logger);
 	virtual ~MainProcess();
 	/// <summary>
 	/// Run nonstop, try to get a message, run a test, send the results back and wait for the next messgae.
@@ -25,6 +25,8 @@ public:
 private:
 	TestManager* m_testManager;
 	CommManager* m_commManager;
+	ResultsLogger* resultsLogger;
+
 };
 
 

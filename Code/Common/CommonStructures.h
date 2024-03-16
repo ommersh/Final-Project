@@ -3,6 +3,9 @@
 
 #include "TcaCalculation.h"
 
+
+static const int MAX_TEST_NAME_SIZE = 25;
+
 /// <summary>
 /// Definitions related to the message between the TestedOBCApp and the TestingStationApp
 /// </summary>
@@ -73,6 +76,9 @@ namespace TestParameters
         CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
         Algorithm testedAlgorithm;
         int numberOfPopints;
+		unsigned int numberOfRuns;
+		unsigned int testID;
+		char testName[MAX_TEST_NAME_SIZE];
     };
 }
 
@@ -81,8 +87,19 @@ namespace TestResults
 {
    
     struct TestResult {
+		//The results and run time of the first run
         TcaCalculation::TCA tca;
-        double runTimeMicro;
+		double runTimeMicro;
+		//
+		long double avgTimeMicro;
+		long double minTimeMicro;
+		int numberOfRuns;
+		//Test data
+		char testName[MAX_TEST_NAME_SIZE];
+		TestParameters::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
+		TestParameters::Algorithm testedAlgorithm;
+		unsigned int testID;
+		int degree;
     };
 }
 
