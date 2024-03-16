@@ -31,6 +31,9 @@
     <Filter Include="Common\Logger">
       <UniqueIdentifier>{0e6b803e-4996-4594-b203-608146201e50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestManager\Implementations\SBO ANCAS">
+      <UniqueIdentifier>{f708afef-7f08-4459-a2d5-a8dcaeda653d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Main\Main.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp">
       <Filter>Common\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO ANCAS\SboAncas.cpp">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h">
       <Filter>Common\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\SboAncas.h">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
