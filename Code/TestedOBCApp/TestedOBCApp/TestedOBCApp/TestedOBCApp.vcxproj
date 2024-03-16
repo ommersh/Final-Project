@@ -161,6 +161,7 @@
     <ClInclude Include="..\..\..\Implementations\FileReader.h" />
     <ClInclude Include="..\..\..\Implementations\IRootsFindAlg.h" />
     <ClInclude Include="..\..\..\Implementations\ITcaAlgorithm.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\ISinglePointPropogator.h" />
     <ClInclude Include="..\..\..\Implementations\SBO ANCAS\SboAncas.h" />
     <ClInclude Include="..\..\..\Implementations\TcaCalculation.h" />
     <ClInclude Include="..\..\CommManager\CommManager.h" />

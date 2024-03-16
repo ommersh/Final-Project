@@ -4,7 +4,7 @@
 
 
 #include "ANCAS.h"
-
+#include "ISinglePointPropogator.h"
 
 /// <summary>
 /// Implentation of ANCAS(Alfano\Negron Close Approach Software) - based on Determining Satellite Close Approaches,Part 2 by Salvatore Alfano
@@ -13,6 +13,8 @@
 class SboAncas : public ANCAS
 {
 public:
+	void init(ISinglePointPropogator* propogator, double TOLd, double TOLt);
+
 	virtual ~SboAncas()
 	{
 
@@ -20,6 +22,9 @@ public:
 	TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex);
 
 protected:
+	ISinglePointPropogator* m_propogator;
+	double m_TOLd;
+	double m_TOLt;
 
 };
 
