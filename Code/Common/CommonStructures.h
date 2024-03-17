@@ -2,7 +2,7 @@
 #define SHIELD_TestDefinitions_H    // Define the symbol SHIELD_TestDefinitions_H
 
 #include "TcaCalculation.h"
-
+#include "SGP4.h"
 
 static const int MAX_TEST_NAME_SIZE = 25;
 
@@ -65,20 +65,32 @@ namespace TestParameters
 
     enum Algorithm {
         CATCH,
-        ANCAS
+        ANCAS,
+		SBO_ANCAS
     };
 
     /// <summary>
     /// Parameters for running a test with a TCA finding algorithm
     /// </summary>
     struct TestRecipe {
+		//Test Data
         int degree;                         // Degree of the polynomial
         CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
         Algorithm testedAlgorithm;
         int numberOfPopints;
 		unsigned int numberOfRuns;
+
+		//For logging the data
 		unsigned int testID;
 		char testName[MAX_TEST_NAME_SIZE];
+
+		//For SBO-ANCAS variations
+		elsetrec elsetrec1;
+		elsetrec elsetrec2;
+		double startTime1;
+		double startTime2;
+		double TOLd;
+		double TOLt;
     };
 }
 
@@ -87,13 +99,16 @@ namespace TestResults
 {
    
     struct TestResult {
+
 		//The results and run time of the first run
         TcaCalculation::TCA tca;
 		double runTimeMicro;
-		//
+
+		//Repeated tests results
 		long double avgTimeMicro;
 		long double minTimeMicro;
 		int numberOfRuns;
+
 		//Test data
 		char testName[MAX_TEST_NAME_SIZE];
 		TestParameters::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding

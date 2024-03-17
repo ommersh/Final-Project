@@ -39,6 +39,9 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 	case TestParameters::Algorithm::CATCH:
 		Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.degree);
 		break;
+	case TestParameters::Algorithm::SBO_ANCAS:
+		Algoritm = Factory::getReference()->getSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1, params.startTime2, params.TOLd, params.TOLt);
+		break;
 	}
 
 	m_timer->startTimer();
@@ -64,6 +67,9 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 			break;
 		case TestParameters::Algorithm::CATCH:
 			Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.degree);
+			break;
+		case TestParameters::Algorithm::SBO_ANCAS:
+			Algoritm = Factory::getReference()->getSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1, params.startTime2, params.TOLd, params.TOLt);
 			break;
 		}
 		m_timer->startTimer();

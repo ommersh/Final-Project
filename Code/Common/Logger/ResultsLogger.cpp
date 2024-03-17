@@ -49,6 +49,10 @@ void ResultsLogger::log(TestResults::TestResult results) {
             break;
         }
         break;
+    case TestParameters::SBO_ANCAS:
+        algName = "SBO ANCAS";
+        break;
+
     default:
         algName = "????";
         break;

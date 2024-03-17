@@ -34,6 +34,9 @@
     <Filter Include="TestManager\Implementations\SBO ANCAS">
       <UniqueIdentifier>{f708afef-7f08-4459-a2d5-a8dcaeda653d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestManager\Implementations\Propogator">
+      <UniqueIdentifier>{ecf66496-65e6-42bb-92d7-5e9b20a60a1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Main\Main.cpp">
@@ -77,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Implementations\SBO ANCAS\SboAncas.cpp">
       <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO ANCAS\SGP4SinglePointGenerator.cpp">
+      <Filter>TestManager\Implementations\Propogator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp">
+      <Filter>TestManager\Implementations\Propogator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +159,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\SBO ANCAS\ISinglePointPropogator.h">
       <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\SGP4SinglePointGenerator.h">
+      <Filter>TestManager\Implementations\Propogator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h">
+      <Filter>TestManager\Implementations\Propogator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

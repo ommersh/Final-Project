@@ -4,13 +4,16 @@
 #include "ITimer.h"
 #include "ITcaAlgorithm.h"
 #include "IRootsFindAlg.h"
+#include "ISinglePointPropogator.h"
 
 #include "ChronoBasedTimer.h"
 #include "CATCH.h"
 #include "ANCAS.h"
+#include "SboAncas.h"
 
 #include "CompanionMatrixRootsFinderEigen.h"
 //#include "CompanionMatrixRootsFinderArmadillo.h"
+#include "SGP4SinglePointGenerator.h"
 
 #include "CommonStructures.h"
 #include "AppConfigurationManager.h"
@@ -55,6 +58,9 @@ public:
 	/// <returns></returns>
 	ANCAS*			getANCAS();
 
+	SboAncas*		getSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt);
+
+	ISinglePointPropogator* getSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2);
 	
 private:
 	static Factory* m_reference;
@@ -62,9 +68,10 @@ private:
 	ITimer* m_timer;
 	CATCH m_catch;
 	ANCAS m_ancas;
-
+	SboAncas m_sboAncas;
 	CompanionMatrixRootsFinderEigen m_companionMatrixRootsFinderEigen;
 	//CompanionMatrixRootsFinderArmadillo m_companionMatrixRootsFinderAArmadillo;
+	SGP4SinglePointGenerator m_SGP4SinglePointGenerator;
 };
 
 

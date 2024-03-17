@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 ### version 1.0.1
+#### Changed 17/03/2024
+- Added SBO ANCAS to the algorithms types enum
+- Added everything SBO-ANCAS required to run to the TestRecipe structure
+- Added SBO-ANCAS to the algorithm names in the ResultsLogger
+- Added SGP4SinglePointGenerator implementing the interface
+- Implemented SGP4SinglePointGenerator using the SGP4 implementation
+- Added SGP4SinglePointGenerator and SboAncas to the factory
+- Added SBO-ANCAS initialization and testing to the test manager
+
+
 #### Changed 16/03/2024
 - Added results logger
 - Added number of run(repeatedly calling the algorithm on the same input)
