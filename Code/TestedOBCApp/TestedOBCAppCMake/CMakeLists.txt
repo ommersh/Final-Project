@@ -9,13 +9,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(
                     ../CommManager
                     ../Main
-                    ../TestedOBCApp
+                    ../Main/TestedOBCApp
                     ../TestManager
                     ../Timer
-                    ../../CommChannels
+                    ../../Common
+                    ../../Common/CommChannels
+                    ../../Common/Logger
                     ../../Implementations
                     ../../Implementations/ANCAS
                     ../../Implementations/CATCH
+                    ../../Implementations/SBO_ANCAS
+                    ../../../SGP4/CPP
                     ../ExternalLibraries/eigen-3.4.0)
 
 # Add source files
@@ -28,15 +32,19 @@ add_executable(${PROJECT_NAME}
 
                 ../TestManager/TestManager.cpp
 
-                ../Timer/WinTimer.cpp
+                ../Timer/ChronoBasedTimer.cpp
 
                 ../../Implementations/FileReader.cpp
                 ../../Implementations/ANCAS/ANCAS.cpp
                 ../../Implementations/CATCH/CATCH.cpp
                 ../../Implementations/CATCH/CompanionMatrixRootsFinder.cpp
                 ../../Implementations/CATCH/CompanionMatrixRootsFinderEigen.cpp
+                ../../Implementations/SBO_ANCAS/SboAncas.cpp
+                ../../Implementations/SBO_ANCAS/SGP4SinglePointGenerator.cpp
 
-                ../../CommChannels/LocalFileCommChannelFacade.cpp)
+                ../../../SGP4/CPP/SGP4.cpp
+                ../../Common/Logger/ResultsLogger.cpp
+                ../../Common/CommChannels/LocalFileCommChannelFacade.cpp)
 
 
 
