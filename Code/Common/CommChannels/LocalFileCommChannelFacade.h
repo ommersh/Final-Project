@@ -63,6 +63,6 @@ protected:
 	/// <param name="runTime"></param>
 	/// <param name="tca"></param>
 	void printResult(string algName, TestResults::TestResult results);
-
+	unsigned char* m_messageBuffer;
 };
 #endif //SHIELD_LocalFileCommChannelFacade_H

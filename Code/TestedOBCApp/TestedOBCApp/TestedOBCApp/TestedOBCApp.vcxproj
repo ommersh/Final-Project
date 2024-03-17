@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,8 +139,8 @@
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp" />
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
-    <ClCompile Include="..\..\..\Implementations\SBO ANCAS\SboAncas.cpp" />
-    <ClCompile Include="..\..\..\Implementations\SBO ANCAS\SGP4SinglePointGenerator.cpp" />
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.cpp" />
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.cpp" />
     <ClCompile Include="..\..\CommManager\CommManager.cpp" />
     <ClCompile Include="..\..\Main\Factory.cpp" />
     <ClCompile Include="..\..\Main\Main.cpp" />
@@ -164,9 +164,9 @@
     <ClInclude Include="..\..\..\Implementations\FileReader.h" />
     <ClInclude Include="..\..\..\Implementations\IRootsFindAlg.h" />
     <ClInclude Include="..\..\..\Implementations\ITcaAlgorithm.h" />
-    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\ISinglePointPropogator.h" />
-    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\SboAncas.h" />
-    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\SGP4SinglePointGenerator.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\ISinglePointPropogator.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.h" />
     <ClInclude Include="..\..\..\Implementations\TcaCalculation.h" />
     <ClInclude Include="..\..\CommManager\CommManager.h" />
     <ClInclude Include="..\..\Main\AppConfigurationManager.h" />

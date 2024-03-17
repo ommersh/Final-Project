@@ -34,64 +34,60 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 		{
 			std::cout << "Failed to read ANCAS data file...\n";
 			m_state = StateStart;
+			break;
 		}
 		else
 		{
 			MessageHeader header;
+			m_params = { 0 };
+
 			//create header for ancas
 			header.opcode = MessagesDefinitions::TestRequestMessageOpcode;
 			header.dataSize = m_fileData.size * sizeof(TcaCalculation::sPointData);
 			//copy the header to the buffer
-			memcpy(buffer, reinterpret_cast<unsigned char*>(& header), sizeof(MessageHeader));
-			*size = sizeof(MessageHeader);
-			
+
+
 			//create the test parameters
 			m_params.degree = 15;
 			m_params.numberOfPopints = m_fileData.size;
 			m_params.testedAlgorithm = TestParameters::Algorithm::ANCAS;
 			m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
-			strcpy_s(m_params.testName,MAX_TEST_NAME_SIZE, "LEMUR2_COSMOS");
+#ifdef _WIN32
+			// Safe function available on Windows
+			strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "LEMUR2_COSMOS");
+#else
+			// Standard C function, less safe but portable
+			strncpy(m_params.testName, "LEMUR2_COSMOS", MAX_TEST_NAME_SIZE);
+			m_params.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
+#endif
 			m_params.testID = testID++;
 			m_params.numberOfRuns = 100;
-
-			//copy the test parameters to the buffer
-			memcpy(buffer + *size , reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestRecipe));
-			*size += sizeof(TestParameters::TestRecipe);
-
-			m_sizeToCompy = m_fileData.size * sizeof(TcaCalculation::sPointData);
-
-			if (m_sizeToCompy < (maxSize - *size))
+			
+			m_sizeToCompy = sizeof(MessageHeader) + sizeof(TestParameters::TestRecipe) + m_fileData.size * sizeof(TcaCalculation::sPointData);
+			m_messageBuffer = new unsigned char[m_sizeToCompy];
+			if (nullptr == m_messageBuffer)
 			{
-				//if the buffer is big enough to copy all the data in one go
-				//copy the data and go to the next state(catch)
-				memcpy(buffer + *size, reinterpret_cast<unsigned char*>(m_fileData.data), m_sizeToCompy);
-				*size += m_sizeToCompy;
-				m_state = StateWaitForAncasEnd;
-
+				returnValue = false;
+				break;
 			}
-			else {
-				//fill the buffer with data and go to the next state
-				memcpy(buffer + *size, reinterpret_cast<unsigned char*>(m_fileData.data), (maxSize - *size));
-				m_offset = (maxSize - *size);
-				m_sizeToCompy -= (maxSize - *size);
-				*size = maxSize;
-				m_state = StateSendAncasData;
-			}
-			returnValue = true;
+			int offset = 0;
+			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&header), sizeof(MessageHeader));
+			offset += sizeof(MessageHeader);
+			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestRecipe));
+			offset += sizeof(TestParameters::TestRecipe);
+			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(m_fileData.data), m_fileData.size * sizeof(TcaCalculation::sPointData));
+			m_offset = 0;
 		}
-
-		break;
-
 	case StateSendAncasData:
 		if (m_sizeToCompy < maxSize)
 		{
-			memcpy(buffer, reinterpret_cast<unsigned char*>(m_fileData.data) + m_offset, m_sizeToCompy);
+			memcpy(buffer, m_messageBuffer + m_offset, m_sizeToCompy);
 			*size = m_sizeToCompy;
 			m_state = StateWaitForAncasEnd;
 
 		}
 		else {
-			memcpy(buffer, reinterpret_cast<unsigned char*>(m_fileData.data) + m_offset, maxSize);
+			memcpy(buffer, m_messageBuffer + m_offset, maxSize);
 			m_sizeToCompy -= (maxSize);
 			*size = maxSize;
 			m_offset += maxSize;
@@ -110,63 +106,66 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 		{
 			std::cout << "Failed to read CATCH data file...\n";
 			m_state = StateStart;
+			break;
 		}
 		else
 		{
 			MessageHeader header;
+			m_params = { 0 };
+
 			header.opcode = MessagesDefinitions::TestRequestMessageOpcode;
 			header.dataSize = m_fileData.size * sizeof(TcaCalculation::sPointData);
-			memcpy(buffer, reinterpret_cast<unsigned char*>(&header), sizeof(MessageHeader));
-			*size = sizeof(MessageHeader);
 
 			m_params.degree = 15;
 			m_params.numberOfPopints = m_fileData.size;
 			m_params.testedAlgorithm = TestParameters::Algorithm::CATCH;
+#ifdef _WIN32
+			// Safe function available on Windows
 			strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "LEMUR2_COSMOS");
+#else
+			// Standard C function, less safe but portable
+			strncpy(m_params.testName, "LEMUR2_COSMOS", MAX_TEST_NAME_SIZE);
+			m_params.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
+#endif
 			m_params.testID = testID++;
 			m_params.numberOfRuns = 100;
 			//if (switchCounter++ % 2 == 0)
 			//{
-				m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+			m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
 			//}
 			/*else
 			{
 				m_params.catchRootsAlg = TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix;
 			}*/
-			memcpy(buffer + *size, reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestRecipe));
-			*size += sizeof(TestParameters::TestRecipe);
 
-			m_sizeToCompy = m_fileData.size * sizeof(TcaCalculation::sPointData);
-
-			if (m_sizeToCompy < (maxSize - *size))
+			m_sizeToCompy = sizeof(MessageHeader) + sizeof(TestParameters::TestRecipe) + m_fileData.size * sizeof(TcaCalculation::sPointData);
+			m_messageBuffer = new unsigned char[m_sizeToCompy];
+			if (nullptr == m_messageBuffer)
 			{
-				memcpy(buffer, reinterpret_cast<unsigned char*>(m_fileData.data), m_sizeToCompy);
-				*size += m_sizeToCompy;
-				m_state = StateWaitForCatchEnd;
+				returnValue = false;
+				break;
+			}
+			int offset = 0;
+			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&header), sizeof(MessageHeader));
+			offset += sizeof(MessageHeader);
+			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestRecipe));
+			offset += sizeof(TestParameters::TestRecipe);
+			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(m_fileData.data), m_fileData.size * sizeof(TcaCalculation::sPointData));
+			m_offset = 0;
 
-			}
-			else {
-				memcpy(buffer + *size, reinterpret_cast<unsigned char*>(m_fileData.data), (maxSize - *size));
-				m_offset = (maxSize - *size);
-				m_sizeToCompy -= (maxSize - *size);
-				*size = maxSize;
-				m_state = StateSendCatchData;
-			}
-			returnValue = true;
+
 		}
-
-		break;
 
 	case StateSendCatchData:
 		if (m_sizeToCompy < maxSize)
 		{
-			memcpy(buffer, reinterpret_cast<unsigned char*>(m_fileData.data) + m_offset, m_sizeToCompy);
+			memcpy(buffer, m_messageBuffer + m_offset, m_sizeToCompy);
 			*size = m_sizeToCompy;
 			m_state = StateWaitForCatchEnd;
 
 		}
 		else {
-			memcpy(buffer, reinterpret_cast<unsigned char*>(m_fileData.data) + m_offset, maxSize);
+			memcpy(buffer, m_messageBuffer + m_offset, maxSize);
 			m_sizeToCompy -= (maxSize);
 			*size = maxSize;
 			m_offset += maxSize;
@@ -240,7 +239,11 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 void LocalFileCommChannelFacade::getAncasData()
 {
 	FileReader fr;
-	m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_CONST.csv");
+	m_fileData = fr.readDataFromFile("LEMUR2_COSMOS_CONST.csv");
+	if (m_fileData.size == -1)
+	{
+		m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_CONST.csv");
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -254,7 +257,12 @@ void LocalFileCommChannelFacade::getAncasData()
 void LocalFileCommChannelFacade::getCatchData()
 {
 	FileReader fr;
-	m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_GAUSS.csv");
+	m_fileData = fr.readDataFromFile("LEMUR2_COSMOS_GAUSS.csv");
+
+	if (m_fileData.size == -1)
+	{
+		m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_GAUSS.csv");
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -290,6 +298,10 @@ void LocalFileCommChannelFacade::reset()
 	if (nullptr != m_fileData.data)
 	{
 		delete[] m_fileData.data;
+	}
+	if (nullptr != m_messageBuffer)
+	{
+		delete[] m_messageBuffer;
 	}
 }
 

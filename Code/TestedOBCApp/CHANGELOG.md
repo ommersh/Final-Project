@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added SGP4SinglePointGenerator and SboAncas to the factory
 - Added SBO-ANCAS initialization and testing to the test manager
 
+- Added constructor for the ResultsLogger with no input name, craete name based on the current date and time
+- Fixed Bug in the CommChannel and CommManager
+- Removed the Logger file name craetion from Main
+- Added global variable for the infinite loop in the MainProccess, In Linux the global variable becomes false on signal to make sure we have clean exit
+- Added shell scripts for windows + linux for the CMake compilation
 
 #### Changed 16/03/2024
 - Added results logger

@@ -1,6 +1,8 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip> // For std::setprecision
+#include <chrono>
+#include <sstream>
 
 #include "CommonStructures.h"
 
@@ -11,8 +13,9 @@ private:
 
     
 public:
-    // Constructor
+    // Constructors
     ResultsLogger(const std::string& filename);
+    ResultsLogger();
 
     // Destructor
     ~ResultsLogger();

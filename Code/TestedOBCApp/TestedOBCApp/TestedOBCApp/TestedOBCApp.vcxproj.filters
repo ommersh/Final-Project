@@ -78,13 +78,13 @@
     <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp">
       <Filter>Common\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Implementations\SBO ANCAS\SboAncas.cpp">
-      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Implementations\SBO ANCAS\SGP4SinglePointGenerator.cpp">
+    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp">
       <Filter>TestManager\Implementations\Propogator</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp">
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.cpp">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.cpp">
       <Filter>TestManager\Implementations\Propogator</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,16 +154,16 @@
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h">
       <Filter>Common\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\SboAncas.h">
-      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\ISinglePointPropogator.h">
-      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Implementations\SBO ANCAS\SGP4SinglePointGenerator.h">
+    <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h">
       <Filter>TestManager\Implementations\Propogator</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h">
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\ISinglePointPropogator.h">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.h">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.h">
       <Filter>TestManager\Implementations\Propogator</Filter>
     </ClInclude>
   </ItemGroup>

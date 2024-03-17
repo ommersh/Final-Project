@@ -3,7 +3,7 @@
 
 
 
-
+extern bool g_keepRunning;
 
 
 
@@ -27,7 +27,7 @@ MainProcess::~MainProcess()
 void MainProcess::process()
 {
 	//Running forever
-	while (true)
+	while (true == g_keepRunning)
 	{
 		//Check for a new data set and test setting from the communication channel
 
@@ -57,4 +57,5 @@ void MainProcess::process()
 		// Sleep for 3 seconds
 		std::this_thread::sleep_for(std::chrono::seconds(3));
 	}
+
 }
