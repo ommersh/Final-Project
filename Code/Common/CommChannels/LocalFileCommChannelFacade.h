@@ -4,7 +4,7 @@
 #include "ICommChannel.h"
 #include "FileReader.h"
 #include "CommonStructures.h"
-
+#include "SimpleDataGeneration.h"
 using namespace MessagesDefinitions;
 /// <summary>
 /// Implementation of the ICommChannel interface.
@@ -35,9 +35,9 @@ public:
 	{
 		StateStart = 0,
 
-		StateGetAncasData,
-		StateSendAncasData,
-		StateWaitForAncasEnd,
+		StateGetTestData,
+		StateSendTestData,
+		StateWaitForTestEnd,
 
 		StateGetCatchData,
 		StateSendCatchData,
@@ -46,7 +46,10 @@ public:
 protected:
 	InnerStateMachine m_state;
 	void getAncasData();
+	void getSboAncasData();
 	void getCatchData();
+	MessageHeader m_header;
+
 	sFileData m_fileData;
 	TestParameters::TestRecipe m_params;
 	unsigned int testID;
@@ -64,5 +67,8 @@ protected:
 	/// <param name="tca"></param>
 	void printResult(string algName, TestResults::TestResult results);
 	unsigned char* m_messageBuffer;
+
+
+	SimpleDataGeneration m_SimpleDataGeneration;
 };
 #endif //SHIELD_LocalFileCommChannelFacade_H

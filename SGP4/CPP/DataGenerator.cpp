@@ -22,16 +22,6 @@ static const double PI = 3.14159265358979323846;
 /// <param name=""></param>
 void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(double* timeInMinutes, int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, std::string& fileName)
 {
-    double time1 = elsetrec1.jdsatepoch + elsetrec1.jdsatepochF;
-    double time2 = elsetrec2.jdsatepoch + elsetrec2.jdsatepochF;
-    double minutesTimeDiff = (time1 - time2) * 1440;
-
-    double startDataElem1 = std::max(0.0, -minutesTimeDiff);
-    double startDataElem2 = std::max(0.0, minutesTimeDiff);
-
-    double r1[3], v1[3];
-    double r2[3], v2[3];
-
     double* f = new double[timePointsArrLength];
     double* df = new double[timePointsArrLength];
     double** r1Arr = new double* [timePointsArrLength];
@@ -45,6 +35,25 @@ void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(double* timeInMinu
         v1Arr[i] = new double[3];
         v2Arr[i] = new double[3];
     }
+
+    CalculateRelativeVectorsForTwoElements(timeInMinutes, timePointsArrLength, elsetrec1, elsetrec2, r1Arr, r2Arr, v1Arr, v1Arr, f, df);
+    saveDataInCSVFile(timeInMinutes, r1Arr, v1Arr, r2Arr, v2Arr, f, df, timePointsArrLength, fileName);
+
+    delete f, df, r1Arr, r2Arr, v1Arr, v1Arr;
+}
+
+void DataGenerator::CalculateRelativeVectorsForTwoElements(double* timeInMinutes, int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, double** r1Arr, double** r2Arr,
+    double** v1Arr, double** v2Arr, double* f, double* df) 
+{
+    double time1 = elsetrec1.jdsatepoch + elsetrec1.jdsatepochF;
+    double time2 = elsetrec2.jdsatepoch + elsetrec2.jdsatepochF;
+    double minutesTimeDiff = (time1 - time2) * 1440;
+
+    double startDataElem1 = std::max(0.0, -minutesTimeDiff);
+    double startDataElem2 = std::max(0.0, minutesTimeDiff);
+
+    double r1[3], v1[3];
+    double r2[3], v2[3];
 
     for (int i = 0; i < timePointsArrLength; ++i) {
         // Compute position and velocity
@@ -61,11 +70,6 @@ void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(double* timeInMinu
         df[i] = (r2[0] - r1[0]) * (v2[0] - v1[0]) + (r2[1] - r1[1]) * (v2[1] - v1[1]) + (r2[2] - r1[2]) * (v2[2] - v1[2]);
     }
 
-    saveDataInCSVFile(timeInMinutes, r1Arr, v1Arr, r2Arr, v2Arr, f, df, timePointsArrLength, fileName);
-
-    delete f, df, r1Arr, r2Arr, v1Arr, v1Arr;
-    //free(f);
-    //free(df);
 }
 
 /// <summary>

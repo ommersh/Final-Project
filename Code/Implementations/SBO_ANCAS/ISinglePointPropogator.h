@@ -17,7 +17,7 @@ public:
 	{
 
 	};
-	virtual TcaCalculation::sPointData getSinglePoint(double timePoint) = 0;
+	virtual TcaCalculation::sPointData getSinglePoint(double timePointSec) = 0;
 
 protected:
 

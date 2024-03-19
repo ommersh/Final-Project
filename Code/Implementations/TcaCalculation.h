@@ -10,8 +10,8 @@ namespace TcaCalculation
 	/// Time of Closest Approach (TCA)
 	/// </summary>
 	struct TCA {
-		long double time;
-		long double distance;
+		double time;
+		double distance;
 		int numberOfPoints;
 	};
 

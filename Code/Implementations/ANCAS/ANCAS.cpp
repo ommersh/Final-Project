@@ -76,7 +76,7 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 			m_dataPoints[i] = pointsInTime[offset + i];
 		}
 
-		tempTca = ANCASIteration();
+		tempTca = ANCASIteration(tca.distance, tca.time);
 		if (tempTca.distance < tca.distance)
 		{
 			tca.distance = tempTca.distance;
@@ -93,11 +93,11 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 	
 	return tca;
 }
-TCA ANCAS::ANCASIteration()
+TCA ANCAS::ANCASIteration(double minDistance, double minDistanceTime)
 {
 	TCA tca;
-	tca.time = 0;
-	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
+	tca.time = minDistanceTime;
+	tca.distance = minDistance;
 	int numberOfRoots = 0;
 	double tau, tempDistance;
 

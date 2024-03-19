@@ -74,7 +74,7 @@ namespace TestParameters
     /// </summary>
     struct TestRecipe {
 		//Test Data
-        int degree;                         // Degree of the polynomial
+        int catchPolynomialDegree;           // Degree of the polynomial
         CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
         Algorithm testedAlgorithm;
         int numberOfPopints;
@@ -87,8 +87,8 @@ namespace TestParameters
 		//For SBO-ANCAS variations
 		elsetrec elsetrec1;
 		elsetrec elsetrec2;
-		double startTime1;
-		double startTime2;
+		double startTime1Min;
+		double startTime2Min;
 		double TOLd;
 		double TOLt;
     };

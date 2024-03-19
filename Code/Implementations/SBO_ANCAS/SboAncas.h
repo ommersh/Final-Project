@@ -25,6 +25,7 @@ protected:
 	ISinglePointPropogator* m_propogator;
 	double m_TOLd;
 	double m_TOLt;
+	TcaCalculation::sPointData m_tempDataPoints[4];
 
 };
 

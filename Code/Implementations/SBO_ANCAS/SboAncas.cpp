@@ -33,6 +33,8 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 
 	tca.time = 0;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
+	tempTca.time = 0;
+	tempTca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.numberOfPoints = 0;
 	//1. Prepare the variables
 	
@@ -42,12 +44,12 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 	int numberOfPoints = 1;
 
 	//inner loop temp variables
-	double rd;
-	double tm;
-	bool innerLoopCondition;
-	bool timeToleranceReached;;
-	bool distToleranceReached;;
-	int tmIndex;
+	double rd = std::numeric_limits<double>::max();
+	double tm = 0;
+	bool innerLoopCondition = true;
+	bool timeToleranceReached = false;
+	bool distToleranceReached = false;
+	int tmIndex = 0;
 	TcaCalculation::sPointData tmData;
 
 	startPointIndex = 0;
@@ -66,14 +68,16 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 		//Inner Loop
 		innerLoopCondition = true;
 		timeToleranceReached = false;
+		distToleranceReached = false;
 		do
 		{
-			tempTca = ANCASIteration();
+			tempTca = ANCASIteration(tempTca.distance, tempTca.time);
 			//get rd and tm
 			rd = tempTca.distance;
 			tm = tempTca.time;
 			//sample the point
 			tmData = m_propogator->getSinglePoint(tm);
+			numberOfPoints++;
 			//get rt(tm)
 			tempTca.distance = sqrt(pow((tmData.r1x - tmData.r2x), 2) + pow((tmData.r1y - tmData.r2y), 2) + pow((tmData.r1z - tmData.r2z), 2));
 
@@ -83,44 +87,68 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 				distToleranceReached = true;
 			}
 
-			tmIndex = 0;
+			timeToleranceReached = true;
+
 			for (int i = 0; i < 4; i++)
 			{
 				//check the time tolerance
-				if (fabs(m_dataPoints[i].time - tm) < m_TOLt)
+				if (fabs(m_dataPoints[i].time - tm) >= m_TOLt)
 				{
-					timeToleranceReached = true;
+					timeToleranceReached = false;
 				}
-				//check the location of tm in the array
-				if (tm > m_dataPoints[i].time)
-				{
-					tmIndex++;
-				}
+				
 			}
 			//update tnew
 			// we will remove the first or the last point in the array
 			// keeping the closest
 			int srcIndex = 0;
 			int dstIndex = 0;
+			tmIndex = 0;
 
-			if (fabs(tm - m_dataPoints[0].time) > fabs(tm - m_dataPoints[0].time))
+			if (fabs(tm - m_dataPoints[0].time) > fabs(tm - m_dataPoints[3].time))
 			{
 				// We are keeping the last point
 				srcIndex = 1;
-
+				for (int i = 1; i < 4; i++)
+				{
+					//check the location of tm in the array
+					if (tm > m_dataPoints[i].time)
+					{
+						tmIndex++;
+					}
+				}
 			}
-			while ((dstIndex < 4)&& (srcIndex < 4))
+			else
+			{
+				// We are keeping the first point
+				for (int i = 0; i < 3; i++)
+				{
+					//check the location of tm in the array
+					if (tm > m_dataPoints[i].time)
+					{
+						tmIndex++;
+					}
+				}
+			}
+
+			while ((dstIndex < 4) && (srcIndex < 4))
 			{
 				if (dstIndex == tmIndex)
 				{
 					dstIndex++;
+					m_tempDataPoints[tmIndex] = tmData;
 				}
-				m_dataPoints[dstIndex++] = m_dataPoints[srcIndex++];
+				else
+				{
+					m_tempDataPoints[dstIndex++] = m_dataPoints[srcIndex++];
+				}
 			}
-			m_dataPoints[tmIndex] = tmData;
-
+			for (int i = 0; i < 4; i++)
+			{
+				m_dataPoints[i] = m_tempDataPoints[i];
+			}
 			//check the end condition
-			if (false == distToleranceReached && false == timeToleranceReached)
+			if (true == distToleranceReached && true == timeToleranceReached)
 			{
 				innerLoopCondition = false;
 			}

@@ -1,25 +1,25 @@
 #include "SGP4SinglePointGenerator.h"
 
-void SGP4SinglePointGenerator::init(elsetrec elsetrec1, elsetrec elsetrec2,double startTime1, double startTime2)
+void SGP4SinglePointGenerator::init(elsetrec elsetrec1, elsetrec elsetrec2,double startTime1Min, double startTime2Min)
 {
 	m_elsetrec1 = elsetrec1;
 	m_elsetrec2 = elsetrec2;
-	m_startTime1 = startTime1;
-	m_startTime2 = startTime2;
+	m_startTime1Min = startTime1Min;
+	m_startTime2Min = startTime2Min;
 
 }
-TcaCalculation::sPointData SGP4SinglePointGenerator::getSinglePoint(double timePoint)
+TcaCalculation::sPointData SGP4SinglePointGenerator::getSinglePoint(double timePointSec)
 {
 	TcaCalculation::sPointData pointData;
 	double r1[3], v1[3];
 	double r2[3], v2[3];
-
+	double timePointMin = timePointSec / 60;
 	// Compute position and velocity
-	SGP4Funcs::sgp4(m_elsetrec1, m_startTime1 + timePoint, r1, v1);
-	SGP4Funcs::sgp4(m_elsetrec2, m_startTime2 + timePoint, r2, v2);
+	SGP4Funcs::sgp4(m_elsetrec1, m_startTime1Min + timePointMin, r1, v1);
+	SGP4Funcs::sgp4(m_elsetrec2, m_startTime2Min + timePointMin, r2, v2);
 
 	//save the results
-	pointData.time = timePoint;
+	pointData.time = timePointSec;
 
 	pointData.r1x = r1[0];
 	pointData.r1y = r1[1];
