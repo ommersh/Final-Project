@@ -135,8 +135,9 @@
     <ClCompile Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
-    <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp" />
+    <ClCompile Include="..\..\..\Common\CommChannels\TestedOBCLocalSimulation.cpp" />
     <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp" />
+    <ClCompile Include="..\..\..\Common\SimpleDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
@@ -160,7 +161,7 @@
     <ClInclude Include="..\..\..\..\SGP4\CPP\DataGenerator.h" />
     <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
-    <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h" />
+    <ClInclude Include="..\..\..\Common\CommChannels\TestedOBCLocalSimulation.h" />
     <ClInclude Include="..\..\..\Common\CommonStructures.h" />
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h" />
     <ClInclude Include="..\..\..\Common\SimpleDataGeneration.h" />

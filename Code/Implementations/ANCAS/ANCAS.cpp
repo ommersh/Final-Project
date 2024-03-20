@@ -6,8 +6,9 @@
 /// </summary>
 /// <param name="f">Array with 4 points in time</param>
 /// <param name="Tau"></param>
-void ANCASCubicPolynomial::createCoefficients(double f[4], double Tau[4])
+bool ANCASCubicPolynomial::createCoefficients(double f[4], double Tau[4])
 {
+	bool coefficientsCreated = false;
 	double T1_1, T1_2,T1_3, T2_1, T2_2, T2_3;
 	T1_1 = Tau[1];
 	T1_2 = pow(Tau[1], 2);
@@ -16,18 +17,30 @@ void ANCASCubicPolynomial::createCoefficients(double f[4], double Tau[4])
 	T2_2 = pow(Tau[2], 2);
 	T2_3 = pow(Tau[2], 3);
 	//Eq.1(j)
-	double Lambda = T1_3 * T2_2 + T1_2 * T2_1 + T1_1 * T2_3 - T1_1 * T2_2 - T1_3 * T2_1 - T1_2 * T2_3;
-	//Eq.1(f) 
-	coefficients[0] = f[0];
-	//Eq.1(g)
-	coefficients[1] = ((T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
-		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0])) / Lambda;
-	//Eq.1(h)
-	coefficients[2] = ((T2_1 - T2_3) * (f[1] - f[0]) + (T1_3 - T1_1) * (f[2] - f[0])
-		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0])) / Lambda;
-	//Eq.1(i)
-	coefficients[3] = ((T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
-		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0])) / Lambda;
+	double Lambda = T1_3 * T2_2;
+	Lambda += T1_2 * T2_1;
+	Lambda += T1_1 * T2_3;
+	Lambda -= T1_1 * T2_2;
+	Lambda -= T1_3 * T2_1;
+	Lambda -= T1_2 * T2_3;
+
+	//check for zero
+	if (0 != Lambda)
+	{
+		//Eq.1(f) 
+		coefficients[0] = f[0];
+		//Eq.1(g)
+		coefficients[1] = ((T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
+			+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0])) / Lambda;
+		//Eq.1(h)
+		coefficients[2] = ((T2_1 - T2_3) * (f[1] - f[0]) + (T1_3 - T1_1) * (f[2] - f[0])
+			+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0])) / Lambda;
+		//Eq.1(i)
+		coefficients[3] = ((T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
+			+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0])) / Lambda;
+		coefficientsCreated = true;
+	}
+	return coefficientsCreated;
 }
 
 double ANCASCubicPolynomial::getValue(double x)
@@ -100,7 +113,7 @@ TCA ANCAS::ANCASIteration(double minDistance, double minDistanceTime)
 	tca.distance = minDistance;
 	int numberOfRoots = 0;
 	double tau, tempDistance;
-
+	bool coefficientsCreated = true;
 	for (int i = 0; i < 4; i++)
 	{
 		m_fx[i] = m_dataPoints[i].r1x - m_dataPoints[i].r2x;
@@ -116,30 +129,30 @@ TCA ANCAS::ANCASIteration(double minDistance, double minDistanceTime)
 		m_Tau[i] = (m_dataPoints[i].time - m_dataPoints[0].time) / (m_dataPoints[3].time - m_dataPoints[0].time);
 	}
 	//2.Calculate the cubic polynomial Ctau
-	m_CfdotTau.createCoefficients(m_fd, m_Tau);
+	coefficientsCreated = m_CfdotTau.createCoefficients(m_fd, m_Tau);
 
-	//3.Find the real roots
-	numberOfRoots = getRootsInInterval(m_CfdotTau, m_roots);
-	//4.Find the minimum distance
-	for (int i = 0; i < numberOfRoots; i++)
+	//3. Calculate polynomial for x,y,z
+	coefficientsCreated &= m_Qx.createCoefficients(m_fx, m_Tau);
+	coefficientsCreated &= m_Qy.createCoefficients(m_fy, m_Tau);
+	coefficientsCreated &= m_Qz.createCoefficients(m_fz, m_Tau);
+	if (true == coefficientsCreated)
 	{
-		if (i == 0)
+		tau = 0;
+		tempDistance = 0;
+		//4.Find the real roots
+		numberOfRoots = getRootsInInterval(m_CfdotTau, m_roots);
+		//5.Find the minimum distance
+		for (int i = 0; i < numberOfRoots; i++)
 		{
-			tau = 0;
-			tempDistance = 0;
-			//5. Calculate polynomial for x,y,z
-			m_Qx.createCoefficients(m_fx, m_Tau);
-			m_Qy.createCoefficients(m_fy, m_Tau);
-			m_Qz.createCoefficients(m_fz, m_Tau);
-		}
-		tau = m_roots[i];
-		//Eq.7
-		tempDistance = sqrt(pow(m_Qx.getValue(tau), 2) + pow(m_Qy.getValue(tau), 2) + pow(m_Qz.getValue(tau), 2));
-		if (tempDistance < tca.distance)
-		{
-			tca.distance = tempDistance;
-			//Eq.8
-			tca.time = m_dataPoints[0].time + tau * (m_dataPoints[3].time - m_dataPoints[0].time);
+			tau = m_roots[i];
+			//Eq.7
+			tempDistance = sqrt(pow(m_Qx.getValue(tau), 2) + pow(m_Qy.getValue(tau), 2) + pow(m_Qz.getValue(tau), 2));
+			if (tempDistance < tca.distance)
+			{
+				tca.distance = tempDistance;
+				//Eq.8
+				tca.time = m_dataPoints[0].time + tau * (m_dataPoints[3].time - m_dataPoints[0].time);
+			}
 		}
 	}
 	return tca;

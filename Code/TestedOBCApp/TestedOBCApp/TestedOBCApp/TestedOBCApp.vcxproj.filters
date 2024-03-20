@@ -72,7 +72,7 @@
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
       <Filter>Common\CommChannels</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp">
+    <ClCompile Include="..\..\..\Common\CommChannels\TestedOBCLocalSimulation.cpp">
       <Filter>Common\CommChannels</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp">
@@ -95,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.cpp">
       <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\SimpleDataGeneration.cpp">
+      <Filter>TestManager\Implementations\Propogator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +157,7 @@
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h">
       <Filter>Common\CommChannels</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h">
+    <ClInclude Include="..\..\..\Common\CommChannels\TestedOBCLocalSimulation.h">
       <Filter>Common\CommChannels</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\CommonStructures.h">

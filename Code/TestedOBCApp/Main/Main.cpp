@@ -8,7 +8,7 @@
 #include "TestManager.h"
 #include "MainProcess.h"
 #include "CommManager.h"
-#include "LocalFileCommChannelFacade.h"
+#include "TestedOBCLocalSimulation.h"
 
 
 
@@ -39,7 +39,7 @@ int main() {
     ResultsLogger resultsLogger;
     Factory *factory = Factory::getReference();
     TestManager testManager(factory->getTimer());
-    LocalFileCommChannelFacade commChannel;
+    TestedOBCLocalSimulation commChannel;
     CommManager commManager(commChannel);
     MainProcess mainProcess(&testManager,&commManager, &resultsLogger);
     mainProcess.process();

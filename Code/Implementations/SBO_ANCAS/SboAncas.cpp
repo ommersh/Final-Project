@@ -72,85 +72,93 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 		do
 		{
 			tempTca = ANCASIteration(tempTca.distance, tempTca.time);
-			//get rd and tm
-			rd = tempTca.distance;
-			tm = tempTca.time;
-			//sample the point
-			tmData = m_propogator->getSinglePoint(tm);
-			numberOfPoints++;
-			//get rt(tm)
-			tempTca.distance = sqrt(pow((tmData.r1x - tmData.r2x), 2) + pow((tmData.r1y - tmData.r2y), 2) + pow((tmData.r1z - tmData.r2z), 2));
-
-			//check the conditions
-			if (fabs(tempTca.distance - rd) < m_TOLd)
+			//If no minimum was found -> there is no reason to continue
+			if (tm == tempTca.time)
 			{
-				distToleranceReached = true;
-			}
-
-			timeToleranceReached = true;
-
-			for (int i = 0; i < 4; i++)
-			{
-				//check the time tolerance
-				if (fabs(m_dataPoints[i].time - tm) >= m_TOLt)
-				{
-					timeToleranceReached = false;
-				}
-				
-			}
-			//update tnew
-			// we will remove the first or the last point in the array
-			// keeping the closest
-			int srcIndex = 0;
-			int dstIndex = 0;
-			tmIndex = 0;
-
-			if (fabs(tm - m_dataPoints[0].time) > fabs(tm - m_dataPoints[3].time))
-			{
-				// We are keeping the last point
-				srcIndex = 1;
-				for (int i = 1; i < 4; i++)
-				{
-					//check the location of tm in the array
-					if (tm > m_dataPoints[i].time)
-					{
-						tmIndex++;
-					}
-				}
+				innerLoopCondition = false;
 			}
 			else
 			{
-				// We are keeping the first point
-				for (int i = 0; i < 3; i++)
-				{
-					//check the location of tm in the array
-					if (tm > m_dataPoints[i].time)
-					{
-						tmIndex++;
-					}
-				}
-			}
+				//get rd and tm
+				rd = tempTca.distance;
+				tm = tempTca.time;
+				//sample the point
+				tmData = m_propogator->getSinglePoint(tm);
+				numberOfPoints++;
+				//get rt(tm)
+				tempTca.distance = sqrt(pow((tmData.r1x - tmData.r2x), 2) + pow((tmData.r1y - tmData.r2y), 2) + pow((tmData.r1z - tmData.r2z), 2));
 
-			while ((dstIndex < 4) && (srcIndex < 4))
-			{
-				if (dstIndex == tmIndex)
+				//check the conditions
+				if (fabs(tempTca.distance - rd) < m_TOLd)
 				{
-					dstIndex++;
-					m_tempDataPoints[tmIndex] = tmData;
+					distToleranceReached = true;
+				}
+
+				timeToleranceReached = true;
+
+				for (int i = 0; i < 4; i++)
+				{
+					//check the time tolerance
+					if (fabs(m_dataPoints[i].time - tm) >= m_TOLt)
+					{
+						timeToleranceReached = false;
+					}
+
+				}
+				//update tnew
+				// we will remove the first or the last point in the array
+				// keeping the closest
+				int srcIndex = 0;
+				int dstIndex = 0;
+				tmIndex = 0;
+
+				if (fabs(tm - m_dataPoints[0].time) > fabs(tm - m_dataPoints[3].time))
+				{
+					// We are keeping the last point
+					srcIndex = 1;
+					for (int i = 1; i < 4; i++)
+					{
+						//check the location of tm in the array
+						if (tm > m_dataPoints[i].time)
+						{
+							tmIndex++;
+						}
+					}
 				}
 				else
 				{
-					m_tempDataPoints[dstIndex++] = m_dataPoints[srcIndex++];
+					// We are keeping the first point
+					for (int i = 0; i < 3; i++)
+					{
+						//check the location of tm in the array
+						if (tm > m_dataPoints[i].time)
+						{
+							tmIndex++;
+						}
+					}
 				}
-			}
-			for (int i = 0; i < 4; i++)
-			{
-				m_dataPoints[i] = m_tempDataPoints[i];
-			}
-			//check the end condition
-			if (true == distToleranceReached && true == timeToleranceReached)
-			{
-				innerLoopCondition = false;
+
+				while ((dstIndex < 4) && (srcIndex < 4))
+				{
+					if (dstIndex == tmIndex)
+					{
+						dstIndex++;
+						m_tempDataPoints[tmIndex] = tmData;
+					}
+					else
+					{
+						m_tempDataPoints[dstIndex++] = m_dataPoints[srcIndex++];
+					}
+				}
+				for (int i = 0; i < 4; i++)
+				{
+					m_dataPoints[i] = m_tempDataPoints[i];
+				}
+				//check the end condition
+				if (true == distToleranceReached && true == timeToleranceReached)
+				{
+					innerLoopCondition = false;
+				}
 			}
 		} while (innerLoopCondition);
 		

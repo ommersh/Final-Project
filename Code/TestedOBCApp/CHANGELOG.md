@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 ### version 1.0.1
+#### Changed 20/03/2024
+-Added check for dividing by zero to ANCAS - for the coefficient calculations
+-Added check if a new minimum point was found for SboAncas, if no new minimum was found there is no point to continue looking for one
+-Renamed LocalFileCommChannel to TestedOBCLocalSimulation
 #### Changed 17/03/2024
 - Added SBO ANCAS to the algorithms types enum
 - Added everything SBO-ANCAS required to run to the TestRecipe structure

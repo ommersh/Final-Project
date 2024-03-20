@@ -1,4 +1,4 @@
-#include "LocalFileCommChannelFacade.h"
+#include "TestedOBCLocalSimulation.h"
 #include <string.h>
 
 
@@ -14,7 +14,7 @@
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned int maxSize, unsigned int* size)
+bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned int maxSize, unsigned int* size)
 {
 	bool returnValue = false;
 	static unsigned char switchCounter = 0;
@@ -102,7 +102,7 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 
 
 #include <iomanip>
-
+#include "Factory.h"
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	Function name: sendMessage
@@ -111,7 +111,7 @@ bool LocalFileCommChannelFacade::getNextMessage(unsigned char* buffer, unsigned 
 //				Print the results based on the last parameters we "sent"
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int size)
+void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int size)
 {
 
 	MessagesDefinitions::MessageHeader header;
@@ -141,6 +141,7 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 		break;
 	case TestParameters::Algorithm::SBO_ANCAS:
 		printResult("SBO_ANCAS", testResults);
+		//calculateTheTcaWithSmallTimeStepAroundPoint(testResults.tca.time, 0.05);
 		break;
 	default:
 		printResult("NA", testResults);
@@ -148,6 +149,37 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 	};
 	
 }
+
+void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStepAroundPoint(double timePoint, double segmentSize)
+{
+	//Find the real TCA
+	Factory::getReference()->getTimer()->startTimer();
+	TcaCalculation::TCA tca = m_SimpleDataGeneration.FindTcaWithSmallTimeStepArountPoint(m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min, m_params.TOLt/10, timePoint, segmentSize);
+	Factory::getReference()->getTimer()->stopTimer();
+	std::cout << std::setprecision(15)
+		<< "Results with small time step:" << std::endl
+		<< "Time step		: " << m_params.TOLt << std::endl
+		<< "Distance		: " << tca.distance << std::endl
+		<< "Time			: " << tca.time << std::endl
+		<< "Number of points: " << tca.numberOfPoints << std::endl
+		<< "Run time		: " << Factory::getReference()->getTimer()->getTimeInSec() << std::endl;
+}
+
+void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStep()
+{
+	//Find the real TCA
+	Factory::getReference()->getTimer()->startTimer();
+	TcaCalculation::TCA tca = m_SimpleDataGeneration.FindTcaWithSmallTimeStep(14, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min, m_params.TOLt);
+	Factory::getReference()->getTimer()->stopTimer();
+	std::cout << std::setprecision(25)
+		<< "Results with small time step:" << std::endl
+		<< "Time step		: " << m_params.TOLt << std::endl
+		<< "Distance		: " << tca.distance << std::endl
+		<< "Time			: " << tca.time << std::endl
+		<< "Number of points: " << tca.numberOfPoints << std::endl
+		<< "Run time		: " << Factory::getReference()->getTimer()->getTimeInSec() << std::endl;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -158,7 +190,7 @@ void LocalFileCommChannelFacade::sendMessage(unsigned char* buffer, unsigned int
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::getAncasData()
+void TestedOBCLocalSimulation::getAncasData()
 {
 	//FileReader fr;
 	/*m_fileData = fr.readDataFromFile("LEMUR2_COSMOS_CONST.csv");
@@ -209,7 +241,7 @@ void LocalFileCommChannelFacade::getAncasData()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::getCatchData()
+void TestedOBCLocalSimulation::getCatchData()
 {
 	/*FileReader fr;
 	m_fileData = fr.readDataFromFile("LEMUR2_COSMOS_GAUSS.csv");
@@ -266,7 +298,7 @@ void LocalFileCommChannelFacade::getCatchData()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::getSboAncasData()
+void TestedOBCLocalSimulation::getSboAncasData()
 {
 	//FileReader fr;
 	/*m_fileData = fr.readDataFromFile("LEMUR2_COSMOS_CONST.csv");
@@ -309,7 +341,7 @@ void LocalFileCommChannelFacade::getSboAncasData()
 	m_params.numberOfRuns = 1;
 
 	m_params.TOLd = 0.00001;
-	m_params.TOLt = 0.01;
+	m_params.TOLt = 0.0000001;
 
 }
 
@@ -321,7 +353,7 @@ void LocalFileCommChannelFacade::getSboAncasData()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::reset()
+void TestedOBCLocalSimulation::reset()
 {
 	m_state = StateStart;
 
@@ -345,7 +377,7 @@ void LocalFileCommChannelFacade::reset()
 //		LEMUR2_COSMOS  | 0			   | ANCAS		   | 15			   | 6451				| 0.000676			 | 676				  | 100			  | 645.49		  | 627			  | 1.17159132160904 | 177095.670099459
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::printResult(string algName, TestResults::TestResult results)
+void TestedOBCLocalSimulation::printResult(string algName, TestResults::TestResult results)
 {
 		std::cout << std::setprecision(15) <<
 		std::left << std::setw(25) << results.testName
@@ -376,7 +408,7 @@ void LocalFileCommChannelFacade::printResult(string algName, TestResults::TestRe
 //		LEMUR2_COSMOS  | 0			   | ANCAS		   | 15			   | 6451				| 0.000676			 | 676				  | 100			  | 645.49		  | 627			  | 1.17159132160904 | 177095.670099459
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void LocalFileCommChannelFacade::startPrint()
+void TestedOBCLocalSimulation::startPrint()
 {
 	std::cout << std::left << std::setw(25) << "Test Name"
 		<< "|" << std::left << std::setw(15) << "Test ID"

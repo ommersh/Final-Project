@@ -1,5 +1,5 @@
-#ifndef SHIELD_LocalFileCommChannelFacade_H    // Check if the symbol SHIELD_LocalFileCommChannelFacade_H is not defined
-#define SHIELD_LocalFileCommChannelFacade_H    // Define the symbol SHIELD_LocalFileCommChannelFacade_H
+#ifndef SHIELD_TestedOBCLocalSimulation_H    // Check if the symbol SHIELD_TestedOBCLocalSimulation_H is not defined
+#define SHIELD_TestedOBCLocalSimulation_H    // Define the symbol SHIELD_TestedOBCLocalSimulation_H
 
 #include "ICommChannel.h"
 #include "FileReader.h"
@@ -11,15 +11,15 @@ using namespace MessagesDefinitions;
 /// Reading a local files instead of an actual communication channel.
 /// can use for testing or a unsynchronized run.
 /// </summary>
-class LocalFileCommChannelFacade : public ICommChannel
+class TestedOBCLocalSimulation : public ICommChannel
 {
 public:
-	LocalFileCommChannelFacade()
+	TestedOBCLocalSimulation()
 	{
 		m_state = InnerStateMachine::StateStart;
 		testID = 0;
 	}
-	virtual ~LocalFileCommChannelFacade()
+	virtual ~TestedOBCLocalSimulation()
 	{
 
 	}
@@ -48,11 +48,20 @@ protected:
 	void getAncasData();
 	void getSboAncasData();
 	void getCatchData();
-	MessageHeader m_header;
+	void calculateTheTcaWithSmallTimeStep();
+	void calculateTheTcaWithSmallTimeStepAroundPoint(double timePoint, double segmentSize);
 
+	//Parameters related to the test message and data
+	MessageHeader m_header;
 	sFileData m_fileData;
 	TestParameters::TestRecipe m_params;
 	unsigned int testID;
+	unsigned char* m_messageBuffer;
+
+	//Simple Test Data generation
+	SimpleDataGeneration m_SimpleDataGeneration;
+
+
 	int m_offset;
 	int m_sizeToCompy;
 	void startPrint();
@@ -66,9 +75,7 @@ protected:
 	/// <param name="runTime"></param>
 	/// <param name="tca"></param>
 	void printResult(string algName, TestResults::TestResult results);
-	unsigned char* m_messageBuffer;
 
 
-	SimpleDataGeneration m_SimpleDataGeneration;
 };
-#endif //SHIELD_LocalFileCommChannelFacade_H
+#endif //SHIELD_TestedOBCLocalSimulation_H

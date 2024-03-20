@@ -18,7 +18,7 @@ class ANCASCubicPolynomial
 {
 public:
 	double coefficients[4];
-	void createCoefficients(double f[4], double Tau[4]);
+	bool createCoefficients(double f[4], double Tau[4]);
 	double getValue(double x);
 };
 /// <summary>

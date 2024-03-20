@@ -43,8 +43,9 @@ add_executable(${PROJECT_NAME}
                 ../../Implementations/SBO_ANCAS/SGP4SinglePointGenerator.cpp
 
                 ../../../SGP4/CPP/SGP4.cpp
+                ../../Common/SimpleDataGeneration.cpp
                 ../../Common/Logger/ResultsLogger.cpp
-                ../../Common/CommChannels/LocalFileCommChannelFacade.cpp)
+                ../../Common/CommChannels/TestedOBCLocalSimulation.cpp)
 
 
 
