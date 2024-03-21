@@ -12,8 +12,10 @@ include_directories(
                     ../Main/TestedOBCApp
                     ../TestManager
                     ../Timer
+                    ../LocalSimulation
                     ../../Common
                     ../../Common/CommChannels
+                    ../../Common/DataGeneration
                     ../../Common/Logger
                     ../../Implementations
                     ../../Implementations/ANCAS
@@ -34,6 +36,8 @@ add_executable(${PROJECT_NAME}
 
                 ../Timer/ChronoBasedTimer.cpp
 
+                ../LocalSimulation/TestedOBCLocalSimulation.cpp
+
                 ../../Implementations/FileReader.cpp
                 ../../Implementations/ANCAS/ANCAS.cpp
                 ../../Implementations/CATCH/CATCH.cpp
@@ -42,10 +46,14 @@ add_executable(${PROJECT_NAME}
                 ../../Implementations/SBO_ANCAS/SboAncas.cpp
                 ../../Implementations/SBO_ANCAS/SGP4SinglePointGenerator.cpp
 
+                ../../Common/DataGeneration/SimpleDataGeneration.cpp
+                ../../Common/DataGeneration/FullCatalogTestDataGeneration.cpp
                 ../../../SGP4/CPP/SGP4.cpp
-                ../../Common/SimpleDataGeneration.cpp
+                ../../../SGP4/CPP/DataGenerator.cpp
+                ../../../SGP4/CPP/AncasDataGenerator.cpp
+                ../../../SGP4/CPP/CatchDataGenerator.cpp
                 ../../Common/Logger/ResultsLogger.cpp
-                ../../Common/CommChannels/TestedOBCLocalSimulation.cpp)
+                )
 
 
 

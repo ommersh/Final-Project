@@ -5,6 +5,7 @@
 #include "FileReader.h"
 #include "CommonStructures.h"
 #include "SimpleDataGeneration.h"
+#include "FullCatalogTestDataGeneration.h"
 using namespace MessagesDefinitions;
 /// <summary>
 /// Implementation of the ICommChannel interface.
@@ -43,8 +44,13 @@ public:
 		StateSendCatchData,
 		StateWaitForCatchEnd,
 	};
+
+	void init(const std::string& catalogFilePath);
+
 protected:
 	InnerStateMachine m_state;
+	void getTestData();
+
 	void getAncasData();
 	void getSboAncasData();
 	void getCatchData();
@@ -60,8 +66,8 @@ protected:
 
 	//Simple Test Data generation
 	SimpleDataGeneration m_SimpleDataGeneration;
-
-
+	FullCatalogTestDataGeneration m_fullCatalogTestDataGeneration;
+	bool m_fullCatalog;
 	int m_offset;
 	int m_sizeToCompy;
 	void startPrint();

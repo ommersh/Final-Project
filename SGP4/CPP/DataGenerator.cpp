@@ -99,12 +99,12 @@ void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& s
 
     // Object ID
     objectID = GetDataFromXmlNode(xmlContent, "OBJECT_ID");
-    strncpy_s(satrec.intldesg, objectID.c_str(), 10);
+    strncpy(satrec.intldesg, objectID.c_str(), 10);
     satrec.intldesg[10] = '\0';
 
     // NORAD Catalog ID
     noradCatID = GetDataFromXmlNode(xmlContent, "NORAD_CAT_ID");
-    strncpy_s(satrec.satnum, noradCatID.c_str(), 5);
+    strncpy(satrec.satnum, noradCatID.c_str(), 5);
     satrec.satnum[5] = '\0';
 
     // Mean Motion
@@ -236,14 +236,14 @@ std::string DataGenerator::GetDataFromXmlNode(std::string xmlContent, std::strin
 /// <returns></returns>
 double DataGenerator::GetEpochDayInYear(int year, int month, int day, int hour, int minute, int second, double fraction) {
     // Calculate the day of the year
-    std::tm timeinfo = {};
+    tm timeinfo = {};
     timeinfo.tm_year = year - 1900;  // years since 1900
     timeinfo.tm_mon = month - 1;      // months since January [0-11]
     timeinfo.tm_mday = day;           // day of the month [1-31]
     timeinfo.tm_hour = hour;          // hours since midnight [0-23]
     timeinfo.tm_min = minute;         // minutes after the hour [0-59]
     timeinfo.tm_sec = second;         // seconds after the minute [0-60]
-    std::time_t time = std::mktime(&timeinfo);
+    time_t time = mktime(&timeinfo);
     int dayOfYear = timeinfo.tm_yday + 1; // tm_yday is 0-365, so we add 1 to get 1-366
 
     // Calculate the fraction of the day

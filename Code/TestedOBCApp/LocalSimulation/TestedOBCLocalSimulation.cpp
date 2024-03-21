@@ -1,7 +1,51 @@
 #include "TestedOBCLocalSimulation.h"
 #include <string.h>
 
+void TestedOBCLocalSimulation::init(const std::string& catalogFilePath)
+{
+	if (true == m_fullCatalogTestDataGeneration.init(catalogFilePath))
+	{
+		std::cout << std::endl << std::endl << "Running Local Simulation In Full Catalog Mode..." << std::endl << std::endl << std::endl;
+		m_fullCatalog = true;
+	}
+	else
+	{
+		std::cout << std::endl << std::endl << "Running Local Simulation In Example Mode..." << std::endl << std::endl << std::endl;
+		m_fullCatalog = false;
+	}
+}
 
+
+void TestedOBCLocalSimulation::getTestData()
+{
+	if (m_fullCatalog == true)
+	{
+		m_fullCatalogTestDataGeneration.getNextTestData(m_fileData, m_params);
+
+		m_header.opcode = MessagesDefinitions::TestRequestMessageOpcode;
+		m_header.dataSize = m_fileData.size * sizeof(TcaCalculation::sPointData);
+	}
+	else
+	{
+		static unsigned char switchCounter = 0;
+
+		switch (switchCounter++ % 3)
+		{
+		case 0:
+			getAncasData();
+
+			break;
+		case 1:
+			getCatchData();
+
+			break;
+		case 2:
+			getSboAncasData();
+
+			break;
+		}
+	}
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,7 +61,6 @@
 bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned int maxSize, unsigned int* size)
 {
 	bool returnValue = false;
-	static unsigned char switchCounter = 0;
 	//running the state machine
 	switch (m_state)
 	{
@@ -27,22 +70,8 @@ bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned in
 		m_state = StateGetTestData;
 
 	case StateGetTestData:
-		//Get the data from the file
-		switch (switchCounter++ % 3)
-		{
-		case 0:
-			getAncasData();
-
-			break;
-		case 1:
-			getCatchData();
-
-			break;
-		case 2:
-			getSboAncasData();
-
-			break;
-			}
+		//Get the data
+		getTestData();
 		//if we failed to get the data reset the state machine
 		if (m_fileData.size == -1)
 		{
@@ -118,36 +147,38 @@ void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int s
 	memcpy(reinterpret_cast<unsigned char*>(&header) , buffer , sizeof(MessagesDefinitions::MessageHeader));
 	TestResults::TestResult testResults;
 	memcpy(reinterpret_cast<unsigned char*>(&testResults), buffer + sizeof(MessagesDefinitions::MessageHeader),  sizeof(TestResults::TestResult));
-	startPrint();
-	switch (testResults.testedAlgorithm)
+	if (m_fullCatalog == false)
 	{
-	case TestParameters::Algorithm::CATCH:
-	{
-		switch (testResults.catchRootsAlg)
+		startPrint();
+		switch (testResults.testedAlgorithm)
 		{
-		case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
-			printResult("CATCH_Eigen", testResults);
+		case TestParameters::Algorithm::CATCH:
+		{
+			switch (testResults.catchRootsAlg)
+			{
+			case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
+				printResult("CATCH_Eigen", testResults);
+				break;
+			case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
+				printResult("CATCH_Armadillo", testResults);
+				break;
+			default:
+				break;
+			}
+		}
+		break;
+		case TestParameters::Algorithm::ANCAS:
+			printResult("ANCAS", testResults);
 			break;
-		case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
-			printResult("CATCH_Armadillo", testResults);
+		case TestParameters::Algorithm::SBO_ANCAS:
+			printResult("SBO_ANCAS", testResults);
+			//calculateTheTcaWithSmallTimeStepAroundPoint(testResults.tca.time, 0.05);
 			break;
 		default:
+			printResult("NA", testResults);
 			break;
-		}
+		};
 	}
-		break;
-	case TestParameters::Algorithm::ANCAS:
-		printResult("ANCAS", testResults);
-		break;
-	case TestParameters::Algorithm::SBO_ANCAS:
-		printResult("SBO_ANCAS", testResults);
-		//calculateTheTcaWithSmallTimeStepAroundPoint(testResults.tca.time, 0.05);
-		break;
-	default:
-		printResult("NA", testResults);
-		break;
-	};
-	
 }
 
 void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStepAroundPoint(double timePoint, double segmentSize)
@@ -356,10 +387,12 @@ void TestedOBCLocalSimulation::getSboAncasData()
 void TestedOBCLocalSimulation::reset()
 {
 	m_state = StateStart;
-
-	if (nullptr != m_fileData.data)
+	if (m_fullCatalog == false)
 	{
-		delete[] m_fileData.data;
+		if (nullptr != m_fileData.data)
+		{
+			delete[] m_fileData.data;
+		}
 	}
 	if (nullptr != m_messageBuffer)
 	{

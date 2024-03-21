@@ -16,7 +16,7 @@ ResultsLogger::ResultsLogger(const std::string& filename) : m_fileName(filename)
         outFile.seekp(0, std::ios::end); // Move the write pointer to the end of the file
         if (outFile.tellp() == 0) { // If the write pointer is at position 0, the file is empty
             // File is new or empty, write the headers
-            outFile << "Test Name,Test ID,Algorithm Name,Degree,Number of Points,Run Time (s),Run Time (us),Number Of Runs,Average Run Time,,Minimum Run Time,TCA Distance,TCA Time\n";
+            outFile << "Test Name,Test ID,Algorithm Name,Degree,Number of Points,Run Time (s),Run Time (us),Number Of Runs,Average Run Time,,Minimum Run Time,TCA Distance,TCA Time,TOLd,TOLt\n";
         }
         // If the file is not empty, do not write headers
     }
@@ -64,7 +64,7 @@ ResultsLogger::ResultsLogger() {
         outFile.seekp(0, std::ios::end); // Move the write pointer to the end of the file
         if (outFile.tellp() == 0) { // If the write pointer is at position 0, the file is empty
             // File is new or empty, write the headers
-            outFile << "Test Name,Test ID,Algorithm Name,Degree,Number of Points,Run Time (s),Run Time (us),Number Of Runs,Average Run Time,Minimum Run Time,TCA Distance,TCA Time\n";
+            outFile << "Test Name,Test ID,Algorithm Name,Degree,Number of Points,Run Time (s),Run Time (us),Number Of Runs,Average Run Time,Minimum Run Time,TCA Distance,TCA Time,TOLd,TOLt\n";
         }
         // If the file is not empty, do not write headers
     }
@@ -79,12 +79,14 @@ ResultsLogger::~ResultsLogger() {
 }
 
     // Method to log a single row of results
-void ResultsLogger::log(TestResults::TestResult results) {
+void ResultsLogger::log(TestResults::TestResult results,double TOLd,double TOLt) {
     std::string algName;
     switch (results.testedAlgorithm)
     {
     case TestParameters::ANCAS:
         algName = "ANCAS";
+        TOLd = 0;
+        TOLt = 0;
         break;
     case TestParameters::CATCH:
         switch (results.catchRootsAlg)
@@ -99,6 +101,8 @@ void ResultsLogger::log(TestResults::TestResult results) {
             algName = "CATCH";
             break;
         }
+        TOLd = 0;
+        TOLt = 0;
         break;
     case TestParameters::SBO_ANCAS:
         algName = "SBO ANCAS";
@@ -109,7 +113,7 @@ void ResultsLogger::log(TestResults::TestResult results) {
         break;
     }
     if (outFile.is_open()) {
-        outFile << std::fixed << std::setprecision(15) 
+        outFile << std::fixed << std::setprecision(30) 
             << results.testName << ","
             << results.testID << ","
             << algName << ","
@@ -123,7 +127,9 @@ void ResultsLogger::log(TestResults::TestResult results) {
             << results.minTimeMicro << ","
 
             << results.tca.distance << ","
-            << results.tca.time << "\n";
+            << results.tca.time << ","
+            << TOLd << ","
+            << TOLt << "\n";
     }
     else {
         std::cerr << "Attempt to write to a closed file." << std::endl;

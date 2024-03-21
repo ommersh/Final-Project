@@ -39,8 +39,9 @@ int main() {
     ResultsLogger resultsLogger;
     Factory *factory = Factory::getReference();
     TestManager testManager(factory->getTimer());
-    TestedOBCLocalSimulation commChannel;
-    CommManager commManager(commChannel);
+    TestedOBCLocalSimulation LocalSimulationCommChannel;
+    LocalSimulationCommChannel.init("gpCatalog.txt");
+    CommManager commManager(LocalSimulationCommChannel);
     MainProcess mainProcess(&testManager,&commManager, &resultsLogger);
     mainProcess.process();
     

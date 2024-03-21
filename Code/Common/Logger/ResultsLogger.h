@@ -21,5 +21,5 @@ public:
     ~ResultsLogger();
 
     // Method to log a single row of results
-    void log(TestResults::TestResult results);
+    void log(TestResults::TestResult results, double TOLd, double TOLt);
 };

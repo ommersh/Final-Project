@@ -1,25 +1,20 @@
 
 #include "SimpleDataGeneration.h"
 
-
 void SimpleDataGeneration::GenearateDataFromTle(char* longstr1Obj1, char* longstr2bj1, char* longstr1Obj2, char* longstr2bj2, int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2)
 {
     double startmfe, stopmfe, deltamin;
     char opsMode = 'i';
     char typeRun = 'c';
     char typeInput = 'm';
-    char meanMotionString1[10];
-    char meanMotionString2[10];
-
-    memcpy(meanMotionString1, longstr2bj1 + 52, 10);
-    memcpy(meanMotionString2, longstr2bj2 + 52, 10);
-
-    // Convert the strings to double values
-
-
     SGP4Funcs::twoline2rv(longstr1Obj1, longstr2bj1, typeRun, typeInput, opsMode, wgs72, startmfe, stopmfe, deltamin, elsetrec1);
     SGP4Funcs::twoline2rv(longstr1Obj2, longstr2bj2, typeRun, typeInput, opsMode, wgs72, startmfe, stopmfe, deltamin, elsetrec2);
+    GenearateDataFromElsetrec(numberOfDays, numberOfPointsInSegment, elsetrec1, elsetrec2, startDataElem1, startDataElem2);
 
+
+}
+void SimpleDataGeneration::GenearateDataFromElsetrec(int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2)
+{
     double time1 = elsetrec1.jdsatepoch + elsetrec1.jdsatepochF;
     double time2 = elsetrec2.jdsatepoch + elsetrec2.jdsatepochF;
     double minutesTimeDiff = (time1 - time2) * 1440;
@@ -43,6 +38,10 @@ void SimpleDataGeneration::GenearateDataFromTle(char* longstr1Obj1, char* longst
 
     m_pointsDataANCAS = new TcaCalculation::sPointData[m_numberOfPoints];
     m_pointsDataCATCH = new TcaCalculation::sPointData[m_numberOfPoints];
+    if (nullptr == m_pointsDataANCAS || nullptr == m_pointsDataCATCH)
+    {
+        std::cout << "Data Allocation Failed!" << std::endl;
+    }
     GenerateTimePointsForANCAS(numberOfPointsInSegment, testTime, Gamma, m_numberOfPoints);
     GenerateTimePointsForCatch(numberOfPointsInSegment, testTime, Gamma, m_numberOfPoints);
 

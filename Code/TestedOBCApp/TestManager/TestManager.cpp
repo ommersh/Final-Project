@@ -46,7 +46,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 
 	m_timer->startTimer();
 
-	results.tca = Algoritm->runAlgorithm(pointsData, params.numberOfPopints);
+	results.tca = Algoritm->runAlgorithm(pointsData, params.numberOfPopints - 1);
 
 	m_timer->stopTimer();
 

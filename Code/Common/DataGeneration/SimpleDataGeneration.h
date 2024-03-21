@@ -20,6 +20,9 @@ public:
     void GenearateDataFromTle(char* longstr1Obj1, char* longstr2bj1, char* longstr1Obj2, char* longstr2bj2,
         int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2);
 
+    void GenearateDataFromElsetrec(int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2);
+
+
     TcaCalculation::TCA FindTcaWithSmallTimeStep(int numberOfDays, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2,double stepSize);
     TcaCalculation::TCA FindTcaWithSmallTimeStepArountPoint(elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2, double stepSize, double timePoint,double segmentSize);
 
