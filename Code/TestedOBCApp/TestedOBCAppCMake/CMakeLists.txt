@@ -44,6 +44,7 @@ add_executable(${PROJECT_NAME}
                 ../../Implementations/CATCH/CompanionMatrixRootsFinder.cpp
                 ../../Implementations/CATCH/CompanionMatrixRootsFinderEigen.cpp
                 ../../Implementations/SBO_ANCAS/SboAncas.cpp
+                ../../Implementations/SBO_ANCAS/SboAncasEquallySpacedPoints.cpp
                 ../../Implementations/SBO_ANCAS/SGP4SinglePointGenerator.cpp
 
                 ../../Common/DataGeneration/SimpleDataGeneration.cpp

@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 ### version 1.0.1
+#### Changed 21/03/2024
+-Added variations to the full catalog test 
+-Added another version for the Log function
+-Removed the input from ANCAS Iteration function
+-Added a variation for SboAncas that uses evenly space points -> required more points but should get more consistance results
 #### Changed 20/03/2024
 -Added check for dividing by zero to ANCAS - for the coefficient calculations
 -Added check if a new minimum point was found for SboAncas, if no new minimum was found there is no point to continue looking for one

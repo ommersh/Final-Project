@@ -179,6 +179,10 @@ void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int s
 			break;
 		};
 	}
+	else
+	{
+		m_fullCatalogTestDataGeneration.handleTestResults(testResults);
+	}
 }
 
 void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStepAroundPoint(double timePoint, double segmentSize)
@@ -231,11 +235,11 @@ void TestedOBCLocalSimulation::getAncasData()
 	}
 	m_params = { 0 };
 	*/
-	char Obj1le1[] = "1 57446U 23105S   24079.07379119  .00001728  00000+0  14299-3 0  9991";
-	char Obj1le2[] = "2 57446  43.0019 204.3244 0000887 254.7861 105.2883 15.02534958 37324";
+	char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
+	char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
 
-	char Obj2le1[] = "1 58755U 23185S   24078.46734562  .00004075  00000+0  31202-3 0  9993";
-	char Obj2le2[] = "2 58755  97.6287 146.6053 0015022 228.5263 131.4673 15.02344828 10197";
+	char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
+	char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
 
 	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, 14, 16, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min);
 	m_fileData.size = m_SimpleDataGeneration.m_numberOfPoints;
@@ -254,14 +258,14 @@ void TestedOBCLocalSimulation::getAncasData()
 	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
 #ifdef _WIN32
 	// Safe function available on Windows
-	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK_NANOFF_B");
+	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK5447_UNICORN2N");
 #else
 	// Standard C function, less safe but portable
-	strncpy(m_params.testName, "STARLINK_NANOFF_B", MAX_TEST_NAME_SIZE);
+	strncpy(m_params.testName, "STARLINK5447_UNICORN2N", MAX_TEST_NAME_SIZE);
 	m_params.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
 #endif
 	m_params.testID = testID++;
-	m_params.numberOfRuns = 100;
+	m_params.numberOfRuns = 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -282,11 +286,11 @@ void TestedOBCLocalSimulation::getCatchData()
 		m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_GAUSS.csv");
 	}*/
 
-	char Obj1le1[] = "1 57446U 23105S   24079.07379119  .00001728  00000+0  14299-3 0  9991";
-	char Obj1le2[] = "2 57446  43.0019 204.3244 0000887 254.7861 105.2883 15.02534958 37324";
+	char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
+	char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
 
-	char Obj2le1[] = "1 58755U 23185S   24078.46734562  .00004075  00000+0  31202-3 0  9993";
-	char Obj2le2[] = "2 58755  97.6287 146.6053 0015022 228.5263 131.4673 15.02344828 10197";
+	char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
+	char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
 
 	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, 14, 16, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min);
 	m_fileData.size = m_SimpleDataGeneration.m_numberOfPoints;
@@ -301,14 +305,14 @@ void TestedOBCLocalSimulation::getCatchData()
 	m_params.testedAlgorithm = TestParameters::Algorithm::CATCH;
 #ifdef _WIN32
 	// Safe function available on Windows
-	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK_NANOFF_B");
+	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK5447_UNICORN2N");
 #else
 	// Standard C function, less safe but portable
-	strncpy(m_params.testName, "STARLINK_NANOFF_B", MAX_TEST_NAME_SIZE);
+	strncpy(m_params.testName, "STARLINK5447_UNICORN2N", MAX_TEST_NAME_SIZE);
 	m_params.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
 #endif
 	m_params.testID = testID++;
-	m_params.numberOfRuns = 100;
+	m_params.numberOfRuns = 1;
 	//if (switchCounter++ % 2 == 0)
 	//{
 	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
@@ -339,11 +343,11 @@ void TestedOBCLocalSimulation::getSboAncasData()
 	}
 	m_params = { 0 };
 	*/
-	char Obj1le1[] = "1 57446U 23105S   24079.07379119  .00001728  00000+0  14299-3 0  9991";
-	char Obj1le2[] = "2 57446  43.0019 204.3244 0000887 254.7861 105.2883 15.02534958 37324";
+	char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
+	char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
 
-	char Obj2le1[] = "1 58755U 23185S   24078.46734562  .00004075  00000+0  31202-3 0  9993";
-	char Obj2le2[] = "2 58755  97.6287 146.6053 0015022 228.5263 131.4673 15.02344828 10197";
+	char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
+	char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
 
 	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, 14, 16, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min);
 	m_fileData.size = m_SimpleDataGeneration.m_numberOfPoints;
@@ -362,17 +366,17 @@ void TestedOBCLocalSimulation::getSboAncasData()
 	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
 #ifdef _WIN32
 	// Safe function available on Windows
-	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK_NANOFF_B");
+	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK5447_UNICORN2N");
 #else
 	// Standard C function, less safe but portable
-	strncpy(m_params.testName, "STARLINK_NANOFF_B", MAX_TEST_NAME_SIZE);
+	strncpy(m_params.testName, "STARLINK5447_UNICORN2N", MAX_TEST_NAME_SIZE);
 	m_params.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
 #endif
 	m_params.testID = testID++;
 	m_params.numberOfRuns = 1;
 
-	m_params.TOLd = 0.00001;
-	m_params.TOLt = 0.0000001;
+	m_params.TOLd = SBO_ANCAS_TOL_D_KM;
+	m_params.TOLt = SBO_ANCAS_TOL_T_SEC;
 
 }
 

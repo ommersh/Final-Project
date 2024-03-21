@@ -105,6 +105,9 @@
     <ClCompile Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.cpp">
       <Filter>DataGeneration</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.cpp">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md">
@@ -198,6 +201,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.h">
       <Filter>DataGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.h">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

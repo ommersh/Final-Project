@@ -89,7 +89,7 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 			m_dataPoints[i] = pointsInTime[offset + i];
 		}
 
-		tempTca = ANCASIteration(tca.distance, tca.time);
+		tempTca = ANCASIteration();
 		if (tempTca.distance < tca.distance)
 		{
 			tca.distance = tempTca.distance;
@@ -106,11 +106,11 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 	
 	return tca;
 }
-TCA ANCAS::ANCASIteration(double minDistance, double minDistanceTime)
+TCA ANCAS::ANCASIteration()
 {
 	TCA tca;
-	tca.time = minDistanceTime;
-	tca.distance = minDistance;
+	tca.time = -1;
+	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	int numberOfRoots = 0;
 	double tau, tempDistance;
 	bool coefficientsCreated = true;
@@ -182,7 +182,7 @@ int ANCAS::getRootsInInterval(ANCASCubicPolynomial P, double result[3])
 	calculateCubicRoots(a, b, c, d, roots, numberOfRoots);
 	for (int i = 0; i < numberOfRoots; i++)
 	{
-		if (roots[i] >= 0 && roots[i] < 1)
+		if (roots[i] > 0 && roots[i] < 1)
 		{
 			result[numberOfRootsInInterval] = roots[i];
 			numberOfRootsInInterval++;

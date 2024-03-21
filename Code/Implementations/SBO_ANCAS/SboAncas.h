@@ -19,7 +19,7 @@ public:
 	{
 
 	};
-	TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex);
+	virtual TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex);
 
 protected:
 	ISinglePointPropogator* m_propogator;

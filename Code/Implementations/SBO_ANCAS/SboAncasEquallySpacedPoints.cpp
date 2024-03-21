@@ -1,15 +1,4 @@
-#include "SboAncas.h"
-
-
-
-void SboAncas::init(ISinglePointPropogator* propogator,double TOLd,double TOLt)
-{
-	m_propogator = propogator;
-	m_TOLd = TOLd;
-	m_TOLt = TOLt;
-}
-
-
+#include "SboAncasEquallySpacedPoints.h"
 
 /// <summary>
 /// The SboAncas algorithm
@@ -26,7 +15,7 @@ void SboAncas::init(ISinglePointPropogator* propogator,double TOLd,double TOLt)
 /// <returns>
 /// TCA, time of closest approach and the corresponding distance
 /// </returns>
-TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
+TCA SboAncasEquallySpacedPoints::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
 	TCA tempTca;
@@ -69,10 +58,14 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 		innerLoopCondition = true;
 		timeToleranceReached = false;
 		distToleranceReached = false;
+		rd = std::numeric_limits<double>::max();
+		tm = 0;
+		tempTca.time = 0;
+		tempTca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 		do
 		{
 			tempTca = ANCASIteration();
-			//in root was found - give up
+			//no root was found - give up
 			if (tempTca.time == -1)
 			{
 				innerLoopCondition = false;
@@ -115,44 +108,37 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 				int srcIndex = 0;
 				int dstIndex = 0;
 				tmIndex = 0;
-
-				if (fabs(tm - m_dataPoints[0].time) > fabs(tm - m_dataPoints[3].time))
+				//find the location of tm
+				for (int i = 0; i < 4; i++)
 				{
-					// We are keeping the last point
-					srcIndex = 1;
-					for (int i = 1; i < 4; i++)
+					//check the location of tm in the array
+					if (tm > m_dataPoints[i].time)
 					{
-						//check the location of tm in the array
-						if (tm > m_dataPoints[i].time)
-						{
-							tmIndex++;
-						}
+						tmIndex++;
 					}
+				}
+				//if tm > last point or tm < first point
+				if (tmIndex == 0)
+				{
+					m_tempDataPoints[0] = tmData;
+					m_tempDataPoints[3] = m_dataPoints[0];
+				}
+				else if (tmIndex == 3)
+				{
+					m_tempDataPoints[0] = m_dataPoints[3];
+					m_tempDataPoints[3] = tmData;
 				}
 				else
 				{
-					// We are keeping the first point
-					for (int i = 0; i < 3; i++)
-					{
-						//check the location of tm in the array
-						if (tm > m_dataPoints[i].time)
-						{
-							tmIndex++;
-						}
-					}
+					m_tempDataPoints[0] = m_dataPoints[tmIndex - 1];
+					m_tempDataPoints[3] = m_dataPoints[tmIndex + 1];
 				}
-				while ((dstIndex < 4) && (srcIndex < 4))
-				{
-					if (dstIndex == tmIndex)
-					{
-						dstIndex++;
-						m_tempDataPoints[tmIndex] = tmData;
-					}
-					else
-					{
-						m_tempDataPoints[dstIndex++] = m_dataPoints[srcIndex++];
-					}
-				}
+				double timeDistance = (m_tempDataPoints[3].time - m_tempDataPoints[0].time) / 3;
+				m_tempDataPoints[1] = m_propogator->getSinglePoint(m_tempDataPoints[0].time + timeDistance);
+				m_tempDataPoints[2] = m_propogator->getSinglePoint(m_tempDataPoints[0].time + 2 * timeDistance);
+				numberOfPoints++;
+				numberOfPoints++;
+
 				for (int i = 0; i < 4; i++)
 				{
 					m_dataPoints[i] = m_tempDataPoints[i];
@@ -164,6 +150,12 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 				}
 			}
 		} while (innerLoopCondition);
+		
+		if (tempTca.distance < tca.distance)
+		{
+			tca.distance = tempTca.distance;
+			tca.time = tempTca.time;
+		}
 		
 		startPointIndex = endPointIndex;
 		endPointIndex = endPointIndex + 3;

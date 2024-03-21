@@ -14,7 +14,10 @@ bool FullCatalogTestDataGeneration::init(const std::string& catalogFilePath)
 	m_sboAncasTolDKm = SBO_ANCAS_TOL_D_KM;
 	m_sboAncasTolTSec = SBO_ANCAS_TOL_T_SEC;
 
-	
+	m_sboAncasRunning = false;
+	m_calculateWithSmallTimestep = true;
+	m_timeStepSec = SBO_ANCAS_TOL_T_SEC / 10;
+	m_timeIntervalSec = 5;
 
 	m_inputFile.open(catalogFilePath);
 
@@ -28,7 +31,19 @@ bool FullCatalogTestDataGeneration::init(const std::string& catalogFilePath)
 		std::cout << "The Catalog Size is too small" << std::endl;
 		return false;
 	}
-	m_numberOfCases = (m_catalogSize - 1) * m_catalogSize / 2.0 - 1;
+	m_testVariation = FullCatalogTestVariation::eOneWithAll;
+	switch (m_testVariation)
+	{
+	case FullCatalogTestVariation::eAllWithAll:
+		m_numberOfCases = (m_catalogSize - 1) * m_catalogSize / 2.0 - 1;
+		break;
+	default:
+	case FullCatalogTestVariation::eOneWithAll:
+		m_numberOfCases = m_catalogSize - 1;
+		break;
+	}
+
+	
 	m_casesCounter = 0;
 	std::cout << "The Catalog Size is: " << m_catalogSize << std::endl;
 	return true;
@@ -64,7 +79,6 @@ void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestPar
 		break;
 	case eSboAncas:
 		getSboAncasData(fileData, TestRecipe);
-
 	case eEndVariation:
 
 		//we start by updating the segment size/Catch degree
@@ -78,28 +92,8 @@ void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestPar
 		else
 		{
 			//get ready for the next case
-			m_secondObjectIndex++;
-			if (m_secondObjectIndex < m_catalogSize)
-			{
-				m_casesCounter++;
-				printPercentage();
-				m_state = eStartCase;
-			}
-			else
-			{
-				m_firstObjectIndex++;
-				if (m_firstObjectIndex < m_catalogSize)
-				{
-					m_secondObjectIndex = m_firstObjectIndex + 1;
-					m_casesCounter++;
-					printPercentage();
-					m_state = eStartCase;
-				}
-				else
-				{
-					m_state = eEnded;
-				}
-			}
+			moveToTheNextTest();
+			printPercentage();
 		}
 		break;
 	case eEnded:
@@ -107,8 +101,62 @@ void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestPar
 		break;
 	}
 }
-
-
+void FullCatalogTestDataGeneration::handleTestResults(TestResults::TestResult results)
+{
+	switch (results.testedAlgorithm)
+	{
+	case TestParameters::Algorithm::SBO_ANCAS:
+		if (true == m_calculateWithSmallTimestep)
+		{
+			calculateWithSmallTimestep(results.tca.time);
+		}
+		break;
+	default:
+		break;
+	}
+}
+void FullCatalogTestDataGeneration::moveToTheNextTest()
+{
+	switch (m_testVariation)
+	{
+	case FullCatalogTestVariation::eAllWithAll:
+		m_secondObjectIndex++;
+		if (m_secondObjectIndex < m_catalogSize)
+		{
+			m_casesCounter++;
+			m_state = eStartCase;
+		}
+		else
+		{
+			m_state = eEnded;
+		}
+		break;
+	default:
+	case FullCatalogTestVariation::eOneWithAll:
+		m_secondObjectIndex++;
+		if (m_secondObjectIndex < m_catalogSize)
+		{
+			m_casesCounter++;
+			m_state = eStartCase;
+		}
+		else
+		{
+			m_firstObjectIndex++;
+			if (m_firstObjectIndex < m_catalogSize)
+			{
+				m_secondObjectIndex = m_firstObjectIndex + 1;
+				m_casesCounter++;
+				m_state = eStartCase;
+			}
+			else
+			{
+				m_state = eEnded;
+			}
+		}
+		break;
+	}
+	
+}
 
 
 
@@ -118,8 +166,7 @@ void FullCatalogTestDataGeneration::initElsetrecObjects()
 	//Get the m_firstObjectIndex
 	getTLE(m_firstObjectIndex);
 	m_dataGenerator.InitOrbitalElementsFromTLE(m_tleLine1, m_tleLine2,m_elsetrec1);
-	//remove spaces from the name
-	m_name.erase(std::remove(m_name.begin(), m_name.end(), ' '), m_name.end());
+
 	tempName = m_name;  // Copying m_name to tempName
 	tempName += '_';    // Appending '_' to tempName
 
@@ -127,8 +174,14 @@ void FullCatalogTestDataGeneration::initElsetrecObjects()
 	getTLE(m_secondObjectIndex);
 	m_dataGenerator.InitOrbitalElementsFromTLE(m_tleLine1, m_tleLine2, m_elsetrec2);
 	//remove spaces from the name
-	m_name.erase(std::remove(m_name.begin(), m_name.end(), ' '), m_name.end());
+	//m_name.erase(std::remove(m_name.begin(), m_name.end(), ' '), m_name.end());
+	//m_name.erase(std::remove(m_name.begin(), m_name.end(), '\t'), m_name.end());
+
 	tempName += m_name;  // Append m_name to tempName
+
+	tempName.erase(std::remove(tempName.begin(), tempName.end(), ' '), tempName.end());
+	tempName.erase(std::remove(tempName.begin(), tempName.end(), '\t'), tempName.end());
+	tempName.erase(std::remove(tempName.begin(), tempName.end(), '\n'), tempName.end());
 
 	//Get the test name
 	strncpy(m_testName, tempName.c_str(), MAX_TEST_NAME_SIZE - 1);
@@ -319,4 +372,32 @@ void FullCatalogTestDataGeneration::printPercentage()
 		<< std::fixed << std::setprecision(10) << percentage << "%"
 		<< "\033[0m" // Reset text color to default
 		<< std::flush; // Flush the stream to ensure immediate output
+}
+
+
+void FullCatalogTestDataGeneration::calculateWithSmallTimestep(double timePoint)
+{
+	TestResults::TestResult results = { 0 };
+	results.numberOfRuns = 1;
+	results.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+	results.testedAlgorithm = TestParameters::Algorithm::SBO_ANCAS;
+	results.testID = m_testID++;
+	results.degree = 0;
+	//Find the real TCA
+	Factory::getReference()->getTimer()->startTimer();
+	results.tca = m_simpleDataGeneration.FindTcaWithSmallTimeStepArountPoint(m_elsetrec1, m_elsetrec2, m_startDataElem1, m_startDataElem2, m_timeStepSec, timePoint, m_timeIntervalSec);
+	Factory::getReference()->getTimer()->stopTimer();
+	results.runTimeMicro = Factory::getReference()->getTimer()->getTimeInMicroSec();
+	results.minTimeMicro = results.runTimeMicro;
+	results.avgTimeMicro = results.runTimeMicro;
+
+#ifdef _WIN32
+	// Safe function available on Windows
+	strcpy_s(results.testName, MAX_TEST_NAME_SIZE, m_testName);
+#else
+	// Standard C function, less safe but portable
+	strncpy(results.testName, m_testName, MAX_TEST_NAME_SIZE);
+	results.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
+#endif
+	Factory::getReference()->getResultsLogger()->log(results, m_timeIntervalSec, m_timeStepSec, "SmallTimeStep");
 }

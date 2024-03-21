@@ -10,8 +10,8 @@ class SimpleDataGeneration
 private:
     DataGenerator m_dataGenerator;
 public:
-    TcaCalculation::sPointData* m_pointsDataANCAS;
-    TcaCalculation::sPointData* m_pointsDataCATCH;
+    TcaCalculation::sPointData* m_pointsDataANCAS = nullptr;
+    TcaCalculation::sPointData* m_pointsDataCATCH = nullptr;
     int m_numberOfPoints;
 
     const double PI = 3.14159265358979323846;

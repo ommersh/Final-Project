@@ -77,9 +77,7 @@ ResultsLogger::~ResultsLogger() {
         outFile.close();
     }
 }
-
-    // Method to log a single row of results
-void ResultsLogger::log(TestResults::TestResult results,double TOLd,double TOLt) {
+void ResultsLogger::log(TestResults::TestResult results, double TOLd, double TOLt) {
     std::string algName;
     switch (results.testedAlgorithm)
     {
@@ -112,6 +110,11 @@ void ResultsLogger::log(TestResults::TestResult results,double TOLd,double TOLt)
         algName = "????";
         break;
     }
+    log(results, TOLd, TOLt, algName);
+}
+    // Method to log a single row of results
+void ResultsLogger::log(TestResults::TestResult results,double TOLd,double TOLt, std::string algName) {
+    
     if (outFile.is_open()) {
         outFile << std::fixed << std::setprecision(30) 
             << results.testName << ","

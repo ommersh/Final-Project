@@ -6,26 +6,29 @@
 #include "SimpleDataGeneration.h"
 #include "FileReader.h"
 #include "CommonStructures.h"
+#include "Factory.h"
+
 
 #include <iostream>
 #include <string>
 #include <iomanip>
 #include <algorithm>
 
-struct TLE
+typedef enum
 {
-    char line1[71];
-    char line2[71];
-};
+    eAllWithAll,
+    eOneWithAll
+}FullCatalogTestVariation;
 
 //Test Constants
-static const int FIRST_SEGMENT_SIZE = 4;
-static const int LAST_SEGMENT_SIZE = CATCH_MAX_DEGREE + 1;
+static const int FIRST_SEGMENT_SIZE = 16;// 4;
+static const int LAST_SEGMENT_SIZE = 16;// CATCH_MAX_DEGREE + 1;
 static const int NUMBER_OF_ITERATIONS = 1;
-static const int NUMBER_OF_DAYS = 14;
+static const int NUMBER_OF_DAYS = 7;
 
-static const double SBO_ANCAS_TOL_D_KM = 0.000001;
-static const double SBO_ANCAS_TOL_T_SEC = 0.000001;
+//Tolt 10-5 Told 10-9
+static const double SBO_ANCAS_TOL_D_KM = 10e-9;
+static const double SBO_ANCAS_TOL_T_SEC = 10e-5;
 
 typedef enum
 {
@@ -47,7 +50,7 @@ public:
     bool init(const std::string& filePath);
 
     void getNextTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
-
+    void handleTestResults(TestResults::TestResult results);
 protected:
     void getAncasData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
     void getSboAncasData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
@@ -57,20 +60,13 @@ protected:
     void clearMemory();
 
     void initElsetrecObjects();
+    void moveToTheNextTest();
 
-    FullCatalogTestDataGenerationState m_state;
-    unsigned int m_testID;
-    elsetrec m_elsetrec1;
-    elsetrec m_elsetrec2;
-    double m_startDataElem1;
-    double m_startDataElem2;
+    void calculateWithSmallTimestep(double timePoint);
+
+    //Test parameters
+    FullCatalogTestVariation m_testVariation;
     int m_numberOfPointsInSegment;
-    char m_testName[MAX_TEST_NAME_SIZE];
-
-    int m_catalogSize;
-    unsigned int m_numberOfCases;
-    unsigned int m_casesCounter;
-
     int m_firstObjectIndex;
     int m_secondObjectIndex;
 
@@ -79,6 +75,23 @@ protected:
 
     double m_sboAncasTolDKm;
     double m_sboAncasTolTSec;
+    bool m_calculateWithSmallTimestep;
+    double m_timeStepSec;
+    double m_timeIntervalSec;
+
+    //Test data
+    unsigned int m_testID;
+    elsetrec m_elsetrec1;
+    elsetrec m_elsetrec2;
+    double m_startDataElem1;
+    double m_startDataElem2;
+    char m_testName[MAX_TEST_NAME_SIZE];
+    int m_catalogSize;
+    FullCatalogTestDataGenerationState m_state;
+    unsigned int m_numberOfCases;
+    unsigned int m_casesCounter;
+    bool m_sboAncasRunning;
+  
 
     //The input file
     std::ifstream m_inputFile;

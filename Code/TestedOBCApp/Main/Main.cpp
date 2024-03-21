@@ -36,13 +36,13 @@ int main() {
         << ProjectVersions::VERSION_PATCH << std::endl;
 
    
-    ResultsLogger resultsLogger;
+
     Factory *factory = Factory::getReference();
     TestManager testManager(factory->getTimer());
     TestedOBCLocalSimulation LocalSimulationCommChannel;
     LocalSimulationCommChannel.init("gpCatalog.txt");
     CommManager commManager(LocalSimulationCommChannel);
-    MainProcess mainProcess(&testManager,&commManager, &resultsLogger);
+    MainProcess mainProcess(&testManager,&commManager, factory->getResultsLogger());
     mainProcess.process();
     
     return 0;

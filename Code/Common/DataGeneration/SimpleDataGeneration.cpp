@@ -1,5 +1,8 @@
 
 #include "SimpleDataGeneration.h"
+#include <iostream>
+#include <limits>
+#include <iomanip>
 
 void SimpleDataGeneration::GenearateDataFromTle(char* longstr1Obj1, char* longstr2bj1, char* longstr1Obj2, char* longstr2bj2, int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2)
 {
@@ -34,7 +37,7 @@ void SimpleDataGeneration::GenearateDataFromElsetrec(int numberOfDays, int numbe
     double Gamma = std::min(t_sec1, t_sec2);
 
     //Generate timePoints
-    m_numberOfPoints = numberOfPointsInSegment * testTime / Gamma;
+    m_numberOfPoints = 1 + (numberOfPointsInSegment - 1) * testTime / Gamma;
 
     m_pointsDataANCAS = new TcaCalculation::sPointData[m_numberOfPoints];
     m_pointsDataCATCH = new TcaCalculation::sPointData[m_numberOfPoints];
@@ -71,7 +74,13 @@ void SimpleDataGeneration::GenearateDataFromElsetrec(int numberOfDays, int numbe
         m_pointsDataANCAS[i].v2x = v2[0];
         m_pointsDataANCAS[i].v2y = v2[1];
         m_pointsDataANCAS[i].v2z = v2[2];
-        /*std::cout << m_pointsDataANCAS[i].time << "," <<
+        /*
+        std::cout << std::setprecision(std::numeric_limits<double>::max_digits10) << m_pointsDataANCAS[i].time << std::endl;
+        if (m_pointsDataANCAS[i].time < 0)
+        {
+            std::cout << std::setprecision(std::numeric_limits<double>::max_digits10) << m_pointsDataANCAS[i].time << std::endl;
+
+        }
             m_pointsDataANCAS[i].r1x << "," <<
             m_pointsDataANCAS[i].r1y << "," <<
             m_pointsDataANCAS[i].r1z << "," <<
@@ -112,6 +121,13 @@ void SimpleDataGeneration::GenearateDataFromElsetrec(int numberOfDays, int numbe
         m_pointsDataCATCH[i].v2x = v2[0];
         m_pointsDataCATCH[i].v2y = v2[1];
         m_pointsDataCATCH[i].v2z = v2[2];
+
+        /*std::cout << std::setprecision(std::numeric_limits<double>::max_digits10) << m_pointsDataCATCH[i].time << std::endl;
+        if (m_pointsDataCATCH[i].time < 0)
+        {
+            std::cout << std::setprecision(std::numeric_limits<double>::max_digits10) << m_pointsDataCATCH[i].time << std::endl;
+
+        }*/
     }
 }
 
@@ -120,18 +136,9 @@ void SimpleDataGeneration::GenerateTimePointsForANCAS(int numberOfPointsInSegmen
     double Ancas_jump = gamma / (numberOfPointsInSegment - 1);
     double a = 0;
     double b = gamma;
-    int index = 1;
     m_pointsDataANCAS[0].time = 0;
-
-    while (b < tEnd) {
-        for (int i = 1; i < numberOfPointsInSegment; i++) {
-            if (index < numberOfPoints)
-            {
-                m_pointsDataANCAS[index++].time = a + i * Ancas_jump;
-            }
-        }
-        a = b;
-        b = b + gamma;
+    for (int i = 0; i < numberOfPoints; i++) {
+        m_pointsDataANCAS[i].time = i * Ancas_jump;
     }
 }
 
@@ -143,9 +150,9 @@ void SimpleDataGeneration::GenerateTimePointsForCatch(int numberOfPointsInSegmen
     double b = gamma;
     int index = 1;
     m_pointsDataCATCH[0].time = 0;
-
-    while (b < tEnd) {
-        for (int i = 1; i < numberOfPointsInSegment; i++) {
+    int i;
+    while (b <= tEnd) {
+        for (i = 1; i < (numberOfPointsInSegment); i++) {
             if (index < numberOfPoints)
             {
                 m_pointsDataCATCH[index++].time = a + catchPoints[i];
@@ -154,7 +161,7 @@ void SimpleDataGeneration::GenerateTimePointsForCatch(int numberOfPointsInSegmen
         a = b;
         b = b + gamma;
     }
-
+    
     delete[] catchPoints;
 }
 
