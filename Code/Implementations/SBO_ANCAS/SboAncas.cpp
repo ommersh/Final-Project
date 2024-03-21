@@ -29,12 +29,13 @@ void SboAncas::init(ISinglePointPropogator* propogator,double TOLd,double TOLt)
 TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
-	TCA tempTca;
+	TCA iterationTca;
+	TCA ancasTca;
 
 	tca.time = 0;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
-	tempTca.time = 0;
-	tempTca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
+	iterationTca.time = 0;
+	iterationTca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.numberOfPoints = 0;
 	//1. Prepare the variables
 	
@@ -71,29 +72,25 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 		distToleranceReached = false;
 		do
 		{
-			tempTca = ANCASIteration();
+			ancasTca = ANCASIteration();
 			//in root was found - give up
-			if (tempTca.time == -1)
+			if (ancasTca.time == -1)
 			{
 				innerLoopCondition = false;
 			}
 			else
 			{
 				//get rd and tm
-				rd = tempTca.distance;
-				tm = tempTca.time;
+				rd = ancasTca.distance;
+				tm = ancasTca.time;
 				//sample the point
 				tmData = m_propogator->getSinglePoint(tm);
 				numberOfPoints++;
 				//get rt(tm)
-				tempTca.distance = sqrt(pow((tmData.r1x - tmData.r2x), 2) + pow((tmData.r1y - tmData.r2y), 2) + pow((tmData.r1z - tmData.r2z), 2));
-				if (tempTca.distance < tca.distance)
-				{
-					tca.distance = tempTca.distance;
-					tca.time = tempTca.time;
-				}
+				iterationTca.distance = sqrt(pow((tmData.r1x - tmData.r2x), 2) + pow((tmData.r1y - tmData.r2y), 2) + pow((tmData.r1z - tmData.r2z), 2));
+				iterationTca.time = tm;
 				//check the conditions
-				if (fabs(tempTca.distance - rd) < m_TOLd)
+				if (fabs(iterationTca.distance - rd) < m_TOLd)
 				{
 					distToleranceReached = true;
 				}
@@ -164,7 +161,13 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 				}
 			}
 		} while (innerLoopCondition);
-		
+
+		if (iterationTca.distance < tca.distance)
+		{
+			tca.distance = iterationTca.distance;
+			tca.time = iterationTca.time;
+		}
+
 		startPointIndex = endPointIndex;
 		endPointIndex = endPointIndex + 3;
 		roundNumber++;

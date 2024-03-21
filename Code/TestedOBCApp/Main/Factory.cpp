@@ -123,7 +123,7 @@ ANCAS* Factory::getANCAS()
 
 SboAncas* Factory::getSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt)
 {
-	if (false)
+	if (true)
 	{
 		m_sboAncas.init(getSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
 		return &m_sboAncas;
