@@ -112,12 +112,19 @@ void ResultsLogger::log(TestResults::TestResult results, double TOLd, double TOL
     }
     log(results, TOLd, TOLt, algName);
 }
+
+std::string sanitize(const std::string& str) {
+    std::string result = str;
+    result.erase(std::remove(result.begin(), result.end(), '\n'), result.end());
+    result.erase(std::remove(result.begin(), result.end(), '\r'), result.end());
+    return result;
+}
     // Method to log a single row of results
 void ResultsLogger::log(TestResults::TestResult results,double TOLd,double TOLt, std::string algName) {
     
     if (outFile.is_open()) {
         outFile << std::fixed << std::setprecision(30) 
-            << results.testName << ","
+            << sanitize(results.testName) << ","
             << results.testID << ","
             << algName << ","
             << results.degree << ","

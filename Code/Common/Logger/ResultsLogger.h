@@ -7,7 +7,8 @@
 #include <iomanip> // For std::setprecision
 #include <chrono>
 #include <sstream>
-
+#include <algorithm>
+#include <string>
 #include "CommonStructures.h"
 
 class ResultsLogger {
