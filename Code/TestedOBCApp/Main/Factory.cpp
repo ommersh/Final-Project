@@ -120,3 +120,29 @@ ANCAS* Factory::getANCAS()
 {
 	return &m_ancas;
 }
+
+SboAncas* Factory::getSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt)
+{
+	if (true)
+	{
+		m_sboAncas.init(getSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
+		return &m_sboAncas;
+	}
+	else
+	{
+		m_sboAncasEquallySpacedPoints.init(getSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
+		return &m_sboAncasEquallySpacedPoints;
+	}
+}
+
+ISinglePointPropogator* Factory::getSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2)
+{
+	m_SGP4SinglePointGenerator.init(elsetrec1, elsetrec2, startTime1, startTime2);
+	return &m_SGP4SinglePointGenerator;
+}
+
+ResultsLogger* Factory::getResultsLogger()
+{
+	return &m_resultsLogger;
+
+}

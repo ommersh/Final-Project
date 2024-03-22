@@ -51,14 +51,14 @@ void CommManager::init()
 //////////////////////////////////////////////////////////////////////////////////////////////
 bool CommManager::getTheNextTest()
 {
-	unsigned char buffer[1024];
+	unsigned char buffer[4096];
 	unsigned int offset = 0;
 	unsigned int size = 0;
 	unsigned int remainingDataSize;
 	bool messageReceived = false;
 
 	//check for a message
-	if (m_commChannel.getNextMessage(buffer, 1024, &size))
+	if (m_commChannel.getNextMessage(buffer, 4096, &size))
 	{
 		//get the message header
 		MessagesDefinitions::MessageHeader header;
@@ -81,7 +81,7 @@ bool CommManager::getTheNextTest()
 			remainingDataSize = header.dataSize - (size - offset);
 			offset = size - offset;
 			//get the rest of the data
-			while (remainingDataSize > 0 && m_commChannel.getNextMessage(buffer, 1024, &size))
+			while (remainingDataSize > 0 && m_commChannel.getNextMessage(buffer, 4096, &size))
 			{
 				if (size > remainingDataSize)
 				{

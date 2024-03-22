@@ -9,13 +9,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(
                     ../CommManager
                     ../Main
-                    ../TestedOBCApp
+                    ../Main/TestedOBCApp
                     ../TestManager
                     ../Timer
-                    ../../CommChannels
+                    ../LocalSimulation
+                    ../../Common
+                    ../../Common/CommChannels
+                    ../../Common/DataGeneration
+                    ../../Common/Logger
                     ../../Implementations
                     ../../Implementations/ANCAS
                     ../../Implementations/CATCH
+                    ../../Implementations/SBO_ANCAS
+                    ../../../SGP4/CPP
                     ../ExternalLibraries/eigen-3.4.0)
 
 # Add source files
@@ -28,15 +34,27 @@ add_executable(${PROJECT_NAME}
 
                 ../TestManager/TestManager.cpp
 
-                ../Timer/WinTimer.cpp
+                ../Timer/ChronoBasedTimer.cpp
+
+                ../LocalSimulation/TestedOBCLocalSimulation.cpp
 
                 ../../Implementations/FileReader.cpp
                 ../../Implementations/ANCAS/ANCAS.cpp
                 ../../Implementations/CATCH/CATCH.cpp
                 ../../Implementations/CATCH/CompanionMatrixRootsFinder.cpp
                 ../../Implementations/CATCH/CompanionMatrixRootsFinderEigen.cpp
+                ../../Implementations/SBO_ANCAS/SboAncas.cpp
+                ../../Implementations/SBO_ANCAS/SboAncasEquallySpacedPoints.cpp
+                ../../Implementations/SBO_ANCAS/SGP4SinglePointGenerator.cpp
 
-                ../../CommChannels/LocalFileCommChannelFacade.cpp)
+                ../../Common/DataGeneration/SimpleDataGeneration.cpp
+                ../../Common/DataGeneration/FullCatalogTestDataGeneration.cpp
+                ../../../SGP4/CPP/SGP4.cpp
+                ../../../SGP4/CPP/DataGenerator.cpp
+                ../../../SGP4/CPP/AncasDataGenerator.cpp
+                ../../../SGP4/CPP/CatchDataGenerator.cpp
+                ../../Common/Logger/ResultsLogger.cpp
+                )
 
 
 

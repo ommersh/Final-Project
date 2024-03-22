@@ -74,9 +74,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -89,9 +89,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,9 +104,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,9 +119,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,14 +131,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp" />
+    <ClCompile Include="..\..\..\..\SGP4\CPP\AncasDataGenerator.cpp" />
+    <ClCompile Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.cpp" />
+    <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp" />
+    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
+    <ClCompile Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.cpp" />
+    <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp" />
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp" />
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.cpp" />
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.cpp" />
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.cpp" />
     <ClCompile Include="..\..\CommManager\CommManager.cpp" />
+    <ClCompile Include="..\..\LocalSimulation\TestedOBCLocalSimulation.cpp" />
     <ClCompile Include="..\..\Main\Factory.cpp" />
     <ClCompile Include="..\..\Main\Main.cpp" />
     <ClCompile Include="..\..\Main\MainProcess.cpp" />
@@ -149,9 +158,14 @@
     <None Include="..\..\CHANGELOG.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\AncasDataGenerator.h" />
+    <ClInclude Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.h" />
+    <ClInclude Include="..\..\..\..\SGP4\CPP\DataGenerator.h" />
+    <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
-    <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h" />
     <ClInclude Include="..\..\..\Common\CommonStructures.h" />
+    <ClInclude Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.h" />
+    <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h" />
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h" />
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
@@ -160,8 +174,13 @@
     <ClInclude Include="..\..\..\Implementations\FileReader.h" />
     <ClInclude Include="..\..\..\Implementations\IRootsFindAlg.h" />
     <ClInclude Include="..\..\..\Implementations\ITcaAlgorithm.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\ISinglePointPropogator.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.h" />
     <ClInclude Include="..\..\..\Implementations\TcaCalculation.h" />
     <ClInclude Include="..\..\CommManager\CommManager.h" />
+    <ClInclude Include="..\..\LocalSimulation\TestedOBCLocalSimulation.h" />
     <ClInclude Include="..\..\Main\AppConfigurationManager.h" />
     <ClInclude Include="..\..\Main\Factory.h" />
     <ClInclude Include="..\..\Main\MainProcess.h" />

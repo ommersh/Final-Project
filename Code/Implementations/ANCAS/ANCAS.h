@@ -18,7 +18,7 @@ class ANCASCubicPolynomial
 {
 public:
 	double coefficients[4];
-	void createCoefficients(double f[4], double Tau[4]);
+	bool createCoefficients(double f[4], double Tau[4]);
 	double getValue(double x);
 };
 /// <summary>
@@ -36,7 +36,18 @@ public:
 	virtual void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
 
 protected:
+	TCA ANCASIteration();
+
+
 	virtual int getRootsInInterval(ANCASCubicPolynomial P, double result[3]);
+
+	//variables
+	TcaCalculation::sPointData m_dataPoints[4];
+	double m_Tau[4];
+	double m_fd[4], m_fx[4], m_fy[4], m_fz[4];
+	ANCASCubicPolynomial m_CfdotTau;
+	ANCASCubicPolynomial m_Qx, m_Qy, m_Qz;
+	double m_roots[3];
 
 };
 

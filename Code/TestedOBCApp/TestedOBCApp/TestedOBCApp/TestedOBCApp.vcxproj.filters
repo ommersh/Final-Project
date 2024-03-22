@@ -31,6 +31,15 @@
     <Filter Include="Common\Logger">
       <UniqueIdentifier>{0e6b803e-4996-4594-b203-608146201e50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestManager\Implementations\SBO ANCAS">
+      <UniqueIdentifier>{f708afef-7f08-4459-a2d5-a8dcaeda653d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main\LocalSimulaton">
+      <UniqueIdentifier>{cd495018-6eed-49ca-9ffa-7a3a377466b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataGeneration">
+      <UniqueIdentifier>{9baa9a9b-dc45-44be-bf4e-96155b8d642f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Main\Main.cpp">
@@ -66,11 +75,38 @@
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
       <Filter>Common\CommChannels</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp">
-      <Filter>Common\CommChannels</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp">
       <Filter>Common\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.cpp">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.cpp">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\LocalSimulation\TestedOBCLocalSimulation.cpp">
+      <Filter>Main\LocalSimulaton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\AncasDataGenerator.cpp">
+      <Filter>DataGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.cpp">
+      <Filter>DataGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp">
+      <Filter>DataGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp">
+      <Filter>DataGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp">
+      <Filter>DataGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.cpp">
+      <Filter>DataGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.cpp">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,14 +166,44 @@
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h">
       <Filter>Common\CommChannels</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h">
-      <Filter>Common\CommChannels</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\CommonStructures.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h">
       <Filter>Common\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\ISinglePointPropogator.h">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.h">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.h">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LocalSimulation\TestedOBCLocalSimulation.h">
+      <Filter>Main\LocalSimulaton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\AncasDataGenerator.h">
+      <Filter>DataGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.h">
+      <Filter>DataGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\DataGenerator.h">
+      <Filter>DataGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h">
+      <Filter>DataGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h">
+      <Filter>DataGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.h">
+      <Filter>DataGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.h">
+      <Filter>TestManager\Implementations\SBO ANCAS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

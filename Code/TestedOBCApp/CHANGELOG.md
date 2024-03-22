@@ -8,6 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 ### version 1.0.1
+#### Changed 21/03/2024
+-Added variations to the full catalog test 
+-Added another version for the Log function
+-Removed the input from ANCAS Iteration function
+-Added a variation for SboAncas that uses evenly space points -> required more points but should get more consistance results
+#### Changed 20/03/2024
+-Added check for dividing by zero to ANCAS - for the coefficient calculations
+-Added check if a new minimum point was found for SboAncas, if no new minimum was found there is no point to continue looking for one
+-Renamed LocalFileCommChannel to TestedOBCLocalSimulation
+#### Changed 17/03/2024
+- Added SBO ANCAS to the algorithms types enum
+- Added everything SBO-ANCAS required to run to the TestRecipe structure
+- Added SBO-ANCAS to the algorithm names in the ResultsLogger
+- Added SGP4SinglePointGenerator implementing the interface
+- Implemented SGP4SinglePointGenerator using the SGP4 implementation
+- Added SGP4SinglePointGenerator and SboAncas to the factory
+- Added SBO-ANCAS initialization and testing to the test manager
+
+- Added constructor for the ResultsLogger with no input name, craete name based on the current date and time
+- Fixed Bug in the CommChannel and CommManager
+- Removed the Logger file name craetion from Main
+- Added global variable for the infinite loop in the MainProccess, In Linux the global variable becomes false on signal to make sure we have clean exit
+- Added shell scripts for windows + linux for the CMake compilation
+
 #### Changed 16/03/2024
 - Added results logger
 - Added number of run(repeatedly calling the algorithm on the same input)

@@ -23,7 +23,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 	TestResults::TestResult results = { 0 };
 	ITcaAlgorithm* Algoritm;
 
-	results.degree = params.degree;
+	results.degree = params.catchPolynomialDegree;
 	results.testedAlgorithm = params.testedAlgorithm;
 	results.catchRootsAlg = params.catchRootsAlg;
 	results.testID = params.testID;
@@ -37,13 +37,16 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 		Algoritm = Factory::getReference()->getANCAS();
 		break;
 	case TestParameters::Algorithm::CATCH:
-		Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.degree);
+		Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.catchPolynomialDegree);
+		break;
+	case TestParameters::Algorithm::SBO_ANCAS:
+		Algoritm = Factory::getReference()->getSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
 		break;
 	}
 
 	m_timer->startTimer();
 
-	results.tca = Algoritm->runAlgorithm(pointsData, params.numberOfPopints);
+	results.tca = Algoritm->runAlgorithm(pointsData, params.numberOfPopints - 1);
 
 	m_timer->stopTimer();
 
@@ -63,7 +66,10 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 			Algoritm = Factory::getReference()->getANCAS();
 			break;
 		case TestParameters::Algorithm::CATCH:
-			Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.degree);
+			Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.catchPolynomialDegree);
+			break;
+		case TestParameters::Algorithm::SBO_ANCAS:
+			Algoritm = Factory::getReference()->getSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
 			break;
 		}
 		m_timer->startTimer();

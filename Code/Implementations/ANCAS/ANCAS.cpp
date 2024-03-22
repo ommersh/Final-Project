@@ -6,8 +6,9 @@
 /// </summary>
 /// <param name="f">Array with 4 points in time</param>
 /// <param name="Tau"></param>
-void ANCASCubicPolynomial::createCoefficients(double f[4], double Tau[4])
+bool ANCASCubicPolynomial::createCoefficients(double f[4], double Tau[4])
 {
+	bool coefficientsCreated = false;
 	double T1_1, T1_2,T1_3, T2_1, T2_2, T2_3;
 	T1_1 = Tau[1];
 	T1_2 = pow(Tau[1], 2);
@@ -16,18 +17,30 @@ void ANCASCubicPolynomial::createCoefficients(double f[4], double Tau[4])
 	T2_2 = pow(Tau[2], 2);
 	T2_3 = pow(Tau[2], 3);
 	//Eq.1(j)
-	double Lambda = T1_3 * T2_2 + T1_2 * T2_1 + T1_1 * T2_3 - T1_1 * T2_2 - T1_3 * T2_1 - T1_2 * T2_3;
-	//Eq.1(f) 
-	coefficients[0] = f[0];
-	//Eq.1(g)
-	coefficients[1] = ((T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
-		+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0])) / Lambda;
-	//Eq.1(h)
-	coefficients[2] = ((T2_1 - T2_3) * (f[1] - f[0]) + (T1_3 - T1_1) * (f[2] - f[0])
-		+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0])) / Lambda;
-	//Eq.1(i)
-	coefficients[3] = ((T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
-		+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0])) / Lambda;
+	double Lambda = T1_3 * T2_2;
+	Lambda += T1_2 * T2_1;
+	Lambda += T1_1 * T2_3;
+	Lambda -= T1_1 * T2_2;
+	Lambda -= T1_3 * T2_1;
+	Lambda -= T1_2 * T2_3;
+
+	//check for zero
+	if (0 != Lambda)
+	{
+		//Eq.1(f) 
+		coefficients[0] = f[0];
+		//Eq.1(g)
+		coefficients[1] = ((T2_3 - T2_2) * (f[1] - f[0]) + (T1_2 - T1_3) * (f[2] - f[0])
+			+ (T1_3 * T2_2 - T1_2 * T2_3) * (f[3] - f[0])) / Lambda;
+		//Eq.1(h)
+		coefficients[2] = ((T2_1 - T2_3) * (f[1] - f[0]) + (T1_3 - T1_1) * (f[2] - f[0])
+			+ (T1_1 * T2_3 - T1_3 * T2_1) * (f[3] - f[0])) / Lambda;
+		//Eq.1(i)
+		coefficients[3] = ((T2_2 - T2_1) * (f[1] - f[0]) + (T1_1 - T1_2) * (f[2] - f[0])
+			+ (T1_2 * T2_1 - T1_1 * T2_2) * (f[3] - f[0])) / Lambda;
+		coefficientsCreated = true;
+	}
+	return coefficientsCreated;
 }
 
 double ANCASCubicPolynomial::getValue(double x)
@@ -54,20 +67,17 @@ double ANCASCubicPolynomial::getValue(double x)
 TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
+	TCA tempTca;
+
 	tca.time = 0;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.numberOfPoints = 0;
 	//1. Prepare the variables
-	double Tau[4];
-	double fd[4], fx[4], fy[4], fz[4];	
-	ANCASCubicPolynomial C_fdot_tau;
-	ANCASCubicPolynomial Qx, Qy, Qz;
-	double roots[3];
+	
 	int startPointIndex, endPointIndex;
 	int roundNumber = 0;
 	int offset = 0;
 	int numberOfRoots = 0;
-	double tau, tempDistance;
 	startPointIndex = 0;
 	endPointIndex = 3;
 	//run over all the data
@@ -76,51 +86,75 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 		offset = (3)*roundNumber;
 		for (int i = 0; i < 4; i++)
 		{
-			fx[i] = pointsInTime[offset + i].r1x - pointsInTime[offset + i].r2x;
-			fy[i] = pointsInTime[offset + i].r1y - pointsInTime[offset + i].r2y;
-			fz[i] = pointsInTime[offset + i].r1z - pointsInTime[offset + i].r2z;
-			fd[i] = 2 * (((fx[i]) * (pointsInTime[offset + i].v1x - pointsInTime[offset + i].v2x)) +
-				((fy[i]) * (pointsInTime[offset + i].v1y - pointsInTime[offset + i].v2y)) +
-				((fz[i]) * (pointsInTime[offset + i].v1z - pointsInTime[offset + i].v2z)));
+			m_dataPoints[i] = pointsInTime[offset + i];
 		}
-		for (int i = 0; i < 4; i++)
-		{
-			//Tau = [0,Tau2,Tau3,1]
-			Tau[i] = (pointsInTime[offset + i].time - pointsInTime[offset + 0].time) / (pointsInTime[offset + 3].time - pointsInTime[offset + 0].time);
-		}
-		//2.Calculate the cubic polynomial Ctau
-		C_fdot_tau.createCoefficients(fd, Tau);
 
-		//3.Find the real roots
-		numberOfRoots = getRootsInInterval(C_fdot_tau, roots);
-		//4.Find the minimum distance
-		for (int i = 0; i < numberOfRoots; i++)
+		tempTca = ANCASIteration();
+		if (tempTca.distance < tca.distance)
 		{
-			if (i == 0)
-			{
-				tau = 0;
-				tempDistance = 0;
-				//5. Calculate polynomial for x,y,z
-				Qx.createCoefficients(fx, Tau);
-				Qy.createCoefficients(fy, Tau);
-				Qz.createCoefficients(fz, Tau);
-			}
-			tau = roots[i];
-			//Eq.7
-			tempDistance = sqrt(pow(Qx.getValue(tau), 2) + pow(Qy.getValue(tau), 2) + pow(Qz.getValue(tau), 2));
-			if (tempDistance < tca.distance)
-			{
-				tca.distance = tempDistance;
-				//Eq.8
-				tca.time = pointsInTime[offset + 0].time + tau * (pointsInTime[offset + 3].time - pointsInTime[offset + 0].time);
-			}
+			tca.distance = tempTca.distance;
+			tca.time = tempTca.time;
 		}
+
 		startPointIndex = endPointIndex;
 		endPointIndex = endPointIndex + 3;
 		roundNumber++;
 	}
-	tca.numberOfPoints = 1 + offset + 3;
 
+
+	tca.numberOfPoints = 1 + offset + 3;
+	
+	return tca;
+}
+TCA ANCAS::ANCASIteration()
+{
+	TCA tca;
+	tca.time = -1;
+	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
+	int numberOfRoots = 0;
+	double tau, tempDistance;
+	bool coefficientsCreated = true;
+	for (int i = 0; i < 4; i++)
+	{
+		m_fx[i] = m_dataPoints[i].r1x - m_dataPoints[i].r2x;
+		m_fy[i] = m_dataPoints[i].r1y - m_dataPoints[i].r2y;
+		m_fz[i] = m_dataPoints[i].r1z - m_dataPoints[i].r2z;
+		m_fd[i] = 2 * (((m_fx[i]) * (m_dataPoints[i].v1x - m_dataPoints[i].v2x)) +
+			((m_fy[i]) * (m_dataPoints[i].v1y - m_dataPoints[i].v2y)) +
+			((m_fz[i]) * (m_dataPoints[i].v1z - m_dataPoints[i].v2z)));
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		//Tau = [0,Tau2,Tau3,1]
+		m_Tau[i] = (m_dataPoints[i].time - m_dataPoints[0].time) / (m_dataPoints[3].time - m_dataPoints[0].time);
+	}
+	//2.Calculate the cubic polynomial Ctau
+	coefficientsCreated = m_CfdotTau.createCoefficients(m_fd, m_Tau);
+
+	//3. Calculate polynomial for x,y,z
+	coefficientsCreated &= m_Qx.createCoefficients(m_fx, m_Tau);
+	coefficientsCreated &= m_Qy.createCoefficients(m_fy, m_Tau);
+	coefficientsCreated &= m_Qz.createCoefficients(m_fz, m_Tau);
+	if (true == coefficientsCreated)
+	{
+		tau = 0;
+		tempDistance = 0;
+		//4.Find the real roots
+		numberOfRoots = getRootsInInterval(m_CfdotTau, m_roots);
+		//5.Find the minimum distance
+		for (int i = 0; i < numberOfRoots; i++)
+		{
+			tau = m_roots[i];
+			//Eq.7
+			tempDistance = sqrt(pow(m_Qx.getValue(tau), 2) + pow(m_Qy.getValue(tau), 2) + pow(m_Qz.getValue(tau), 2));
+			if (tempDistance < tca.distance)
+			{
+				tca.distance = tempDistance;
+				//Eq.8
+				tca.time = m_dataPoints[0].time + tau * (m_dataPoints[3].time - m_dataPoints[0].time);
+			}
+		}
+	}
 	return tca;
 }
 /// <summary>
@@ -148,7 +182,7 @@ int ANCAS::getRootsInInterval(ANCASCubicPolynomial P, double result[3])
 	calculateCubicRoots(a, b, c, d, roots, numberOfRoots);
 	for (int i = 0; i < numberOfRoots; i++)
 	{
-		if (roots[i] >= 0 && roots[i] < 1)
+		if (roots[i] > 0 && roots[i] < 1)
 		{
 			result[numberOfRootsInInterval] = roots[i];
 			numberOfRootsInInterval++;
