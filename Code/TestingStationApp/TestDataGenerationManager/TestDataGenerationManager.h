@@ -4,19 +4,32 @@
 #include <string>
 #include <CPP/DataGenerator.h>
 #include <AlgorithmEnum.h>
+#include "../Enums/SatelliteDataFormatEnum.h"
+#include <TestRecipe.h>
+#include <TcaCalculation.h>
+#include <map>
 
 class TestDataGenerationManager {
 public:
     TestDataGenerationManager() { m_dataGenerator = DataGenerator(); }
-    void createTestData(double* timeInMinutes, int timePointsArrLength,  elsetrec& orbitingElement1, elsetrec& orbitingElement2);
+    void CreateTest(TestRecipe recipe);
+    void GenerateTestData(int timePointsArrLength,  elsetrec& orbitingElement1, elsetrec& orbitingElement2, TcaCalculation::sPointData elementsVectors[]);
     void findTCA();
-    void processOrbitingElement(char tle1[130], char tle2[130], elsetrec& orbitingElement);
-    void processOrbitingElement(std::string& xmlFilePath, elsetrec& orbitingElement);
-    void GenerateTimePointsForAncas(int n, double tEnd, double gamma);
-    void GenerateTimePointsForCatch(int n, double tEnd, double gamma);
+    void ProcessOrbitingElement(std::string& tle, elsetrec& orbitingElement, SatelliteDataFormat format);
+    void GeneratePointsByAlgorithm(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[], Algorithm alg);
+
 
 private:
     DataGenerator m_dataGenerator;
+    void GenerateTimePointsForAncas(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[]);
+    void GenerateTimePointsForCatch(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[]);
+    void SplitTLEString(std::string tleString, char firstLine[130], char secondLine[130]);
+
+    std::map<Algorithm, void (TestDataGenerationManager::*)(int, double, double, TcaCalculation::sPointData[])> methodMap{
+    {Algorithm::Ancas, &TestDataGenerationManager::GenerateTimePointsForAncas},
+    {Algorithm::Catch, &TestDataGenerationManager::GenerateTimePointsForCatch}
+    };
+
 };
 
 #endif

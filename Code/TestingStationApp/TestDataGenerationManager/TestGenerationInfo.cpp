@@ -3,7 +3,7 @@
 // Constructors
 TestGenerationInfo::TestGenerationInfo() = default;
 
-TestGenerationInfo::TestGenerationInfo(const Algorithm& algorithm, const TLEFormat& tleFormat, const std::string& elem1,
+TestGenerationInfo::TestGenerationInfo(const Algorithm& algorithm, const SatelliteDataFormat& tleFormat, const std::string& elem1,
     const std::string& elem2, double timeInterval, const TimeUnit& timeIntervalUnit,
     int iterations, int catchPolynomialDegree, double sgp4TimeStep)
     : algorithm(algorithm), tleFormat(tleFormat), elem1(elem1), elem2(elem2),
@@ -13,7 +13,7 @@ TestGenerationInfo::TestGenerationInfo(const Algorithm& algorithm, const TLEForm
 
 // Getters
 Algorithm TestGenerationInfo::getAlgorithm() const { return algorithm; }
-TLEFormat TestGenerationInfo::getTleFormat() const { return tleFormat; }
+SatelliteDataFormat TestGenerationInfo::getTleFormat() const { return tleFormat; }
 std::string TestGenerationInfo::getElem1() const { return elem1; }
 std::string TestGenerationInfo::getElem2() const { return elem2; }
 double TestGenerationInfo::getTimeInterval() const { return timeInterval; }
@@ -24,7 +24,7 @@ double TestGenerationInfo::getSgp4TimeStep() const { return sgp4TimeStep; }
 
 // Setters
 void TestGenerationInfo::setAlgorithm(const Algorithm& algorithm) { this->algorithm = algorithm; }
-void TestGenerationInfo::setTleFormat(const TLEFormat& tleFormat) { this->tleFormat = tleFormat; }
+void TestGenerationInfo::setTleFormat(const SatelliteDataFormat& tleFormat) { this->tleFormat = tleFormat; }
 void TestGenerationInfo::setElem1(const std::string& elem1) { this->elem1 = elem1; }
 void TestGenerationInfo::setElem2(const std::string& elem2) { this->elem2 = elem2; }
 void TestGenerationInfo::setTimeInterval(double timeInterval) { this->timeInterval = timeInterval; }

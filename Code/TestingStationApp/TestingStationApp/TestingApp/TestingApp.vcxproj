@@ -158,7 +158,7 @@
     <ClInclude Include="..\..\..\Implementations\TcaCalculation.h" />
     <ClInclude Include="..\..\CommManager\CommManager.h" />
     <ClInclude Include="..\..\Enums\TimeUnitEnum.h" />
-    <ClInclude Include="..\..\Enums\TleFormatEnum.h" />
+    <ClInclude Include="..\..\Enums\SatelliteDataFormatEnum.h" />
     <ClInclude Include="..\..\Lab\Lab.h" />
     <ClInclude Include="..\..\TestDataGenerationManager\TestDataGenerationManager.h" />
     <ClInclude Include="..\..\TestDataGenerationManager\TestGenerationInfo.h" />

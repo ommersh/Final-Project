@@ -148,7 +148,7 @@
     <ClInclude Include="..\..\Enums\TimeUnitEnum.h">
       <Filter>Enum</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Enums\TleFormatEnum.h">
+    <ClInclude Include="..\..\Enums\SatelliteDataFormatEnum.h">
       <Filter>Enum</Filter>
     </ClInclude>
     <ClInclude Include="..\..\TestManager\ResultManager\TestResultInfo.h">

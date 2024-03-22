@@ -47,3 +47,17 @@ SGP4/CPP/SGP4DataGenerator/x64/
 Code/UnitTests/UnitTests/UTRootsFinding/Debug/
 Code/UnitTests/UnitTests/UTCatch/Debug/
 Code/UnitTests/UnitTests/UTAncas/Debug/
+/Code/TestingStationApp/TestingStationApp/.vs
+/Code/TestingStationApp/TestingStationApp/TestingApp/x64/Debug/TestingS.6b909c59.tlog
+/Code/TestingStationApp/TestingStationApp/TestingApp/x64/Debug
+/Implementations/x64/Debug
+/SGP4/CPP/SGP4DataGenerator/.vs/SGP4DataGenerator
+*.xml
+*.csv
+*.pyc
+*.db
+*.suo
+*.bin
+/.vs
+/Code/TestingStationApp/TestingStationApp/x64/Debug
+/Code/Common/ToDo.txt
