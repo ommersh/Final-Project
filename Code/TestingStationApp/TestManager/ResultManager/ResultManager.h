@@ -2,11 +2,13 @@
 #define RESULTMANAGER_H
 
 #include <string>
+#include "TestInfo.h"
 
 class ResultManager {
 public:
-    void handleTestResult();
-    void saveData(const std::string& path);
+    TestInfo GetTestResult(int testId);
+    void SaveData(const std::string& path);
+    void UpdateTestResult(TestInfo testInfo);
 };
 
 #endif

@@ -6,19 +6,16 @@
 #include <AlgorithmEnum.h>
 
 
-struct TestRecipe {
-    std::string name;
+struct CommonTestRecipe {
     unsigned int testId;
-    std::string description;
     SatelliteDataFormat format;
     double timeInterval;
     int iterations;
-    double propogatorDeltaTime;
     Algorithm alg;
     int catchPolynomDeg;
     std::string firstElemData;
     std::string secondElemData;
-
+    int numOfTimePoints;
 };
 
 #endif

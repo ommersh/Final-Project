@@ -4,15 +4,17 @@
 #include <memory>
 
 #include "CommManager.h" 
-#include "../TestManager/TestManager.h"
+#include <TestDataGenerationManager.h>
+#include "../TestManager/ResultManager/ResultManager.h"
 
 class Lab {
 public:
-    static Lab& getInstance();
+    static Lab& GetInstance();
 
-    CommManager& getCommManager() const;
+    CommManager& GetCommManager() const;
+    ResultManager& GetResultManager() const;
+    TestDataGenerationManager& GetTestDataGeneratorManager() const;
 
-    TestManager& getTestManager() const;
 
 private:
     Lab();
@@ -25,7 +27,9 @@ private:
 
     // Members
     std::unique_ptr<CommManager> m_commManager;
-    std::unique_ptr<TestManager> m_testManager;
+    std::unique_ptr<ResultManager> m_resultManager;
+    std::unique_ptr<TestDataGenerationManager> m_dataGenerator;
+
 
 };
 

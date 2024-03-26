@@ -1,37 +1,26 @@
 #include "TestDataGenerationManager.h"
 #include <TcaCalculation.h>
 
-/*
-todo:
-Methods: Create test(All test parameters: Format(tle/xml), algorithm1, algorithm2, tEnd, interval, polynomialDegree,  etc... )
-
-
-*/
-
-void TestDataGenerationManager::CreateTest(TestRecipe recipe)
+void TestDataGenerationManager::CreateTest(TestInfo& testInfo)
 {
     elsetrec orbElem1 = elsetrec();
     elsetrec orbElem2 = elsetrec();
+    TcaCalculation::sPointData* elementsVectors;
+
+    GenerateTestData(testInfo.recipe, orbElem1, orbElem2, &elementsVectors);
+}
+
+void TestDataGenerationManager::GenerateTestData(CommonTestRecipe recipe, elsetrec& orbElem1, elsetrec& orbElem2, TcaCalculation::sPointData* elementsVectors[])
+{
+    double gamma = DataGenerator::GetGamma(orbElem1, orbElem2);
+    recipe.numOfTimePoints = ((int)(recipe.timeInterval / gamma)) * recipe.catchPolynomDeg;
+    *elementsVectors = new  TcaCalculation::sPointData[recipe.numOfTimePoints];
 
     TestDataGenerationManager::ProcessOrbitingElement(recipe.firstElemData, orbElem1, recipe.format);
     TestDataGenerationManager::ProcessOrbitingElement(recipe.secondElemData, orbElem2, recipe.format);
 
-    double gamma = DataGenerator::GetGamma(orbElem1, orbElem2);
-
-    
-    int timePointsArrLength = 1;/*todo: Generate timePointsArr fpr both elements according to choosen algorithm*/
-    TcaCalculation::sPointData* elementsVectors = new  TcaCalculation::sPointData[timePointsArrLength];
-
-    TestDataGenerationManager::GeneratePointsByAlgorithm(recipe.catchPolynomDeg, recipe.timeInterval, gamma, elementsVectors, recipe.alg);
-
-    GenerateTestData(timePointsArrLength, orbElem1, orbElem2, elementsVectors);
-
-    //todo save the test in some db
-}
-
-void TestDataGenerationManager::GenerateTestData(int timePointsArrLength, elsetrec& elsetrec1, elsetrec& elsetrec2, TcaCalculation::sPointData elementsVectors[]) {
-
-    m_dataGenerator.CalculateRelativeVectorsForTwoElements(timePointsArrLength, elsetrec1, elsetrec2, elementsVectors);
+    TestDataGenerationManager::GeneratePointsByAlgorithm(recipe.catchPolynomDeg, recipe.timeInterval, gamma, *elementsVectors, recipe.alg);
+    m_dataGenerator.CalculateRelativeVectorsForTwoElements(recipe.numOfTimePoints, orbElem1, orbElem2, *elementsVectors);
 
 }
 
@@ -93,5 +82,5 @@ void TestDataGenerationManager::SplitTLEString(std::string tleString, char first
 
 void TestDataGenerationManager::GeneratePointsByAlgorithm(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[], Algorithm alg) {
     // Call the corresponding method based on the algorithm
-    (this->*methodMap[alg])(n, tEnd, gamma, elementsVectors);
+    return (this->*methodMap[alg])(n, tEnd, gamma, elementsVectors);
 }
