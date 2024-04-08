@@ -51,3 +51,6 @@ Code/TestedOBCApp/TestedOBCApp/TestedOBCApp/Logger/
 SGP4/CPP/SGP4DataGenerator/.vs/
 Code/TestedOBCApp/TestedOBCAppCMake/LinuxRelease/
 Code/TestedOBCApp/TestedOBCAppCMake/WindowsRelease/
+Code/TestedOBCApp/TestedOBCAppCMake/Logger/
+Code/UnitTests/UnitTests/UTSboAncas/alg_worst_case.csv
+Code/UnitTests/UnitTests/UTSboAncas/Debug/

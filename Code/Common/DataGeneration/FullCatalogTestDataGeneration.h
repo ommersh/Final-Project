@@ -7,6 +7,7 @@
 #include "FileReader.h"
 #include "CommonStructures.h"
 #include "Factory.h"
+#include "AppConfigurationManager.h"
 
 
 #include <iostream>
@@ -14,21 +15,9 @@
 #include <iomanip>
 #include <algorithm>
 
-typedef enum
-{
-    eAllWithAll,
-    eOneWithAll
-}FullCatalogTestVariation;
 
-//Test Constants
-static const int FIRST_SEGMENT_SIZE = 16;// 4;
-static const int LAST_SEGMENT_SIZE = 16;// CATCH_MAX_DEGREE + 1;
-static const int NUMBER_OF_ITERATIONS = 1;
-static const int NUMBER_OF_DAYS = 7;
 
-//Tolt 10-5 Told 10-9
-static const double SBO_ANCAS_TOL_D_KM = 10e-9;
-static const double SBO_ANCAS_TOL_T_SEC = 10e-5;
+
 
 typedef enum
 {
@@ -65,8 +54,11 @@ protected:
     void calculateWithSmallTimestep(double timePoint);
 
     //Test parameters
-    FullCatalogTestVariation m_testVariation;
-    int m_numberOfPointsInSegment;
+    AppConfiguration::FullCatalogTestVariation m_testVariation;
+    int m_currentNumberOfPointsInSegment;
+    int m_minNumberOfPointsInSegment;
+    int m_maxNumberOfPointsInSegment;
+
     int m_firstObjectIndex;
     int m_secondObjectIndex;
 
@@ -85,13 +77,14 @@ protected:
     elsetrec m_elsetrec2;
     double m_startDataElem1;
     double m_startDataElem2;
+    double m_segmentSizeSec;
     char m_testName[MAX_TEST_NAME_SIZE];
     int m_catalogSize;
     FullCatalogTestDataGenerationState m_state;
     unsigned int m_numberOfCases;
     unsigned int m_casesCounter;
     bool m_sboAncasRunning;
-  
+ 
 
     //The input file
     std::ifstream m_inputFile;
