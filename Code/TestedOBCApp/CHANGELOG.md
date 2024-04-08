@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Released]
+### version 1.0.2
+#### Changed 08/03/2024
+-Added Unit Tests for SBO ANCAS
+-Added Additional data to the test recipe and results: segment and interval size, number of points per segment and initial number of points
+-Added Parametes INI file with default values and values for the full catalog test
+-Added AppConfigurationManager and INI files
+-Added Segment size to the SimpleDataGenerator
+-Added the new values to the results logger
+-Updated CMakeLists
+
+
 ### version 1.0.1
 #### Changed 21/03/2024
 -Added variations to the full catalog test 
