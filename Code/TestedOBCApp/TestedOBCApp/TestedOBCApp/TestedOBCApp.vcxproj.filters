@@ -114,10 +114,10 @@
     <ClCompile Include="..\..\Main\AppConfigurationManager.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\External Libraries\INIH\cpp\INIReader.cpp">
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\ini.c">
       <Filter>ExternalLibraries</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\External Libraries\INIH\ini.c">
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.cpp">
       <Filter>ExternalLibraries</Filter>
     </ClCompile>
   </ItemGroup>
@@ -220,10 +220,10 @@
     <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.h">
       <Filter>TestManager\Implementations\SBO ANCAS</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\External Libraries\INIH\cpp\INIReader.h">
+    <ClInclude Include="..\..\..\ExternalLibraries\INIH\ini.h">
       <Filter>ExternalLibraries</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\External Libraries\INIH\ini.h">
+    <ClInclude Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.h">
       <Filter>ExternalLibraries</Filter>
     </ClInclude>
   </ItemGroup>

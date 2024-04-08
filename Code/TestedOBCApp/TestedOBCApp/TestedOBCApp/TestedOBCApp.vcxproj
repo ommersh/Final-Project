@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\External Libraries\INIH;..\..\..\External Libraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\External Libraries\INIH;..\..\..\External Libraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\External Libraries\INIH;..\..\..\External Libraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\External Libraries\INIH;..\..\..\External Libraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,8 +138,8 @@
     <ClCompile Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp" />
-    <ClCompile Include="..\..\..\External Libraries\INIH\cpp\INIReader.cpp" />
-    <ClCompile Include="..\..\..\External Libraries\INIH\ini.c" />
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.cpp" />
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\ini.c" />
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
@@ -171,8 +171,8 @@
     <ClInclude Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.h" />
     <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h" />
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h" />
-    <ClInclude Include="..\..\..\External Libraries\INIH\cpp\INIReader.h" />
-    <ClInclude Include="..\..\..\External Libraries\INIH\ini.h" />
+    <ClInclude Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.h" />
+    <ClInclude Include="..\..\..\ExternalLibraries\INIH\ini.h" />
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h" />
