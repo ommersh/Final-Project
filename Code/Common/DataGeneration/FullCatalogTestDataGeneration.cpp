@@ -1,4 +1,5 @@
 #include "FullCatalogTestDataGeneration.h"
+#include "Factory.h"
 
 bool FullCatalogTestDataGeneration::init(const std::string& catalogFilePath)
 {

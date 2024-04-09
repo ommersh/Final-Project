@@ -10,8 +10,11 @@ Factory* Factory::m_reference = nullptr; // Define the static member variable
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-Factory::Factory()
+Factory::Factory() :
+	m_timer(nullptr),
+	m_commChannel(nullptr)
 {
+
 	m_configManager.init("TestedObcAppSettings.INI");
 }
 
@@ -69,6 +72,24 @@ ITimer* Factory::getTimer()
 	}
 	return m_timer;
 }
+
+ICommChannel* Factory::getCommChannel()
+{
+	if (nullptr == m_commChannel)
+	{
+		switch (m_configManager.getCommChannelType())
+		{
+		default:
+		case AppConfiguration::CommChannelType::LocalSimulation:
+			TestedOBCLocalSimulation* localSimulationCommChannel = new TestedOBCLocalSimulation();
+			localSimulationCommChannel->init("gpCatalog.txt");
+			m_commChannel = localSimulationCommChannel;
+			break;
+		}
+	}
+	return m_commChannel;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //

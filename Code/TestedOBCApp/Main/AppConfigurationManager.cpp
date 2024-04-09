@@ -8,19 +8,26 @@ void AppConfigurationManager::init(const std::string& filename)
 	INIReader reader(filename);
     std::string stringValue;
     double doubleValue;
-
+    setDefaults();
     if (reader.ParseError() < 0) {
         std::cerr << "Error parsing INI file!" << std::endl;
-        setDefaults();
         return;
     }
     //Get the values
-    stringValue = reader.Get("General", "TimerType", "ChronoTimer");
+    stringValue = reader.Get("General", "CommChannelType", "LocalSimulation");
+    if (stringValue == "LocalSimulation")
+    {
+        m_commChannelType = AppConfiguration::CommChannelType::LocalSimulation;
+    }
 
+    stringValue = reader.Get("General", "TimerType", "ChronoTimer");
     if (stringValue == "ChronoTimer")
     {
         m_timerType = AppConfiguration::TimerType::ChronoTimer;
     }
+
+
+
 
     stringValue = reader.Get("DefaultAlgParameters", "FullCatalogTestDataVariation", "OneWithAll");
     if (stringValue == "AllWithAll")

@@ -11,6 +11,10 @@ namespace AppConfiguration
 		ChronoTimer
 	};
 
+	enum CommChannelType
+	{
+		LocalSimulation
+	};
 
 	//Default values
 	//Tolt 10-5 Told 10-9
@@ -18,18 +22,18 @@ namespace AppConfiguration
 	static const double SBO_ANCAS_TOL_T_SEC = 10e-5;
 
 	//FullCatalogTest parameters
-	typedef enum
+	enum FullCatalogTestDataVariation
 	{
 		eAllWithAll,
 		eOneWithAll
-	}FullCatalogTestDataVariation;
+	};
 
-	typedef enum
+	enum FullCatalogTestTypeVariation
 	{
 		ePointsInInterval,
 		eTimeInterval,
 		eCatchDegree
-	}FullCatalogTestTypeVariation;
+	};
 
 
 	static const int MIN_NUMBER_OF_POINTS_PER_SEGMENT = 16;
@@ -53,10 +57,17 @@ public:
 	{
 		return m_timerType;
 	}
+
+	AppConfiguration::CommChannelType getCommChannelType()
+	{
+		return m_commChannelType;
+	}
+
 	double getTOLd()
 	{
 		return m_TOLd;
 	}
+
 	double getTOLt()
 	{
 		return m_TOLt;
@@ -122,7 +133,7 @@ private:
 	double m_TOLt;
 
 	AppConfiguration::TimerType m_timerType;
-
+	AppConfiguration::CommChannelType m_commChannelType;
 
 	//FullCatalogTest parameters
 	AppConfiguration::FullCatalogTestDataVariation m_fullCatalogTestDataVariation;
