@@ -81,7 +81,7 @@ TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 	startPointIndex = 0;
 	endPointIndex = 3;
 	//run over all the data
-	while (endPointIndex <= lastPointIndex)
+	while (endPointIndex < lastPointIndex)
 	{
 		offset = (3)*roundNumber;
 		for (int i = 0; i < 4; i++)

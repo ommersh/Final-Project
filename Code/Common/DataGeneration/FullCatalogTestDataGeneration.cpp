@@ -210,9 +210,9 @@ void FullCatalogTestDataGeneration::getNextCatchDegreeTestData(sFileData& fileDa
 		//We start by getting the 2 Elsetrec Objects for the current test
 		initElsetrecObjects();
 		index = 0;
-		m_currentNumberOfPointsInSegment = DEGREES_ARRAY[index] + 1;
 
 	case eStartVariation:
+		m_currentNumberOfPointsInSegment = DEGREES_ARRAY[index] + 1;
 		//free the memory
 		clearMemory();
 		generateDataSet();

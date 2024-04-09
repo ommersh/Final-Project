@@ -56,7 +56,7 @@ TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 	startPointIndex = 0;
 	endPointIndex = 3;
 	//run over all the data
-	while (endPointIndex <= lastPointIndex)
+	while (endPointIndex < lastPointIndex)
 	{
 		offset = (3)*roundNumber;
 		numberOfPoints += 3;
