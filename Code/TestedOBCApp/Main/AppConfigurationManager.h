@@ -22,11 +22,22 @@ namespace AppConfiguration
 	{
 		eAllWithAll,
 		eOneWithAll
-	}FullCatalogTestVariation;
+	}FullCatalogTestDataVariation;
+
+	typedef enum
+	{
+		ePointsInInterval,
+		eTimeInterval,
+		eCatchDegree
+	}FullCatalogTestTypeVariation;
+
+
 	static const int MIN_NUMBER_OF_POINTS_PER_SEGMENT = 16;
 	static const int MAX_NUMBER_OF_POINTS_PER_SEGMENT = 16;
 	static const int NUMBER_OF_ITERATIONS = 1;
 	static const int TIME_FRAME_SIZE_IN_DAYS = 7;
+	static const int T_MIN_FACTOR= 2;
+
 }
 
 
@@ -50,9 +61,15 @@ public:
 	{
 		return m_TOLt;
 	}
-	AppConfiguration::FullCatalogTestVariation getFullCatalogTestVariation()
+
+	AppConfiguration::FullCatalogTestDataVariation getFullCatalogTestDataVariation()
 	{
-		return m_fullCatalogTestVariation;
+		return m_fullCatalogTestDataVariation;
+	}
+
+	AppConfiguration::FullCatalogTestTypeVariation getFullCatalogTestTypeVariation()
+	{
+		return m_fullCatalogTestTypeVariation;
 	}
 
 	int getMinNumberOfPointsPerSegment()
@@ -75,6 +92,25 @@ public:
 		return m_timeFrameSizeInDays;
 	}
 
+	int getTminFactor()
+	{
+		return m_TminFactor;
+	}
+
+	bool getRunAncas()
+	{
+		return m_ancas == 1;
+	}
+
+	bool getRunSboAncas()
+	{
+		return m_sboAncas == 1;
+	}
+
+	bool getRunCatch()
+	{
+		return m_catch == 1;
+	}
 	/*get()
 	{
 		return;
@@ -89,11 +125,17 @@ private:
 
 
 	//FullCatalogTest parameters
-	AppConfiguration::FullCatalogTestVariation m_fullCatalogTestVariation;
+	AppConfiguration::FullCatalogTestDataVariation m_fullCatalogTestDataVariation;
+	AppConfiguration::FullCatalogTestTypeVariation m_fullCatalogTestTypeVariation;
 	int m_minNumberOfPointsPerSegment;
 	int m_maxNumberOfPointsPerSegment;
 	int m_numberOfIterations;
 	int m_timeFrameSizeInDays;
+	int m_TminFactor;
+
+	int m_ancas;
+	int m_sboAncas;
+	int m_catch;
 };
 
 

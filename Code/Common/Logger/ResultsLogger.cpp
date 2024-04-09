@@ -23,6 +23,7 @@ ResultsLogger::ResultsLogger(const std::string& filename) : m_fileName(filename)
 
                 << "timeIntervalSizeSec" << ","
                 << "segmentSizeSec" << ","
+                << "Tmin Factor" << ","
                 << "numberOfPointsPerSegment" << ","
                 << "initialNumberOfPoints" << ","
 
@@ -92,6 +93,7 @@ ResultsLogger::ResultsLogger() {
 
                 << "timeIntervalSizeSec" << ","
                 << "segmentSizeSec" << ","
+                << "Tmin Factor" << ","
                 << "numberOfPointsPerSegment" << ","
                 << "initialNumberOfPoints" << ","
 
@@ -173,6 +175,7 @@ void ResultsLogger::log(TestResults::TestResult results,double TOLd,double TOLt,
 
             << results.timeIntervalSizeSec << ","
             << results.segmentSizeSec << ","
+            << 1.0/results.TminFactor << ","
             << results.numberOfPointsPerSegment << ","
             << results.initialNumberOfPoints << ","
 

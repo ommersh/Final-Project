@@ -71,11 +71,12 @@ bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned in
 
 	case StateGetTestData:
 		//Get the data
+		m_fileData.size = -1;
 		getTestData();
 		//if we failed to get the data reset the state machine
 		if (m_fileData.size == -1)
 		{
-			std::cout << "Failed to get data...\n";
+			//std::cout << "Failed to get data...\n";
 			m_state = StateStart;
 			break;
 		}

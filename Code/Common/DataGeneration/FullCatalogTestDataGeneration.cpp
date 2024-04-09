@@ -16,9 +16,19 @@ bool FullCatalogTestDataGeneration::init(const std::string& catalogFilePath)
 
 	m_sboAncasTolDKm = Factory::getReference()->getConfigurationManager()->getTOLd();
 	m_sboAncasTolTSec = Factory::getReference()->getConfigurationManager()->getTOLt();
+	m_TMinFactor = Factory::getReference()->getConfigurationManager()->getTminFactor();
 
-	m_sboAncasRunning = false;
-	m_calculateWithSmallTimestep = true;
+	m_runAncas = Factory::getReference()->getConfigurationManager()->getRunAncas();
+	m_runSboAncas = Factory::getReference()->getConfigurationManager()->getRunSboAncas();
+	m_runCatch = Factory::getReference()->getConfigurationManager()->getRunCatch();
+
+	m_testVariation = Factory::getReference()->getConfigurationManager()->getFullCatalogTestDataVariation();
+	m_fullCatalogTestTypeVariation = Factory::getReference()->getConfigurationManager()->getFullCatalogTestTypeVariation();
+	if (m_fullCatalogTestTypeVariation == AppConfiguration::FullCatalogTestTypeVariation::eTimeInterval)
+	{
+		m_runCatch = false;//cant run catch with the changing number of points per interval
+	}
+	m_calculateWithSmallTimestep = false;
 	m_timeStepSec = m_sboAncasTolTSec / 10;
 	m_timeIntervalSec = 5;
 
@@ -34,14 +44,13 @@ bool FullCatalogTestDataGeneration::init(const std::string& catalogFilePath)
 		std::cout << "The Catalog Size is too small" << std::endl;
 		return false;
 	}
-	m_testVariation = AppConfiguration::FullCatalogTestVariation::eOneWithAll;
 	switch (m_testVariation)
 	{
-	case AppConfiguration::FullCatalogTestVariation::eAllWithAll:
+	case AppConfiguration::FullCatalogTestDataVariation::eAllWithAll:
 		m_numberOfCases = (m_catalogSize - 1) * m_catalogSize / 2.0 - 1;
 		break;
 	default:
-	case AppConfiguration::FullCatalogTestVariation::eOneWithAll:
+	case AppConfiguration::FullCatalogTestDataVariation::eOneWithAll:
 		m_numberOfCases = m_catalogSize - 1;
 		break;
 	}
@@ -54,13 +63,28 @@ bool FullCatalogTestDataGeneration::init(const std::string& catalogFilePath)
 
 void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
 {
-	//state
+	switch (m_fullCatalogTestTypeVariation)
+	{
+	case AppConfiguration::FullCatalogTestTypeVariation::eTimeInterval:
+		getNextTimeIntervalTestData(fileData, TestRecipe);
+		break;
+	case AppConfiguration::FullCatalogTestTypeVariation::eCatchDegree:
+		getNextCatchDegreeTestData(fileData, TestRecipe);
+		break;
+	default:
+	case AppConfiguration::FullCatalogTestTypeVariation::ePointsInInterval:
+		getNextPointsInIntervalTestData(fileData, TestRecipe);
+		break;
+	}
+}
 
+void FullCatalogTestDataGeneration::getNextPointsInIntervalTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+{
 	//start: initialzie everything
-	//do everything for every catalog match
-	//start with the first objects
-	//start at degree = first
-	//crate data set for the degree
+//do everything for every catalog match
+//start with the first objects
+//start at degree = first
+//crate data set for the degree
 	switch (m_state)
 	{
 	case eStartCase:
@@ -72,18 +96,19 @@ void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestPar
 		//free the memory
 		clearMemory();
 		generateDataSet();
+		stateUpdate();
+		break;
 	case eAncas:
 		getAncasData(fileData, TestRecipe);
-		m_state = eCatch;
+		stateUpdate();
 		break;
 	case eCatch:
 		getCatchData(fileData, TestRecipe);
-		m_state = eSboAncas;
+		stateUpdate();
 		break;
 	case eSboAncas:
 		getSboAncasData(fileData, TestRecipe);
 	case eEndVariation:
-
 		//we start by updating the segment size/Catch degree
 		m_currentNumberOfPointsInSegment++;
 		if (m_currentNumberOfPointsInSegment <= m_maxNumberOfPointsInSegment)
@@ -104,8 +129,130 @@ void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestPar
 	default:
 		break;
 	}
-
 }
+
+
+void FullCatalogTestDataGeneration::getNextTimeIntervalTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+{
+	//start: initialzie everything
+	//do everything for every catalog match
+	//start with the first objects
+	//start at degree = first
+	//crate data set for the degree
+	static const int STARTING_NUMBER_OF_DAYS = 1;
+	static const int MAX_NUMBER_OF_DAYS = 14;
+	static const int POINTS_PER_INTERVAL = 6000;
+	static const double SECONDS_IN_DAY = 24 * 60 * 60;
+	static double segmentsPerDay = 1;
+
+	switch (m_state)
+	{
+	case eStartCase:
+		//We start by getting the 2 Elsetrec Objects for the current test
+		initElsetrecObjects();
+		generateDataSet();
+		//we want the same number of points
+		//so we will start with a large number per segment
+		segmentsPerDay = SECONDS_IN_DAY / m_segmentSizeSec;
+		m_numberOfDays = STARTING_NUMBER_OF_DAYS;
+	case eStartVariation:
+		//free the memory
+		m_currentNumberOfPointsInSegment = POINTS_PER_INTERVAL/(segmentsPerDay* m_numberOfDays);
+		clearMemory();
+		generateDataSet();
+		stateUpdate();
+		break;
+	case eAncas:
+		getAncasData(fileData, TestRecipe);
+		stateUpdate();
+		break;
+	case eCatch:
+		getCatchData(fileData, TestRecipe);
+		stateUpdate();
+		break;
+	case eSboAncas:
+		getSboAncasData(fileData, TestRecipe);
+	case eEndVariation:
+		//we start by updating the segment size/Catch degree
+		m_numberOfDays++;
+		if (m_numberOfDays <= MAX_NUMBER_OF_DAYS)
+		{
+			//continue with the current case
+			m_state = eStartVariation;
+
+		}
+		else
+		{
+			//get ready for the next case
+			moveToTheNextTest();
+			printPercentage();
+		}
+		break;
+	case eEnded:
+	default:
+		break;
+	}
+}
+
+void FullCatalogTestDataGeneration::getNextCatchDegreeTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+{
+	//start: initialzie everything
+	//do everything for every catalog match
+	//start with the first objects
+	//start at degree = first
+	//crate data set for the degree
+	static const int DEGREES_ARRAY[3] = { 7,15,31 };
+	static int index;
+	switch (m_state)
+	{
+	case eStartCase:
+		//We start by getting the 2 Elsetrec Objects for the current test
+		initElsetrecObjects();
+		index = 0;
+		m_currentNumberOfPointsInSegment = DEGREES_ARRAY[index] + 1;
+
+	case eStartVariation:
+		//free the memory
+		clearMemory();
+		generateDataSet();
+		stateUpdate();
+		break;
+	case eAncas:
+		getAncasData(fileData, TestRecipe);
+		stateUpdate();
+		break;
+	case eCatch:
+		getCatchData(fileData, TestRecipe);
+		stateUpdate();
+		break;
+	case eSboAncas:
+		getSboAncasData(fileData, TestRecipe);
+	case eEndVariation:
+		//we start by updating the segment size/Catch degree
+		index++;
+		if (index < 3)
+		{
+			//continue with the current case
+			m_state = eStartVariation;
+
+		}
+		else
+		{
+			//get ready for the next case
+			moveToTheNextTest();
+			printPercentage();
+
+		}
+		break;
+	case eEnded:
+	default:
+		break;
+	}
+}
+
+
+
+
 void FullCatalogTestDataGeneration::handleTestResults(TestResults::TestResult results)
 {
 	switch (results.testedAlgorithm)
@@ -120,11 +267,12 @@ void FullCatalogTestDataGeneration::handleTestResults(TestResults::TestResult re
 		break;
 	}
 }
+
 void FullCatalogTestDataGeneration::moveToTheNextTest()
 {
 	switch (m_testVariation)
 	{
-	case AppConfiguration::FullCatalogTestVariation::eAllWithAll:
+	case AppConfiguration::FullCatalogTestDataVariation::eAllWithAll:
 		m_secondObjectIndex++;
 		if (m_secondObjectIndex < m_catalogSize)
 		{
@@ -137,7 +285,7 @@ void FullCatalogTestDataGeneration::moveToTheNextTest()
 		}
 		break;
 	default:
-	case AppConfiguration::FullCatalogTestVariation::eOneWithAll:
+	case AppConfiguration::FullCatalogTestDataVariation::eOneWithAll:
 		m_secondObjectIndex++;
 		if (m_secondObjectIndex < m_catalogSize)
 		{
@@ -222,6 +370,7 @@ void FullCatalogTestDataGeneration::getAncasData(sFileData& fileData, TestParame
 	TestRecipe.numberOfPointsPerSegment = m_currentNumberOfPointsInSegment;
 	TestRecipe.segmentSizeSec = m_segmentSizeSec;
 	TestRecipe.timeIntervalSizeSec = m_numberOfDays * 24 * 60 * 60;
+	TestRecipe.TminFactor = m_TMinFactor;
 }
 
 void FullCatalogTestDataGeneration::getCatchData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
@@ -253,6 +402,7 @@ void FullCatalogTestDataGeneration::getCatchData(sFileData& fileData, TestParame
 	TestRecipe.numberOfPointsPerSegment = m_currentNumberOfPointsInSegment;
 	TestRecipe.segmentSizeSec = m_segmentSizeSec;
 	TestRecipe.timeIntervalSizeSec = m_numberOfDays * 24 * 60 * 60;
+	TestRecipe.TminFactor = m_TMinFactor;
 }
 
 void FullCatalogTestDataGeneration::getSboAncasData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
@@ -288,6 +438,7 @@ void FullCatalogTestDataGeneration::getSboAncasData(sFileData& fileData, TestPar
 	TestRecipe.numberOfPointsPerSegment = m_currentNumberOfPointsInSegment;
 	TestRecipe.segmentSizeSec = m_segmentSizeSec;
 	TestRecipe.timeIntervalSizeSec = m_numberOfDays * 24 * 60 * 60;
+	TestRecipe.TminFactor = m_TMinFactor;
 }
 
 void FullCatalogTestDataGeneration::generateDataSet()
@@ -416,4 +567,43 @@ void FullCatalogTestDataGeneration::calculateWithSmallTimestep(double timePoint)
 	results.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
 #endif
 	Factory::getReference()->getResultsLogger()->log(results, m_timeIntervalSec, m_timeStepSec, "SmallTimeStep");
+}
+
+void FullCatalogTestDataGeneration::stateUpdate()
+{
+	switch (m_state)
+	{
+	case eStartCase:
+	case eStartVariation:
+		if (m_runAncas)
+			m_state = eAncas;
+		else if (m_runCatch)
+			m_state = eCatch;
+		else if (m_runSboAncas)
+			m_state = eSboAncas;
+		else
+			m_state = eEndVariation;
+		break;
+	case eAncas:
+		if (m_runCatch)
+			m_state = eCatch;
+		else if (m_runSboAncas)
+			m_state = eSboAncas;
+		else
+			m_state = eEndVariation;
+		break;
+	case eCatch:
+		if (m_runSboAncas)
+			m_state = eSboAncas;
+		else
+			m_state = eEndVariation;
+		break;
+	case eSboAncas:
+		m_state = eEndVariation;
+		break;
+	case eEndVariation:
+	case eEnded:
+	default:
+		break;
+	}
 }

@@ -33,6 +33,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 	results.timeIntervalSizeSec = params.timeIntervalSizeSec;
 	results.numberOfPointsPerSegment = params.numberOfPointsPerSegment;
 	results.initialNumberOfPoints = params.numberOfPoints;
+	results.TminFactor = params.TminFactor;
 
 	memcpy(results.testName, params.testName, MAX_TEST_NAME_SIZE);
 

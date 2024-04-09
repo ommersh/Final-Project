@@ -80,6 +80,7 @@ namespace TestParameters
         int numberOfPoints;
 		unsigned int numberOfIterations;
 		double segmentSizeSec;
+		int TminFactor;
 		double timeIntervalSizeSec;
 		int	numberOfPointsPerSegment;
 
@@ -124,6 +125,8 @@ namespace TestResults
 		double timeIntervalSizeSec;
 		int	numberOfPointsPerSegment;
 		int initialNumberOfPoints;
+		int TminFactor;
+
     };
 }
 

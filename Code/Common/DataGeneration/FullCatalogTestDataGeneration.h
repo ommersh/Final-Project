@@ -53,8 +53,16 @@ protected:
 
     void calculateWithSmallTimestep(double timePoint);
 
+    void getNextPointsInIntervalTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
+    void getNextTimeIntervalTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
+    void getNextCatchDegreeTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
+    void stateUpdate();
+
+
     //Test parameters
-    AppConfiguration::FullCatalogTestVariation m_testVariation;
+    AppConfiguration::FullCatalogTestDataVariation m_testVariation;
+    AppConfiguration::FullCatalogTestTypeVariation m_fullCatalogTestTypeVariation;
+
     int m_currentNumberOfPointsInSegment;
     int m_minNumberOfPointsInSegment;
     int m_maxNumberOfPointsInSegment;
@@ -64,12 +72,17 @@ protected:
 
     int m_numberOfiterations;
     int m_numberOfDays;
+    int m_TMinFactor;
 
     double m_sboAncasTolDKm;
     double m_sboAncasTolTSec;
     bool m_calculateWithSmallTimestep;
     double m_timeStepSec;
     double m_timeIntervalSec;
+
+    bool m_runAncas;
+    bool m_runSboAncas;
+    bool m_runCatch;
 
     //Test data
     unsigned int m_testID;
@@ -83,8 +96,8 @@ protected:
     FullCatalogTestDataGenerationState m_state;
     unsigned int m_numberOfCases;
     unsigned int m_casesCounter;
-    bool m_sboAncasRunning;
- 
+
+
 
     //The input file
     std::ifstream m_inputFile;
