@@ -1,7 +1,14 @@
 #include "ResultManager.h"
 
-void ResultManager::handleTestResult() {
+TestInfo ResultManager::GetTestResult(int testId) {
+	TestInfo testInfo;
+	return testInfo;
 }
 
-void ResultManager::saveData(const std::string& path) {
+void ResultManager::SaveData(const std::string& path) {
+}
+
+void ResultManager::UpdateTestResult(TestInfo testInfo)
+{
+
 }

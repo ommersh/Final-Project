@@ -3,22 +3,20 @@
 
 #include <string>
 #include "../TestingStationApp/Enums/SatelliteDataFormatEnum.h"
-#include <AlgorithmEnum.h>
+#include "Enums/AlgorithmEnum.h"
+#include "../../SGP4/CPP/SGP4.h"
 
 
-struct TestRecipe {
-    std::string name;
-    unsigned int testId;
-    std::string description;
-    SatelliteDataFormat format;
+
+struct CommonTestRecipe {
+    int testId;
     double timeInterval;
     int iterations;
-    double propogatorDeltaTime;
     Algorithm alg;
     int catchPolynomDeg;
-    std::string firstElemData;
-    std::string secondElemData;
-
+    elsetrec firstElemObj;
+    elsetrec secondElemObj;
+    int numOfTimePoints;
 };
 
 #endif

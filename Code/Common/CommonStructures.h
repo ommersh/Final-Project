@@ -1,7 +1,6 @@
 #ifndef SHIELD_TestDefinitions_H    // Check if the symbol SHIELD_TestDefinitions_H is not defined
 #define SHIELD_TestDefinitions_H    // Define the symbol SHIELD_TestDefinitions_H
 
-#include "TcaCalculation.h"
 
 /// <summary>
 /// Definitions related to the message between the TestedOBCApp and the TestingStationApp

@@ -1,30 +1,72 @@
 #include "lab.h"
 
 
-/// <summary>
-/// Initialize members
-/// </summary>
-Lab::Lab() {
-    m_commManager = std::make_unique<CommManager>();
-    m_testManager = std::make_unique<TestManager>();
-}
+    Lab::Lab() : m_databaseManager("Tests.db") {
+        m_commManager = CommManager();
+        m_resultManager = ResultManager();
+        m_dataGenerator = TestDataGenerationManager();
+        if (!m_databaseManager.createTables()) {
+            std::cerr << "Failed to create tables." << std::endl;
+        }
+    }
 
-/// <summary>
-/// Destructor
-/// </summary>
-Lab::~Lab() {
+    Lab::~Lab() {}
 
-}
+    Lab& Lab::GetInstance() {
+        static Lab instance;
+        return instance;
+    }
 
-Lab& Lab::getInstance() {
-    static Lab instance;
-    return instance;
-}
+    TestInfo Lab::GetTestInfo(int testId) {
+        TestInfo testInfo = m_databaseManager.getTestInfo(testId);
+        return testInfo;
+    }
 
-CommManager& Lab::getCommManager() const {
-    return *m_commManager;
-}
+    void Lab::DeleteTest(int testId) {
+        m_databaseManager.deleteTest(testId);
+    }
 
-TestManager& Lab::getTestManager() const {
-    return *m_testManager;
-}
+    int Lab::CreateTest(std::string name, double timeInterval, int iterations, Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, std::string elemDataTwo, SatelliteDataFormat format) {
+        CommonTestRecipe recipe = CommonTestRecipe();
+        recipe.timeInterval = timeInterval;
+        recipe.iterations = iterations;
+        recipe.alg = alg;
+        recipe.catchPolynomDeg = catchPolynomDeg;
+        recipe.numOfTimePoints = numOfTimePoints;
+
+        TestInfo testInfo = TestInfo();
+        //testInfo.name = name;
+        strncpy_s(testInfo.name, name.c_str(), sizeof(name) - 1);
+
+        testInfo.recipe = recipe;
+        testInfo.status = TestStatus::NotStarted;
+        testInfo.format = format;
+
+        strncpy_s(testInfo.firstElemData, elemDataOne.c_str(), sizeof(elemDataOne) - 1);
+        strncpy_s(testInfo.secondElemData, elemDataTwo.c_str(), sizeof(elemDataTwo) - 1);
+
+        //testInfo.firstElemData = elemDataOne;
+        //testInfo.secondElemData = elemDataTwo;
+
+        TcaCalculation::sPointData* pointsData;
+
+        //m_dataGenerator.GenerateTestData(testInfo, &pointsData);
+
+        m_databaseManager.createTest(testInfo);
+        std::cout << testInfo.recipe.testId << std::endl;
+        return testInfo.recipe.testId;
+        //todo: send test to card
+    }
+
+    std::set<int> Lab::getAllTestIds()
+    {
+        return m_databaseManager.getAllTestIds();
+    }
+
+
+    Lab& Lab::operator=(const Lab&)
+    {
+        return *this;
+    }
+
+

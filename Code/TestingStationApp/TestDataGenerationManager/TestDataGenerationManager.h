@@ -2,18 +2,17 @@
 #define TESTDATAGENERATIONMANAGER_H
 
 #include <string>
-#include <CPP/DataGenerator.h>
-#include <AlgorithmEnum.h>
+#include "../../Common/Enums/AlgorithmEnum.h"
 #include "../Enums/SatelliteDataFormatEnum.h"
-#include <TestRecipe.h>
-#include <TcaCalculation.h>
+#include "../TestManager/ResultManager/TestInfo.h"
 #include <map>
+#include "../../../SGP4/CPP/DataGenerator.h"
 
 class TestDataGenerationManager {
 public:
     TestDataGenerationManager() { m_dataGenerator = DataGenerator(); }
-    void CreateTest(TestRecipe recipe);
-    void GenerateTestData(int timePointsArrLength,  elsetrec& orbitingElement1, elsetrec& orbitingElement2, TcaCalculation::sPointData elementsVectors[]);
+    //void CreateTest(TestInfo& recipe);
+    void GenerateTestData(TestInfo& testInfo, TcaCalculation::sPointData* elementsVectors[]);
     void findTCA();
     void ProcessOrbitingElement(std::string& tle, elsetrec& orbitingElement, SatelliteDataFormat format);
     void GeneratePointsByAlgorithm(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[], Algorithm alg);

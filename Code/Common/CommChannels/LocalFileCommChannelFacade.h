@@ -2,8 +2,8 @@
 #define SHIELD_LocalFileCommChannelFacade_H    // Define the symbol SHIELD_LocalFileCommChannelFacade_H
 
 #include "ICommChannel.h"
-#include "FileReader.h"
-#include "CommonStructures.h"
+#include "../../Implementations/FileReader.h"
+#include "../CommonStructures.h"
 
 using namespace MessagesDefinitions;
 /// <summary>

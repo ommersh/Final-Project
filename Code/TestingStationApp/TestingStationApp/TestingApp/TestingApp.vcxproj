@@ -41,17 +41,21 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>true</CLRSupport>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -71,6 +75,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetExt>.dll</TargetExt>
+    <CopyLocalDebugSymbols>false</CopyLocalDebugSymbols>
+    <CopyLocalDeploymentContent>false</CopyLocalDeploymentContent>
+    <CopyLocalProjectReference>false</CopyLocalProjectReference>
+    <CopyCppRuntimeToOutputDir>false</CopyCppRuntimeToOutputDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetExt>.dll</TargetExt>
+    <CopyLocalDebugSymbols>false</CopyLocalDebugSymbols>
+    <CopyLocalDeploymentContent>false</CopyLocalDeploymentContent>
+    <CopyLocalProjectReference>false</CopyLocalProjectReference>
+    <CopyCppRuntimeToOutputDir>false</CopyCppRuntimeToOutputDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -111,6 +129,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetDir)TestingStationApp.dll" "$(SolutionDir)\Dlls\TestingStationApp.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -127,6 +148,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetDir)TestingStationApp.dll" "$(SolutionDir)\Dlls\TestingStationApp.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\SGP4\CPP\AncasDataGenerator.cpp" />
@@ -136,11 +160,19 @@
     <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp" />
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
     <ClCompile Include="..\..\CommManager\CommManager.cpp" />
+    <ClCompile Include="..\..\Database\DatabaseManager.cpp" />
+    <ClCompile Include="..\..\Database\SqlLite\shell.c">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
+    </ClCompile>
+    <ClCompile Include="..\..\Database\SqlLite\sqlite3.c">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
+    </ClCompile>
     <ClCompile Include="..\..\Lab\Lab.cpp" />
+    <ClCompile Include="..\..\Lab\LabWrapper.cpp" />
     <ClCompile Include="..\..\TestDataGenerationManager\TestDataGenerationManager.cpp" />
-    <ClCompile Include="..\..\TestDataGenerationManager\TestGenerationInfo.cpp" />
     <ClCompile Include="..\..\TestManager\ResultManager\ResultManager.cpp" />
-    <ClCompile Include="..\..\TestManager\TestManager.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,14 +189,16 @@
     <ClInclude Include="..\..\..\Implementations\ITcaAlgorithm.h" />
     <ClInclude Include="..\..\..\Implementations\TcaCalculation.h" />
     <ClInclude Include="..\..\CommManager\CommManager.h" />
+    <ClInclude Include="..\..\Database\DatabaseManager.h" />
+    <ClInclude Include="..\..\Database\SqlLite\sqlite3.h" />
+    <ClInclude Include="..\..\Database\SqlLite\sqlite3ext.h" />
+    <ClInclude Include="..\..\Enums\TestStatus.h" />
     <ClInclude Include="..\..\Enums\TimeUnitEnum.h" />
     <ClInclude Include="..\..\Enums\SatelliteDataFormatEnum.h" />
     <ClInclude Include="..\..\Lab\Lab.h" />
     <ClInclude Include="..\..\TestDataGenerationManager\TestDataGenerationManager.h" />
-    <ClInclude Include="..\..\TestDataGenerationManager\TestGenerationInfo.h" />
     <ClInclude Include="..\..\TestManager\ResultManager\ResultManager.h" />
-    <ClInclude Include="..\..\TestManager\ResultManager\TestResultInfo.h" />
-    <ClInclude Include="..\..\TestManager\TestManager.h" />
+    <ClInclude Include="..\..\TestManager\ResultManager\TestInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,12 +1,10 @@
 #ifndef COMM_MANAGER_H
 #define COMM_MANAGER_H
 
-#include "TestRecipe.h"
 //#include "TimePoint.h"
 #include <vector>
 #include <memory>
-#include <ICommChannel.h>
-#include <LocalFileCommChannelFacade.h>
+#include "../../Common/CommChannels/LocalFileCommChannelFacade.h"
 
 
 class CommManager {

@@ -35,9 +35,6 @@
     <Filter Include="TestDataGenerationManager">
       <UniqueIdentifier>{8ca59593-a2e2-4057-97ef-91401a53abff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TestDataGenerationManager\Sgp4Facade">
-      <UniqueIdentifier>{4662f84e-2794-4143-97c9-af2526874268}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Enum">
       <UniqueIdentifier>{a656aa00-17b7-4f1c-9f81-6bb4781ce5e7}</UniqueIdentifier>
     </Filter>
@@ -47,6 +44,12 @@
     <Filter Include="Main">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="DataBase">
+      <UniqueIdentifier>{d0fca3bb-772a-45ca-986c-3c78b582a1b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataBase\SqlLite">
+      <UniqueIdentifier>{d120ddff-d9cb-44c1-af7f-49fa71043530}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +61,6 @@
     </ClCompile>
     <ClCompile Include="..\..\CommManager\CommManager.cpp">
       <Filter>CommManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\TestManager\TestManager.cpp">
-      <Filter>TestManager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\TestManager\ResultManager\ResultManager.cpp">
       <Filter>TestManager\ResultManager</Filter>
@@ -80,14 +80,23 @@
     <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp">
       <Filter>Common\SGP4</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\TestDataGenerationManager\TestGenerationInfo.cpp">
-      <Filter>TestDataGenerationManager</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\TestDataGenerationManager\TestDataGenerationManager.cpp">
       <Filter>TestDataGenerationManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Database\DatabaseManager.cpp">
+      <Filter>DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Database\SqlLite\shell.c">
+      <Filter>DataBase\SqlLite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Database\SqlLite\sqlite3.c">
+      <Filter>DataBase\SqlLite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Lab\LabWrapper.cpp">
+      <Filter>Lab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,9 +124,6 @@
     <ClInclude Include="..\..\CommManager\CommManager.h">
       <Filter>CommManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\TestManager\TestManager.h">
-      <Filter>TestManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\TestManager\ResultManager\ResultManager.h">
       <Filter>TestManager\ResultManager</Filter>
     </ClInclude>
@@ -139,9 +145,6 @@
     <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h">
       <Filter>Common\SGP4</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\TestDataGenerationManager\TestGenerationInfo.h">
-      <Filter>TestDataGenerationManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h">
       <Filter>Common\Enum</Filter>
     </ClInclude>
@@ -151,8 +154,20 @@
     <ClInclude Include="..\..\Enums\SatelliteDataFormatEnum.h">
       <Filter>Enum</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\TestManager\ResultManager\TestResultInfo.h">
+    <ClInclude Include="..\..\Database\DatabaseManager.h">
+      <Filter>DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Enums\TestStatus.h">
+      <Filter>Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestManager\ResultManager\TestInfo.h">
       <Filter>TestManager\ResultManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Database\SqlLite\sqlite3.h">
+      <Filter>DataBase\SqlLite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Database\SqlLite\sqlite3ext.h">
+      <Filter>DataBase\SqlLite</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

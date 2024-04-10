@@ -1,32 +1,38 @@
 #ifndef LAB_H
 #define LAB_H
 
-#include <memory>
+#include "../TestManager/ResultManager/ResultManager.h"
+#include "../Database/DatabaseManager.h"
+#include "../CommManager/CommManager.h"
+#include "../TestDataGenerationManager/TestDataGenerationManager.h"
+using namespace std;
 
-#include "CommManager.h" 
-#include "../TestManager/TestManager.h"
+
 
 class Lab {
 public:
-    static Lab& getInstance();
+    static Lab& GetInstance();
 
-    CommManager& getCommManager() const;
+    TestInfo GetTestInfo(int testId);
+    void DeleteTest(int testId);
 
-    TestManager& getTestManager() const;
+    int CreateTest(std::string name, double timeInterval, int iterations, Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, string elemDataTwo, SatelliteDataFormat format);
+    std::set<int> getAllTestIds();
 
 private:
     Lab();
-
     ~Lab();
 
     // Private copy constructor and assignment operator to prevent duplication
     Lab(const Lab&);
     Lab& operator=(const Lab&);
 
-    // Members
-    std::unique_ptr<CommManager> m_commManager;
-    std::unique_ptr<TestManager> m_testManager;
-
+    //// Members
+    CommManager m_commManager;
+    ResultManager m_resultManager;
+    TestDataGenerationManager m_dataGenerator;
+    DatabaseManager m_databaseManager; 
 };
+
 
 #endif // LAB_H
