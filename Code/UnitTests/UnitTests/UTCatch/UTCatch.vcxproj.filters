@@ -21,6 +21,12 @@
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp">
       <Filter>Dependencies</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp">
+      <Filter>Dependencies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\TestUtils.h" />
@@ -35,6 +41,9 @@
       <Filter>Dependencies</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h">
+      <Filter>Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h">
       <Filter>Dependencies</Filter>
     </ClInclude>
   </ItemGroup>

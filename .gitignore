@@ -54,3 +54,8 @@ Code/TestedOBCApp/TestedOBCAppCMake/WindowsRelease/
 Code/TestedOBCApp/TestedOBCAppCMake/Logger/
 Code/UnitTests/UnitTests/UTSboAncas/alg_worst_case.csv
 Code/UnitTests/UnitTests/UTSboAncas/Debug/
+Code/UnitTests/UnitTests/UTAncas/x64/
+Code/UnitTests/UnitTests/UTCatch/x64/
+Code/UnitTests/UnitTests/UTRootsFinding/x64/
+Code/UnitTests/UnitTests/UTSboAncas/x64/
+Code/UnitTests/UnitTests/x64/

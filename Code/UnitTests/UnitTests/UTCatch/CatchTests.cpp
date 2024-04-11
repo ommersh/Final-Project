@@ -154,31 +154,51 @@ TEST_F(CPPTests, TEST_GetValue)
 
 #include "FileReader.h"
 #include "CompanionMatrixRootsFinderEigen.h"
+#include "SimpleDataGeneration.h"
 
 //Test a real test case
-TEST_F(CATCHTestCase, TEST_test_case_LEMUR2_COSMOS_Eigen_Lib)
+TEST_F(CATCHTestCase, TEST_test_case_STARLINK5447_UNICORN2N_Eigen_Lib)
 {
+    TcaCalculation::sPointData* data;
+    elsetrec elsetrec1;
+    elsetrec elsetrec2;
+    double startTime1Min;
+    double startTime2Min;
+    SimpleDataGeneration SimpleDataGeneration;
     double maxErrorTime = 2;
     double maxErrorDistance = 0.0001;
     int degree = 15;
     //run catch
-    FileReader fr;
-    sFileData fileData = fr.readDataFromFile("TestCaseData/LEMUR2_COSMOS_GAUSS.csv");
-    if (fileData.size == -1)
-    {
-        fileData = fr.readDataFromFile("../UTCatch/TestCaseData/LEMUR2_COSMOS_GAUSS.csv");
-    }
-    int lastPointIndex = fileData.size;
-    double expectedResultsDistance = 0.0838348;
-    double expectedResultsTime = 177096;
+    double expectedResultsDistance = 0.0118;
+    double expectedResultsTime = 577578;
+
 
     CompanionMatrixRootsFinderEigen rootsFinder;
     CATCH Catch;
     Catch.init(&rootsFinder, degree);
-    if (fileData.data != nullptr)
+
+    char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
+    char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
+
+    char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
+    char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
+    elsetrec1 = { 0 };
+    elsetrec2 = { 0 };
+    startTime1Min = 0;
+    startTime2Min = 0;
+    double segmentSize;
+    SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, 14, 16, elsetrec1, elsetrec2, startTime1Min, startTime2Min, segmentSize);
+
+
+    int size = SimpleDataGeneration.m_numberOfPoints;
+    data = SimpleDataGeneration.m_pointsDataCATCH;
+
+    if (data != nullptr)
     {
-        TCA tca = Catch.runAlgorithm(fileData.data, lastPointIndex);
-        delete[] fileData.data;
+        TCA tca = Catch.runAlgorithm(data, size-1);
+        delete[] SimpleDataGeneration.m_pointsDataANCAS;
+        delete[] SimpleDataGeneration.m_pointsDataCATCH;
+
         EXPECT_TRUE(TestUtils::CompareValues(tca.distance, expectedResultsDistance, maxErrorDistance));
         EXPECT_TRUE(TestUtils::CompareValues(tca.time, expectedResultsTime, maxErrorTime));
 
