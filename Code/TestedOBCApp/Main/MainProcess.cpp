@@ -34,7 +34,7 @@ void MainProcess::process()
 		if (m_commManager->getTheNextTest())
 		{
 			//collect the data
-			TestParameters::TestRecipe params = m_commManager->getTheTestParameters();
+			TestRecipe params = m_commManager->getTheTestParameters();
 			TcaCalculation::sPointData* data = m_commManager->getTheTestData();
 			//run the test
 			//m_testManager->runTest()

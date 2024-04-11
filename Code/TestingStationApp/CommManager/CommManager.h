@@ -1,11 +1,13 @@
 #ifndef COMM_MANAGER_H
 #define COMM_MANAGER_H
 
-//#include "TimePoint.h"
 #include <vector>
 #include <memory>
-#include "../../Common/CommChannels/ICommChannel.h"
+#include "ICommChannel.h"
 
+#include "TestRecipe.h"
+#include "TcaCalculation.h"
+#include "CommonStructures.h"
 
 class CommManager {
 public:
@@ -16,10 +18,15 @@ public:
     }
     void SetListeningState(bool listen);
     bool getNextMessage();
-    //void sendMessage(const TestRecipe& recipe, double[] timePoints)
+    void sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData);
+    TestResults::TestResult getLastReceivedTestResult() {
+        return m_lastReceivedResultsMessage.results;
+    }
+
 private:
     bool listening = false;
     std::unique_ptr<ICommChannel> m_commChannel;
+    MessagesDefinitions::TestResultsMessage m_lastReceivedResultsMessage;
 };
 
 #endif // COMM_MANAGER_H

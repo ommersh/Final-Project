@@ -4,8 +4,39 @@
 #include "TcaCalculation.h"
 #include "SGP4.h"
 #include "AlgorithmEnum.h"
+#include "TestRecipe.h"
 
-static const int MAX_TEST_NAME_SIZE = 25;
+namespace TestResults
+{
+
+	struct TestResult {
+
+		//The results and run time of the first run
+		TcaCalculation::TCA tca;
+		double runTimeMicro;
+
+		//Repeated tests results
+		long double avgTimeMicro;
+		long double minTimeMicro;
+		int numberOfRuns;
+
+		//Test data
+		char testName[MAX_TEST_NAME_SIZE];
+		AlgorithmsEnums::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
+		AlgorithmsEnums::Algorithm testedAlgorithm;
+		unsigned int testID;
+		int degree;
+
+		//Additional data
+		double segmentSizeSec;
+		double timeIntervalSizeSec;
+		int	numberOfPointsPerSegment;
+		int initialNumberOfPoints;
+		int TminFactor;
+
+	};
+}
+
 
 /// <summary>
 /// Definitions related to the message between the TestedOBCApp and the TestingStationApp
@@ -55,39 +86,14 @@ namespace MessagesDefinitions
 	//			6-end	TestResult
 	// 
 	//////////////////////////////////////////////////////////////////////////////////////////////
+	struct TestResultsMessage {
+		MessageHeader header;
+		TestResults::TestResult results;
+	};
 }
 
 
-namespace TestResults
-{
-   
-    struct TestResult {
 
-		//The results and run time of the first run
-        TcaCalculation::TCA tca;
-		double runTimeMicro;
-
-		//Repeated tests results
-		long double avgTimeMicro;
-		long double minTimeMicro;
-		int numberOfRuns;
-
-		//Test data
-		char testName[MAX_TEST_NAME_SIZE];
-		CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
-		Algorithm testedAlgorithm;
-		unsigned int testID;
-		int degree;
-
-		//Additional data
-		double segmentSizeSec;
-		double timeIntervalSizeSec;
-		int	numberOfPointsPerSegment;
-		int initialNumberOfPoints;
-		int TminFactor;
-
-    };
-}
 
 
 

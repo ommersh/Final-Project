@@ -27,7 +27,7 @@ namespace LabWrap {
             lab->DeleteTest(testId); 
         }
 
-        __declspec(dllexport) unsigned int Lab_CreateTest(Lab* lab, const std::string& name, double timeInterval, int iterations, Algorithm alg, int catchPolynomDeg, int numOfTimePoints, const std::string& elemDataOne, const std::string& elemDataTwo, SatelliteDataFormat format)
+        __declspec(dllexport) unsigned int Lab_CreateTest(Lab* lab, const std::string& name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, const std::string& elemDataOne, const std::string& elemDataTwo, SatelliteDataFormat format)
         {
             return lab->CreateTest("name", timeInterval, iterations, alg, catchPolynomDeg, numOfTimePoints, "data1", "data2", format);
         }

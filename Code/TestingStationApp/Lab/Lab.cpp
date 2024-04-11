@@ -1,10 +1,10 @@
 #include "lab.h"
 
-
-    Lab::Lab() : m_databaseManager("Tests.db") {
-        m_commManager = CommManager();
-        m_resultManager = ResultManager();
-        m_dataGenerator = TestDataGenerationManager();
+    Lab::Lab() : m_databaseManager("Tests.db"),
+        m_commManager(&m_testingStationLocalSimCommChannel),
+        m_resultManager(),
+        m_dataGenerator()
+    {
         if (!m_databaseManager.createTables()) {
             std::cerr << "Failed to create tables." << std::endl;
         }
@@ -26,7 +26,7 @@
         m_databaseManager.deleteTest(testId);
     }
 
-    int Lab::CreateTest(std::string name, double timeInterval, int iterations, Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, std::string elemDataTwo, SatelliteDataFormat format) {
+    int Lab::CreateTest(std::string name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, std::string elemDataTwo, SatelliteDataFormat format) {
         CommonTestRecipe recipe = CommonTestRecipe();
         recipe.timeInterval = timeInterval;
         recipe.iterations = iterations;

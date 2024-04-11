@@ -14,8 +14,8 @@ static const int MAX_TEST_NAME_SIZE = 25;
 struct TestRecipe {
 	//Test Data
 	int catchPolynomialDegree;           // Degree of the polynomial
-	CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
-	Algorithm testedAlgorithm;
+	AlgorithmsEnums::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
+	AlgorithmsEnums::Algorithm testedAlgorithm;
 	int numberOfPoints;
 	unsigned int numberOfIterations;
 	double segmentSizeSec;
@@ -40,7 +40,7 @@ struct CommonTestRecipe {
     int testId;
     double timeInterval;
     int iterations;
-    Algorithm alg;
+	AlgorithmsEnums::Algorithm alg;
     int catchPolynomDeg;
     elsetrec firstElemObj;
     elsetrec secondElemObj;

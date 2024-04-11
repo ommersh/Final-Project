@@ -125,18 +125,18 @@ void ResultsLogger::log(TestResults::TestResult results, double TOLd, double TOL
     std::string algName;
     switch (results.testedAlgorithm)
     {
-    case TestParameters::ANCAS:
+    case AlgorithmsEnums::ANCAS:
         algName = "ANCAS";
         TOLd = 0;
         TOLt = 0;
         break;
-    case TestParameters::CATCH:
+    case AlgorithmsEnums::CATCH:
         switch (results.catchRootsAlg)
         {
-        case TestParameters::EigenCompanionMatrix:
+        case AlgorithmsEnums::EigenCompanionMatrix:
             algName = "CATCH_Eigen";
             break;
-        case TestParameters::ArmadilloCompanionMatrix:
+        case AlgorithmsEnums::ArmadilloCompanionMatrix:
             algName = "CATCH_Armadillo";
             break;
         default:
@@ -146,7 +146,7 @@ void ResultsLogger::log(TestResults::TestResult results, double TOLd, double TOL
         TOLd = 0;
         TOLt = 0;
         break;
-    case TestParameters::SBO_ANCAS:
+    case AlgorithmsEnums::SBO_ANCAS:
         algName = "SBO ANCAS";
         break;
 

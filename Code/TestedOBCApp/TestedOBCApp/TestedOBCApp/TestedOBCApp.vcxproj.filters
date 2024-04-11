@@ -43,6 +43,12 @@
     <Filter Include="ExternalLibraries">
       <UniqueIdentifier>{339ef196-d30e-4c3c-8dca-02188d1cc4d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Enum">
+      <UniqueIdentifier>{2bac20e5-b8d5-425e-b500-3fe5224b5f4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Structures">
+      <UniqueIdentifier>{98c4d274-0fa3-4fba-8b1e-7906fb2c88db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Main\Main.cpp">
@@ -181,9 +187,6 @@
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h">
       <Filter>Common\CommChannels</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\CommonStructures.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h">
       <Filter>Common\Logger</Filter>
     </ClInclude>
@@ -225,6 +228,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.h">
       <Filter>ExternalLibraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h">
+      <Filter>Common\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\TestRecipe.h">
+      <Filter>Common\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommonStructures.h">
+      <Filter>Common\Structures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

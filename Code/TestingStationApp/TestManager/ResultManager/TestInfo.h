@@ -4,7 +4,7 @@
 
 #include "TestStatus.h"
 #include "TestRecipe.h"
-
+#include "SatelliteDataFormatEnum.h"
 
 
 struct TestInfo {

@@ -82,7 +82,7 @@ void TestDataGenerationManager::SplitTLEString(std::string tleString, char first
 }
 
 
-void TestDataGenerationManager::GeneratePointsByAlgorithm(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[], Algorithm alg) {
+void TestDataGenerationManager::GeneratePointsByAlgorithm(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[], AlgorithmsEnums::Algorithm alg) {
     // Call the corresponding method based on the algorithm
     return (this->*methodMap[alg])(n, tEnd, gamma, elementsVectors);
 }

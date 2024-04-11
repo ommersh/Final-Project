@@ -18,6 +18,7 @@
 #include "ResultsLogger.h"
 
 #include "CommonStructures.h"
+#include "AlgorithmEnum.h"
 #include "AppConfigurationManager.h"
 #include "TestManager.h"
 
@@ -49,14 +50,14 @@ public:
 	/// <param name="algType"></param>
 	/// <param name="degree"></param>
 	/// <returns></returns>
-	IRootsFindAlg*	getRootsFindAlg(TestParameters::CatchRootsAlg algType, int degree);
+	IRootsFindAlg*	getRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, int degree);
 	/// <summary>
 	/// Get Catch object initialize to the requested degree and root finding algorithm.
 	/// </summary>
 	/// <param name="algType"></param>
 	/// <param name="degree"></param>
 	/// <returns></returns>
-	CATCH*			getCATCH(TestParameters::CatchRootsAlg algType, int degree);
+	CATCH*			getCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree);
 	/// <summary>
 	/// Get Ancas object, should be initialized.
 	/// </summary>

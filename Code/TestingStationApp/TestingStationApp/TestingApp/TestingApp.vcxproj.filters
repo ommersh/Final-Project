@@ -47,6 +47,9 @@
     <Filter Include="DataBase\SqlLite">
       <UniqueIdentifier>{d120ddff-d9cb-44c1-af7f-49fa71043530}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\CommChannels\TestingStationLocalSim">
+      <UniqueIdentifier>{fe9e5429-98dc-4317-a8fd-4b7ded16e92f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
@@ -90,6 +93,27 @@
     </ClCompile>
     <ClCompile Include="..\..\Lab\LabWrapper.cpp">
       <Filter>Lab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\CommChannels\TestingStationLocalSimCommChannel.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.cpp">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.cpp">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +182,30 @@
     </ClInclude>
     <ClInclude Include="..\..\Database\SqlLite\sqlite3ext.h">
       <Filter>DataBase\SqlLite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\TestingStationLocalSimCommChannel.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\ISinglePointPropogator.h">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.h">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.h">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h">
+      <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

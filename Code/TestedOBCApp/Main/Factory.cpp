@@ -99,16 +99,16 @@ ICommChannel* Factory::getCommChannel()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-IRootsFindAlg* Factory::getRootsFindAlg(TestParameters::CatchRootsAlg algType, int degree)
+IRootsFindAlg* Factory::getRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, int degree)
 {
 	IRootsFindAlg* rootsFindAlg = nullptr;
 	switch (algType)
 	{
 	default:
-	case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
+	case AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix:
 		rootsFindAlg = &m_companionMatrixRootsFinderEigen;
 		break;
-	/*case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
+	/*case AlgorithmsEnums::CatchRootsAlg::ArmadilloCompanionMatrix:
 		rootsFindAlg = &m_companionMatrixRootsFinderAArmadillo;
 		break;*/
 	}
@@ -123,7 +123,7 @@ IRootsFindAlg* Factory::getRootsFindAlg(TestParameters::CatchRootsAlg algType, i
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-CATCH* Factory::getCATCH(TestParameters::CatchRootsAlg algType, int degree)
+CATCH* Factory::getCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree)
 {
 	m_catch.init(getRootsFindAlg(algType, degree), degree);
 	return &m_catch;

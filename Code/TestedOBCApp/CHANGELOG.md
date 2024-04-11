@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Released]
+### version 1.0.4
+#### Changed 11/03/2024
+-New Common structure files
 ### version 1.0.3
 #### Changed 09/03/2024
 -Added Full catalog options - runnig with a constant number of points over a changing time interval

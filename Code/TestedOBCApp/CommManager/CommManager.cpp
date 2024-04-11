@@ -71,8 +71,8 @@ bool CommManager::getTheNextTest()
 			//unsigned int dataSize = header.dataSize / sizeof(TcaCalculation::sPointData);
 
 			//get the test parameters
-			memcpy(reinterpret_cast<unsigned char*>(& m_testParameters), buffer + offset, sizeof(TestParameters::TestRecipe));
-			offset += sizeof(TestParameters::TestRecipe);
+			memcpy(reinterpret_cast<unsigned char*>(& m_testParameters), buffer + offset, sizeof(TestRecipe));
+			offset += sizeof(TestRecipe);
 
 			//get the data
 			m_pointsData = new TcaCalculation::sPointData[header.dataSize / sizeof(TcaCalculation::sPointData)];
@@ -115,7 +115,7 @@ bool CommManager::getTheNextTest()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-TestParameters::TestRecipe CommManager::getTheTestParameters()
+TestRecipe CommManager::getTheTestParameters()
 {
 	return m_testParameters;
 }

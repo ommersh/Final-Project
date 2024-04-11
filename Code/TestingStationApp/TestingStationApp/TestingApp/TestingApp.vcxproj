@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,7 +160,14 @@
     <ClCompile Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
+    <ClCompile Include="..\..\..\Common\CommChannels\TestingStationLocalSimCommChannel.cpp" />
+    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
+    <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
+    <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp" />
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.cpp" />
+    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.cpp" />
     <ClCompile Include="..\..\CommManager\CommManager.cpp" />
     <ClCompile Include="..\..\Database\DatabaseManager.cpp" />
     <ClCompile Include="..\..\Database\SqlLite\shell.c">
@@ -183,11 +190,19 @@
     <ClInclude Include="..\..\..\..\SGP4\CPP\DataGenerator.h" />
     <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
+    <ClInclude Include="..\..\..\Common\CommChannels\TestingStationLocalSimCommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommonStructures.h" />
     <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h" />
     <ClInclude Include="..\..\..\Common\TestRecipe.h" />
+    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
+    <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h" />
+    <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h" />
     <ClInclude Include="..\..\..\Implementations\FileReader.h" />
     <ClInclude Include="..\..\..\Implementations\ITcaAlgorithm.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\ISinglePointPropogator.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.h" />
+    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.h" />
     <ClInclude Include="..\..\..\Implementations\TcaCalculation.h" />
     <ClInclude Include="..\..\CommManager\CommManager.h" />
     <ClInclude Include="..\..\Database\DatabaseManager.h" />

@@ -30,7 +30,7 @@ public:
 	/// Get the test parameters from the last message received
 	/// </summary>
 	/// <returns></returns>
-	virtual TestParameters::TestRecipe getTheTestParameters();
+	virtual TestRecipe getTheTestParameters();
 	/// <summary>
 	///Get the test data from the last message received
 	/// </summary>
@@ -47,7 +47,7 @@ public:
 	virtual void sendTestResults(TestResults::TestResult testResults);
 protected:
 	ICommChannel& m_commChannel;
-	TestParameters::TestRecipe m_testParameters;
+	TestRecipe m_testParameters;
 	TcaCalculation::sPointData* m_pointsData;
 };
 #endif //SHIELD_CommManager_H

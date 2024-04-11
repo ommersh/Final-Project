@@ -262,7 +262,7 @@ TestInfo DatabaseManager::getTestInfo(int testId) {
         testInfo.format = static_cast<SatelliteDataFormat>(sqlite3_column_int(stmt, 2));
         testInfo.recipe.timeInterval = sqlite3_column_double(stmt, 3);
         testInfo.recipe.iterations = sqlite3_column_int(stmt, 4);
-        testInfo.recipe.alg = static_cast<Algorithm>(sqlite3_column_int(stmt, 5));
+        testInfo.recipe.alg = static_cast<AlgorithmsEnums::Algorithm>(sqlite3_column_int(stmt, 5));
         testInfo.recipe.catchPolynomDeg = sqlite3_column_int(stmt, 6); 
         testInfo.recipe.numOfTimePoints = sqlite3_column_int(stmt, 7); 
         testInfo.realTCA = sqlite3_column_double(stmt, 8);

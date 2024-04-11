@@ -5,6 +5,9 @@
 #include "DatabaseManager.h"
 #include "CommManager.h"
 #include "TestDataGenerationManager.h"
+#include "TestingStationLocalSimCommChannel.h"
+
+
 using namespace std;
 
 
@@ -16,7 +19,7 @@ public:
     TestInfo GetTestInfo(int testId);
     void DeleteTest(int testId);
 
-    int CreateTest(std::string name, double timeInterval, int iterations, Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, string elemDataTwo, SatelliteDataFormat format);
+    int CreateTest(std::string name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, string elemDataTwo, SatelliteDataFormat format);
     std::set<int> getAllTestIds();
 
 private:
@@ -32,6 +35,8 @@ private:
     ResultManager m_resultManager;
     TestDataGenerationManager m_dataGenerator;
     DatabaseManager m_databaseManager; 
+
+    TestingStationLocalSimCommChannel m_testingStationLocalSimCommChannel;
 };
 
 

@@ -7,7 +7,7 @@ void AppConfigurationManager::init(const std::string& filename)
 {
 	INIReader reader(filename);
     std::string stringValue;
-    double doubleValue;
+
     setDefaults();
     if (reader.ParseError() < 0) {
         std::cerr << "Error parsing INI file!" << std::endl;

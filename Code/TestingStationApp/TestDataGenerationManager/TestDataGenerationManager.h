@@ -15,7 +15,7 @@ public:
     void GenerateTestData(TestInfo& testInfo, TcaCalculation::sPointData* elementsVectors[]);
     void findTCA();
     void ProcessOrbitingElement(std::string& tle, elsetrec& orbitingElement, SatelliteDataFormat format);
-    void GeneratePointsByAlgorithm(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[], Algorithm alg);
+    void GeneratePointsByAlgorithm(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[], AlgorithmsEnums::Algorithm alg);
 
 
 private:
@@ -24,9 +24,9 @@ private:
     void GenerateTimePointsForCatch(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[]);
     void SplitTLEString(std::string tleString, char firstLine[130], char secondLine[130]);
 
-    std::map<Algorithm, void (TestDataGenerationManager::*)(int, double, double, TcaCalculation::sPointData[])> methodMap{
-    {Algorithm::ANCAS, &TestDataGenerationManager::GenerateTimePointsForAncas},
-    {Algorithm::CATCH, &TestDataGenerationManager::GenerateTimePointsForCatch}
+    std::map<AlgorithmsEnums::Algorithm, void (TestDataGenerationManager::*)(int, double, double, TcaCalculation::sPointData[])> methodMap{
+    {AlgorithmsEnums::Algorithm::ANCAS, &TestDataGenerationManager::GenerateTimePointsForAncas},
+    {AlgorithmsEnums::Algorithm::CATCH, &TestDataGenerationManager::GenerateTimePointsForCatch}
     };
 
 };

@@ -18,7 +18,7 @@ TestManager::~TestManager()
 
 }
 
-TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, TcaCalculation::sPointData * pointsData)
+TestResults::TestResult TestManager::runTest(TestRecipe params, TcaCalculation::sPointData * pointsData)
 {
 	TestResults::TestResult results = { 0 };
 	ITcaAlgorithm* Algoritm;
@@ -40,13 +40,13 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 	switch (params.testedAlgorithm)
 	{
 	default:
-	case TestParameters::Algorithm::ANCAS:
+	case AlgorithmsEnums::Algorithm::ANCAS:
 		Algoritm = Factory::getReference()->getANCAS();
 		break;
-	case TestParameters::Algorithm::CATCH:
+	case AlgorithmsEnums::Algorithm::CATCH:
 		Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.catchPolynomialDegree);
 		break;
-	case TestParameters::Algorithm::SBO_ANCAS:
+	case AlgorithmsEnums::Algorithm::SBO_ANCAS:
 		Algoritm = Factory::getReference()->getSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
 		break;
 	}
@@ -69,13 +69,13 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 		switch (params.testedAlgorithm)
 		{
 		default:
-		case TestParameters::Algorithm::ANCAS:
+		case AlgorithmsEnums::Algorithm::ANCAS:
 			Algoritm = Factory::getReference()->getANCAS();
 			break;
-		case TestParameters::Algorithm::CATCH:
+		case AlgorithmsEnums::Algorithm::CATCH:
 			Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.catchPolynomialDegree);
 			break;
-		case TestParameters::Algorithm::SBO_ANCAS:
+		case AlgorithmsEnums::Algorithm::SBO_ANCAS:
 			Algoritm = Factory::getReference()->getSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
 			break;
 		}

@@ -60,7 +60,7 @@ protected:
 	//Parameters related to the test message and data
 	MessageHeader m_header;
 	sFileData m_fileData;
-	TestParameters::TestRecipe m_params;
+	TestRecipe m_params;
 	unsigned int testID;
 	unsigned char* m_messageBuffer;
 
