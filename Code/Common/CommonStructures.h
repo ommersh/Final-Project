@@ -3,6 +3,7 @@
 
 #include "TcaCalculation.h"
 #include "SGP4.h"
+#include "AlgorithmEnum.h"
 
 static const int MAX_TEST_NAME_SIZE = 25;
 
@@ -56,48 +57,6 @@ namespace MessagesDefinitions
 	//////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-namespace TestParameters
-{
-    enum CatchRootsAlg {
-        EigenCompanionMatrix,
-        ArmadilloCompanionMatrix
-    };
-
-    enum Algorithm {
-        CATCH,
-        ANCAS,
-		SBO_ANCAS
-    };
-
-    /// <summary>
-    /// Parameters for running a test with a TCA finding algorithm
-    /// </summary>
-    struct TestRecipe {
-		//Test Data
-        int catchPolynomialDegree;           // Degree of the polynomial
-        CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
-        Algorithm testedAlgorithm;
-        int numberOfPoints;
-		unsigned int numberOfIterations;
-		double segmentSizeSec;
-		int TminFactor;
-		double timeIntervalSizeSec;
-		int	numberOfPointsPerSegment;
-
-		//For logging the data
-		unsigned int testID;
-		char testName[MAX_TEST_NAME_SIZE];
-
-		//For SBO-ANCAS variations
-		elsetrec elsetrec1;
-		elsetrec elsetrec2;
-		double startTime1Min;
-		double startTime2Min;
-		double TOLd;
-		double TOLt;
-    };
-}
-
 
 namespace TestResults
 {
@@ -115,8 +74,8 @@ namespace TestResults
 
 		//Test data
 		char testName[MAX_TEST_NAME_SIZE];
-		TestParameters::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
-		TestParameters::Algorithm testedAlgorithm;
+		CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
+		Algorithm testedAlgorithm;
 		unsigned int testID;
 		int degree;
 

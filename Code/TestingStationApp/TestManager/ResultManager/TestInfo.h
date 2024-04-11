@@ -2,13 +2,13 @@
 #ifndef TESTINFO_H
 #define TESTINFO_H
 
-#include "../../Enums/TestStatus.h"
-#include "../../../Common/TestRecipe.h"
+#include "TestStatus.h"
+#include "TestRecipe.h"
 
 
 
 struct TestInfo {
-    char name[40];
+    char name[MAX_TEST_NAME_SIZE];
     TestStatus status;
     CommonTestRecipe recipe;
 

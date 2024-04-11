@@ -1,10 +1,16 @@
 #ifndef ALGORITHEM_ENUMS_H
 #define ALGORITHEM_ENUMS_H
 
-enum class Algorithm{
-    Ancas,
-    Catch,
-    SBO_Ancas
+enum Algorithm {
+    CATCH,
+    ANCAS,
+    SBO_ANCAS
 };
+
+enum CatchRootsAlg {
+    EigenCompanionMatrix,
+    ArmadilloCompanionMatrix
+};
+
 
 #endif

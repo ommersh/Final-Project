@@ -2,11 +2,11 @@
 #define TESTDATAGENERATIONMANAGER_H
 
 #include <string>
-#include "../../Common/Enums/AlgorithmEnum.h"
-#include "../Enums/SatelliteDataFormatEnum.h"
-#include "../TestManager/ResultManager/TestInfo.h"
+#include "AlgorithmEnum.h"
+#include "SatelliteDataFormatEnum.h"
+#include "TestInfo.h"
 #include <map>
-#include "../../../SGP4/CPP/DataGenerator.h"
+#include "DataGenerator.h"
 
 class TestDataGenerationManager {
 public:
@@ -25,8 +25,8 @@ private:
     void SplitTLEString(std::string tleString, char firstLine[130], char secondLine[130]);
 
     std::map<Algorithm, void (TestDataGenerationManager::*)(int, double, double, TcaCalculation::sPointData[])> methodMap{
-    {Algorithm::Ancas, &TestDataGenerationManager::GenerateTimePointsForAncas},
-    {Algorithm::Catch, &TestDataGenerationManager::GenerateTimePointsForCatch}
+    {Algorithm::ANCAS, &TestDataGenerationManager::GenerateTimePointsForAncas},
+    {Algorithm::CATCH, &TestDataGenerationManager::GenerateTimePointsForCatch}
     };
 
 };

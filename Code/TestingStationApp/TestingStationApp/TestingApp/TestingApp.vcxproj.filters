@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{a95028ed-5686-470f-87c2-4a4f46591bc0}</UniqueIdentifier>
     </Filter>
@@ -53,9 +49,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp">
-      <Filter>Common\CommChannels</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
       <Filter>Common\CommChannels</Filter>
     </ClCompile>
@@ -104,9 +97,6 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h">
-      <Filter>Common\CommChannels</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h">
       <Filter>Common\CommChannels</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\TcaCalculation.h">

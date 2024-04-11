@@ -1,10 +1,10 @@
 #ifndef LAB_H
 #define LAB_H
 
-#include "../TestManager/ResultManager/ResultManager.h"
-#include "../Database/DatabaseManager.h"
-#include "../CommManager/CommManager.h"
-#include "../TestDataGenerationManager/TestDataGenerationManager.h"
+#include "ResultManager.h"
+#include "DatabaseManager.h"
+#include "CommManager.h"
+#include "TestDataGenerationManager.h"
 using namespace std;
 
 

@@ -4,14 +4,14 @@
 //#include "TimePoint.h"
 #include <vector>
 #include <memory>
-#include "../../Common/CommChannels/LocalFileCommChannelFacade.h"
+#include "../../Common/CommChannels/ICommChannel.h"
 
 
 class CommManager {
 public:
-    CommManager()
+    CommManager(ICommChannel* commChannel)
+        : m_commChannel(commChannel)
     {
-        m_commChannel = std::make_unique<LocalFileCommChannelFacade>();
         listening = false;
     }
     void SetListeningState(bool listen);

@@ -95,6 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common\CommChannels;..\..\..\..\SGP4;..\..\..\Common\Enums;..\..\..\Common;..\..\..\Implementations;..\..\CommManager;..\..\*;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,7 +160,6 @@
     <ClCompile Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
-    <ClCompile Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.cpp" />
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
     <ClCompile Include="..\..\CommManager\CommManager.cpp" />
     <ClCompile Include="..\..\Database\DatabaseManager.cpp" />
@@ -181,7 +183,6 @@
     <ClInclude Include="..\..\..\..\SGP4\CPP\DataGenerator.h" />
     <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
-    <ClInclude Include="..\..\..\Common\CommChannels\LocalFileCommChannelFacade.h" />
     <ClInclude Include="..\..\..\Common\CommonStructures.h" />
     <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h" />
     <ClInclude Include="..\..\..\Common\TestRecipe.h" />

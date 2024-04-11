@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include "DataGenerator.h"
+#include <TcaCalculation.h>
 
 static const double PI = 3.14159265358979323846;
 
@@ -20,30 +21,13 @@ static const double PI = 3.14159265358979323846;
 /// <param name=""></param>
 /// <param name=""></param>
 /// <param name=""></param>
-void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(double* timeInMinutes, int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, std::string& fileName)
+void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, std::string& fileName, TcaCalculation::sPointData elementsVectors[])
 {
-    double* f = new double[timePointsArrLength];
-    double* df = new double[timePointsArrLength];
-    double** r1Arr = new double* [timePointsArrLength];
-    double** r2Arr = new double* [timePointsArrLength];
-    double** v1Arr = new double* [timePointsArrLength];
-    double** v2Arr = new double* [timePointsArrLength];
-
-    for (int i = 0; i < timePointsArrLength; ++i) {
-        r1Arr[i] = new double[3];
-        r2Arr[i] = new double[3];
-        v1Arr[i] = new double[3];
-        v2Arr[i] = new double[3];
-    }
-
-    CalculateRelativeVectorsForTwoElements(timeInMinutes, timePointsArrLength, elsetrec1, elsetrec2, r1Arr, r2Arr, v1Arr, v1Arr, f, df);
-    saveDataInCSVFile(timeInMinutes, r1Arr, v1Arr, r2Arr, v2Arr, f, df, timePointsArrLength, fileName);
-
-    delete f, df, r1Arr, r2Arr, v1Arr, v1Arr;
+    CalculateRelativeVectorsForTwoElements(timePointsArrLength, elsetrec1, elsetrec2, elementsVectors); 
+    saveDataInCSVFile(timePointsArrLength, fileName, elementsVectors);
 }
 
-void DataGenerator::CalculateRelativeVectorsForTwoElements(double* timeInMinutes, int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, double** r1Arr, double** r2Arr,
-    double** v1Arr, double** v2Arr, double* f, double* df) 
+void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, TcaCalculation::sPointData elementsVectors[])
 {
     double time1 = elsetrec1.jdsatepoch + elsetrec1.jdsatepochF;
     double time2 = elsetrec2.jdsatepoch + elsetrec2.jdsatepochF;
@@ -55,21 +39,24 @@ void DataGenerator::CalculateRelativeVectorsForTwoElements(double* timeInMinutes
     double r1[3], v1[3];
     double r2[3], v2[3];
 
+    // Compute position and velocity for each time point
     for (int i = 0; i < timePointsArrLength; ++i) {
-        // Compute position and velocity
-        SGP4Funcs::sgp4(elsetrec1, startDataElem1 + timeInMinutes[i], r1, v1);
-        SGP4Funcs::sgp4(elsetrec2, startDataElem2 + timeInMinutes[i], r2, v2);
+        SGP4Funcs::sgp4(elsetrec1, startDataElem1 + elementsVectors[i].time, r1, v1);
+        SGP4Funcs::sgp4(elsetrec2, startDataElem2 + elementsVectors[i].time, r2, v2);
 
-        r1Arr[i] = r1;
-        r2Arr[i] = r2;
-        v1Arr[i] = v1;
-        v2Arr[i] = v2;
-
-        std::cout << "Position Diff (km): " << r1[0] - r2[0] << ", " << r1[1] - r2[1] << ", " << r1[2] - r2[2] << std::endl;
-        f[i] = pow(r2[0] - r1[0], 2) + pow(r2[1] - r1[1], 2) + pow(r2[2] - r1[2], 2);
-        df[i] = (r2[0] - r1[0]) * (v2[0] - v1[0]) + (r2[1] - r1[1]) * (v2[1] - v1[1]) + (r2[2] - r1[2]) * (v2[2] - v1[2]);
+        elementsVectors[i].r1x = r1[0];
+        elementsVectors[i].r1y = r1[1];
+        elementsVectors[i].r1z = r1[2];
+        elementsVectors[i].r2x = r2[0];
+        elementsVectors[i].r2y = r2[1];
+        elementsVectors[i].r2z = r2[2];
+        elementsVectors[i].v1x = r1[0];
+        elementsVectors[i].v1y = v1[1];
+        elementsVectors[i].v1z = v1[2];
+        elementsVectors[i].v2x = v2[0];
+        elementsVectors[i].v2y = v2[1];
+        elementsVectors[i].v2z = v2[2];
     }
-
 }
 
 /// <summary>
@@ -81,7 +68,7 @@ void DataGenerator::CalculateRelativeVectorsForTwoElements(double* timeInMinutes
 void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& satrec)
 {
     const double deg2rad = PI / 180.0;
-    const double minToRadian = 720.0 / PI; //todo: write hardships
+    const double minToRadian = 720.0 / PI;
     const double ndotUnits = 1036800.0 / PI;
     const double nddotUnits = 2985984000.0 / 2.0 / PI;
 
@@ -99,12 +86,12 @@ void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& s
 
     // Object ID
     objectID = GetDataFromXmlNode(xmlContent, "OBJECT_ID");
-    strncpy(satrec.intldesg, objectID.c_str(), 10);
+    strncpy_s(satrec.intldesg, objectID.c_str(), 10);
     satrec.intldesg[10] = '\0';
 
     // NORAD Catalog ID
     noradCatID = GetDataFromXmlNode(xmlContent, "NORAD_CAT_ID");
-    strncpy(satrec.satnum, noradCatID.c_str(), 5);
+    strncpy_s(satrec.satnum, noradCatID.c_str(), 5);
     satrec.satnum[5] = '\0';
 
     // Mean Motion
@@ -236,14 +223,14 @@ std::string DataGenerator::GetDataFromXmlNode(std::string xmlContent, std::strin
 /// <returns></returns>
 double DataGenerator::GetEpochDayInYear(int year, int month, int day, int hour, int minute, int second, double fraction) {
     // Calculate the day of the year
-    tm timeinfo = {};
+    std::tm timeinfo = {};
     timeinfo.tm_year = year - 1900;  // years since 1900
     timeinfo.tm_mon = month - 1;      // months since January [0-11]
     timeinfo.tm_mday = day;           // day of the month [1-31]
     timeinfo.tm_hour = hour;          // hours since midnight [0-23]
     timeinfo.tm_min = minute;         // minutes after the hour [0-59]
     timeinfo.tm_sec = second;         // seconds after the minute [0-60]
-    time_t time = mktime(&timeinfo);
+    std::time_t time = std::mktime(&timeinfo);
     int dayOfYear = timeinfo.tm_yday + 1; // tm_yday is 0-365, so we add 1 to get 1-366
 
     // Calculate the fraction of the day
@@ -256,47 +243,42 @@ double DataGenerator::GetEpochDayInYear(int year, int month, int day, int hour, 
 
 /// <summary>
 /// Method to save all the location and velocity vectors of the orbiting elements, and the values of F, dF, and also the distance between them
+/// 
 /// </summary>
-/// <param name="time_points"></param>
-/// <param name="r1"></param>
-/// <param name="v1"></param>
-/// <param name="r2"></param>
-/// <param name="v2"></param>
-/// <param name="f"></param>
-/// <param name="df"></param>
 /// <param name="length"></param>
 /// <param name="name"></param>
-void DataGenerator::saveDataInCSVFile(double* time_points,
-    double** r1,
-    double** v1,
-    double** r2,
-    double** v2,
-    double* f,
-    double* df,
-    int length,
-    std::string& name) {
+/// <param name="elementsVectors"></param>
+void DataGenerator::saveDataInCSVFile(int length, std::string& name, TcaCalculation::sPointData elementsVectors[]) {
     std::ofstream file("data/" + name + ".csv");
-    file << "t,r1x,r1y,r1z,v1x,v1y,v1z,r2x,r2y,r2z,v2x,v2y,v2z,f,df,distance\n";
+    file << "t,r1x,r1y,r1z,v1x,v1y,v1z,r2x,r2y,r2z,v2x,v2y,v2z\n";
 
-    for (int row = 0; row < length; ++row) {
-        double distance = std::sqrt(f[row]);
-        file << time_points[row] << ","
-            << r1[row][0] << "," << r1[row][1] << "," << r1[row][2] << ","
-            << v1[row][0] << "," << v1[row][1] << "," << v1[row][2] << ","
-            << r2[row][0] << "," << r2[row][1] << "," << r2[row][2] << ","
-            << v2[row][0] << "," << v2[row][1] << "," << v2[row][2] << ","
-            << f[row] << "," << df[row] << ","
-            << distance << "\n";
+    for (int timePoint = 0; timePoint < length; ++timePoint) {
+        file << elementsVectors[timePoint].time << ","
+            << elementsVectors[timePoint].r1x << "," << elementsVectors[timePoint].r1y << "," << elementsVectors[timePoint].r1z << ","
+            << elementsVectors[timePoint].v1x << "," << elementsVectors[timePoint].v1y << "," << elementsVectors[timePoint].v1z << ","
+            << elementsVectors[timePoint].r2x << "," << elementsVectors[timePoint].r2y << "," << elementsVectors[timePoint].r2z << ","
+            << elementsVectors[timePoint].v2x << "," << elementsVectors[timePoint].v2y << "," << elementsVectors[timePoint].v2z << ","
+            << "\n";
     }
 }
 
 
-double* DataGenerator::GenerateTimePointForAncas(int n, double tEnd, double gamma)
+void DataGenerator::GenerateTimePointForAncas(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[])
 {
-    return m_ancasDataGenerator.GenerateTimePoint(n, tEnd, gamma);
+    m_ancasDataGenerator.GenerateTimePoint(n, tEnd, gamma, elementsVectors);
 }
 
-double* DataGenerator::GenerateTimePointForCatch(int n, double tEnd, double gamma)
+void DataGenerator::GenerateTimePointForCatch(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[])
 {
-    return m_catchDataGenerator.GenerateTimePoint(n, tEnd, gamma);
+    m_catchDataGenerator.GenerateTimePoint(n, tEnd, gamma, elementsVectors);
+}
+
+double  DataGenerator::GetGamma(elsetrec elsetrec1, elsetrec elsetrec2) {
+    // Compute time for half revolution in seconds for each satellite
+    double t_sec1 = 60 * 0.5 * 2 * PI / elsetrec1.no_kozai;
+    double t_sec2 = 60 * 0.5 * 2 * PI / elsetrec2.no_kozai;
+
+    // Find the minimum time of the two half revolutions
+    double Gamma = std::min(t_sec1, t_sec2);
+    return Gamma;
 }
