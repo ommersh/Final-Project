@@ -40,6 +40,9 @@
     <Filter Include="DataGeneration">
       <UniqueIdentifier>{9baa9a9b-dc45-44be-bf4e-96155b8d642f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ExternalLibraries">
+      <UniqueIdentifier>{339ef196-d30e-4c3c-8dca-02188d1cc4d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Main\Main.cpp">
@@ -108,9 +111,21 @@
     <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.cpp">
       <Filter>TestManager\Implementations\SBO ANCAS</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Main\AppConfigurationManager.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\ini.c">
+      <Filter>ExternalLibraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.cpp">
+      <Filter>ExternalLibraries</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md">
+      <Filter>Main</Filter>
+    </None>
+    <None Include="TestedObcAppSettings.INI">
       <Filter>Main</Filter>
     </None>
   </ItemGroup>
@@ -204,6 +219,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.h">
       <Filter>TestManager\Implementations\SBO ANCAS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ExternalLibraries\INIH\ini.h">
+      <Filter>ExternalLibraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.h">
+      <Filter>ExternalLibraries</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

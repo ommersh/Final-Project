@@ -8,7 +8,6 @@
 #include "TestManager.h"
 #include "MainProcess.h"
 #include "CommManager.h"
-#include "TestedOBCLocalSimulation.h"
 
 
 
@@ -39,9 +38,7 @@ int main() {
 
     Factory *factory = Factory::getReference();
     TestManager testManager(factory->getTimer());
-    TestedOBCLocalSimulation LocalSimulationCommChannel;
-    LocalSimulationCommChannel.init("gpCatalog.txt");
-    CommManager commManager(LocalSimulationCommChannel);
+    CommManager commManager(*factory->getCommChannel());
     MainProcess mainProcess(&testManager,&commManager, factory->getResultsLogger());
     mainProcess.process();
     

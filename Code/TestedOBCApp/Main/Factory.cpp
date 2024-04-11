@@ -10,9 +10,12 @@ Factory* Factory::m_reference = nullptr; // Define the static member variable
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-Factory::Factory()
+Factory::Factory() :
+	m_timer(nullptr),
+	m_commChannel(nullptr)
 {
 
+	m_configManager.init("TestedObcAppSettings.INI");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +62,7 @@ ITimer* Factory::getTimer()
 {
 	if (nullptr == m_timer)
 	{
-		switch (AppConfigurationManager::timerType)
+		switch (m_configManager.getTimerType())
 		{
 		default:
 		case AppConfiguration::TimerType::ChronoTimer:
@@ -69,6 +72,24 @@ ITimer* Factory::getTimer()
 	}
 	return m_timer;
 }
+
+ICommChannel* Factory::getCommChannel()
+{
+	if (nullptr == m_commChannel)
+	{
+		switch (m_configManager.getCommChannelType())
+		{
+		default:
+		case AppConfiguration::CommChannelType::LocalSimulation:
+			TestedOBCLocalSimulation* localSimulationCommChannel = new TestedOBCLocalSimulation();
+			localSimulationCommChannel->init("gpCatalog.txt");
+			m_commChannel = localSimulationCommChannel;
+			break;
+		}
+	}
+	return m_commChannel;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -123,16 +144,8 @@ ANCAS* Factory::getANCAS()
 
 SboAncas* Factory::getSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt)
 {
-	if (true)
-	{
-		m_sboAncas.init(getSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
-		return &m_sboAncas;
-	}
-	else
-	{
-		m_sboAncasEquallySpacedPoints.init(getSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
-		return &m_sboAncasEquallySpacedPoints;
-	}
+	m_sboAncas.init(getSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
+	return &m_sboAncas;
 }
 
 ISinglePointPropogator* Factory::getSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2)
@@ -145,4 +158,9 @@ ResultsLogger* Factory::getResultsLogger()
 {
 	return &m_resultsLogger;
 
+}
+
+AppConfigurationManager* Factory::getConfigurationManager()
+{
+	return &m_configManager;
 }

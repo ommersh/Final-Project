@@ -22,6 +22,8 @@ include_directories(
                     ../../Implementations/CATCH
                     ../../Implementations/SBO_ANCAS
                     ../../../SGP4/CPP
+                    ../../ExternalLibraries/INIH
+                    ../../ExternalLibraries/INIH/cpp
                     ../ExternalLibraries/eigen-3.4.0)
 
 # Add source files
@@ -31,6 +33,7 @@ add_executable(${PROJECT_NAME}
                 ../Main/Factory.cpp
                 ../Main/MainProcess.cpp
                 ../Main/Main.cpp
+                ../Main/AppConfigurationManager.cpp
 
                 ../TestManager/TestManager.cpp
 
@@ -53,6 +56,10 @@ add_executable(${PROJECT_NAME}
                 ../../../SGP4/CPP/DataGenerator.cpp
                 ../../../SGP4/CPP/AncasDataGenerator.cpp
                 ../../../SGP4/CPP/CatchDataGenerator.cpp
+
+                ../../ExternalLibraries/INIH/ini.c
+                ../../ExternalLibraries/INIH/cpp/INIReader.cpp
+
                 ../../Common/Logger/ResultsLogger.cpp
                 )
 

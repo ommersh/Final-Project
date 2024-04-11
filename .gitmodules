@@ -1,0 +1,3 @@
+[submodule "Code/ExternalLibraries/INIH"]
+	path = Code/ExternalLibraries/INIH
+	url = https://github.com/benhoyt/inih

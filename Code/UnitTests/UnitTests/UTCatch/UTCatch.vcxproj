@@ -44,7 +44,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\;..\..\..\Common\DataGeneration;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -61,7 +61,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\;..\..\..\Common\DataGeneration;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -77,7 +77,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\;..\..\..\Common\DataGeneration;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -95,7 +95,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\;..\..\..\Common\DataGeneration;..\..\..\..\SGP4\CPP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -105,6 +105,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.h" />
@@ -113,6 +114,8 @@
     <ClInclude Include="CatchTests.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
+    <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinderEigen.cpp" />

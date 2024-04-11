@@ -71,11 +71,12 @@ bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned in
 
 	case StateGetTestData:
 		//Get the data
+		m_fileData.size = -1;
 		getTestData();
 		//if we failed to get the data reset the state machine
 		if (m_fileData.size == -1)
 		{
-			std::cout << "Failed to get data...\n";
+			//std::cout << "Failed to get data...\n";
 			m_state = StateStart;
 			break;
 		}
@@ -241,7 +242,12 @@ void TestedOBCLocalSimulation::getAncasData()
 	char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
 	char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
 
-	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, 14, 16, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min);
+	int numberOfDays = 14;
+	int pointsPerSegment = 16;
+	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, numberOfDays, pointsPerSegment, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min, m_params.segmentSizeSec);
+	m_params.timeIntervalSizeSec = numberOfDays * 24 * 60 * 60;
+	m_params.numberOfPointsPerSegment = pointsPerSegment;
+
 	m_fileData.size = m_SimpleDataGeneration.m_numberOfPoints;
 	m_fileData.data = m_SimpleDataGeneration.m_pointsDataANCAS;
 
@@ -253,7 +259,7 @@ void TestedOBCLocalSimulation::getAncasData()
 
 	//create the test parameters
 	m_params.catchPolynomialDegree = 3;
-	m_params.numberOfPopints = m_fileData.size;
+	m_params.numberOfPoints = m_fileData.size;
 	m_params.testedAlgorithm = TestParameters::Algorithm::ANCAS;
 	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
 #ifdef _WIN32
@@ -265,7 +271,7 @@ void TestedOBCLocalSimulation::getAncasData()
 	m_params.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
 #endif
 	m_params.testID = testID++;
-	m_params.numberOfRuns = 1;
+	m_params.numberOfIterations = 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,7 +298,12 @@ void TestedOBCLocalSimulation::getCatchData()
 	char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
 	char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
 
-	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, 14, 16, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min);
+	int numberOfDays = 14;
+	int pointsPerSegment = 16;
+	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, numberOfDays, pointsPerSegment, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min, m_params.segmentSizeSec);
+	m_params.timeIntervalSizeSec = numberOfDays * 24 * 60 * 60;
+	m_params.numberOfPointsPerSegment = pointsPerSegment;
+
 	m_fileData.size = m_SimpleDataGeneration.m_numberOfPoints;
 	m_fileData.data = m_SimpleDataGeneration.m_pointsDataCATCH;
 	
@@ -301,7 +312,7 @@ void TestedOBCLocalSimulation::getCatchData()
 	m_header.dataSize = m_fileData.size * sizeof(TcaCalculation::sPointData);
 
 	m_params.catchPolynomialDegree = 15;
-	m_params.numberOfPopints = m_fileData.size;
+	m_params.numberOfPoints = m_fileData.size;
 	m_params.testedAlgorithm = TestParameters::Algorithm::CATCH;
 #ifdef _WIN32
 	// Safe function available on Windows
@@ -312,7 +323,7 @@ void TestedOBCLocalSimulation::getCatchData()
 	m_params.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
 #endif
 	m_params.testID = testID++;
-	m_params.numberOfRuns = 1;
+	m_params.numberOfIterations = 1;
 	//if (switchCounter++ % 2 == 0)
 	//{
 	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
@@ -349,7 +360,12 @@ void TestedOBCLocalSimulation::getSboAncasData()
 	char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
 	char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
 
-	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, 14, 16, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min);
+	int numberOfDays = 14;
+	int pointsPerSegment = 16;
+	m_SimpleDataGeneration.GenearateDataFromTle(Obj1le1, Obj1le2, Obj2le1, Obj2le2, numberOfDays, pointsPerSegment, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min, m_params.segmentSizeSec);
+	m_params.timeIntervalSizeSec = numberOfDays * 24 * 60 * 60;
+	m_params.numberOfPointsPerSegment = pointsPerSegment;
+
 	m_fileData.size = m_SimpleDataGeneration.m_numberOfPoints;
 	m_fileData.data = m_SimpleDataGeneration.m_pointsDataANCAS;
 
@@ -361,7 +377,7 @@ void TestedOBCLocalSimulation::getSboAncasData()
 
 	//create the test parameters
 	m_params.catchPolynomialDegree = 3;
-	m_params.numberOfPopints = m_fileData.size;
+	m_params.numberOfPoints = m_fileData.size;
 	m_params.testedAlgorithm = TestParameters::Algorithm::SBO_ANCAS;
 	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
 #ifdef _WIN32
@@ -373,10 +389,10 @@ void TestedOBCLocalSimulation::getSboAncasData()
 	m_params.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
 #endif
 	m_params.testID = testID++;
-	m_params.numberOfRuns = 1;
+	m_params.numberOfIterations = 1;
 
-	m_params.TOLd = SBO_ANCAS_TOL_D_KM;
-	m_params.TOLt = SBO_ANCAS_TOL_T_SEC;
+	m_params.TOLd = Factory::getReference()->getConfigurationManager()->getTOLd();
+	m_params.TOLt = Factory::getReference()->getConfigurationManager()->getTOLt();
 
 }
 

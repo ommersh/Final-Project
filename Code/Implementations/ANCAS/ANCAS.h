@@ -36,7 +36,7 @@ public:
 	virtual void calculateCubicRoots(double a, double b, double c, double d, double* roots, int& numberOfRoots);
 
 protected:
-	TCA ANCASIteration();
+	virtual TCA ANCASIteration();
 
 
 	virtual int getRootsInInterval(ANCASCubicPolynomial P, double result[3]);

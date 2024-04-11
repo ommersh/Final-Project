@@ -27,7 +27,14 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 	results.testedAlgorithm = params.testedAlgorithm;
 	results.catchRootsAlg = params.catchRootsAlg;
 	results.testID = params.testID;
-	results.numberOfRuns = params.numberOfRuns;
+	results.numberOfRuns = params.numberOfIterations;
+
+	results.segmentSizeSec = params.segmentSizeSec;
+	results.timeIntervalSizeSec = params.timeIntervalSizeSec;
+	results.numberOfPointsPerSegment = params.numberOfPointsPerSegment;
+	results.initialNumberOfPoints = params.numberOfPoints;
+	results.TminFactor = params.TminFactor;
+
 	memcpy(results.testName, params.testName, MAX_TEST_NAME_SIZE);
 
 	switch (params.testedAlgorithm)
@@ -46,7 +53,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 
 	m_timer->startTimer();
 
-	results.tca = Algoritm->runAlgorithm(pointsData, params.numberOfPopints - 1);
+	results.tca = Algoritm->runAlgorithm(pointsData, params.numberOfPoints - 1);
 
 	m_timer->stopTimer();
 
@@ -57,7 +64,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 	//Do additional iterations
 	TcaCalculation::TCA tca;
 
-	for (int i = 1; i < params.numberOfRuns;i++)
+	for (int i = 1; i < params.numberOfIterations;i++)
 	{
 		switch (params.testedAlgorithm)
 		{
@@ -74,7 +81,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 		}
 		m_timer->startTimer();
 
-		tca = Algoritm->runAlgorithm(pointsData, params.numberOfPopints);
+		tca = Algoritm->runAlgorithm(pointsData, params.numberOfPoints);
 
 		m_timer->stopTimer();
 
@@ -86,7 +93,7 @@ TestResults::TestResult TestManager::runTest(TestParameters::TestRecipe params, 
 		}
 		avgTimeMicro += runTimeMicro;
 	}
-	results.avgTimeMicro = avgTimeMicro / params.numberOfRuns;
+	results.avgTimeMicro = avgTimeMicro / params.numberOfIterations;
 	results.minTimeMicro = minTimeMicro;
 	return results;
 }

@@ -77,8 +77,12 @@ namespace TestParameters
         int catchPolynomialDegree;           // Degree of the polynomial
         CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
         Algorithm testedAlgorithm;
-        int numberOfPopints;
-		unsigned int numberOfRuns;
+        int numberOfPoints;
+		unsigned int numberOfIterations;
+		double segmentSizeSec;
+		int TminFactor;
+		double timeIntervalSizeSec;
+		int	numberOfPointsPerSegment;
 
 		//For logging the data
 		unsigned int testID;
@@ -115,6 +119,14 @@ namespace TestResults
 		TestParameters::Algorithm testedAlgorithm;
 		unsigned int testID;
 		int degree;
+
+		//Additional data
+		double segmentSizeSec;
+		double timeIntervalSizeSec;
+		int	numberOfPointsPerSegment;
+		int initialNumberOfPoints;
+		int TminFactor;
+
     };
 }
 

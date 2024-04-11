@@ -16,7 +16,29 @@ ResultsLogger::ResultsLogger(const std::string& filename) : m_fileName(filename)
         outFile.seekp(0, std::ios::end); // Move the write pointer to the end of the file
         if (outFile.tellp() == 0) { // If the write pointer is at position 0, the file is empty
             // File is new or empty, write the headers
-            outFile << "Test Name,Test ID,Algorithm Name,Degree,Number of Points,Run Time (s),Run Time (us),Number Of Runs,Average Run Time,,Minimum Run Time,TCA Distance,TCA Time,TOLd,TOLt\n";
+            outFile << "Test Name" << ","
+                    << "Test ID" << ","
+                    << "Algorithm Name" << ","
+                    << "Degree" << ","
+
+                << "timeIntervalSizeSec" << ","
+                << "segmentSizeSec" << ","
+                << "Tmin Factor" << ","
+                << "numberOfPointsPerSegment" << ","
+                << "initialNumberOfPoints" << ","
+
+                << "Number of Points" << ","
+                << "runTimeSec" << ","
+                << "runTimeMicro" << ","
+
+                << "numberOfIterations" << ","
+                << "avgTimeMicro" << ","
+                << "minTimeMicro" << ","
+
+                << "TCA Distance" << ","
+                << "TCA Time" << ","
+                << "TOLd" << ","
+                << "TOLt" << "\n";
         }
         // If the file is not empty, do not write headers
     }
@@ -64,7 +86,29 @@ ResultsLogger::ResultsLogger() {
         outFile.seekp(0, std::ios::end); // Move the write pointer to the end of the file
         if (outFile.tellp() == 0) { // If the write pointer is at position 0, the file is empty
             // File is new or empty, write the headers
-            outFile << "Test Name,Test ID,Algorithm Name,Degree,Number of Points,Run Time (s),Run Time (us),Number Of Runs,Average Run Time,Minimum Run Time,TCA Distance,TCA Time,TOLd,TOLt\n";
+            outFile << "Test Name" << ","
+                << "Test ID" << ","
+                << "Algorithm Name" << ","
+                << "Degree" << ","
+
+                << "timeIntervalSizeSec" << ","
+                << "segmentSizeSec" << ","
+                << "Tmin Factor" << ","
+                << "numberOfPointsPerSegment" << ","
+                << "initialNumberOfPoints" << ","
+
+                << "Number of Points" << ","
+                << "runTimeSec" << ","
+                << "runTimeMicro" << ","
+
+                << "numberOfIterations" << ","
+                << "avgTimeMicro" << ","
+                << "minTimeMicro" << ","
+
+                << "TCA Distance" << ","
+                << "TCA Time" << ","
+                << "TOLd" << ","
+                << "TOLt" << "\n";
         }
         // If the file is not empty, do not write headers
     }
@@ -128,6 +172,13 @@ void ResultsLogger::log(TestResults::TestResult results,double TOLd,double TOLt,
             << results.testID << ","
             << algName << ","
             << results.degree << ","
+
+            << results.timeIntervalSizeSec << ","
+            << results.segmentSizeSec << ","
+            << 1.0/results.TminFactor << ","
+            << results.numberOfPointsPerSegment << ","
+            << results.initialNumberOfPoints << ","
+
             << results.tca.numberOfPoints << ","
             << results.runTimeMicro/ 1000000 << ","
             << results.runTimeMicro << ","

@@ -4,7 +4,7 @@
 #include <limits>
 #include <iomanip>
 
-void SimpleDataGeneration::GenearateDataFromTle(char* longstr1Obj1, char* longstr2bj1, char* longstr1Obj2, char* longstr2bj2, int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2)
+void SimpleDataGeneration::GenearateDataFromTle(char* longstr1Obj1, char* longstr2bj1, char* longstr1Obj2, char* longstr2bj2, int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2, double& GammaSec, int TminFactor)
 {
     double startmfe, stopmfe, deltamin;
     char opsMode = 'i';
@@ -12,15 +12,25 @@ void SimpleDataGeneration::GenearateDataFromTle(char* longstr1Obj1, char* longst
     char typeInput = 'm';
     SGP4Funcs::twoline2rv(longstr1Obj1, longstr2bj1, typeRun, typeInput, opsMode, wgs72, startmfe, stopmfe, deltamin, elsetrec1);
     SGP4Funcs::twoline2rv(longstr1Obj2, longstr2bj2, typeRun, typeInput, opsMode, wgs72, startmfe, stopmfe, deltamin, elsetrec2);
-    GenearateDataFromElsetrec(numberOfDays, numberOfPointsInSegment, elsetrec1, elsetrec2, startDataElem1, startDataElem2);
+    GenearateDataFromElsetrec(numberOfDays, numberOfPointsInSegment, elsetrec1, elsetrec2, startDataElem1, startDataElem2, GammaSec, TminFactor);
 
 
 }
-void SimpleDataGeneration::GenearateDataFromElsetrec(int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2)
+void SimpleDataGeneration::GenearateDataFromElsetrec(int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2, double& GammaSec, int TminFactor)
 {
     double time1 = elsetrec1.jdsatepoch + elsetrec1.jdsatepochF;
     double time2 = elsetrec2.jdsatepoch + elsetrec2.jdsatepochF;
     double minutesTimeDiff = (time1 - time2) * 1440;
+    double Tmin_Factor;
+
+    if (TminFactor == 0)
+    {
+        Tmin_Factor = 0.5;
+    }
+    else
+    {
+        Tmin_Factor = 1.0 / TminFactor;
+    }
 
     startDataElem1 = std::max(0.0, -minutesTimeDiff);
     startDataElem2 = std::max(0.0, minutesTimeDiff);
@@ -30,14 +40,14 @@ void SimpleDataGeneration::GenearateDataFromElsetrec(int numberOfDays, int numbe
     double testTime = seconds_in_day * numberOfDays;
 
     // Compute time for half revolution in seconds for each satellite
-    double t_sec1 = 60 * 0.5 * 2 * PI / elsetrec1.no_kozai;
-    double t_sec2 = 60 * 0.5 * 2 * PI / elsetrec2.no_kozai;
+    double t_sec1 = 60 * Tmin_Factor * 2 * PI / elsetrec1.no_kozai;
+    double t_sec2 = 60 * Tmin_Factor * 2 * PI / elsetrec2.no_kozai;
 
     // Find the minimum time of the two half revolutions
-    double Gamma = std::min(t_sec1, t_sec2);
+    GammaSec = std::min(t_sec1, t_sec2);
 
     //Generate timePoints
-    m_numberOfPoints = 1 + (numberOfPointsInSegment - 1) * testTime / Gamma;
+    m_numberOfPoints = 1 + (numberOfPointsInSegment - 1) * testTime / GammaSec;
 
     m_pointsDataANCAS = new TcaCalculation::sPointData[m_numberOfPoints];
     m_pointsDataCATCH = new TcaCalculation::sPointData[m_numberOfPoints];
@@ -45,8 +55,8 @@ void SimpleDataGeneration::GenearateDataFromElsetrec(int numberOfDays, int numbe
     {
         std::cout << "Data Allocation Failed!" << std::endl;
     }
-    GenerateTimePointsForANCAS(numberOfPointsInSegment, testTime, Gamma, m_numberOfPoints);
-    GenerateTimePointsForCatch(numberOfPointsInSegment, testTime, Gamma, m_numberOfPoints);
+    GenerateTimePointsForANCAS(numberOfPointsInSegment, testTime, GammaSec, m_numberOfPoints);
+    GenerateTimePointsForCatch(numberOfPointsInSegment, testTime, GammaSec, m_numberOfPoints);
 
     //generate test data
     double r1[3], v1[3];

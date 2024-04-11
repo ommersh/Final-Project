@@ -18,9 +18,9 @@ public:
     const double seconds_in_day = 86400.0;
 
     void GenearateDataFromTle(char* longstr1Obj1, char* longstr2bj1, char* longstr1Obj2, char* longstr2bj2,
-        int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2);
+        int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2, double& GammaSec,int TminFactor = 2);
 
-    void GenearateDataFromElsetrec(int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2);
+    void GenearateDataFromElsetrec(int numberOfDays, int numberOfPointsInSegment, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2, double& GammaSec, int TminFactor = 2);
 
 
     TcaCalculation::TCA FindTcaWithSmallTimeStep(int numberOfDays, elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2,double stepSize);

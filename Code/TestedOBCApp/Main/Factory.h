@@ -21,6 +21,9 @@
 #include "AppConfigurationManager.h"
 #include "TestManager.h"
 
+#include "ICommChannel.h"
+#include "TestedOBCLocalSimulation.h"
+
 /// <summary>
 /// TestedOBCApp Factory.
 /// Create and manage app opbjects.
@@ -64,18 +67,23 @@ public:
 
 	ISinglePointPropogator* getSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2);
 	ResultsLogger* getResultsLogger();
+	AppConfigurationManager* getConfigurationManager();
+
+	ICommChannel* getCommChannel();
 private:
 	static Factory* m_reference;
 	Factory();
 	ITimer* m_timer;
+	ICommChannel* m_commChannel;
 	CATCH m_catch;
 	ANCAS m_ancas;
 	SboAncas m_sboAncas;
-	SboAncasEquallySpacedPoints m_sboAncasEquallySpacedPoints;
 	CompanionMatrixRootsFinderEigen m_companionMatrixRootsFinderEigen;
 	//CompanionMatrixRootsFinderArmadillo m_companionMatrixRootsFinderAArmadillo;
 	SGP4SinglePointGenerator m_SGP4SinglePointGenerator;
 	ResultsLogger m_resultsLogger;
+
+	AppConfigurationManager m_configManager;
 };
 
 
