@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Components\Pages\LabPage.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Components\Pages\Test.razor" />
+    <Content Remove="Components\Pages\Test2.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Components\LabCaller.cpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<NativeFileReference Include="LabCaller.c" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TestingStationApp\TestingApp\TestingApp.vcxproj">
+      <Private>False</Private>
+      <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TestingStationApp">
+      <HintPath>..\..\TestingStationApp\Dlls\TestingStationApp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
