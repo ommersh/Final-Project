@@ -10,7 +10,7 @@
 struct TestInfo {
     char name[MAX_TEST_NAME_SIZE];
     TestStatus status;
-    CommonTestRecipe recipe;
+    TestRecipe recipe;
 
     //STRUCT TCA exist
     double realTCA;

@@ -3,12 +3,13 @@
 
 #include <string>
 #include "TestInfo.h"
-
+#include "CommonStructures.h"
 class ResultManager {
 public:
-    TestInfo GetTestResult(int testId);
-    void SaveData(const std::string& path);
-    void UpdateTestResult(TestInfo testInfo);
+
+    void UpdateTestResult();
+
+    void FillResults();//Fill the results in FullTestData
 };
 
 #endif

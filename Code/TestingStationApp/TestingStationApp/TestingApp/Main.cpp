@@ -3,13 +3,13 @@
 void printTestInfo(const TestInfo& test) {
     //std::cout << "Name: " << test.name << std::endl;
     std::cout << "Format: " << int(test.format) << std::endl;
-    std::cout << "Time Interval: " << test.recipe.timeInterval << std::endl;
-    std::cout << "Iterations: " << test.recipe.iterations << std::endl;
-    std::cout << "Algorithm: " << int(test.recipe.alg) << std::endl;
-    std::cout << "Catch Polynom Degree: " << test.recipe.catchPolynomDeg << std::endl;
+    std::cout << "Time Interval: " << test.recipe.timeIntervalSizeSec << std::endl;
+    std::cout << "Iterations: " << test.recipe.numberOfIterations<< std::endl;
+    std::cout << "Algorithm: " << int(test.recipe.testedAlgorithm) << std::endl;
+    std::cout << "Catch Polynom Degree: " << test.recipe.catchPolynomialDegree << std::endl;
     //std::cout << "First Element Data: " << test.firstElemData << std::endl;
     //std::cout << "Second Element Data: " << test.secondElemData << std::endl;
-    std::cout << "Number of Time Points: " << test.recipe.numOfTimePoints << std::endl;
+    std::cout << "Number of Time Points: " << test.recipe.numberOfPoints << std::endl;
     std::cout << "Real TCA: " << test.realTCA << std::endl;
     std::cout << "Real Distance: " << test.realDistance << std::endl;
     std::cout << "Distance: " << test.distance << std::endl;

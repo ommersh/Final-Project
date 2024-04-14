@@ -10,19 +10,19 @@
 
 void TestDataGenerationManager::GenerateTestData(TestInfo& testInfo, TcaCalculation::sPointData* elementsVectors[])
 {
-    CommonTestRecipe &recipe = testInfo.recipe;
+    TestRecipe &recipe = testInfo.recipe;
     std::string firstElemData(testInfo.firstElemData);
     std::string secondElemData(testInfo.secondElemData);
 
-    TestDataGenerationManager::ProcessOrbitingElement(firstElemData, recipe.firstElemObj, testInfo.format);
-    TestDataGenerationManager::ProcessOrbitingElement(secondElemData, recipe.secondElemObj, testInfo.format);
+    TestDataGenerationManager::ProcessOrbitingElement(firstElemData, recipe.elsetrec1, testInfo.format);
+    TestDataGenerationManager::ProcessOrbitingElement(secondElemData, recipe.elsetrec2, testInfo.format);
 
-    double gamma = DataGenerator::GetGamma(recipe.firstElemObj, recipe.secondElemObj);
-    recipe.numOfTimePoints = ((int)(recipe.timeInterval / gamma)) * recipe.catchPolynomDeg;
-    *elementsVectors = new  TcaCalculation::sPointData[recipe.numOfTimePoints];
+    recipe.segmentSizeSec = DataGenerator::GetGamma(recipe.elsetrec1, recipe.elsetrec2);
+    recipe.numberOfPoints = ((int)(recipe.timeIntervalSizeSec / recipe.segmentSizeSec)) * recipe.numberOfPointsPerSegment;
+    *elementsVectors = new  TcaCalculation::sPointData[recipe.numberOfPoints];
 
-    TestDataGenerationManager::GeneratePointsByAlgorithm(recipe.catchPolynomDeg, recipe.timeInterval, gamma, *elementsVectors, recipe.alg);
-    m_dataGenerator.CalculateRelativeVectorsForTwoElements(recipe.numOfTimePoints, recipe.firstElemObj, recipe.secondElemObj, *elementsVectors);
+    TestDataGenerationManager::GeneratePointsByAlgorithm(recipe.catchPolynomialDegree, recipe.timeIntervalSizeSec, recipe.segmentSizeSec, *elementsVectors, recipe.testedAlgorithm);
+    m_dataGenerator.CalculateRelativeVectorsForTwoElements(recipe.numberOfPoints, recipe.elsetrec1, recipe.elsetrec2, *elementsVectors);
 
 }
 

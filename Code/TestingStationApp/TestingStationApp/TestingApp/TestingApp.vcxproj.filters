@@ -115,6 +115,12 @@
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp">
       <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp">
+      <Filter>TestDataGenerationManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\TestManager\TestManager.cpp">
+      <Filter>TestManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\CommonStructures.h">
@@ -206,6 +212,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h">
       <Filter>Common\CommChannels\TestingStationLocalSim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h">
+      <Filter>TestDataGenerationManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestManager\TestManager.h">
+      <Filter>TestManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

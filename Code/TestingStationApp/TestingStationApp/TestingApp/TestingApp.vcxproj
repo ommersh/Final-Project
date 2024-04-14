@@ -161,6 +161,7 @@
     <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
     <ClCompile Include="..\..\..\Common\CommChannels\TestingStationLocalSimCommChannel.cpp" />
+    <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="..\..\Lab\LabWrapper.cpp" />
     <ClCompile Include="..\..\TestDataGenerationManager\TestDataGenerationManager.cpp" />
     <ClCompile Include="..\..\TestManager\ResultManager\ResultManager.cpp" />
+    <ClCompile Include="..\..\TestManager\TestManager.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +194,7 @@
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\TestingStationLocalSimCommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommonStructures.h" />
+    <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h" />
     <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h" />
     <ClInclude Include="..\..\..\Common\TestRecipe.h" />
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
@@ -215,6 +218,7 @@
     <ClInclude Include="..\..\TestDataGenerationManager\TestDataGenerationManager.h" />
     <ClInclude Include="..\..\TestManager\ResultManager\ResultManager.h" />
     <ClInclude Include="..\..\TestManager\ResultManager\TestInfo.h" />
+    <ClInclude Include="..\..\TestManager\TestManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
