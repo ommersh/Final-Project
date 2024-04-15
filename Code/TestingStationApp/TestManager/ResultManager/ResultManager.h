@@ -6,7 +6,7 @@
 #include "CommonStructures.h"
 class ResultManager {
 public:
-
+    ResultManager();
     void UpdateTestResult();
 
     void FillResults();//Fill the results in FullTestData

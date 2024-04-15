@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace BlazorApp1.Components.Pages
@@ -7,7 +8,7 @@ namespace BlazorApp1.Components.Pages
     public partial class LabPage : ComponentBase
     {
         private int? createdTestId;
-        private TestInfo? testInfo;
+        private UserTestData? testInfo;
         private string? testName;
 
         private IntPtr labPtr;
@@ -30,7 +31,7 @@ namespace BlazorApp1.Components.Pages
                 testId = createdTestId;
             }
             testInfo = LabInterop.Lab_GetTestInfo(labPtr, testId.Value);
-            testName=testInfo.Value.name;
+            testName=testInfo.Value.testName;
             StateHasChanged();
 
         }
@@ -43,8 +44,17 @@ namespace BlazorApp1.Components.Pages
 
         private void CreateTest()
         {
-            string test = "test";
-            createdTestId = LabInterop.Lab_CreateTest(labPtr, test, 1.0, 10, Algorithm.Ancas, 16, 100, "ElemDataOne", "ElemDataTwo", SatelliteDataFormat.Text);
+            UserTestData testData = new UserTestData();
+            testData.testName = "test";
+            testData.timeIntervalSizeSec = 1.0;
+            testData.numberOfIterations = 10;
+            testData.testedAlgorithm = Algorithm.Catch;
+            testData.numberOfPointsPerSegment = 16;
+            testData.orbitingElementData1 = "G:\\לימודים\\3. תיקיות קורסים\\שנה ד\\פרויקט גמר\\repo2\\Final-Project\\SGP4\\COSMOS.xml";
+            testData.orbitingElementData1 = "G:\\לימודים\\3. תיקיות קורסים\\שנה ד\\פרויקט גמר\\repo2\\Final-Project\\SGP4\\LEMUR2.xml";
+            testData.format = SatelliteDataFormat.XML;
+            //createdTestId = LabInterop.Lab_CreateTest(labPtr, test, 1.0, 10, Algorithm.Ancas, 16, 100, "ElemDataOne", "ElemDataTwo", SatelliteDataFormat.Text);
+            createdTestId = LabInterop.Lab_CreateTest(labPtr, testData);
 
             //createdTestId = LabInterop.Lab_CreateTest(labPtr, "test");
             StateHasChanged();

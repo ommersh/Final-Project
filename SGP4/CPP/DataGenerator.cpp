@@ -21,28 +21,27 @@ static const double PI = 3.14159265358979323846;
 /// <param name=""></param>
 /// <param name=""></param>
 /// <param name=""></param>
-void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, std::string& fileName, TcaCalculation::sPointData elementsVectors[])
+void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, std::string& fileName, TcaCalculation::sPointData elementsVectors[], double& startTime1, double& startTime2)
 {
-    CalculateRelativeVectorsForTwoElements(timePointsArrLength, elsetrec1, elsetrec2, elementsVectors); 
+    CalculateRelativeVectorsForTwoElements(timePointsArrLength, elsetrec1, elsetrec2, elementsVectors, startTime1, startTime2);
     saveDataInCSVFile(timePointsArrLength, fileName, elementsVectors);
 }
 
-void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, TcaCalculation::sPointData elementsVectors[])
+void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, TcaCalculation::sPointData elementsVectors[], double& startTime1, double& startTime2)
 {
-    double time1 = elsetrec1.jdsatepoch + elsetrec1.jdsatepochF;
-    double time2 = elsetrec2.jdsatepoch + elsetrec2.jdsatepochF;
-    double minutesTimeDiff = (time1 - time2) * 1440;
+    double startTimeElem1;
+    double startTimeElem2;
 
-    double startDataElem1 = std::max(0.0, -minutesTimeDiff);
-    double startDataElem2 = std::max(0.0, minutesTimeDiff);
+    GetStartTimeOfOrbElem(elsetrec1, elsetrec2, startTimeElem1, startTimeElem2);
+    //todo add starttime to recipe
 
     double r1[3], v1[3];
     double r2[3], v2[3];
 
     // Compute position and velocity for each time point
     for (int i = 0; i < timePointsArrLength; ++i) {
-        SGP4Funcs::sgp4(elsetrec1, startDataElem1 + elementsVectors[i].time, r1, v1);
-        SGP4Funcs::sgp4(elsetrec2, startDataElem2 + elementsVectors[i].time, r2, v2);
+        SGP4Funcs::sgp4(elsetrec1, startTimeElem1 + elementsVectors[i].time, r1, v1);
+        SGP4Funcs::sgp4(elsetrec2, startTimeElem2 + elementsVectors[i].time, r2, v2);
 
         elementsVectors[i].r1x = r1[0];
         elementsVectors[i].r1y = r1[1];
@@ -273,12 +272,22 @@ void DataGenerator::GenerateTimePointForCatch(int n, double tEnd, double gamma, 
     m_catchDataGenerator.GenerateTimePoint(n, tEnd, gamma, elementsVectors);
 }
 
-double  DataGenerator::GetGamma(elsetrec elsetrec1, elsetrec elsetrec2) {
+double  DataGenerator::GetGamma(elsetrec elsetrec1, elsetrec elsetrec2, double factor) {
     // Compute time for half revolution in seconds for each satellite
-    double t_sec1 = 60 * 0.5 * 2 * PI / elsetrec1.no_kozai;
-    double t_sec2 = 60 * 0.5 * 2 * PI / elsetrec2.no_kozai;
+    double t_sec1 = 60 * 2 / factor * 2 * PI / elsetrec1.no_kozai;
+    double t_sec2 = 60 * 2 / factor * 2 * PI / elsetrec2.no_kozai;
 
     // Find the minimum time of the two half revolutions
     double Gamma = std::min(t_sec1, t_sec2);
     return Gamma;
+}
+
+void DataGenerator::GetStartTimeOfOrbElem(elsetrec elsetrec1, elsetrec elsetrec2, double& elemOneTime, double& ElemTwoTime)
+{
+    double time1 = elsetrec1.jdsatepoch + elsetrec1.jdsatepochF;
+    double time2 = elsetrec2.jdsatepoch + elsetrec2.jdsatepochF;
+    double minutesTimeDiff = (time1 - time2) * 1440;
+
+    elemOneTime = std::max(0.0, -minutesTimeDiff);
+    ElemTwoTime = std::max(0.0, minutesTimeDiff);
 }

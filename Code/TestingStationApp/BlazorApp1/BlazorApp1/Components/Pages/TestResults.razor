@@ -11,8 +11,8 @@
             {
                         <div class="card mb-3" style="width: 18rem;" @onclick="() => SelectTest(test)">
                         <div class="card-body">
-                                <h5 class="card-title">@test.recipe.testId</h5>
-                                    <h4 class="card-title">@test.name</h4>
+                                <h5 class="card-title">@test.testID</h5>
+                                    <h4 class="card-title">@test.testName</h4>
                                
                         </div>
                     </div>
@@ -23,13 +23,11 @@
             @if (SelectedTest.HasValue)
             {
                     <div>
-                        <h3>@SelectedTest.Value.name : @testName</h3>
-                        <p>Distance: @SelectedTest.Value.distance</p>
-                        <p>Real Distance: @SelectedTest.Value.realDistance</p>
+                        <h3>@SelectedTest.Value.testName : @testName</h3>
                         <p>Format: @SelectedTest.Value.format</p>
-                        <p>Algorithm: @SelectedTest.Value.recipe.alg</p>
-                        <p>ID: @SelectedTest.Value.recipe.testId</p>
-                        <p>Degree @SelectedTest.Value.recipe.catchPolynomDeg</p>
+                        <p>Algorithm: @SelectedTest.Value.testedAlgorithm</p>
+                        <p>ID: @SelectedTest.Value.testID</p>
+                        <p>Degree @SelectedTest.Value.numberOfPointsPerSegment</p>
                     </div>
             }
         </div>

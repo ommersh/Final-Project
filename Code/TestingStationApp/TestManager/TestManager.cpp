@@ -2,14 +2,14 @@
 
 TestManager::TestManager()
 {
-	m_ResultManager = ResultManager();
-	m_DataGenerator = TestDataGenerationManager();
+	//m_ResultManager = ResultManager();
+	//m_DataGenerator = TestDataGenerationManager();
 }
 
-void TestManager::GetTestResults(int testId)
-{
-	//read message with result
-
-}
+//void TestManager::GetTestResults(int testId)
+//{
+//	//read message with result
+//
+//}
 
 

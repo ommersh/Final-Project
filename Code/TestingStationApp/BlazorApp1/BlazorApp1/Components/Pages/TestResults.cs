@@ -8,15 +8,15 @@ namespace BlazorApp1.Components.Pages
 
     public partial class TestResults : ComponentBase
     {
-        private TestInfo? SelectedTest;
+        private UserTestData? SelectedTest;
         private IntPtr labPtr;
         private string? testName;
         private int[]? uniqueIds;
-        private List<TestInfo> allTests;
-        private void SelectTest(TestInfo test)
+        private List<UserTestData> allTests;
+        private void SelectTest(UserTestData test)
         {
             SelectedTest = test;
-            testName = test.name;
+            testName = test.testName;
             StateHasChanged();
 
         }
@@ -32,17 +32,13 @@ namespace BlazorApp1.Components.Pages
 
             for(int i = 0; i < uniqueIds.Length; i++) 
             {
-                Console.WriteLine($"IdInArr: {uniqueIds[i]}");
                 int ptr = uniqueIds[i];
 
             }
-            allTests = new List<TestInfo>();
+            allTests = new List<UserTestData>();
             foreach (int id in uniqueIds)
             {
-                Console.WriteLine($"Id: {id}");
-
-
-                TestInfo testInfo;
+                UserTestData testInfo;
                 await AsyncGetTestInfo(id, out testInfo);
                 allTests.Add(testInfo);
             }
@@ -56,7 +52,7 @@ namespace BlazorApp1.Components.Pages
             return Task.CompletedTask;
         }
 
-        private Task AsyncGetTestInfo(int id, out TestInfo testInfo)
+        private Task AsyncGetTestInfo(int id, out UserTestData testInfo)
         {
             testInfo = LabInterop.Lab_GetTestInfo(labPtr, id);
             return Task.CompletedTask;

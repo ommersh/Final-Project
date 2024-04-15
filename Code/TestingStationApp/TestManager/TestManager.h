@@ -9,16 +9,16 @@ public:
     TestManager();
 
     //Initialize the class
-    void init(ResultManager& resultsManager, CommManager& commManger);
+    void init(ResultManager& resultsManager, CommManager& commManger) {};
 
     //synchoronized access to the queue!
-    void PlaceTestInQueue(TestRecipe recipe, TcaCalculation::sPointData* pointsDataArray,int arraySize);
+    void PlaceTestInQueue(TestRecipe recipe, TcaCalculation::sPointData* pointsDataArray,int arraySize) {};
 
     //Run forever, send test recipes and collect results
-    void RunTestManagerProcess();
+    void RunTestManagerProcess() {};
 
     //Check if the communication seems to be active(synchoronized)
-    bool CheckCommunication();
+    bool CheckCommunication() { return true; };
 
 private:
     static const int TIME_OUT_SEC = 600;
