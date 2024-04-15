@@ -21,16 +21,16 @@ namespace BlazorApp1.Components.Pages
 
         }
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             labPtr = LabInterop.Lab_Create();
             TestIdsStruct testsIdsStruct;
-            await AsyncGetAllIds(out testsIdsStruct); // await LabInterop.Lab_GetAllTestIds(labPtr);
+            //await AsyncGetAllIds(out testsIdsStruct); // await LabInterop.Lab_GetAllTestIds(labPtr);
+            testsIdsStruct = LabInterop.Lab_GetAllTestIds(labPtr);
             uniqueIds = new int[testsIdsStruct.size];
 
             Marshal.Copy(testsIdsStruct.ids, uniqueIds, 0, testsIdsStruct.size);
-
-            for(int i = 0; i < uniqueIds.Length; i++) 
+            for (int i = 0; i < uniqueIds.Length; i++) 
             {
                 int ptr = uniqueIds[i];
 
@@ -39,24 +39,15 @@ namespace BlazorApp1.Components.Pages
             foreach (int id in uniqueIds)
             {
                 UserTestData testInfo;
-                await AsyncGetTestInfo(id, out testInfo);
+                //await AsyncGetTestInfo(id, out testInfo);
+                testInfo = LabInterop.Lab_GetTestInfo(labPtr, id);
+
                 allTests.Add(testInfo);
             }
             StateHasChanged();
 
         }
 
-        private Task AsyncGetAllIds(out TestIdsStruct testsIds)
-        {
-            testsIds = LabInterop.Lab_GetAllTestIds(labPtr);
-            return Task.CompletedTask;
-        }
-
-        private Task AsyncGetTestInfo(int id, out UserTestData testInfo)
-        {
-            testInfo = LabInterop.Lab_GetTestInfo(labPtr, id);
-            return Task.CompletedTask;
-        }
 
         private string GetStatusIcon(string status)
         {

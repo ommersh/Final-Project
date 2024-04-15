@@ -57,7 +57,7 @@ namespace BlazorApp1.Components.Pages
             createdTestId = LabInterop.Lab_CreateTest(labPtr, testData);
 
             //createdTestId = LabInterop.Lab_CreateTest(labPtr, "test");
-            StateHasChanged();
+            //StateHasChanged();
 
         }
     }

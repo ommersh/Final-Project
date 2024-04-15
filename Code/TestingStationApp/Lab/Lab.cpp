@@ -37,12 +37,12 @@
         m_dataGenerator.GenerateTestData(testInfo, &pointsData);
 
         m_databaseManager.createTest(testInfo);
-        std::cout << testInfo.recipe.testID << std::endl;
         //todo: send test to card
         //TODO - Via Test Manager? place the recipe in the test queue
         //The test manager should have a different thread - running an
         //m_testManager.PlaceTestInQueue(recipe, pointsData, recipe.numberOfPoints);
 
+        delete[] pointsData;
         return testInfo.recipe.testID;
 
     }
