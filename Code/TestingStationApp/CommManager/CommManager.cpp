@@ -1,11 +1,5 @@
 #include "CommManager.h"
 
-void CommManager::SetListeningState(bool listen)
-{
-    listening = listen;
-}
-
-
 /// <summary>
 /// Get the next massage from the OCB
 /// </summary>

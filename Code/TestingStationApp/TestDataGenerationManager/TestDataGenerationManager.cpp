@@ -18,10 +18,11 @@ void TestDataGenerationManager::GenerateTestData(TestInfo& testInfo, TcaCalculat
     TestDataGenerationManager::ProcessOrbitingElement(secondElemData, recipe.elsetrec2, testInfo.format);
     
     recipe.segmentSizeSec = DataGenerator::GetGamma(recipe.elsetrec1, recipe.elsetrec2, recipe.TminFactor);
-    recipe.numberOfPoints = (static_cast<int>(recipe.timeIntervalSizeSec / recipe.segmentSizeSec)) * recipe.numberOfPointsPerSegment;
+    //For the first segment we use the full number of points, for each of the following we use one less
+    recipe.numberOfPoints = 1 + (static_cast<int>(recipe.timeIntervalSizeSec / recipe.segmentSizeSec)) * (recipe.numberOfPointsPerSegment - 1 );
     *elementsVectors = new  TcaCalculation::sPointData[recipe.numberOfPoints];
 
-    TestDataGenerationManager::GeneratePointsByAlgorithm(recipe.catchPolynomialDegree, recipe.timeIntervalSizeSec, recipe.segmentSizeSec, *elementsVectors, recipe.testedAlgorithm);
+    TestDataGenerationManager::GeneratePointsByAlgorithm(recipe.numberOfPointsPerSegment, recipe.timeIntervalSizeSec, recipe.segmentSizeSec, *elementsVectors, recipe.testedAlgorithm);
     m_dataGenerator.CalculateRelativeVectorsForTwoElements(recipe.numberOfPoints, recipe.elsetrec1, recipe.elsetrec2, *elementsVectors, testInfo.recipe.startTime1Min, testInfo.recipe.startTime2Min);
 
 }

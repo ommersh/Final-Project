@@ -1,11 +1,12 @@
 #include "lab.h"
 #include "SimpleDataGeneration.h"
     Lab::Lab() : m_databaseManager("Tests.db"),
-        m_commManager(&m_testingStationLocalSimCommChannel),
+        m_commManager(),
         m_resultManager(),
         m_dataGenerator(),
         m_testManager()
     {
+        m_commManager.init(&m_testingStationLocalSimCommChannel);
         m_testManager.init(m_resultManager, m_commManager);
         if (!m_databaseManager.createTables()) {
             std::cerr << "Failed to create tables." << std::endl;
@@ -29,9 +30,11 @@
     }
 
     int Lab::CreateTest(TestInfo testInfo){
-        TestRecipe recipe = testInfo.recipe;
-        
-        //Create unique pointer and don't free the memory - the test manager will delete it if needed
+        TestRecipe &recipe = testInfo.recipe;
+        recipe.elsetrec1 = { 0 };
+        recipe.elsetrec2 = { 0 };
+
+        //Create unique pointer and don't free the memory - the test manager will delete it when needed
         TcaCalculation::sPointData* pointsData;
 
         m_dataGenerator.GenerateTestData(testInfo, &pointsData);
@@ -40,9 +43,9 @@
         //todo: send test to card
         //TODO - Via Test Manager? place the recipe in the test queue
         //The test manager should have a different thread - running an
-        //m_testManager.PlaceTestInQueue(recipe, pointsData, recipe.numberOfPoints);
+        m_testManager.PlaceTestInQueue(recipe, pointsData, recipe.numberOfPoints);
 
-        delete[] pointsData;
+        //delete[] pointsData;
         return testInfo.recipe.testID;
 
     }

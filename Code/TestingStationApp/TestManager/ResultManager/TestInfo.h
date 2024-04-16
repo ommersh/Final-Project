@@ -20,8 +20,8 @@ struct TestInfo {
     double TCA;
     double runTime;
     SatelliteDataFormat format;
-    char firstElemData[80]; //send elstrac
-    char secondElemData[80];
+    char firstElemData[180]; //send elstrac
+    char secondElemData[180];
 
 };
 

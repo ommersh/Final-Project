@@ -22,16 +22,16 @@ public:
     TestManager();
 
     //Initialize the class
-    void init(ResultManager& resultsManager, CommManager& commManger) {};
+    void init(ResultManager& resultsManager, CommManager& commManger);
 
     //synchoronized access to the queue!
-    void PlaceTestInQueue(TestRecipe recipe, TcaCalculation::sPointData* pointsDataArray,int arraySize) {};
+    void PlaceTestInQueue(TestRecipe recipe, TcaCalculation::sPointData* pointsDataArray,int arraySize);
 
     //Run forever, send test recipes and collect results
-    void RunTestManagerProcess() {};
+    void RunTestManagerProcess();
 
     //Check if the communication seems to be active(synchoronized)
-    bool CheckCommunication() { return true; };
+    bool CheckCommunication();
 
     void startTestManagerProcess();
     void stopTestManagerProcess();
@@ -48,6 +48,8 @@ private:
     unsigned long int m_startTime;
 
     unsigned long int getCurrentTimeInMicroseconds();
+
+    std::thread m_thisThread;
 };
 
 #endif

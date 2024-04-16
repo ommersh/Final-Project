@@ -11,12 +11,14 @@
 
 class CommManager {
 public:
-    CommManager(ICommChannel* commChannel)
-        : m_commChannel(commChannel)
+    CommManager()
     {
-        listening = false;
+        m_commChannel = nullptr;
     }
-    void SetListeningState(bool listen);
+    void init(ICommChannel* commChannel)
+    {
+        m_commChannel = commChannel;
+    }
     bool getNextMessage();
     bool sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData);
     TestResults::TestResult getLastReceivedTestResult() {
@@ -24,8 +26,7 @@ public:
     }
 
 private:
-    bool listening = false;
-    std::unique_ptr<ICommChannel> m_commChannel;
+    ICommChannel* m_commChannel;
     MessagesDefinitions::TestResultsMessage m_lastReceivedResultsMessage;
 };
 

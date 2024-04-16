@@ -10,9 +10,9 @@ void AncasDataGenerator::GenerateTimePoint(int n, double tEnd, double gamma, Tca
     double a = 0;
     double b = gamma;
     int index = 1;
-    while (b < tEnd) {
+    while (b <= tEnd) {
         for (int i = 1; i < n; ++i) {
-            elementsVectors[index++].time = a + i * Ancas_jump;
+            elementsVectors[index++].time = index * Ancas_jump;
         }
         a = b;
         b = b + gamma;

@@ -29,10 +29,8 @@ void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(int timePointsArrL
 
 void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, TcaCalculation::sPointData elementsVectors[], double& startTime1, double& startTime2)
 {
-    double startTimeElem1;
-    double startTimeElem2;
 
-    GetStartTimeOfOrbElem(elsetrec1, elsetrec2, startTimeElem1, startTimeElem2);
+    GetStartTimeOfOrbElem(elsetrec1, elsetrec2, startTime1, startTime2);
     //todo add starttime to recipe
 
     double r1[3], v1[3];
@@ -40,8 +38,9 @@ void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLeng
 
     // Compute position and velocity for each time point
     for (int i = 0; i < timePointsArrLength; ++i) {
-        SGP4Funcs::sgp4(elsetrec1, startTimeElem1 + elementsVectors[i].time, r1, v1);
-        SGP4Funcs::sgp4(elsetrec2, startTimeElem2 + elementsVectors[i].time, r2, v2);
+        double timeInMinutes = elementsVectors[i].time / 60;
+        SGP4Funcs::sgp4(elsetrec1, startTime1 + timeInMinutes, r1, v1);
+        SGP4Funcs::sgp4(elsetrec2, startTime2 + timeInMinutes, r2, v2);
 
         elementsVectors[i].r1x = r1[0];
         elementsVectors[i].r1y = r1[1];
@@ -49,7 +48,7 @@ void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLeng
         elementsVectors[i].r2x = r2[0];
         elementsVectors[i].r2y = r2[1];
         elementsVectors[i].r2z = r2[2];
-        elementsVectors[i].v1x = r1[0];
+        elementsVectors[i].v1x = v1[0];
         elementsVectors[i].v1y = v1[1];
         elementsVectors[i].v1z = v1[2];
         elementsVectors[i].v2x = v2[0];
@@ -273,9 +272,18 @@ void DataGenerator::GenerateTimePointForCatch(int n, double tEnd, double gamma, 
 }
 
 double  DataGenerator::GetGamma(elsetrec elsetrec1, elsetrec elsetrec2, double factor) {
+    double Tmin_Factor;
+    if (factor == 0)
+    {
+        Tmin_Factor = 0.5;
+    }
+    else
+    {
+        Tmin_Factor = 1.0 / factor;
+    }
     // Compute time for half revolution in seconds for each satellite
-    double t_sec1 = 60 * 2 / factor * 2 * PI / elsetrec1.no_kozai;
-    double t_sec2 = 60 * 2 / factor * 2 * PI / elsetrec2.no_kozai;
+    double t_sec1 = 60 * Tmin_Factor * 2 * PI / elsetrec1.no_kozai;
+    double t_sec2 = 60 * Tmin_Factor * 2 * PI / elsetrec2.no_kozai;
 
     // Find the minimum time of the two half revolutions
     double Gamma = std::min(t_sec1, t_sec2);

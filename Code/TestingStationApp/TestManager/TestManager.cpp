@@ -20,7 +20,7 @@ void TestManager::init(ResultManager& resultsManager, CommManager& commManger)
 	m_commManger = &commManger;
 	m_keepRunnig = true;
 	m_state = eWaitingForTheNextTest;
-	std::thread t(&TestManager::RunTestManagerProcess, this);
+	m_thisThread = std::thread(&TestManager::RunTestManagerProcess, this);
 
 }
 
@@ -54,6 +54,13 @@ void TestManager::RunTestManagerProcess()
 					//send the data, check if the data sent successfully
 					if (m_commManger->sendMessage(nextTest.recipe, nextTest.pointsDataArray) == true)
 					{
+						//delete the data
+						if (nextTest.pointsDataArray != nullptr)
+						{
+							delete[] nextTest.pointsDataArray;
+						}
+						//reset the nextTest object
+						nextTest = { 0 };
 						m_state = eWaitingForTestResults;
 						m_startTime = getCurrentTimeInMicroseconds();
 					}
@@ -65,6 +72,11 @@ void TestManager::RunTestManagerProcess()
 						m_waitingTestQueue.enqueue(nextTest);
 					}
 				}
+			}
+			else {
+				//Continue to wait for the results
+				//Try sleeping for a little while! 
+				std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MILLISEC));
 			}
 			break;
 		case eWaitingForTestResults:

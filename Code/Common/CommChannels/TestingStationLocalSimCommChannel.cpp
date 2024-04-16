@@ -8,8 +8,6 @@
 #include "CATCH/CATCH.h"
 #include "CATCH/CompanionMatrixRootsFinderEigen.h"
 #include "SBO_ANCAS/SGP4SinglePointGenerator.h"
-#include <mutex>
-std::mutex m_mutex;
 
 
 
@@ -18,7 +16,6 @@ bool TestingStationLocalSimCommChannel::getNextMessage(unsigned char* buffer, un
 	bool messageReceived = false;
 	if (maxSize >= sizeof(MessagesDefinitions::TestResultsMessage))
 	{
-		std::lock_guard<std::mutex> lock(m_mutex);
 		if (true == m_runLocalTest)
 		{
 			runTest();
@@ -26,9 +23,9 @@ bool TestingStationLocalSimCommChannel::getNextMessage(unsigned char* buffer, un
 			messageReceived = true;
 			m_resultsMessage.header.opcode = MessagesDefinitions::TestResultsMessageOpcode;
 			m_resultsMessage.header.dataSize = 0;
-			memcpy(buffer, reinterpret_cast<unsigned char*>(&m_resultsMessage), sizeof(MessagesDefinitions::TestResultsMessage));
+			*size = sizeof(MessagesDefinitions::TestResultsMessage);
+			memcpy(buffer, reinterpret_cast<unsigned char*>(&m_resultsMessage), *size);
 		}
-		std::lock_guard<std::mutex> unlock(m_mutex);
 
 
 	}
@@ -39,7 +36,6 @@ bool TestingStationLocalSimCommChannel::getNextMessage(unsigned char* buffer, un
 
 void TestingStationLocalSimCommChannel::sendMessage(unsigned char* buffer, unsigned int size)
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
 
 	unsigned int offset = 0;
 
@@ -55,14 +51,14 @@ void TestingStationLocalSimCommChannel::sendMessage(unsigned char* buffer, unsig
 			memcpy(reinterpret_cast<unsigned char*>(&m_testRecipe), buffer + offset, sizeof(TestRecipe));
 			offset += sizeof(TestRecipe);
 			m_pointsData = new TcaCalculation::sPointData[header.dataSize / sizeof(TcaCalculation::sPointData)];
-			if (nullptr != m_pointsData && (size - offset) == (header.dataSize / sizeof(TcaCalculation::sPointData)))
+			int expectedSize = header.dataSize;
+			if (nullptr != m_pointsData && (size - offset) == expectedSize)
 			{
 				memcpy(reinterpret_cast<unsigned char*>(m_pointsData), buffer + offset, size - offset);
 				m_runLocalTest = true;
 			}
 		}
 	}
-	std::lock_guard<std::mutex> unlock(m_mutex);
 }
 
 void TestingStationLocalSimCommChannel::reset()
