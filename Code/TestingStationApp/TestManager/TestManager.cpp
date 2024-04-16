@@ -1,4 +1,6 @@
 #include "TestManager.h"
+#include <thread>
+#include <iostream>
 
 
 
@@ -6,6 +8,8 @@ TestManager::TestManager() :
 	m_commManger(nullptr),
 	m_resultsManager(nullptr)
 {
+	m_keepRunnig = true;
+	m_state = eWaitingForTheNextTest;
 
 }
 
@@ -16,6 +20,8 @@ void TestManager::init(ResultManager& resultsManager, CommManager& commManger)
 	m_commManger = &commManger;
 	m_keepRunnig = true;
 	m_state = eWaitingForTheNextTest;
+	std::thread t(&TestManager::RunTestManagerProcess, this);
+
 }
 
 //synchoronized access to the queue!
