@@ -18,7 +18,7 @@ public:
     }
     void SetListeningState(bool listen);
     bool getNextMessage();
-    void sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData);
+    bool sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData);
     TestResults::TestResult getLastReceivedTestResult() {
         return m_lastReceivedResultsMessage.results;
     }

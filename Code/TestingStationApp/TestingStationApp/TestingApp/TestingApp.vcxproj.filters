@@ -50,6 +50,9 @@
     <Filter Include="Common\CommChannels\TestingStationLocalSim">
       <UniqueIdentifier>{fe9e5429-98dc-4317-a8fd-4b7ded16e92f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Utils">
+      <UniqueIdentifier>{7d1e99d6-0e69-4b6b-b9e3-0927a10a9040}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="..\..\TestManager\TestManager.h">
       <Filter>TestManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Utils\SafeQueue.h">
+      <Filter>Common\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

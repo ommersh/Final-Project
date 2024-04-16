@@ -41,13 +41,13 @@ bool CommManager::getNextMessage() {
     return messageReceived; 
 }
 
-void CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData)
+bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData)
 {
     MessagesDefinitions::MessageHeader header;
     int dataSize;
     int size;
     int offset;
-
+    bool messageSentSuccessfully = false;
     //Prepare the buffer we want to send
     //Get the buffer size
     dataSize = (recipe.numberOfPoints * sizeof(TcaCalculation::sPointData));
@@ -76,12 +76,13 @@ void CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
 
         //Send the message
         m_commChannel->sendMessage(buffer, size);
-
+        messageSentSuccessfully = true;
         delete[] buffer;
     }
     else
     {
         //Failed to send message! handle the error
+        messageSentSuccessfully = false;
     }
-
+    return messageSentSuccessfully;
 }

@@ -7,9 +7,14 @@
 class ResultManager {
 public:
 
-    void UpdateTestResult();
+    void UpdateTestResult(TestResults::TestResult results) {
 
-    void FillResults();//Fill the results in FullTestData
+    }
+
+    void FillResults()//Fill the results in FullTestData
+    {
+
+    }
 };
 
 #endif

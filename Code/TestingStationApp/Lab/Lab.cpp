@@ -28,7 +28,7 @@
         m_databaseManager.deleteTest(testId);
     }
 
-    int Lab::CreateTest(std::string name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, AlgorithmsEnums::CatchRootsAlg catchRootAlg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, std::string elemDataTwo, SatelliteDataFormat format) {
+    int Lab::CreateTest(std::string name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, string elemDataTwo, SatelliteDataFormat format) {
         TestRecipe recipe = TestRecipe();
         recipe.timeIntervalSizeSec = timeInterval;
         recipe.numberOfIterations = iterations;

@@ -2,7 +2,20 @@
 #define TESTMANAGER_H
 #include "ResultManager.h"
 #include "CommManager.h"
+#include "SafeQueue.h"
 #include <memory>
+#include <chrono>
+
+struct TestInQueue {
+    TestRecipe recipe;
+    TcaCalculation::sPointData* pointsDataArray;
+    int arraySize;
+};
+enum TestManagerState {
+    eWaitingForTheNextTest,
+    eWaitingForTestResults,
+    eNotActive,
+};
 
 class TestManager {
 public:
@@ -20,9 +33,21 @@ public:
     //Check if the communication seems to be active(synchoronized)
     bool CheckCommunication();
 
-private:
-    static const int TIME_OUT_SEC = 600;
+    void startTestManagerProcess();
+    void stopTestManagerProcess();
 
+private:
+    static const unsigned long int TIME_OUT_MICROSEC = 1000000 * 60 * 10;//Ten Minutes
+    static const unsigned long int SLEEP_TIME_MILLISEC = 500;//0.5 Minute
+
+    ResultManager* m_resultsManager;
+    CommManager* m_commManger;
+    SafeQueue<TestInQueue> m_waitingTestQueue;  // A queue of waiting tests
+    bool m_keepRunnig;
+    TestManagerState m_state;
+    unsigned long int m_startTime;
+
+    unsigned long int getCurrentTimeInMicroseconds();
 };
 
 #endif

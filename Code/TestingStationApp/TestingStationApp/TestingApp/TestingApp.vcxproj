@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -197,6 +197,7 @@
     <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h" />
     <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h" />
     <ClInclude Include="..\..\..\Common\TestRecipe.h" />
+    <ClInclude Include="..\..\..\Common\Utils\SafeQueue.h" />
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CATCH.h" />
     <ClInclude Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.h" />
