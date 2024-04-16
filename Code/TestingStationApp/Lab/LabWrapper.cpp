@@ -1,6 +1,7 @@
 // labdll.cpp
 #include "lab.h"
-//#include <string>
+#include <cstring>
+
 namespace LabWrap {
 
     struct TestIdsStruct {
@@ -17,9 +18,22 @@ namespace LabWrap {
 
         //void Lab_Destroy(Lab* lab) { delete lab; }
 
-        __declspec(dllexport) TestInfo Lab_GetTestInfo(Lab* lab, int testId)
+        __declspec(dllexport) UserTestData Lab_GetTestInfo(Lab* lab, int testId)
         { 
-            return lab->GetTestInfo(testId);
+            TestInfo testInfo = lab->GetTestInfo(testId);
+            UserTestData userData;
+            strncpy_s(userData.testName, testInfo.recipe.testName, MAX_TEST_NAME_SIZE);
+            userData.catchPolynomialDegree = testInfo.recipe.catchPolynomialDegree;
+            userData.numberOfPointsPerSegment = testInfo.recipe.numberOfPointsPerSegment;
+            userData.catchRootsAlg = testInfo.recipe.catchRootsAlg;
+            userData.testedAlgorithm = testInfo.recipe.testedAlgorithm;
+            userData.numberOfIterations = testInfo.recipe.numberOfIterations;
+            userData.TminFactor = testInfo.recipe.TminFactor;
+            userData.timeIntervalSizeSec = testInfo.recipe.timeIntervalSizeSec;
+            userData.TOLdKM = testInfo.recipe.TOLd;
+            userData.TOLtSec = testInfo.recipe.TOLt;
+            userData.testID = testInfo.recipe.testID;
+            return userData;
         }
 
         __declspec(dllexport) void Lab_DeleteTest(Lab* lab, int testId) 
@@ -27,9 +41,28 @@ namespace LabWrap {
             lab->DeleteTest(testId); 
         }
 
-        __declspec(dllexport) unsigned int Lab_CreateTest(Lab* lab, const std::string& name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, const std::string& elemDataOne, const std::string& elemDataTwo, SatelliteDataFormat format)
+        //__declspec(dllexport) unsigned int Lab_CreateTest(Lab* lab, const std::string& name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, const std::string& elemDataOne, const std::string& elemDataTwo, SatelliteDataFormat format)
+        //{
+        //    return lab->CreateTest("name", timeInterval, iterations, alg, catchPolynomDeg, numOfTimePoints, "data1", "data2", format);
+        //}
+
+        __declspec(dllexport) int Lab_CreateTest(Lab* lab, UserTestData userData)
         {
-            return lab->CreateTest("name", timeInterval, iterations, alg, catchPolynomDeg, numOfTimePoints, "data1", "data2", format);
+            TestInfo testInfo;
+            //CopyTestData(userTestData, testInfo);
+            strncpy_s(testInfo.recipe.testName, userData.testName, MAX_TEST_NAME_SIZE);
+            testInfo.recipe.catchPolynomialDegree = userData.catchPolynomialDegree;
+            testInfo.recipe.numberOfPointsPerSegment = userData.numberOfPointsPerSegment;
+            testInfo.recipe.catchRootsAlg = userData.catchRootsAlg;
+            testInfo.recipe.testedAlgorithm = userData.testedAlgorithm;
+            testInfo.recipe.numberOfIterations = userData.numberOfIterations;
+            testInfo.recipe.TminFactor = userData.TminFactor;
+            testInfo.recipe.timeIntervalSizeSec = userData.timeIntervalSizeSec;
+            testInfo.recipe.TOLd = userData.TOLdKM;
+            testInfo.recipe.TOLt = userData.TOLtSec;
+
+
+            return lab->CreateTest(testInfo);
         }
 
         __declspec(dllexport) TestIdsStruct Lab_GetAllTestIds(Lab* lab)
@@ -47,4 +80,19 @@ namespace LabWrap {
             return testidStruct;
         }
     }
+
+
+    //void CopyTestData(const UserTestData& userData, TestInfo& testInfo)
+    //{
+    //    strncpy_s(testInfo.recipe.testName, userData.testName, MAX_TEST_NAME_SIZE);
+    //    testInfo.recipe.catchPolynomialDegree = userData.catchPolynomialDegree;
+    //    testInfo.recipe.numberOfPointsPerSegment = userData.numberOfPointsPerSegment;
+    //    testInfo.recipe.catchRootsAlg = userData.catchRootsAlg;
+    //    testInfo.recipe.testedAlgorithm = userData.testedAlgorithm;
+    //    testInfo.recipe.numberOfIterations = userData.numberOfIterations;
+    //    testInfo.recipe.TminFactor = userData.TminFactor;
+    //    testInfo.recipe.timeIntervalSizeSec = userData.timeIntervalSizeSec;
+    //    testInfo.recipe.TOLd = userData.TOLdKM;
+    //    testInfo.recipe.TOLt = userData.TOLtSec;
+    //}
 }

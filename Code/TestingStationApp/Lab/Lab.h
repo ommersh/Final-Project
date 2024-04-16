@@ -11,7 +11,7 @@
 
 using namespace std;
 
-struct FullTestData{
+struct UserTestData{
     //Test identifiers 
     int testID;
     char testName[MAX_TEST_NAME_SIZE];
@@ -27,6 +27,10 @@ struct FullTestData{
     double timeIntervalSizeSec;
     double TOLdKM; // tolerance of distance for SBO ANCAS in KM
     double TOLtSec; // tolerance of time for SBO ANCAS in SEC
+    char orbitingElementData1[400];
+    char orbitingElementData2[400];
+
+
 
     //For displaying the info
     double julianDate; // the julian date of the first point
@@ -57,6 +61,8 @@ public:
     void DeleteTest(int testId);
 
     int CreateTest(std::string name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, string elemDataTwo, SatelliteDataFormat format);
+    int CreateTest(TestInfo testInfo);
+
     std::set<int> getAllTestIds();
 
 private:

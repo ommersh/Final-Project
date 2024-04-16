@@ -128,7 +128,7 @@ bool DatabaseManager::createTest(TestInfo& test) {
         return false;
     }
 
-    sqlite3_bind_text(stmt, 1, test.name, 40, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, test.name, 80, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, static_cast<int>(test.format));
     sqlite3_bind_double(stmt, 3, test.recipe.timeIntervalSizeSec);
     sqlite3_bind_int(stmt, 4, test.recipe.numberOfIterations);

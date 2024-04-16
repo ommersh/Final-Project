@@ -112,3 +112,57 @@ public struct TestIdsStruct
     public IntPtr ids; //Pointer to array of test Ids
     public int size; //Size of ids array
 };
+
+
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+public struct UserTestData
+{
+    // Test identifiers
+    public int testID;
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_TEST_NAME_SIZE)]
+    public string testName;
+
+    // Test Data
+    // For running a test
+    public int catchPolynomialDegree;              // Degree of the polynomial, should be numberOfPointsPerSegment - 1
+    public int numberOfPointsPerSegment;           // Use for data generations
+    public CatchRootsAlg catchRootsAlg;            // what variation to use for catch roots finding
+    public Algorithm testedAlgorithm;
+    public uint numberOfIterations;
+    public int TminFactor;                         // 2/4/8 what we divide the smaller iteration by to get Gamma
+    public double timeIntervalSizeSec;
+    public double TOLdKM;                          // tolerance of distance for SBO ANCAS in KM
+    public double TOLtSec;                         // tolerance of time for SBO ANCAS in SEC
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 400)]
+    public string orbitingElementData1;
+
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 400)]
+    public string orbitingElementData2;
+
+    // For displaying the info
+    public double julianDate;                      // the julian date of the first point
+    public int initialNumberOfPoints;
+    public double segmentSizeSec;                  // Gamma in seconds
+    public SatelliteDataFormat format;
+
+    // We can hold the inputs strings
+
+    // Test Results
+    // The results and run time of the first run
+    public double timeOfTcaFromStartingPointSec;
+    public double distanceOfTcaKM;
+    public int numberOfPointsTheAlgUsed;
+    public double runTimeMicro;
+
+    // Repeated tests results - the iterations
+    public double avgRunTimeMicro;
+    public double minRunTimeMicro;
+
+    private const int MAX_TEST_NAME_SIZE = 80;    // Define your maximum test name size
+}
+
+public enum CatchRootsAlg
+{
+    EigenCompanionMatrix,
+    ArmadilloCompanionMatrix
+}

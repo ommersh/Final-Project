@@ -13,7 +13,7 @@ static const int MAX_TEST_NAME_SIZE = 80;
 /// </summary>
 struct TestRecipe {
 
-	unsigned int testID;
+	int testID;
 	char testName[MAX_TEST_NAME_SIZE];
 	//Test data/Input
 	int catchPolynomialDegree;			// Degree of the polynomial, should be numberOfPointsPerSegment - 1
