@@ -24,6 +24,10 @@
 
 #include "ICommChannel.h"
 #include "TestedOBCLocalSimulation.h"
+#ifdef WIN32
+#include "WinTcpCommChannel.h"
+#include "WinUdpCommChannel.h"
+#endif // WIN32
 
 /// <summary>
 /// TestedOBCApp Factory.

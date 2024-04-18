@@ -141,7 +141,7 @@ bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned in
 //				Print the results based on the last parameters we "sent"
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int size)
+bool TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int size)
 {
 
 	MessagesDefinitions::MessageHeader header;
@@ -184,6 +184,7 @@ void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int s
 	{
 		m_fullCatalogTestDataGeneration.handleTestResults(testResults);
 	}
+	return true;
 }
 
 void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStepAroundPoint(double timePoint, double segmentSize)

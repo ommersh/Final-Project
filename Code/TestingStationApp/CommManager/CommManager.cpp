@@ -69,8 +69,10 @@ bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
         memcpy(buffer + offset,reinterpret_cast<unsigned char*>(testData), dataSize);
 
         //Send the message
-        m_commChannel->sendMessage(buffer, size);
-        messageSentSuccessfully = true;
+        if (true == m_commChannel->sendMessage(buffer, size))
+        {
+            messageSentSuccessfully = true;
+        }
         delete[] buffer;
     }
     else

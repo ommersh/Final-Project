@@ -28,7 +28,14 @@ Factory::Factory() :
 //////////////////////////////////////////////////////////////////////////////////////////////
 Factory::~Factory()
 {
-
+	if (nullptr != m_commChannel)
+	{
+		delete m_commChannel;
+	}
+	if (nullptr != m_timer)
+	{
+		delete m_timer;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,10 +88,34 @@ ICommChannel* Factory::getCommChannel()
 		{
 		default:
 		case AppConfiguration::CommChannelType::LocalSimulation:
+		{
 			TestedOBCLocalSimulation* localSimulationCommChannel = new TestedOBCLocalSimulation();
 			localSimulationCommChannel->init("gpCatalog.txt");
 			m_commChannel = localSimulationCommChannel;
+		}
 			break;
+#ifdef WIN32
+		case AppConfiguration::CommChannelType::WinTcp:
+		{
+			WinTcpCommChannel* winTcpCommChannel = new WinTcpCommChannel();
+			if (false == winTcpCommChannel->init(m_configManager.getLocalIpAddress(), m_configManager.getSourcePort(), m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
+			{
+				std::cerr << "Failed to create/open the socket" << std::endl;
+			}
+			m_commChannel = winTcpCommChannel;
+		}
+			break;
+		case AppConfiguration::CommChannelType::WinUdp:
+		{
+			WinTUdpCommChannel* winTcpCommChannel = new WinTUdpCommChannel();
+			if (false == winTcpCommChannel->init(m_configManager.getLocalIpAddress(), m_configManager.getSourcePort(), m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
+			{
+				std::cerr << "Failed to create/open the socket" << std::endl;
+			}
+			m_commChannel = winTcpCommChannel;
+		}
+		break;
+#endif 
 		}
 	}
 	return m_commChannel;

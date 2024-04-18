@@ -6,7 +6,8 @@
         m_dataGenerator(),
         m_testManager()
     {
-        m_commManager.init(&m_testingStationLocalSimCommChannel);
+        m_WinTUdpCommChannel.init("127.0.0.1", 8889, "127.0.0.1", 8888);
+        m_commManager.init(&m_WinTUdpCommChannel);
         m_testManager.init(m_resultManager, m_commManager);
         if (!m_databaseManager.createTables()) {
             std::cerr << "Failed to create tables." << std::endl;

@@ -161,6 +161,8 @@
     <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
     <ClCompile Include="..\..\..\Common\CommChannels\TestingStationLocalSimCommChannel.cpp" />
+    <ClCompile Include="..\..\..\Common\CommChannels\WinTcpCommChannel.cpp" />
+    <ClCompile Include="..\..\..\Common\CommChannels\WinUdpCommChannel.cpp" />
     <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
@@ -193,6 +195,8 @@
     <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\TestingStationLocalSimCommChannel.h" />
+    <ClInclude Include="..\..\..\Common\CommChannels\WinTcpCommChannel.h" />
+    <ClInclude Include="..\..\..\Common\CommChannels\WinUdpCommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommonStructures.h" />
     <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h" />
     <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h" />

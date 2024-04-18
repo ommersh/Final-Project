@@ -67,8 +67,8 @@ void TestManager::RunTestManagerProcess()
 					else
 					{
 						//we got the test data but failed to send! handle the error!
-						std::cout << "Failed To send the following test, TestID: " << nextTest.recipe.testID << std::endl;
-						std::cout << "Returning the test to queue" << std::endl;
+						//std::cout << "Failed To send the following test, TestID: " << nextTest.recipe.testID << std::endl;
+						//std::cout << "Returning the test to queue" << std::endl;
 						m_waitingTestQueue.enqueue(nextTest);
 					}
 				}

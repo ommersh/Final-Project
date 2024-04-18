@@ -1,6 +1,7 @@
 #ifndef SHIELD_ICommChannel_H    // Check if the symbol SHIELD_ICommChannel_H is not defined
 #define SHIELD_ICommChannel_H    // Define the symbol SHIELD_ICommChannel_H
 
+static const unsigned int MAX_MESSAGE_SIZE = 65000;
 /// <summary>
 /// Interface for a communication channel
 /// Including 3 function to implement:
@@ -32,7 +33,7 @@ public:
 	/// </summary>
 	/// <param name="buffer">Input buffer, message to send</param>
 	/// <param name="size">The size of the message we send</param>
-	virtual void sendMessage(unsigned char* buffer, unsigned int size) = 0;
+	virtual bool sendMessage(unsigned char* buffer, unsigned int size) = 0;
 	/// <summary>
 	/// Reset the channel between messages
 	/// </summary>

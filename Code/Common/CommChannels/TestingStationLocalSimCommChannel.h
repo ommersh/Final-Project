@@ -44,7 +44,7 @@ public:
 	/// </summary>
 	/// <param name="buffer">Input buffer, message to send</param>
 	/// <param name="size">The size of the message we send</param>
-	virtual void sendMessage(unsigned char* buffer, unsigned int size) override;
+	virtual bool sendMessage(unsigned char* buffer, unsigned int size) override;
 	/// <summary>
 	/// Reset the channel between messages
 	/// </summary>

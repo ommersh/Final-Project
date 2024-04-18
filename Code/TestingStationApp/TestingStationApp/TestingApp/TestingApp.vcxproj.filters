@@ -124,6 +124,12 @@
     <ClCompile Include="..\..\TestManager\TestManager.cpp">
       <Filter>TestManager</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\CommChannels\WinTcpCommChannel.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\CommChannels\WinUdpCommChannel.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\CommonStructures.h">
@@ -224,6 +230,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Utils\SafeQueue.h">
       <Filter>Common\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\WinTcpCommChannel.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\WinUdpCommChannel.h">
+      <Filter>Common\CommChannels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

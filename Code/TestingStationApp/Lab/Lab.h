@@ -7,6 +7,7 @@
 #include "TestDataGenerationManager.h"
 #include "TestingStationLocalSimCommChannel.h"
 #include "TestManager.h"
+#include "WinUdpCommChannel.h"
 #include <memory>
 
 using namespace std;
@@ -60,7 +61,7 @@ public:
     TestInfo GetTestInfo(int testId);
     void DeleteTest(int testId);
 
-    int CreateTest(std::string name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, string elemDataTwo, SatelliteDataFormat format);
+    //int CreateTest(std::string name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, std::string elemDataOne, string elemDataTwo, SatelliteDataFormat format);
     int CreateTest(TestInfo testInfo);
 
     std::set<int> getAllTestIds();
@@ -80,6 +81,7 @@ private:
     DatabaseManager m_databaseManager; 
     TestManager m_testManager;
     TestingStationLocalSimCommChannel m_testingStationLocalSimCommChannel;
+    WinTUdpCommChannel m_WinTUdpCommChannel;
 };
 
 

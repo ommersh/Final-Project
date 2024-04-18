@@ -19,12 +19,24 @@ void AppConfigurationManager::init(const std::string& filename)
     {
         m_commChannelType = AppConfiguration::CommChannelType::LocalSimulation;
     }
-
+    else if (stringValue == "WinTcp")
+    {
+        m_commChannelType = AppConfiguration::CommChannelType::WinTcp;
+    }
+    else if (stringValue == "WinUdp")
+    {
+        m_commChannelType = AppConfiguration::CommChannelType::WinUdp;
+    }
     stringValue = reader.Get("General", "TimerType", "ChronoTimer");
     if (stringValue == "ChronoTimer")
     {
         m_timerType = AppConfiguration::TimerType::ChronoTimer;
     }
+
+    m_localPort = reader.GetInteger("General", "SourcePort", AppConfiguration::LOCAL_PORT);
+    m_destPort = reader.GetInteger("General", "DestinationPort", AppConfiguration::DEST_PORT);
+    m_localIpAddress = reader.Get("General", "LocalIpAddress", AppConfiguration::IP_ADDRESS);
+    m_destIpAddress = reader.Get("General", "DestIpAddress", AppConfiguration::IP_ADDRESS);
 
 
 
@@ -69,6 +81,12 @@ void AppConfigurationManager::init(const std::string& filename)
 
 void AppConfigurationManager::setDefaults()
 {
+    m_localPort = AppConfiguration::LOCAL_PORT;
+    m_destPort = AppConfiguration::DEST_PORT;
+    m_localIpAddress = AppConfiguration::IP_ADDRESS;
+    m_destIpAddress = AppConfiguration::IP_ADDRESS;
+
+
     m_timerType = AppConfiguration::TimerType::ChronoTimer;
     m_fullCatalogTestDataVariation = AppConfiguration::FullCatalogTestDataVariation::eOneWithAll;
     m_TOLd = AppConfiguration::SBO_ANCAS_TOL_D_KM;

@@ -34,7 +34,7 @@ bool TestingStationLocalSimCommChannel::getNextMessage(unsigned char* buffer, un
 }
 
 
-void TestingStationLocalSimCommChannel::sendMessage(unsigned char* buffer, unsigned int size)
+bool TestingStationLocalSimCommChannel::sendMessage(unsigned char* buffer, unsigned int size)
 {
 
 	unsigned int offset = 0;
@@ -59,6 +59,7 @@ void TestingStationLocalSimCommChannel::sendMessage(unsigned char* buffer, unsig
 			}
 		}
 	}
+	return true;
 }
 
 void TestingStationLocalSimCommChannel::reset()
