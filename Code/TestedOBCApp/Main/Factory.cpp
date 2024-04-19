@@ -93,18 +93,18 @@ ICommChannel* Factory::getCommChannel()
 			localSimulationCommChannel->init("gpCatalog.txt");
 			m_commChannel = localSimulationCommChannel;
 		}
-			break;
+		break;
 #ifdef WIN32
 		case AppConfiguration::CommChannelType::WinTcp:
 		{
-			WinTcpCommChannel* winTcpCommChannel = new WinTcpCommChannel();
-			if (false == winTcpCommChannel->init(m_configManager.getLocalIpAddress(), m_configManager.getSourcePort(), m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
+			TCPClient* TcpCommChannel = new TCPClient();
+			if (false == TcpCommChannel->init(m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
 			{
 				std::cerr << "Failed to create/open the socket" << std::endl;
 			}
-			m_commChannel = winTcpCommChannel;
+			m_commChannel = TcpCommChannel;
 		}
-			break;
+		break;
 		case AppConfiguration::CommChannelType::WinUdp:
 		{
 			WinTUdpCommChannel* winTcpCommChannel = new WinTUdpCommChannel();
@@ -116,6 +116,16 @@ ICommChannel* Factory::getCommChannel()
 		}
 		break;
 #endif 
+		case AppConfiguration::CommChannelType::ENetCommChannel:
+		{
+			ENetCommChannelClient* enetCommChannelClient = new ENetCommChannelClient();
+			if (false == enetCommChannelClient->init(m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
+			{
+				std::cerr << "Failed to create/open the socket" << std::endl;
+			}
+			m_commChannel = enetCommChannelClient;
+		}
+		break;
 		}
 	}
 	return m_commChannel;

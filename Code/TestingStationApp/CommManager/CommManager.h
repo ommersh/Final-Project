@@ -28,6 +28,8 @@ public:
 private:
     ICommChannel* m_commChannel;
     MessagesDefinitions::TestResultsMessage m_lastReceivedResultsMessage;
+
+    bool sendMessageInchunks(unsigned char* buffer, unsigned int size);
 };
 
 #endif // COMM_MANAGER_H

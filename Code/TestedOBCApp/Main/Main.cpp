@@ -39,6 +39,7 @@ int main() {
     Factory *factory = Factory::getReference();
     TestManager testManager(factory->getTimer());
     CommManager commManager(*factory->getCommChannel());
+    commManager.init();
     MainProcess mainProcess(&testManager,&commManager, factory->getResultsLogger());
     mainProcess.process();
     

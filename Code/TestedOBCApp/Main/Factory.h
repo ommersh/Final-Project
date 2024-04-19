@@ -1,6 +1,11 @@
 #ifndef SHIELD_Factory_H    // Check if the symbol SHIELD_Factory_H is not defined
 #define SHIELD_Factory_H    // Define the symbol SHIELD_Factory_H
 
+#ifdef WIN32
+#include "WinTcpCommChannel.h"
+#include "WinUdpCommChannel.h"
+#endif // WIN32
+
 #include "ITimer.h"
 #include "ITcaAlgorithm.h"
 #include "IRootsFindAlg.h"
@@ -23,11 +28,12 @@
 #include "TestManager.h"
 
 #include "ICommChannel.h"
+
 #include "TestedOBCLocalSimulation.h"
-#ifdef WIN32
-#include "WinTcpCommChannel.h"
-#include "WinUdpCommChannel.h"
-#endif // WIN32
+
+#include "ENetCommChannel.h"
+
+
 
 /// <summary>
 /// TestedOBCApp Factory.

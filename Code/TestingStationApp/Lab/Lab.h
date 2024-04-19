@@ -8,6 +8,8 @@
 #include "TestingStationLocalSimCommChannel.h"
 #include "TestManager.h"
 #include "WinUdpCommChannel.h"
+#include "WinTcpCommChannel.h"
+
 #include <memory>
 
 using namespace std;
@@ -80,8 +82,11 @@ private:
     TestDataGenerationManager m_dataGenerator;
     DatabaseManager m_databaseManager; 
     TestManager m_testManager;
+
+    //Possible comm channels
     TestingStationLocalSimCommChannel m_testingStationLocalSimCommChannel;
     WinTUdpCommChannel m_WinTUdpCommChannel;
+    TCPServer m_tcpServer;
 };
 
 

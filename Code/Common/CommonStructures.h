@@ -60,6 +60,10 @@ namespace MessagesDefinitions
 		unsigned int dataSize;
 	};
 
+	//size definitions
+	static const unsigned short OPCODE_SIZE = sizeof(TestResultsMessageOpcode);
+	static const unsigned short MESSAGE_HEADER_SIZE = sizeof(MessageHeader);
+
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	//		TestRequestMessage description

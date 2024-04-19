@@ -22,7 +22,8 @@ bool CommManager::getNextMessage() {
             if (header.opcode == MessagesDefinitions::TestResultsMessageOpcode)
             {
                 //check if we got the full results message
-                if (size == sizeof(MessagesDefinitions::TestResultsMessage))
+                int expectedSize = sizeof(MessagesDefinitions::TestResultsMessage);
+                if (size == expectedSize)
                 {
                     //save the results message
                     memcpy(&m_lastReceivedResultsMessage, buffer, sizeof(MessagesDefinitions::TestResultsMessage));
@@ -69,7 +70,7 @@ bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
         memcpy(buffer + offset,reinterpret_cast<unsigned char*>(testData), dataSize);
 
         //Send the message
-        if (true == m_commChannel->sendMessage(buffer, size))
+        if (true == sendMessageInchunks(buffer, size))
         {
             messageSentSuccessfully = true;
         }
@@ -81,4 +82,25 @@ bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
         messageSentSuccessfully = false;
     }
     return messageSentSuccessfully;
+}
+
+bool CommManager::sendMessageInchunks(unsigned char* buffer, unsigned int size) {
+    unsigned int bytesSent = 0; // Tracks the number of bytes sent
+
+    while (bytesSent < size) {
+        // Calculate the size of the next chunk
+        unsigned int chunkSize = (((MAX_MESSAGE_SIZE) < (size - bytesSent)) ? (MAX_MESSAGE_SIZE) : (size - bytesSent));
+
+        // Send the current chunk
+        if (false == m_commChannel->sendMessage(buffer + bytesSent, chunkSize))
+        {
+            //std::cerr << "Failed to send the current chunk" << "\n";
+            return false;
+        }
+
+        // Update the total number of bytes sent
+        bytesSent += chunkSize;
+    }
+    return true;
+
 }

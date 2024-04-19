@@ -23,7 +23,8 @@ int main()
 {
 
     Lab& lab = Lab::GetInstance();
-
+    while (1)
+    {
     //Initialize the data
     TestInfo info = { 0 };
     info.format = SatelliteDataFormat::Text;
@@ -46,7 +47,7 @@ STARLINK5447_UNICORN2N
     info.recipe.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
     info.recipe.numberOfIterations = 1;
     info.recipe.TminFactor = 2;
-    info.recipe.timeIntervalSizeSec = 7 * 24 * 60 * 60;//A Week
+    info.recipe.timeIntervalSizeSec = 14 * 24 * 60 * 60;//A Week
     info.recipe.TOLd = 10e-9;
     info.recipe.TOLt = 10e-5;
     
@@ -67,9 +68,10 @@ STARLINK5447_UNICORN2N
     */
 
 
-    while (1)
-    {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        std::this_thread::sleep_for(std::chrono::seconds(3));
     }
+
+    while (1) { ; }
     return 0;
 }

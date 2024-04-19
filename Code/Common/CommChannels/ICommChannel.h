@@ -2,6 +2,11 @@
 #define SHIELD_ICommChannel_H    // Define the symbol SHIELD_ICommChannel_H
 
 static const unsigned int MAX_MESSAGE_SIZE = 65000;
+
+struct ReceivedMessage {
+	unsigned int size;
+	unsigned char buffer[MAX_MESSAGE_SIZE];
+};
 /// <summary>
 /// Interface for a communication channel
 /// Including 3 function to implement:

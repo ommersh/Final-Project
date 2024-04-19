@@ -27,6 +27,10 @@ void AppConfigurationManager::init(const std::string& filename)
     {
         m_commChannelType = AppConfiguration::CommChannelType::WinUdp;
     }
+    else if (stringValue == "ENetCommChannel")
+    {
+        m_commChannelType = AppConfiguration::CommChannelType::ENetCommChannel;
+    }
     stringValue = reader.Get("General", "TimerType", "ChronoTimer");
     if (stringValue == "ChronoTimer")
     {
