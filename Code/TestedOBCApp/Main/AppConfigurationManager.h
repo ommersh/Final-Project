@@ -16,8 +16,6 @@ namespace AppConfiguration
 		LocalSimulation,
 		WinTcp,
 		WinUdp,
-		ENetCommChannel,
-
 	};
 
 	//Default values

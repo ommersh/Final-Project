@@ -31,8 +31,6 @@
 
 #include "TestedOBCLocalSimulation.h"
 
-#include "ENetCommChannel.h"
-
 
 
 /// <summary>

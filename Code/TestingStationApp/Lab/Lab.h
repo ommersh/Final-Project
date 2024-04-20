@@ -5,10 +5,9 @@
 #include "DatabaseManager.h"
 #include "CommManager.h"
 #include "TestDataGenerationManager.h"
-#include "TestingStationLocalSimCommChannel.h"
+
 #include "TestManager.h"
-#include "WinUdpCommChannel.h"
-#include "WinTcpCommChannel.h"
+
 
 #include <memory>
 
@@ -83,10 +82,7 @@ private:
     DatabaseManager m_databaseManager; 
     TestManager m_testManager;
 
-    //Possible comm channels
-    TestingStationLocalSimCommChannel m_testingStationLocalSimCommChannel;
-    WinTUdpCommChannel m_WinTUdpCommChannel;
-    TCPServer m_tcpServer;
+
 };
 
 

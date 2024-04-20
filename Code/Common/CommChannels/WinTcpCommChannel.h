@@ -207,11 +207,11 @@ public:
             return true;
         }
         else if (iResult == 0) {
-            std::cout << "Connection closing..." << std::endl;
+            //std::cout << "Connection closing..." << std::endl;
             return false;
         }
         else {
-            std::cout << "Recv failed with error: " << WSAGetLastError() << std::endl;
+            //std::cout << "Recv failed with error: " << WSAGetLastError() << std::endl;
             closesocket(m_socket);
             WSACleanup();
             return false;

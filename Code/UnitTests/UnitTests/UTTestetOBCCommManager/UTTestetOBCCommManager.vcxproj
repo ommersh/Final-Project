@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1DE73C72-46C7-44CD-88D6-1FF71D1DC214}</ProjectGuid>
+    <ProjectGuid>{B80F1281-405A-4F79-83C2-63C3A9B39C8D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <ProjectName>UTSboAncas</ProjectName>
+    <ProjectName>UTTestetOBCCommManager</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -44,7 +44,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\SGP4\CPP;..\;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\CommChannels;..\..\..\TestedOBCApp\CommManager;..\..\..\Implementations;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -61,7 +61,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\SGP4\CPP;..\;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\CommChannels;..\..\..\TestedOBCApp\CommManager;..\..\..\Implementations;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -77,7 +77,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\SGP4\CPP;..\;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\CommChannels;..\..\..\TestedOBCApp\CommManager;..\..\..\Implementations;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -95,7 +95,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\..\SGP4\CPP;..\;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\CommChannels;..\..\..\TestedOBCApp\CommManager;..\..\..\Implementations;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -105,30 +105,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h" />
-    <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h" />
-    <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />
-    <ClInclude Include="..\..\..\Implementations\FileReader.h" />
-    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\ISinglePointPropogator.h" />
-    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.h" />
-    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.h" />
-    <ClInclude Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.h" />
-    <ClInclude Include="..\..\..\TestedOBCApp\Timer\ChronoBasedTimer.h" />
+    <ClInclude Include="..\..\..\TestedOBCApp\CommManager\CommManager.h" />
     <ClInclude Include="..\TestUtils.h" />
-    <ClInclude Include="UTSboAncas.h" />
+    <ClInclude Include="UTTestetOBCCommManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
-    <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
-    <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp" />
-    <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
-    <ClCompile Include="..\..\..\Implementations\FileReader.cpp" />
-    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncas.cpp" />
-    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SboAncasEquallySpacedPoints.cpp" />
-    <ClCompile Include="..\..\..\Implementations\SBO_ANCAS\SGP4SinglePointGenerator.cpp" />
-    <ClCompile Include="..\..\..\TestedOBCApp\Timer\ChronoBasedTimer.cpp" />
+    <ClCompile Include="..\..\..\TestedOBCApp\CommManager\CommManager.cpp" />
     <ClCompile Include="..\TestUtils.cpp" />
-    <ClCompile Include="UTSboAncas.cpp" />
+    <ClCompile Include="UTTestetOBCCommManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

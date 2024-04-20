@@ -45,9 +45,9 @@ STARLINK5447_UNICORN2N
     info.recipe.catchPolynomialDegree = 15;
     info.recipe.numberOfPointsPerSegment = 16;
     info.recipe.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
-    info.recipe.numberOfIterations = 1;
+    info.recipe.numberOfIterations = 10;
     info.recipe.TminFactor = 2;
-    info.recipe.timeIntervalSizeSec = 14 * 24 * 60 * 60;//A Week
+    info.recipe.timeIntervalSizeSec = 28 * 24 * 60 * 60;//A Week
     info.recipe.TOLd = 10e-9;
     info.recipe.TOLt = 10e-5;
     
@@ -69,7 +69,7 @@ STARLINK5447_UNICORN2N
 
 
 
-        std::this_thread::sleep_for(std::chrono::seconds(3));
+        std::this_thread::sleep_for(std::chrono::seconds(2));
     }
 
     while (1) { ; }

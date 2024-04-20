@@ -36,6 +36,9 @@ void MainProcess::process()
 			//collect the data
 			TestRecipe params = m_commManager->getTheTestParameters();
 			TcaCalculation::sPointData* data = m_commManager->getTheTestData();
+
+			std::cout << "Staring test " << params.testID << std::endl;
+
 			//run the test
 			//m_testManager->runTest()
 			TestResults::TestResult testResults = m_testManager->runTest(params, data);
@@ -47,6 +50,7 @@ void MainProcess::process()
 
 			//send the test results back
 			m_commManager->sendTestResults(testResults);
+			std::cout << "Completed test " << params.testID << std::endl;
 
 			//end the test, reset everything and free any memory
 			m_commManager->endTest();

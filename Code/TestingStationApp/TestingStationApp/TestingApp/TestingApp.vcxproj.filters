@@ -53,12 +53,6 @@
     <Filter Include="Common\Utils">
       <UniqueIdentifier>{7d1e99d6-0e69-4b6b-b9e3-0927a10a9040}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ExternalLibraries">
-      <UniqueIdentifier>{0dadf355-6499-4a73-8fbb-83c7c34e5f4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ExternalLibraries\ENet">
-      <UniqueIdentifier>{866e12ca-1236-43e3-831c-aa4097e9c408}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
@@ -136,35 +130,8 @@
     <ClCompile Include="..\..\..\Common\CommChannels\WinUdpCommChannel.cpp">
       <Filter>Common\CommChannels</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Common\CommChannels\ENetCommChannel.cpp">
-      <Filter>Common\CommChannels</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\win32.c">
-      <Filter>ExternalLibraries\ENet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\unix.c">
-      <Filter>ExternalLibraries\ENet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\protocol.c">
-      <Filter>ExternalLibraries\ENet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\peer.c">
-      <Filter>ExternalLibraries\ENet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\packet.c">
-      <Filter>ExternalLibraries\ENet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\list.c">
-      <Filter>ExternalLibraries\ENet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\host.c">
-      <Filter>ExternalLibraries\ENet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\compress.c">
-      <Filter>ExternalLibraries\ENet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\callbacks.c">
-      <Filter>ExternalLibraries\ENet</Filter>
+    <ClCompile Include="..\..\CommManager\CommChannelFactory.cpp">
+      <Filter>CommManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -273,8 +240,8 @@
     <ClInclude Include="..\..\..\Common\CommChannels\WinUdpCommChannel.h">
       <Filter>Common\CommChannels</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\CommChannels\ENetCommChannel.h">
-      <Filter>Common\CommChannels</Filter>
+    <ClInclude Include="..\..\CommManager\CommChannelFactory.h">
+      <Filter>CommManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

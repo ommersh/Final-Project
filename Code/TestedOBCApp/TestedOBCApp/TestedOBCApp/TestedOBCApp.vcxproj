@@ -76,12 +76,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common\Utils;..\..\..\Common\Enums;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\enet\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common\Utils;..\..\..\Common\Enums;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,14 +92,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common\Utils;..\..\..\Common\Enums;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\enet\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common\Utils;..\..\..\Common\Enums;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,12 +108,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common\Utils;..\..\..\Common\Enums;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\enet\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common\Utils;..\..\..\Common\Enums;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,14 +124,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common\Utils;..\..\..\Common\Enums;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\enet\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Common\CommChannels;..\..\..\Common\Logger;..\..\..\Common\DataGeneration;..\..\..\Common\Utils;..\..\..\Common\Enums;..\..\..\Common;..\..\Main;..\..\ExternalLibraries\eigen-3.4.0;..\..\TestedOBCApp;..\..\TestManager;..\..\Timer;..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\SBO_ANCAS;..\..\..\Implementations\CATCH;..\..\CommManager;..\..\..\..\SGP4\CPP;..\..\LocalSimulation;..\..\..\ExternalLibraries\INIH;..\..\..\ExternalLibraries\INIH\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -139,21 +139,11 @@
     <ClCompile Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
-    <ClCompile Include="..\..\..\Common\CommChannels\ENetCommChannel.cpp" />
     <ClCompile Include="..\..\..\Common\CommChannels\WinTcpCommChannel.cpp" />
     <ClCompile Include="..\..\..\Common\CommChannels\WinUdpCommChannel.cpp" />
     <ClCompile Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Common\Logger\ResultsLogger.cpp" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\callbacks.c" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\compress.c" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\host.c" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\list.c" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\packet.c" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\peer.c" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\protocol.c" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\unix.c" />
-    <ClCompile Include="..\..\..\ExternalLibraries\enet\win32.c" />
     <ClCompile Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.cpp" />
     <ClCompile Include="..\..\..\ExternalLibraries\INIH\ini.c" />
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
@@ -182,7 +172,6 @@
     <ClInclude Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.h" />
     <ClInclude Include="..\..\..\..\SGP4\CPP\DataGenerator.h" />
     <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h" />
-    <ClInclude Include="..\..\..\Common\CommChannels\ENetCommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\WinTcpCommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\WinUdpCommChannel.h" />

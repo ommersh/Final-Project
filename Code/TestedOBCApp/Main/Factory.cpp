@@ -116,16 +116,6 @@ ICommChannel* Factory::getCommChannel()
 		}
 		break;
 #endif 
-		case AppConfiguration::CommChannelType::ENetCommChannel:
-		{
-			ENetCommChannelClient* enetCommChannelClient = new ENetCommChannelClient();
-			if (false == enetCommChannelClient->init(m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
-			{
-				std::cerr << "Failed to create/open the socket" << std::endl;
-			}
-			m_commChannel = enetCommChannelClient;
-		}
-		break;
 		}
 	}
 	return m_commChannel;

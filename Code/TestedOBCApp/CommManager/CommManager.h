@@ -49,5 +49,30 @@ protected:
 	ICommChannel& m_commChannel;
 	TestRecipe m_testParameters;
 	TcaCalculation::sPointData* m_pointsData;
+
+	//Parser related stuff
+	void initParser(unsigned char opcode[MessagesDefinitions::OPCODE_SIZE]);
+	bool parseBuffer(unsigned char* buffer, int size);
+	void resetParser();
+	enum ParserState{
+		LookingForOpCode,
+		CollectingHeader,
+		CollectingData,
+		Done
+	};
+	ParserState m_parserState;
+	unsigned char m_opCodeBuffer[MessagesDefinitions::OPCODE_SIZE];
+	unsigned char m_opCode[MessagesDefinitions::OPCODE_SIZE];
+
+	unsigned char m_headerBuffer[MessagesDefinitions::MESSAGE_HEADER_SIZE];
+	unsigned int m_opCodeBufferIndex;
+	unsigned int m_headerBufferIndex;
+
+	MessagesDefinitions::MessageHeader m_messageHeader;
+	unsigned int m_messageSize;
+	unsigned char* m_messageBuffer;
+	unsigned int  m_messageBufferIndex;
+
+
 };
 #endif //SHIELD_CommManager_H

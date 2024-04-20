@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UTCatch", "UTCatch\UTCatch.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UTSboAncas", "UTSboAncas\UTSboAncas.vcxproj", "{1DE73C72-46C7-44CD-88D6-1FF71D1DC214}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UTTestetOBCCommManager", "UTTestetOBCCommManager\UTTestetOBCCommManager.vcxproj", "{B80F1281-405A-4F79-83C2-63C3A9B39C8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -48,6 +50,14 @@ Global
 		{1DE73C72-46C7-44CD-88D6-1FF71D1DC214}.Release|x64.Build.0 = Release|x64
 		{1DE73C72-46C7-44CD-88D6-1FF71D1DC214}.Release|x86.ActiveCfg = Release|Win32
 		{1DE73C72-46C7-44CD-88D6-1FF71D1DC214}.Release|x86.Build.0 = Release|Win32
+		{B80F1281-405A-4F79-83C2-63C3A9B39C8D}.Debug|x64.ActiveCfg = Debug|x64
+		{B80F1281-405A-4F79-83C2-63C3A9B39C8D}.Debug|x64.Build.0 = Debug|x64
+		{B80F1281-405A-4F79-83C2-63C3A9B39C8D}.Debug|x86.ActiveCfg = Debug|Win32
+		{B80F1281-405A-4F79-83C2-63C3A9B39C8D}.Debug|x86.Build.0 = Debug|Win32
+		{B80F1281-405A-4F79-83C2-63C3A9B39C8D}.Release|x64.ActiveCfg = Release|x64
+		{B80F1281-405A-4F79-83C2-63C3A9B39C8D}.Release|x64.Build.0 = Release|x64
+		{B80F1281-405A-4F79-83C2-63C3A9B39C8D}.Release|x86.ActiveCfg = Release|Win32
+		{B80F1281-405A-4F79-83C2-63C3A9B39C8D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

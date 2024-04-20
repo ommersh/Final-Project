@@ -1,26 +1,14 @@
 #include "lab.h"
-#include "SimpleDataGeneration.h"
+#include "CommChannelFactory.h"
+
     Lab::Lab() : m_databaseManager("Tests.db"),
         m_commManager(),
         m_resultManager(),
         m_dataGenerator(),
         m_testManager()
     {
-        static const bool udp = false;
-        if (udp)
-        {
-            m_WinTUdpCommChannel.init("127.0.0.1", 8889, "127.0.0.1", 8888);
-            m_commManager.init(&m_WinTUdpCommChannel);
-        }
-        else
-        {
-            m_tcpServer.init("127.0.0.1", 8889);
-            m_commManager.init(&m_tcpServer);
-        }
 
-
-
-
+        m_commManager.init(&(CommChannelFactory::GetInstance().getCommChannel(CommChannelConfig::Tcp)));
         
         m_testManager.init(m_resultManager, m_commManager);
         if (!m_databaseManager.createTables()) {
