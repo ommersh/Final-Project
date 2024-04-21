@@ -85,6 +85,7 @@ bool CommManager::getTheNextTest()
 			break;
 		}
 	}
+	resetParser();
 	return messageReceived;
 }
 
@@ -128,6 +129,7 @@ void CommManager::endTest()
 	{
 		delete[] m_pointsData;
 	}
+	resetParser();
 	m_commChannel.reset();
 }
 
@@ -225,6 +227,7 @@ bool CommManager::parseBuffer(unsigned char* buffer, int size)
 				if (nullptr == m_messageBuffer)
 				{
 					std::cout << "Failed to created Message Buffer!!!" << std::endl;
+					resetParser();
 					return false;
 				}
 				memcpy(m_messageBuffer, reinterpret_cast<unsigned char*>(&m_messageHeader), MessagesDefinitions::MESSAGE_HEADER_SIZE);

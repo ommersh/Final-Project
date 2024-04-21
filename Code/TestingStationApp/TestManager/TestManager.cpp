@@ -94,6 +94,7 @@ void TestManager::RunTestManagerProcess()
 				std::cout << "Timeout! FNo results arrived for the following test, TestID: " << nextTest.recipe.testID << std::endl;
 				std::cout << "Returning the test to queue" << std::endl;
 				m_waitingTestQueue.enqueue(nextTest);
+				m_state = eWaitingForTheNextTest;
 			}
 			else {
 				//Continue to wait for the results
