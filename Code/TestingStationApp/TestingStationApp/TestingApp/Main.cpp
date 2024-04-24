@@ -59,9 +59,9 @@ STARLINK5447_UNICORN2N
     lab.CreateTest(info);
 
     //set the algorithm
-    info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::CATCH;
+    //info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::CATCH;
     //Run the test
-    lab.CreateTest(info);
+    //lab.CreateTest(info);
     /*
     //set the algorithm
     info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::SBO_ANCAS;

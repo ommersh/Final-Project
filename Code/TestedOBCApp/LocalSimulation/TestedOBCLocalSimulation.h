@@ -69,7 +69,7 @@ protected:
 	FullCatalogTestDataGeneration m_fullCatalogTestDataGeneration;
 	bool m_fullCatalog;
 	int m_offset;
-	int m_sizeToCompy;
+	int m_sizeToCopy;
 	void startPrint();
 	/// <summary>
 	/// Instead of sending a message print the results

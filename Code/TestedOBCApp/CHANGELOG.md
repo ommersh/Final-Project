@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Released]
+### version 1.0.6
+#### Changed 24/04/2024
+- Fixed missing crc in Local Sim
 ### version 1.0.5
 #### Changed 24/04/2024
 - Added Parser to the CommManager

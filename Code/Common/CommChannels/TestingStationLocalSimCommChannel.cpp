@@ -1,5 +1,6 @@
 #include "TestingStationLocalSimCommChannel.h"
 
+#include "Utilities.h"
 #include "ITcaAlgorithm.h"
 #include "IRootsFindAlg.h"
 #include "SBO_ANCAS/ISinglePointPropogator.h"
@@ -23,6 +24,7 @@ bool TestingStationLocalSimCommChannel::getNextMessage(unsigned char* buffer, un
 			messageReceived = true;
 			m_resultsMessage.header.opcode = MessagesDefinitions::TestResultsMessageOpcode;
 			m_resultsMessage.header.dataSize = 0;
+			m_resultsMessage.header.crc = CRC32::calculate(reinterpret_cast<unsigned char *>(&m_resultsMessage.results), sizeof(MessagesDefinitions::TestResultsMessage) - sizeof(MessagesDefinitions::MessageHeader));
 			*size = sizeof(MessagesDefinitions::TestResultsMessage);
 			memcpy(buffer, reinterpret_cast<unsigned char*>(&m_resultsMessage), *size);
 		}
@@ -38,7 +40,7 @@ bool TestingStationLocalSimCommChannel::sendMessage(unsigned char* buffer, unsig
 {
 
 	unsigned int offset = 0;
-
+	m_runLocalTest = false;
 	if (size >= (sizeof(MessagesDefinitions::MessageHeader) + sizeof(TestRecipe)))
 	{
 		//get the message header
@@ -47,19 +49,27 @@ bool TestingStationLocalSimCommChannel::sendMessage(unsigned char* buffer, unsig
 		offset += sizeof(MessagesDefinitions::MessageHeader);
 		if (header.opcode == MessagesDefinitions::TestRequestMessageOpcode)
 		{
-
-			memcpy(reinterpret_cast<unsigned char*>(&m_testRecipe), buffer + offset, sizeof(TestRecipe));
-			offset += sizeof(TestRecipe);
-			m_pointsData = new TcaCalculation::sPointData[header.dataSize / sizeof(TcaCalculation::sPointData)];
-			int expectedSize = header.dataSize;
-			if (nullptr != m_pointsData && (size - offset) == expectedSize)
+			//check crc
+			unsigned int crc = CRC32::calculate(buffer + sizeof(MessagesDefinitions::MessageHeader), size - sizeof(MessagesDefinitions::MessageHeader));
+			if (crc == header.crc)
 			{
-				memcpy(reinterpret_cast<unsigned char*>(m_pointsData), buffer + offset, size - offset);
-				m_runLocalTest = true;
+				memcpy(reinterpret_cast<unsigned char*>(&m_testRecipe), buffer + offset, sizeof(TestRecipe));
+				offset += sizeof(TestRecipe);
+				m_pointsData = new TcaCalculation::sPointData[header.dataSize / sizeof(TcaCalculation::sPointData)];
+				int expectedSize = header.dataSize;
+				if (nullptr != m_pointsData && (size - offset) == expectedSize)
+				{
+					memcpy(reinterpret_cast<unsigned char*>(m_pointsData), buffer + offset, size - offset);
+					m_runLocalTest = true;
+				}
+			}
+			else
+			{
+				std::cout << "TestingStationLocalSimCommChannel: " << "CRC Error" << std::endl;
 			}
 		}
 	}
-	return true;
+	return m_runLocalTest;
 }
 
 void TestingStationLocalSimCommChannel::reset()

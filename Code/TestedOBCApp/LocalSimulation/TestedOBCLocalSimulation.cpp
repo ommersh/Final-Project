@@ -1,5 +1,6 @@
 #include "TestedOBCLocalSimulation.h"
 #include <string.h>
+#include "Utilities.h"
 
 void TestedOBCLocalSimulation::init(const std::string& catalogFilePath)
 {
@@ -84,32 +85,34 @@ bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned in
 		{
 			
 			
-			m_sizeToCompy = sizeof(MessageHeader) + sizeof(TestRecipe) + m_fileData.size * sizeof(TcaCalculation::sPointData);
-			m_messageBuffer = new unsigned char[m_sizeToCompy];
+			m_sizeToCopy = sizeof(MessageHeader) + sizeof(TestRecipe) + m_fileData.size * sizeof(TcaCalculation::sPointData);
+			m_messageBuffer = new unsigned char[m_sizeToCopy];
 			if (nullptr == m_messageBuffer)
 			{
 				returnValue = false;
 				break;
 			}
-			int offset = 0;
-			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&m_header), sizeof(MessageHeader));
-			offset += sizeof(MessageHeader);
+			int offset = sizeof(MessageHeader);
 			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&m_params), sizeof(TestRecipe));
 			offset += sizeof(TestRecipe);
 			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(m_fileData.data), m_fileData.size * sizeof(TcaCalculation::sPointData));
+			//calculate crc
+			m_header.crc = CRC32::calculate(m_messageBuffer + sizeof(MessageHeader), m_sizeToCopy - sizeof(MessageHeader));
+			memcpy(m_messageBuffer, reinterpret_cast<unsigned char*>(&m_header), sizeof(MessageHeader));
+
 			m_offset = 0;
 		}
 	case StateSendTestData:
-		if (m_sizeToCompy < maxSize)
+		if (m_sizeToCopy < maxSize)
 		{
-			memcpy(buffer, m_messageBuffer + m_offset, m_sizeToCompy);
-			*size = m_sizeToCompy;
+			memcpy(buffer, m_messageBuffer + m_offset, m_sizeToCopy);
+			*size = m_sizeToCopy;
 			m_state = StateWaitForTestEnd;
 
 		}
 		else {
 			memcpy(buffer, m_messageBuffer + m_offset, maxSize);
-			m_sizeToCompy -= (maxSize);
+			m_sizeToCopy -= (maxSize);
 			*size = maxSize;
 			m_offset += maxSize;
 			m_state = StateSendTestData;
@@ -229,14 +232,6 @@ void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStep()
 //////////////////////////////////////////////////////////////////////////////////////////////
 void TestedOBCLocalSimulation::getAncasData()
 {
-	//FileReader fr;
-	/*m_fileData = fr.readDataFromFile("LEMUR2_COSMOS_CONST.csv");
-	if (m_fileData.size == -1)
-	{
-		m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_CONST.csv");
-	}
-	m_params = { 0 };
-	*/
 	char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
 	char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
 
@@ -285,14 +280,6 @@ void TestedOBCLocalSimulation::getAncasData()
 //////////////////////////////////////////////////////////////////////////////////////////////
 void TestedOBCLocalSimulation::getCatchData()
 {
-	/*FileReader fr;
-	m_fileData = fr.readDataFromFile("LEMUR2_COSMOS_GAUSS.csv");
-
-	if (m_fileData.size == -1)
-	{
-		m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_GAUSS.csv");
-	}*/
-
 	char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
 	char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
 
@@ -347,14 +334,6 @@ void TestedOBCLocalSimulation::getCatchData()
 //////////////////////////////////////////////////////////////////////////////////////////////
 void TestedOBCLocalSimulation::getSboAncasData()
 {
-	//FileReader fr;
-	/*m_fileData = fr.readDataFromFile("LEMUR2_COSMOS_CONST.csv");
-	if (m_fileData.size == -1)
-	{
-		m_fileData = fr.readDataFromFile("../../../Implementations/TestApp/LEMUR2_COSMOS_CONST.csv");
-	}
-	m_params = { 0 };
-	*/
 	char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
 	char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
 
