@@ -1,11 +1,11 @@
 #include "MainProcess.h"
-
+#include <iostream>
+#include <chrono>
+#include <thread>
 
 
 
 extern bool g_keepRunning;
-
-
 
 MainProcess::MainProcess(TestManager* testManager, CommManager* commManager, ResultsLogger* logger) 
 	: m_testManager(testManager),
@@ -20,22 +20,24 @@ MainProcess::~MainProcess()
 
 }
 
-#include <iostream>
-#include <chrono>
-#include <thread>
+
 
 void MainProcess::process()
 {
+	std::cout << "Staring MainProcess " << std::endl;
+
 	//Running forever
 	while (true == g_keepRunning)
 	{
 		//Check for a new data set and test setting from the communication channel
-
 		if (m_commManager->getTheNextTest())
 		{
 			//collect the data
-			TestParameters::TestRecipe params = m_commManager->getTheTestParameters();
+			TestRecipe params = m_commManager->getTheTestParameters();
 			TcaCalculation::sPointData* data = m_commManager->getTheTestData();
+
+			std::cout << "Staring test " << params.testID << std::endl;
+
 			//run the test
 			//m_testManager->runTest()
 			TestResults::TestResult testResults = m_testManager->runTest(params, data);
@@ -47,15 +49,16 @@ void MainProcess::process()
 
 			//send the test results back
 			m_commManager->sendTestResults(testResults);
+			std::cout << "Completed test " << params.testID << std::endl;
 
 			//end the test, reset everything and free any memory
 			m_commManager->endTest();
 		}
 		//sleep some time
-		//std::cout << "Sleeping for 3 seconds...\n";
+		//std::cout << "Sleeping for 1 seconds...\n";
 
 		// Sleep for 3 seconds
-		//std::this_thread::sleep_for(std::chrono::seconds(3));
+		//std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 
 }

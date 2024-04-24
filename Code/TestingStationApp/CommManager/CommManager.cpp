@@ -1,29 +1,136 @@
 #include "CommManager.h"
+#include "Utilities.h"
 
-void CommManager::SetListeningState(bool listen)
+CommManager::CommManager()
 {
-    listening = listen;
+    m_commChannel = nullptr;
+    m_crcError = false;
+    m_lastReceivedResultsMessage = { 0 };
 }
 
+void CommManager::init(ICommChannel* commChannel)
+{
+    m_commChannel = commChannel;
+    m_crcError = false;
+}
 
-/// <summary>
-/// Get the next massage from the OCB
-/// </summary>
-/// <returns></returns>
+TestResults::TestResult CommManager::getLastReceivedTestResult() {
+    return m_lastReceivedResultsMessage.results;
+}
+
+bool CommManager::getIsCrcError() {
+    return m_crcError;
+}
+
 bool CommManager::getNextMessage() {
-    unsigned char buffer[1024];
-    unsigned int offset = 0;
+    unsigned char buffer[sizeof(MessagesDefinitions::TestResultsMessage)];
     unsigned int size = 0;
-    unsigned int remainingDataSize;
     bool messageReceived = false;
-
-    while (listening)
+    m_crcError = false;
+    if (m_commChannel->getNextMessage(buffer, sizeof(MessagesDefinitions::TestResultsMessage), &size))
     {
-        m_commChannel->getNextMessage(buffer, 1024, &size); //todo: implement
+        //check if we got the full header
+        if (size >= sizeof(MessagesDefinitions::MessageHeader)) {
+
+            //get the message header
+            MessagesDefinitions::MessageHeader header;
+            memcpy(&header, buffer, sizeof(MessagesDefinitions::MessageHeader));
+
+            //check if its a test results message
+            if (header.opcode == MessagesDefinitions::TestResultsMessageOpcode)
+            {
+                //check if we got the full results message
+                int expectedSize = sizeof(MessagesDefinitions::TestResultsMessage);
+                if (size == expectedSize)
+                {
+                    //check the crc
+                    unsigned int crc = CRC32::calculate(buffer + MessagesDefinitions::MESSAGE_HEADER_SIZE, size - MessagesDefinitions::MESSAGE_HEADER_SIZE);
+                    if (header.crc == crc)
+                    {
+                        //save the results message
+                        memcpy(&m_lastReceivedResultsMessage, buffer, sizeof(MessagesDefinitions::TestResultsMessage));
+                        messageReceived = true;
+                    }
+                    else
+                    {
+                        m_crcError = true;
+                    }
+                }
+            }
+        }
     }
-    return messageReceived; // Placeholder implementation
+
+    return messageReceived; 
 }
 
-//void CommManager::sendMessage(const TestRecipe& recipe, double[] timePoints) {
-//    // Implement logic to send the message with the given recipe and time points
-//}
+bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData)
+{
+    MessagesDefinitions::MessageHeader header;
+    int dataSize;
+    int size;
+    int offset;
+    bool messageSentSuccessfully = false;
+    //Prepare the buffer we want to send
+    //Get the buffer size
+    dataSize = (recipe.numberOfPoints * sizeof(TcaCalculation::sPointData));
+    size = MessagesDefinitions::MESSAGE_HEADER_SIZE + sizeof(TestRecipe) + dataSize;
+    //create the buffer
+    unsigned char* buffer = new unsigned char[size];
+    //check the buffer
+    if (nullptr != buffer)
+    {
+        //Fill the header
+        header.opcode = MessagesDefinitions::TestRequestMessageOpcode;
+        header.dataSize = dataSize;
+
+        //copy everything to the buffer:
+
+        offset = sizeof(MessagesDefinitions::MessageHeader);
+        
+        //copy the recipe
+        memcpy(buffer + offset, reinterpret_cast<const unsigned char*>(&recipe), sizeof(TestRecipe));
+        offset += sizeof(TestRecipe);
+
+        //copy the data
+        memcpy(buffer + offset,reinterpret_cast<unsigned char*>(testData), dataSize);
+
+        //calculate the crc
+        header.crc = CRC32::calculate(buffer + sizeof(MessagesDefinitions::MessageHeader), dataSize + sizeof(TestRecipe));
+        //copy the header
+        memcpy(buffer, reinterpret_cast<unsigned char*>(&header), sizeof(MessagesDefinitions::MessageHeader));
+
+        //Send the message
+        //if (true == sendMessageInchunks(buffer, size))
+        if(true == m_commChannel->sendMessage(buffer, size))
+        {
+            messageSentSuccessfully = true;
+        }
+        delete[] buffer;
+    }
+    else
+    {
+        //Failed to send message! handle the error
+        messageSentSuccessfully = false;
+    }
+    return messageSentSuccessfully;
+}
+
+bool CommManager::sendMessageInchunks(unsigned char* buffer, unsigned int size) {
+    unsigned int bytesSent = 0; // Tracks the number of bytes sent
+
+    while (bytesSent < size) {
+        // Calculate the size of the next chunk
+        unsigned int chunkSize = (((MAX_MESSAGE_SIZE) < (size - bytesSent)) ? (MAX_MESSAGE_SIZE) : (size - bytesSent));
+
+        // Send the current chunk
+        if (false == m_commChannel->sendMessage(buffer + bytesSent, chunkSize))
+        {
+            //Failed to send the current chunk
+            return false;
+        }
+        // Update the total number of bytes sent
+        bytesSent += chunkSize;
+    }
+    return true;
+
+}

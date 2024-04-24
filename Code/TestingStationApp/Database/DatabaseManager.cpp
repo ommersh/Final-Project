@@ -128,13 +128,13 @@ bool DatabaseManager::createTest(TestInfo& test) {
         return false;
     }
 
-    sqlite3_bind_text(stmt, 1, test.name, 40, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, test.name, 80, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, static_cast<int>(test.format));
-    sqlite3_bind_double(stmt, 3, test.recipe.timeInterval);
-    sqlite3_bind_int(stmt, 4, test.recipe.iterations);
-    sqlite3_bind_int(stmt, 5, static_cast<int>(test.recipe.alg));
-    sqlite3_bind_int(stmt, 6, test.recipe.catchPolynomDeg);
-    sqlite3_bind_int(stmt, 7, test.recipe.numOfTimePoints);
+    sqlite3_bind_double(stmt, 3, test.recipe.timeIntervalSizeSec);
+    sqlite3_bind_int(stmt, 4, test.recipe.numberOfIterations);
+    sqlite3_bind_int(stmt, 5, static_cast<int>(test.recipe.testedAlgorithm));
+    sqlite3_bind_int(stmt, 6, test.recipe.catchPolynomialDegree);
+    sqlite3_bind_int(stmt, 7, test.recipe.numberOfPoints);
     sqlite3_bind_double(stmt, 8, test.realTCA);
     sqlite3_bind_double(stmt, 9, test.realDistance);
     sqlite3_bind_double(stmt, 10, test.distance);
@@ -151,10 +151,10 @@ bool DatabaseManager::createTest(TestInfo& test) {
     }
 
     // Retrieve the last inserted row ID (testId) and assign it to the TestInfo structure
-    test.recipe.testId = sqlite3_last_insert_rowid(db);
+    test.recipe.testID = sqlite3_last_insert_rowid(db);
 
     sqlite3_finalize(stmt);
-    std::cout << "Test record inserted successfully with testId: " << test.recipe.testId << std::endl;
+    std::cout << "Test record inserted successfully with testId: " << test.recipe.testID << std::endl;
     return true;
 }
 
@@ -185,18 +185,18 @@ bool DatabaseManager::editTest(const TestInfo& test) {
     // Bind parameters
     sqlite3_bind_text(stmt, 1, test.name, -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, static_cast<int>(test.format));
-    sqlite3_bind_double(stmt, 3, test.recipe.timeInterval);
-    sqlite3_bind_int(stmt, 4, test.recipe.iterations);
-    sqlite3_bind_int(stmt, 5, static_cast<int>(test.recipe.alg));
-    sqlite3_bind_int(stmt, 6, test.recipe.catchPolynomDeg);
-    sqlite3_bind_int(stmt, 7, test.recipe.numOfTimePoints);
+    sqlite3_bind_double(stmt, 3, test.recipe.timeIntervalSizeSec);
+    sqlite3_bind_int(stmt, 4, test.recipe.numberOfIterations);
+    sqlite3_bind_int(stmt, 5, static_cast<int>(test.recipe.testedAlgorithm));
+    sqlite3_bind_int(stmt, 6, test.recipe.catchPolynomialDegree);
+    sqlite3_bind_int(stmt, 7, test.recipe.numberOfPoints);
     sqlite3_bind_double(stmt, 8, test.realTCA);
     sqlite3_bind_double(stmt, 9, test.realDistance);
     sqlite3_bind_double(stmt, 10, test.distance);
     sqlite3_bind_double(stmt, 11, test.TCA);
     sqlite3_bind_double(stmt, 12, test.runTime);
     sqlite3_bind_int(stmt, 13, static_cast<int>(test.status));
-    sqlite3_bind_int(stmt, 14, test.recipe.testId);
+    sqlite3_bind_int(stmt, 14, test.recipe.testID);
 
     // Execute the statement
     rc = sqlite3_step(stmt);
@@ -255,16 +255,16 @@ TestInfo DatabaseManager::getTestInfo(int testId) {
     // Step through the result set
     rc = sqlite3_step(stmt);
     if (rc == SQLITE_ROW) {
-        testInfo.recipe.testId = sqlite3_column_int(stmt, 0);
+        testInfo.recipe.testID = sqlite3_column_int(stmt, 0);
         const unsigned char* columnData = sqlite3_column_text(stmt, 1);
         strncpy_s(testInfo.name, reinterpret_cast<const char*>(columnData), sizeof(testInfo.name) - 1);
         testInfo.name[sizeof(testInfo.name) - 1] = '\0';
         testInfo.format = static_cast<SatelliteDataFormat>(sqlite3_column_int(stmt, 2));
-        testInfo.recipe.timeInterval = sqlite3_column_double(stmt, 3);
-        testInfo.recipe.iterations = sqlite3_column_int(stmt, 4);
-        testInfo.recipe.alg = static_cast<Algorithm>(sqlite3_column_int(stmt, 5));
-        testInfo.recipe.catchPolynomDeg = sqlite3_column_int(stmt, 6); 
-        testInfo.recipe.numOfTimePoints = sqlite3_column_int(stmt, 7); 
+        testInfo.recipe.segmentSizeSec = sqlite3_column_double(stmt, 3);
+        testInfo.recipe.numberOfIterations = sqlite3_column_int(stmt, 4);
+        testInfo.recipe.testedAlgorithm = static_cast<AlgorithmsEnums::Algorithm>(sqlite3_column_int(stmt, 5));
+        testInfo.recipe.catchPolynomialDegree = sqlite3_column_int(stmt, 6); 
+        testInfo.recipe.numberOfPoints = sqlite3_column_int(stmt, 7); 
         testInfo.realTCA = sqlite3_column_double(stmt, 8);
         testInfo.realDistance = sqlite3_column_double(stmt, 9); 
         testInfo.distance = sqlite3_column_double(stmt, 10);

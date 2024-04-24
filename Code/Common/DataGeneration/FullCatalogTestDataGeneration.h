@@ -38,12 +38,12 @@ private:
 public:
     bool init(const std::string& filePath);
 
-    void getNextTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
+    void getNextTestData(sFileData& fileData, TestRecipe& TestRecipe);
     void handleTestResults(TestResults::TestResult results);
 protected:
-    void getAncasData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
-    void getSboAncasData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
-    void getCatchData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
+    void getAncasData(sFileData& fileData, TestRecipe& TestRecipe);
+    void getSboAncasData(sFileData& fileData, TestRecipe& TestRecipe);
+    void getCatchData(sFileData& fileData, TestRecipe& TestRecipe);
 
     void generateDataSet();
     void clearMemory();
@@ -53,9 +53,9 @@ protected:
 
     void calculateWithSmallTimestep(double timePoint);
 
-    void getNextPointsInIntervalTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
-    void getNextTimeIntervalTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
-    void getNextCatchDegreeTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe);
+    void getNextPointsInIntervalTestData(sFileData& fileData, TestRecipe& TestRecipe);
+    void getNextTimeIntervalTestData(sFileData& fileData, TestRecipe& TestRecipe);
+    void getNextCatchDegreeTestData(sFileData& fileData, TestRecipe& TestRecipe);
     void stateUpdate();
 
 

@@ -95,13 +95,13 @@ TEST_F(SboAncasWorstCaseTest, TEST_alg_worst_case)
         ChronoBasedTimer timer;
         TestResults::TestResult results;
         results.avgTimeMicro = 0;
-        results.catchRootsAlg = TestParameters::EigenCompanionMatrix;
+        results.catchRootsAlg = AlgorithmsEnums::EigenCompanionMatrix;
         results.degree = 0;
         results.minTimeMicro = 0;
         results.numberOfRuns = 0;
         results.runTimeMicro = 0;
         results.tca = { 0 };
-        results.testedAlgorithm = TestParameters::SBO_ANCAS;
+        results.testedAlgorithm = AlgorithmsEnums::SBO_ANCAS;
         results.testID = 0;
         strcpy(results.testName, "worst_case");
 

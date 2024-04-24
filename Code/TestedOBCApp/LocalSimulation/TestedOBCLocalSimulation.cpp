@@ -84,7 +84,7 @@ bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned in
 		{
 			
 			
-			m_sizeToCompy = sizeof(MessageHeader) + sizeof(TestParameters::TestRecipe) + m_fileData.size * sizeof(TcaCalculation::sPointData);
+			m_sizeToCompy = sizeof(MessageHeader) + sizeof(TestRecipe) + m_fileData.size * sizeof(TcaCalculation::sPointData);
 			m_messageBuffer = new unsigned char[m_sizeToCompy];
 			if (nullptr == m_messageBuffer)
 			{
@@ -94,8 +94,8 @@ bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned in
 			int offset = 0;
 			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&m_header), sizeof(MessageHeader));
 			offset += sizeof(MessageHeader);
-			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&m_params), sizeof(TestParameters::TestRecipe));
-			offset += sizeof(TestParameters::TestRecipe);
+			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(&m_params), sizeof(TestRecipe));
+			offset += sizeof(TestRecipe);
 			memcpy(m_messageBuffer + offset, reinterpret_cast<unsigned char*>(m_fileData.data), m_fileData.size * sizeof(TcaCalculation::sPointData));
 			m_offset = 0;
 		}
@@ -141,7 +141,7 @@ bool TestedOBCLocalSimulation::getNextMessage(unsigned char* buffer, unsigned in
 //				Print the results based on the last parameters we "sent"
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int size)
+bool TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int size)
 {
 
 	MessagesDefinitions::MessageHeader header;
@@ -153,14 +153,14 @@ void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int s
 		startPrint();
 		switch (testResults.testedAlgorithm)
 		{
-		case TestParameters::Algorithm::CATCH:
+		case AlgorithmsEnums::Algorithm::CATCH:
 		{
 			switch (testResults.catchRootsAlg)
 			{
-			case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
+			case AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix:
 				printResult("CATCH_Eigen", testResults);
 				break;
-			case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
+			case AlgorithmsEnums::CatchRootsAlg::ArmadilloCompanionMatrix:
 				printResult("CATCH_Armadillo", testResults);
 				break;
 			default:
@@ -168,10 +168,10 @@ void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int s
 			}
 		}
 		break;
-		case TestParameters::Algorithm::ANCAS:
+		case AlgorithmsEnums::Algorithm::ANCAS:
 			printResult("ANCAS", testResults);
 			break;
-		case TestParameters::Algorithm::SBO_ANCAS:
+		case AlgorithmsEnums::Algorithm::SBO_ANCAS:
 			printResult("SBO_ANCAS", testResults);
 			//calculateTheTcaWithSmallTimeStepAroundPoint(testResults.tca.time, 0.05);
 			break;
@@ -184,6 +184,7 @@ void TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int s
 	{
 		m_fullCatalogTestDataGeneration.handleTestResults(testResults);
 	}
+	return true;
 }
 
 void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStepAroundPoint(double timePoint, double segmentSize)
@@ -260,8 +261,8 @@ void TestedOBCLocalSimulation::getAncasData()
 	//create the test parameters
 	m_params.catchPolynomialDegree = 3;
 	m_params.numberOfPoints = m_fileData.size;
-	m_params.testedAlgorithm = TestParameters::Algorithm::ANCAS;
-	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+	m_params.testedAlgorithm = AlgorithmsEnums::Algorithm::ANCAS;
+	m_params.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
 #ifdef _WIN32
 	// Safe function available on Windows
 	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK5447_UNICORN2N");
@@ -313,7 +314,7 @@ void TestedOBCLocalSimulation::getCatchData()
 
 	m_params.catchPolynomialDegree = 15;
 	m_params.numberOfPoints = m_fileData.size;
-	m_params.testedAlgorithm = TestParameters::Algorithm::CATCH;
+	m_params.testedAlgorithm = AlgorithmsEnums::Algorithm::CATCH;
 #ifdef _WIN32
 	// Safe function available on Windows
 	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK5447_UNICORN2N");
@@ -326,7 +327,7 @@ void TestedOBCLocalSimulation::getCatchData()
 	m_params.numberOfIterations = 1;
 	//if (switchCounter++ % 2 == 0)
 	//{
-	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+	m_params.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
 	//}
 	/*else
 	{
@@ -378,8 +379,8 @@ void TestedOBCLocalSimulation::getSboAncasData()
 	//create the test parameters
 	m_params.catchPolynomialDegree = 3;
 	m_params.numberOfPoints = m_fileData.size;
-	m_params.testedAlgorithm = TestParameters::Algorithm::SBO_ANCAS;
-	m_params.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+	m_params.testedAlgorithm = AlgorithmsEnums::Algorithm::SBO_ANCAS;
+	m_params.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
 #ifdef _WIN32
 	// Safe function available on Windows
 	strcpy_s(m_params.testName, MAX_TEST_NAME_SIZE, "STARLINK5447_UNICORN2N");

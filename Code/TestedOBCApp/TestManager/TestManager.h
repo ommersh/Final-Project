@@ -28,7 +28,7 @@ public:
 	/// <param name="params">The test parameters</param>
 	/// <param name="pointsData">The test data</param>
 	/// <returns>The test results</returns>
-	virtual TestResults::TestResult runTest(TestParameters::TestRecipe params, TcaCalculation::sPointData* pointsData);
+	virtual TestResults::TestResult runTest(TestRecipe params, TcaCalculation::sPointData* pointsData);
 protected:
 	ITimer* m_timer;
 };

@@ -2,15 +2,15 @@
 #ifndef TESTINFO_H
 #define TESTINFO_H
 
-#include "../../Enums/TestStatus.h"
-#include "../../../Common/TestRecipe.h"
-
+#include "TestStatus.h"
+#include "TestRecipe.h"
+#include "SatelliteDataFormatEnum.h"
 
 
 struct TestInfo {
-    char name[40];
+    char name[MAX_TEST_NAME_SIZE];
     TestStatus status;
-    CommonTestRecipe recipe;
+    TestRecipe recipe;
 
     //STRUCT TCA exist
     double realTCA;
@@ -20,8 +20,8 @@ struct TestInfo {
     double TCA;
     double runTime;
     SatelliteDataFormat format;
-    char firstElemData[80]; //send elstrac
-    char secondElemData[80];
+    char firstElemData[180]; //send elstrac
+    char secondElemData[180];
 
 };
 

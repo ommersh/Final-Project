@@ -7,7 +7,7 @@ void AppConfigurationManager::init(const std::string& filename)
 {
 	INIReader reader(filename);
     std::string stringValue;
-    double doubleValue;
+
     setDefaults();
     if (reader.ParseError() < 0) {
         std::cerr << "Error parsing INI file!" << std::endl;
@@ -19,12 +19,25 @@ void AppConfigurationManager::init(const std::string& filename)
     {
         m_commChannelType = AppConfiguration::CommChannelType::LocalSimulation;
     }
+    else if (stringValue == "Tcp")
+    {
+        m_commChannelType = AppConfiguration::CommChannelType::Tcp;
+    }
+    else if (stringValue == "WinUdp")
+    {
+        m_commChannelType = AppConfiguration::CommChannelType::WinUdp;
+    }
 
     stringValue = reader.Get("General", "TimerType", "ChronoTimer");
     if (stringValue == "ChronoTimer")
     {
         m_timerType = AppConfiguration::TimerType::ChronoTimer;
     }
+
+    m_localPort = reader.GetInteger("General", "SourcePort", AppConfiguration::LOCAL_PORT);
+    m_destPort = reader.GetInteger("General", "DestinationPort", AppConfiguration::DEST_PORT);
+    m_localIpAddress = reader.Get("General", "LocalIpAddress", AppConfiguration::IP_ADDRESS);
+    m_destIpAddress = reader.Get("General", "DestIpAddress", AppConfiguration::IP_ADDRESS);
 
 
 
@@ -69,6 +82,12 @@ void AppConfigurationManager::init(const std::string& filename)
 
 void AppConfigurationManager::setDefaults()
 {
+    m_localPort = AppConfiguration::LOCAL_PORT;
+    m_destPort = AppConfiguration::DEST_PORT;
+    m_localIpAddress = AppConfiguration::IP_ADDRESS;
+    m_destIpAddress = AppConfiguration::IP_ADDRESS;
+
+
     m_timerType = AppConfiguration::TimerType::ChronoTimer;
     m_fullCatalogTestDataVariation = AppConfiguration::FullCatalogTestDataVariation::eOneWithAll;
     m_TOLd = AppConfiguration::SBO_ANCAS_TOL_D_KM;

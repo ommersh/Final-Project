@@ -1,6 +1,11 @@
 #ifndef SHIELD_Factory_H    // Check if the symbol SHIELD_Factory_H is not defined
 #define SHIELD_Factory_H    // Define the symbol SHIELD_Factory_H
 
+#include "TcpCommChannel.h"
+#ifdef WIN32
+#include "WinUdpCommChannel.h"
+#endif // WIN32
+
 #include "ITimer.h"
 #include "ITcaAlgorithm.h"
 #include "IRootsFindAlg.h"
@@ -18,11 +23,15 @@
 #include "ResultsLogger.h"
 
 #include "CommonStructures.h"
+#include "AlgorithmEnum.h"
 #include "AppConfigurationManager.h"
 #include "TestManager.h"
 
 #include "ICommChannel.h"
+
 #include "TestedOBCLocalSimulation.h"
+
+
 
 /// <summary>
 /// TestedOBCApp Factory.
@@ -49,14 +58,14 @@ public:
 	/// <param name="algType"></param>
 	/// <param name="degree"></param>
 	/// <returns></returns>
-	IRootsFindAlg*	getRootsFindAlg(TestParameters::CatchRootsAlg algType, int degree);
+	IRootsFindAlg*	getRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, int degree);
 	/// <summary>
 	/// Get Catch object initialize to the requested degree and root finding algorithm.
 	/// </summary>
 	/// <param name="algType"></param>
 	/// <param name="degree"></param>
 	/// <returns></returns>
-	CATCH*			getCATCH(TestParameters::CatchRootsAlg algType, int degree);
+	CATCH*			getCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree);
 	/// <summary>
 	/// Get Ancas object, should be initialized.
 	/// </summary>

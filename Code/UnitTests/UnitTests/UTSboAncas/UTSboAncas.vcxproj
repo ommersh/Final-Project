@@ -44,7 +44,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -61,7 +61,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -77,7 +77,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -95,7 +95,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\Implementations;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\..\SGP4\CPP;..\;..\..\..\Implementations\SBO_ANCAS;..\..\..\Common\DataGeneration;..\..\..\Common\Logger;..\..\..\Common;..\..\..\TestedOBCApp\Timer;..\..\..\Common\Enums;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

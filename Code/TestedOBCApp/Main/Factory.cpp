@@ -28,7 +28,14 @@ Factory::Factory() :
 //////////////////////////////////////////////////////////////////////////////////////////////
 Factory::~Factory()
 {
-
+	if (nullptr != m_commChannel)
+	{
+		delete m_commChannel;
+	}
+	if (nullptr != m_timer)
+	{
+		delete m_timer;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,10 +88,34 @@ ICommChannel* Factory::getCommChannel()
 		{
 		default:
 		case AppConfiguration::CommChannelType::LocalSimulation:
+		{
 			TestedOBCLocalSimulation* localSimulationCommChannel = new TestedOBCLocalSimulation();
 			localSimulationCommChannel->init("gpCatalog.txt");
 			m_commChannel = localSimulationCommChannel;
-			break;
+		}
+		break;
+		case AppConfiguration::CommChannelType::Tcp:
+		{
+			TCPClient* TcpCommChannel = new TCPClient();
+			if (false == TcpCommChannel->init(m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
+			{
+				std::cerr << "Failed to create/open the socket" << std::endl;
+			}
+			m_commChannel = TcpCommChannel;
+		}
+		break;
+#ifdef WIN32
+		case AppConfiguration::CommChannelType::WinUdp:
+		{
+			WinTUdpCommChannel* winTcpCommChannel = new WinTUdpCommChannel();
+			if (false == winTcpCommChannel->init(m_configManager.getLocalIpAddress(), m_configManager.getSourcePort(), m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
+			{
+				std::cerr << "Failed to create/open the socket" << std::endl;
+			}
+			m_commChannel = winTcpCommChannel;
+		}
+		break;
+#endif 
 		}
 	}
 	return m_commChannel;
@@ -99,16 +130,16 @@ ICommChannel* Factory::getCommChannel()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-IRootsFindAlg* Factory::getRootsFindAlg(TestParameters::CatchRootsAlg algType, int degree)
+IRootsFindAlg* Factory::getRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, int degree)
 {
 	IRootsFindAlg* rootsFindAlg = nullptr;
 	switch (algType)
 	{
 	default:
-	case TestParameters::CatchRootsAlg::EigenCompanionMatrix:
+	case AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix:
 		rootsFindAlg = &m_companionMatrixRootsFinderEigen;
 		break;
-	/*case TestParameters::CatchRootsAlg::ArmadilloCompanionMatrix:
+	/*case AlgorithmsEnums::CatchRootsAlg::ArmadilloCompanionMatrix:
 		rootsFindAlg = &m_companionMatrixRootsFinderAArmadillo;
 		break;*/
 	}
@@ -123,7 +154,7 @@ IRootsFindAlg* Factory::getRootsFindAlg(TestParameters::CatchRootsAlg algType, i
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-CATCH* Factory::getCATCH(TestParameters::CatchRootsAlg algType, int degree)
+CATCH* Factory::getCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree)
 {
 	m_catch.init(getRootsFindAlg(algType, degree), degree);
 	return &m_catch;

@@ -1,6 +1,4 @@
-
 #include <iostream>
-
 
 #include "Version.h"
 #include "ChronoBasedTimer.h"
@@ -8,6 +6,7 @@
 #include "TestManager.h"
 #include "MainProcess.h"
 #include "CommManager.h"
+#include "Utilities.h"
 
 
 
@@ -34,11 +33,10 @@ int main() {
         << ProjectVersions::VERSION_MINOR << "." 
         << ProjectVersions::VERSION_PATCH << std::endl;
 
-   
-
     Factory *factory = Factory::getReference();
     TestManager testManager(factory->getTimer());
     CommManager commManager(*factory->getCommChannel());
+    commManager.init();
     MainProcess mainProcess(&testManager,&commManager, factory->getResultsLogger());
     mainProcess.process();
     

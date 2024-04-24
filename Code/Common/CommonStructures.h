@@ -3,8 +3,43 @@
 
 #include "TcaCalculation.h"
 #include "SGP4.h"
+#include "AlgorithmEnum.h"
+#include "TestRecipe.h"
+#include <cstdint>
 
-static const int MAX_TEST_NAME_SIZE = 25;
+#pragma pack(push, 1)
+
+namespace TestResults
+{
+
+	struct TestResult {
+
+		//The results and run time of the first run
+		TcaCalculation::TCA tca;
+		double runTimeMicro;
+
+		//Repeated tests results
+		double avgTimeMicro;
+		double minTimeMicro;
+		int32_t numberOfRuns;
+
+		//Test data
+		char testName[MAX_TEST_NAME_SIZE];
+		AlgorithmsEnums::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
+		AlgorithmsEnums::Algorithm testedAlgorithm;
+		uint32_t testID;
+		int32_t degree;
+
+		//Additional data
+		double segmentSizeSec;
+		double timeIntervalSizeSec;
+		int32_t	numberOfPointsPerSegment;
+		int32_t initialNumberOfPoints;
+		int32_t TminFactor;
+
+	};
+}
+
 
 /// <summary>
 /// Definitions related to the message between the TestedOBCApp and the TestingStationApp
@@ -15,18 +50,23 @@ namespace MessagesDefinitions
 	/// Unique Opcode for the TestRequestMessage.
 	/// From the TestingStationApp to the TestedOBCApp
 	/// </summary>
-	static const unsigned short TestRequestMessageOpcode = 0x1234;
+	static const uint16_t TestRequestMessageOpcode = 0x1234;
 	/// <summary>
 	/// Unique Opcode for the TestResultsMessage
 	/// From the TestedOBCApp to the TestingStationApp
 	/// </summary>
-	static const unsigned short TestResultsMessageOpcode = 0x4321;
+	static const uint16_t TestResultsMessageOpcode = 0x4321;
 
 	struct MessageHeader
 	{
-		unsigned short opcode;
-		unsigned int dataSize;
+		uint16_t opcode;
+		uint32_t dataSize;
+		uint32_t crc;//crc of the full message without the header
 	};
+
+	//size definitions
+	static const uint16_t OPCODE_SIZE = sizeof(TestResultsMessageOpcode);
+	static const uint16_t MESSAGE_HEADER_SIZE = sizeof(MessageHeader);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -54,80 +94,10 @@ namespace MessagesDefinitions
 	//			6-end	TestResult
 	// 
 	//////////////////////////////////////////////////////////////////////////////////////////////
-}
-
-namespace TestParameters
-{
-    enum CatchRootsAlg {
-        EigenCompanionMatrix,
-        ArmadilloCompanionMatrix
-    };
-
-    enum Algorithm {
-        CATCH,
-        ANCAS,
-		SBO_ANCAS
-    };
-
-    /// <summary>
-    /// Parameters for running a test with a TCA finding algorithm
-    /// </summary>
-    struct TestRecipe {
-		//Test Data
-        int catchPolynomialDegree;           // Degree of the polynomial
-        CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
-        Algorithm testedAlgorithm;
-        int numberOfPoints;
-		unsigned int numberOfIterations;
-		double segmentSizeSec;
-		int TminFactor;
-		double timeIntervalSizeSec;
-		int	numberOfPointsPerSegment;
-
-		//For logging the data
-		unsigned int testID;
-		char testName[MAX_TEST_NAME_SIZE];
-
-		//For SBO-ANCAS variations
-		elsetrec elsetrec1;
-		elsetrec elsetrec2;
-		double startTime1Min;
-		double startTime2Min;
-		double TOLd;
-		double TOLt;
-    };
-}
-
-
-namespace TestResults
-{
-   
-    struct TestResult {
-
-		//The results and run time of the first run
-        TcaCalculation::TCA tca;
-		double runTimeMicro;
-
-		//Repeated tests results
-		long double avgTimeMicro;
-		long double minTimeMicro;
-		int numberOfRuns;
-
-		//Test data
-		char testName[MAX_TEST_NAME_SIZE];
-		TestParameters::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
-		TestParameters::Algorithm testedAlgorithm;
-		unsigned int testID;
-		int degree;
-
-		//Additional data
-		double segmentSizeSec;
-		double timeIntervalSizeSec;
-		int	numberOfPointsPerSegment;
-		int initialNumberOfPoints;
-		int TminFactor;
-
-    };
+	struct TestResultsMessage {
+		MessageHeader header;
+		TestResults::TestResult results;
+	};
 }
 
 
@@ -139,5 +109,9 @@ namespace TestResults
 
 
 
+
+
+
+#pragma pack(pop)
 
 #endif //SHIELD_TestDefinitions_H

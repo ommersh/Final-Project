@@ -21,7 +21,7 @@ namespace ProjectVersions {
 	/// <summary>
 	/// PATCH version when you make backward compatible bug fixes
 	/// </summary>
-	static const int VERSION_PATCH = 3;
+	static const int VERSION_PATCH = 5;
 }
 
 

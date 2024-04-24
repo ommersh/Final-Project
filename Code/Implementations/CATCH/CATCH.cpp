@@ -42,7 +42,7 @@ TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 	long double tempX;
 	double v1[3];
 	int roundNumber = 0;
-	int offset;
+	int offset = 0;
 
 	while (endPointIndex <= lastPointIndex)
 	{

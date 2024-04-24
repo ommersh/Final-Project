@@ -1,8 +1,8 @@
 #ifndef DATABASEMANAGER_H
 #define DATABASEMANAGER_H
 
-#include "SqlLite/sqlite3.h"
-#include "../TestManager/ResultManager/TestInfo.h"
+#include "sqlite3.h"
+#include "TestInfo.h"
 #include <fstream>
 #include <iostream>
 #include <set>

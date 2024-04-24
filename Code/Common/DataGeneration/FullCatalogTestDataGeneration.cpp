@@ -62,7 +62,7 @@ bool FullCatalogTestDataGeneration::init(const std::string& catalogFilePath)
 	return true;
 }
 
-void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestRecipe& TestRecipe)
 {
 	switch (m_fullCatalogTestTypeVariation)
 	{
@@ -79,7 +79,7 @@ void FullCatalogTestDataGeneration::getNextTestData(sFileData& fileData, TestPar
 	}
 }
 
-void FullCatalogTestDataGeneration::getNextPointsInIntervalTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+void FullCatalogTestDataGeneration::getNextPointsInIntervalTestData(sFileData& fileData, TestRecipe& TestRecipe)
 {
 	//start: initialzie everything
 //do everything for every catalog match
@@ -133,7 +133,7 @@ void FullCatalogTestDataGeneration::getNextPointsInIntervalTestData(sFileData& f
 }
 
 
-void FullCatalogTestDataGeneration::getNextTimeIntervalTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+void FullCatalogTestDataGeneration::getNextTimeIntervalTestData(sFileData& fileData, TestRecipe& TestRecipe)
 {
 	//start: initialzie everything
 	//do everything for every catalog match
@@ -195,7 +195,7 @@ void FullCatalogTestDataGeneration::getNextTimeIntervalTestData(sFileData& fileD
 	}
 }
 
-void FullCatalogTestDataGeneration::getNextCatchDegreeTestData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+void FullCatalogTestDataGeneration::getNextCatchDegreeTestData(sFileData& fileData, TestRecipe& TestRecipe)
 {
 	//start: initialzie everything
 	//do everything for every catalog match
@@ -258,7 +258,7 @@ void FullCatalogTestDataGeneration::handleTestResults(TestResults::TestResult re
 {
 	switch (results.testedAlgorithm)
 	{
-	case TestParameters::Algorithm::SBO_ANCAS:
+	case AlgorithmsEnums::Algorithm::SBO_ANCAS:
 		if (true == m_calculateWithSmallTimestep)
 		{
 			calculateWithSmallTimestep(results.tca.time);
@@ -341,7 +341,7 @@ void FullCatalogTestDataGeneration::initElsetrecObjects()
 	strncpy(m_testName, tempName.c_str(), MAX_TEST_NAME_SIZE - 1);
 }
 
-void FullCatalogTestDataGeneration::getAncasData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+void FullCatalogTestDataGeneration::getAncasData(sFileData& fileData, TestRecipe& TestRecipe)
 {
 
 	fileData.size = m_simpleDataGeneration.m_numberOfPoints;
@@ -350,8 +350,8 @@ void FullCatalogTestDataGeneration::getAncasData(sFileData& fileData, TestParame
 	//create the test parameters
 	TestRecipe.catchPolynomialDegree = 3;
 	TestRecipe.numberOfPoints = fileData.size;
-	TestRecipe.testedAlgorithm = TestParameters::Algorithm::ANCAS;
-	TestRecipe.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+	TestRecipe.testedAlgorithm = AlgorithmsEnums::Algorithm::ANCAS;
+	TestRecipe.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
 #ifdef _WIN32
 	// Safe function available on Windows
 	strcpy_s(TestRecipe.testName, MAX_TEST_NAME_SIZE, m_testName);
@@ -374,7 +374,7 @@ void FullCatalogTestDataGeneration::getAncasData(sFileData& fileData, TestParame
 	TestRecipe.TminFactor = m_TMinFactor;
 }
 
-void FullCatalogTestDataGeneration::getCatchData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+void FullCatalogTestDataGeneration::getCatchData(sFileData& fileData, TestRecipe& TestRecipe)
 {
 
 	fileData.size = m_simpleDataGeneration.m_numberOfPoints;
@@ -382,7 +382,7 @@ void FullCatalogTestDataGeneration::getCatchData(sFileData& fileData, TestParame
 
 	TestRecipe.catchPolynomialDegree = m_currentNumberOfPointsInSegment - 1;
 	TestRecipe.numberOfPoints = fileData.size;
-	TestRecipe.testedAlgorithm = TestParameters::Algorithm::CATCH;
+	TestRecipe.testedAlgorithm = AlgorithmsEnums::Algorithm::CATCH;
 #ifdef _WIN32
 	// Safe function available on Windows
 	strcpy_s(TestRecipe.testName, MAX_TEST_NAME_SIZE, m_testName);
@@ -393,7 +393,7 @@ void FullCatalogTestDataGeneration::getCatchData(sFileData& fileData, TestParame
 #endif
 	TestRecipe.testID = m_testID++;
 	TestRecipe.numberOfIterations = m_numberOfiterations;
-	TestRecipe.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+	TestRecipe.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
 
 	TestRecipe.elsetrec1 = m_elsetrec1;
 	TestRecipe.elsetrec2 = m_elsetrec2;
@@ -406,7 +406,7 @@ void FullCatalogTestDataGeneration::getCatchData(sFileData& fileData, TestParame
 	TestRecipe.TminFactor = m_TMinFactor;
 }
 
-void FullCatalogTestDataGeneration::getSboAncasData(sFileData& fileData, TestParameters::TestRecipe& TestRecipe)
+void FullCatalogTestDataGeneration::getSboAncasData(sFileData& fileData, TestRecipe& TestRecipe)
 {
 
 	fileData.size = m_simpleDataGeneration.m_numberOfPoints;
@@ -415,8 +415,8 @@ void FullCatalogTestDataGeneration::getSboAncasData(sFileData& fileData, TestPar
 	//create the test parameters
 	TestRecipe.catchPolynomialDegree = 3;
 	TestRecipe.numberOfPoints = fileData.size;
-	TestRecipe.testedAlgorithm = TestParameters::Algorithm::SBO_ANCAS;
-	TestRecipe.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
+	TestRecipe.testedAlgorithm = AlgorithmsEnums::Algorithm::SBO_ANCAS;
+	TestRecipe.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
 #ifdef _WIN32
 	// Safe function available on Windows
 	strcpy_s(TestRecipe.testName, MAX_TEST_NAME_SIZE, m_testName);
@@ -547,8 +547,8 @@ void FullCatalogTestDataGeneration::calculateWithSmallTimestep(double timePoint)
 {
 	TestResults::TestResult results = { 0 };
 	results.numberOfRuns = 1;
-	results.catchRootsAlg = TestParameters::CatchRootsAlg::EigenCompanionMatrix;
-	results.testedAlgorithm = TestParameters::Algorithm::SBO_ANCAS;
+	results.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
+	results.testedAlgorithm = AlgorithmsEnums::Algorithm::SBO_ANCAS;
 	results.testID = m_testID++;
 	results.degree = 0;
 	//Find the real TCA

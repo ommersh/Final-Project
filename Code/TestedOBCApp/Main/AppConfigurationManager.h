@@ -13,7 +13,9 @@ namespace AppConfiguration
 
 	enum CommChannelType
 	{
-		LocalSimulation
+		LocalSimulation,
+		Tcp,
+		WinUdp,
 	};
 
 	//Default values
@@ -42,6 +44,9 @@ namespace AppConfiguration
 	static const int TIME_FRAME_SIZE_IN_DAYS = 7;
 	static const int T_MIN_FACTOR= 2;
 
+	static const int LOCAL_PORT = 8888;
+	static const int DEST_PORT = 8889;
+	static const std::string IP_ADDRESS = "127.0.0.1";
 }
 
 
@@ -61,6 +66,26 @@ public:
 	AppConfiguration::CommChannelType getCommChannelType()
 	{
 		return m_commChannelType;
+	}
+
+	int getSourcePort()
+	{
+		return m_localPort;
+	}
+
+	int getDestPort()
+	{
+		return m_destPort;
+	}
+
+	std::string getLocalIpAddress()
+	{
+		return m_localIpAddress;
+	}
+
+	std::string getDestIpAddress()
+	{
+		return m_destIpAddress;
 	}
 
 	double getTOLd()
@@ -135,6 +160,13 @@ private:
 	AppConfiguration::TimerType m_timerType;
 	AppConfiguration::CommChannelType m_commChannelType;
 
+	//Connection params
+	int m_localPort;
+	int m_destPort;
+	std::string m_localIpAddress;
+	std::string m_destIpAddress;
+
+
 	//FullCatalogTest parameters
 	AppConfiguration::FullCatalogTestDataVariation m_fullCatalogTestDataVariation;
 	AppConfiguration::FullCatalogTestTypeVariation m_fullCatalogTestTypeVariation;
@@ -147,6 +179,8 @@ private:
 	int m_ancas;
 	int m_sboAncas;
 	int m_catch;
+
+
 };
 
 

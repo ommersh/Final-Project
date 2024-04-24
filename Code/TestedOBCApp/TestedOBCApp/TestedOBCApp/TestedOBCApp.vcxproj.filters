@@ -43,6 +43,15 @@
     <Filter Include="ExternalLibraries">
       <UniqueIdentifier>{339ef196-d30e-4c3c-8dca-02188d1cc4d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Enum">
+      <UniqueIdentifier>{2bac20e5-b8d5-425e-b500-3fe5224b5f4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Structures">
+      <UniqueIdentifier>{98c4d274-0fa3-4fba-8b1e-7906fb2c88db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Utils">
+      <UniqueIdentifier>{d2ce9351-f3ba-4cf8-b5aa-0c43dc2485f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Main\Main.cpp">
@@ -120,6 +129,12 @@
     <ClCompile Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.cpp">
       <Filter>ExternalLibraries</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\CommChannels\TcpCommChannel.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\CommChannels\WinUdpCommChannel.cpp">
+      <Filter>Common\CommChannels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\CHANGELOG.md">
@@ -181,9 +196,6 @@
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h">
       <Filter>Common\CommChannels</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\CommonStructures.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h">
       <Filter>Common\Logger</Filter>
     </ClInclude>
@@ -225,6 +237,27 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.h">
       <Filter>ExternalLibraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h">
+      <Filter>Common\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\TestRecipe.h">
+      <Filter>Common\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommonStructures.h">
+      <Filter>Common\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\TcpCommChannel.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\CommChannels\WinUdpCommChannel.h">
+      <Filter>Common\CommChannels</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Utils\SafeQueue.h">
+      <Filter>Common\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Utils\Utilities.h">
+      <Filter>Common\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
