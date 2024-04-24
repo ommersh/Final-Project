@@ -426,3 +426,42 @@ TEST_F(TestCommManagerParser, TEST_test_FragmentedMessageOnHeader)
 		parser._resetParser();
 	}
 }
+
+TEST_F(TestCommManagerParser, TEST_test_WrongCRC)
+{
+	//Let create the data!
+	unsigned int bufferSize = 0;
+	static const int DATA_SIZE = 200;
+	TestRecipe recipe = { 0 };
+	recipe.testID = 1;
+	recipe.numberOfPoints = DATA_SIZE;
+	TcaCalculation::sPointData testData[DATA_SIZE] = { 0 };
+	for (int i = 0; i < DATA_SIZE; i++)
+	{
+		testData[i].r1x = i;
+		testData[i].r1y = i;
+		testData[i].r1z = i;
+		testData[i].r2x = i;
+		testData[i].r2y = i;
+		testData[i].r2z = i;
+		testData[i].time = i;
+		testData[i].v1x = i;
+		testData[i].v1y = i;
+		testData[i].v1z = i;
+		testData[i].v2x = i;
+		testData[i].v2y = i;
+		testData[i].v2z = i;
+	}
+	MessagesDefinitions::MessageHeader header;
+	//Create message with the wrong crc:
+	m_buffer = createMessage(recipe, testData, &bufferSize);
+	EXPECT_FALSE(nullptr == m_buffer);
+	//Over write the header
+	memcpy(&header, m_buffer, sizeof(MessagesDefinitions::MessageHeader));
+	header.crc = header.crc - 0x1234;
+	memcpy(m_buffer , &header, sizeof(MessagesDefinitions::MessageHeader));
+
+	//call the parser
+	EXPECT_FALSE(parser._parseBuffer(m_buffer, bufferSize));
+
+}

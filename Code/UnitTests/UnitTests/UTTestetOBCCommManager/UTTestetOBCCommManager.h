@@ -5,6 +5,7 @@
 #include <gmock/gmock.h>
 
 #include "CommManager.h"
+#include "Utilities.h"
 
 class MockICommChannel : public ICommChannel
 {
@@ -100,10 +101,8 @@ protected:
             header.dataSize = dataSize;
 
             //copy everything to the buffer
-            offset = 0;
             //copy the header
-            memcpy(buffer, &header, sizeof(MessagesDefinitions::MessageHeader));
-            offset += sizeof(MessagesDefinitions::MessageHeader);
+            offset = sizeof(MessagesDefinitions::MessageHeader);
 
             //copy the recipe
             memcpy(buffer + offset, reinterpret_cast<unsigned char*>(&recipe), sizeof(TestRecipe));
@@ -111,6 +110,11 @@ protected:
 
             //copy the data
             memcpy(buffer + offset, reinterpret_cast<unsigned char*>(testData), dataSize);
+
+            header.crc = CRC32::calculate(buffer + sizeof(MessagesDefinitions::MessageHeader), size - sizeof(MessagesDefinitions::MessageHeader));
+
+            memcpy(buffer, &header, sizeof(MessagesDefinitions::MessageHeader));
+
 
             //Send the message
             return buffer;
