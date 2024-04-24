@@ -16,7 +16,9 @@ include_directories(
                     ../../Common
                     ../../Common/CommChannels
                     ../../Common/DataGeneration
+                    ../../Common/Enums
                     ../../Common/Logger
+                    ../../Common/Utils
                     ../../Implementations
                     ../../Implementations/ANCAS
                     ../../Implementations/CATCH
@@ -50,6 +52,8 @@ add_executable(${PROJECT_NAME}
                 ../../Implementations/SBO_ANCAS/SboAncasEquallySpacedPoints.cpp
                 ../../Implementations/SBO_ANCAS/SGP4SinglePointGenerator.cpp
 
+
+                ../../Common/CommChannels/TcpCommChannel.cpp
                 ../../Common/DataGeneration/SimpleDataGeneration.cpp
                 ../../Common/DataGeneration/FullCatalogTestDataGeneration.cpp
                 ../../../SGP4/CPP/SGP4.cpp

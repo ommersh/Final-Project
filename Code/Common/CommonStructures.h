@@ -5,6 +5,9 @@
 #include "SGP4.h"
 #include "AlgorithmEnum.h"
 #include "TestRecipe.h"
+#include <cstdint>
+
+#pragma pack(push, 1)
 
 namespace TestResults
 {
@@ -16,23 +19,23 @@ namespace TestResults
 		double runTimeMicro;
 
 		//Repeated tests results
-		long double avgTimeMicro;
-		long double minTimeMicro;
-		int numberOfRuns;
+		double avgTimeMicro;
+		double minTimeMicro;
+		int32_t numberOfRuns;
 
 		//Test data
 		char testName[MAX_TEST_NAME_SIZE];
 		AlgorithmsEnums::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
 		AlgorithmsEnums::Algorithm testedAlgorithm;
-		unsigned int testID;
-		int degree;
+		uint32_t testID;
+		int32_t degree;
 
 		//Additional data
 		double segmentSizeSec;
 		double timeIntervalSizeSec;
-		int	numberOfPointsPerSegment;
-		int initialNumberOfPoints;
-		int TminFactor;
+		int32_t	numberOfPointsPerSegment;
+		int32_t initialNumberOfPoints;
+		int32_t TminFactor;
 
 	};
 }
@@ -47,22 +50,23 @@ namespace MessagesDefinitions
 	/// Unique Opcode for the TestRequestMessage.
 	/// From the TestingStationApp to the TestedOBCApp
 	/// </summary>
-	static const unsigned short TestRequestMessageOpcode = 0x1234;
+	static const uint16_t TestRequestMessageOpcode = 0x1234;
 	/// <summary>
 	/// Unique Opcode for the TestResultsMessage
 	/// From the TestedOBCApp to the TestingStationApp
 	/// </summary>
-	static const unsigned short TestResultsMessageOpcode = 0x4321;
+	static const uint16_t TestResultsMessageOpcode = 0x4321;
 
 	struct MessageHeader
 	{
-		unsigned short opcode;
-		unsigned int dataSize;
+		uint16_t opcode;
+		uint32_t dataSize;
+		uint32_t crc;//crc of the full message without the header
 	};
 
 	//size definitions
-	static const unsigned short OPCODE_SIZE = sizeof(TestResultsMessageOpcode);
-	static const unsigned short MESSAGE_HEADER_SIZE = sizeof(MessageHeader);
+	static const uint16_t OPCODE_SIZE = sizeof(TestResultsMessageOpcode);
+	static const uint16_t MESSAGE_HEADER_SIZE = sizeof(MessageHeader);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	//
@@ -108,5 +112,6 @@ namespace MessagesDefinitions
 
 
 
+#pragma pack(pop)
 
 #endif //SHIELD_TestDefinitions_H

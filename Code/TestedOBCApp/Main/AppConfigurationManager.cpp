@@ -19,9 +19,9 @@ void AppConfigurationManager::init(const std::string& filename)
     {
         m_commChannelType = AppConfiguration::CommChannelType::LocalSimulation;
     }
-    else if (stringValue == "WinTcp")
+    else if (stringValue == "Tcp")
     {
-        m_commChannelType = AppConfiguration::CommChannelType::WinTcp;
+        m_commChannelType = AppConfiguration::CommChannelType::Tcp;
     }
     else if (stringValue == "WinUdp")
     {

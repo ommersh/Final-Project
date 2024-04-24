@@ -1,8 +1,8 @@
 #ifndef SHIELD_Factory_H    // Check if the symbol SHIELD_Factory_H is not defined
 #define SHIELD_Factory_H    // Define the symbol SHIELD_Factory_H
 
+#include "TcpCommChannel.h"
 #ifdef WIN32
-#include "WinTcpCommChannel.h"
 #include "WinUdpCommChannel.h"
 #endif // WIN32
 

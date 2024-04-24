@@ -18,6 +18,7 @@ public:
     {
 
     }
+
 private:
     void printTestResults(TestResults::TestResult testResults);
     void printResult(std::string algName, TestResults::TestResult results);

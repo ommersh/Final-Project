@@ -1,5 +1,6 @@
 #ifndef SHIELD_TcaCalculation_H    // Check if the symbol SHIELD_TcaCalculation_H is not defined
 #define SHIELD_TcaCalculation_H    // Define the symbol SHIELD_TcaCalculation_H
+#include <cstdint>
 
 static const int CATCH_MAX_DEGREE = 32;
 
@@ -12,7 +13,7 @@ namespace TcaCalculation
 	struct TCA {
 		double time;
 		double distance;
-		int numberOfPoints;
+		int32_t numberOfPoints;
 	};
 
 

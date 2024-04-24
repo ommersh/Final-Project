@@ -4,6 +4,11 @@
 #include <string>
 #include "Enums/AlgorithmEnum.h"
 #include "../../SGP4/CPP/SGP4.h"
+#include <cstdint>
+
+#pragma pack(push, 1)
+
+
 
 
 static const int MAX_TEST_NAME_SIZE = 80;
@@ -13,15 +18,15 @@ static const int MAX_TEST_NAME_SIZE = 80;
 /// </summary>
 struct TestRecipe {
 
-	int testID;
+	int32_t  testID;
 	char testName[MAX_TEST_NAME_SIZE];
 	//Test data/Input
-	int catchPolynomialDegree;			// Degree of the polynomial, should be numberOfPointsPerSegment - 1
-	int	numberOfPointsPerSegment;		// Use for data generations
+	int32_t  catchPolynomialDegree;			// Degree of the polynomial, should be numberOfPointsPerSegment - 1
+	int32_t  numberOfPointsPerSegment;		// Use for data generations
 	AlgorithmsEnums::CatchRootsAlg catchRootsAlg;        // what variation to use for catch roots finding
 	AlgorithmsEnums::Algorithm testedAlgorithm;
-	unsigned int numberOfIterations;
-	int TminFactor; //2/4/8 
+	uint32_t numberOfIterations;
+	int32_t  TminFactor; //2/4/8 
 	double timeIntervalSizeSec;
 	double TOLd;
 	double TOLt;
@@ -33,9 +38,9 @@ struct TestRecipe {
 	double startTime2Min;
 
 	//Internal Data/Output/Display
-	int numberOfPoints;
+	int32_t numberOfPoints;
 	double segmentSizeSec;
 
 };
-
+#pragma pack(pop)
 #endif

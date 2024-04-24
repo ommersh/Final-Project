@@ -91,5 +91,4 @@ bool WinTUdpCommChannel::sendMessage(unsigned char* buffer, unsigned int size) {
 }
 
 void WinTUdpCommChannel::reset()  {
-    // Implement if needed; here, resetting might involve flushing buffers or reinitializing connections.
 }

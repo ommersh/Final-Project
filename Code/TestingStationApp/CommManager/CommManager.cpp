@@ -1,14 +1,32 @@
 #include "CommManager.h"
+#include "Utilities.h"
 
-/// <summary>
-/// Get the next massage from the OCB
-/// </summary>
-/// <returns></returns>
+CommManager::CommManager()
+{
+    m_commChannel = nullptr;
+    m_crcError = false;
+    m_lastReceivedResultsMessage = { 0 };
+}
+
+void CommManager::init(ICommChannel* commChannel)
+{
+    m_commChannel = commChannel;
+    m_crcError = false;
+}
+
+TestResults::TestResult CommManager::getLastReceivedTestResult() {
+    return m_lastReceivedResultsMessage.results;
+}
+
+bool CommManager::getIsCrcError() {
+    return m_crcError;
+}
+
 bool CommManager::getNextMessage() {
     unsigned char buffer[sizeof(MessagesDefinitions::TestResultsMessage)];
     unsigned int size = 0;
     bool messageReceived = false;
-
+    m_crcError = false;
     if (m_commChannel->getNextMessage(buffer, sizeof(MessagesDefinitions::TestResultsMessage), &size))
     {
         //check if we got the full header
@@ -25,9 +43,18 @@ bool CommManager::getNextMessage() {
                 int expectedSize = sizeof(MessagesDefinitions::TestResultsMessage);
                 if (size == expectedSize)
                 {
-                    //save the results message
-                    memcpy(&m_lastReceivedResultsMessage, buffer, sizeof(MessagesDefinitions::TestResultsMessage));
-                    messageReceived = true;
+                    //check the crc
+                    unsigned int crc = CRC32::calculate(buffer + MessagesDefinitions::MESSAGE_HEADER_SIZE, size - MessagesDefinitions::MESSAGE_HEADER_SIZE);
+                    if (header.crc == crc)
+                    {
+                        //save the results message
+                        memcpy(&m_lastReceivedResultsMessage, buffer, sizeof(MessagesDefinitions::TestResultsMessage));
+                        messageReceived = true;
+                    }
+                    else
+                    {
+                        m_crcError = true;
+                    }
                 }
             }
         }
@@ -46,7 +73,7 @@ bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
     //Prepare the buffer we want to send
     //Get the buffer size
     dataSize = (recipe.numberOfPoints * sizeof(TcaCalculation::sPointData));
-    size = sizeof(MessagesDefinitions::MessageHeader) + sizeof(TestRecipe) + dataSize;
+    size = MessagesDefinitions::MESSAGE_HEADER_SIZE + sizeof(TestRecipe) + dataSize;
     //create the buffer
     unsigned char* buffer = new unsigned char[size];
     //check the buffer
@@ -56,11 +83,9 @@ bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
         header.opcode = MessagesDefinitions::TestRequestMessageOpcode;
         header.dataSize = dataSize;
 
-        //copy everything to the buffer
-        offset = 0;
-        //copy the header
-        memcpy(buffer, &header, sizeof(MessagesDefinitions::MessageHeader));
-        offset += sizeof(MessagesDefinitions::MessageHeader);
+        //copy everything to the buffer:
+
+        offset = sizeof(MessagesDefinitions::MessageHeader);
         
         //copy the recipe
         memcpy(buffer + offset, reinterpret_cast<const unsigned char*>(&recipe), sizeof(TestRecipe));
@@ -69,8 +94,14 @@ bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
         //copy the data
         memcpy(buffer + offset,reinterpret_cast<unsigned char*>(testData), dataSize);
 
+        //calculate the crc
+        header.crc = CRC32::calculate(buffer + sizeof(MessagesDefinitions::MessageHeader), dataSize + sizeof(TestRecipe));
+        //copy the header
+        memcpy(buffer, reinterpret_cast<unsigned char*>(&header), sizeof(MessagesDefinitions::MessageHeader));
+
         //Send the message
-        if (true == sendMessageInchunks(buffer, size))
+        //if (true == sendMessageInchunks(buffer, size))
+        if(true == m_commChannel->sendMessage(buffer, size))
         {
             messageSentSuccessfully = true;
         }
@@ -94,10 +125,9 @@ bool CommManager::sendMessageInchunks(unsigned char* buffer, unsigned int size) 
         // Send the current chunk
         if (false == m_commChannel->sendMessage(buffer + bytesSent, chunkSize))
         {
-            //std::cerr << "Failed to send the current chunk" << "\n";
+            //Failed to send the current chunk
             return false;
         }
-
         // Update the total number of bytes sent
         bytesSent += chunkSize;
     }

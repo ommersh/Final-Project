@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FileReader_H
+#define FileReader_H
+
 #include "TcaCalculation.h"
 #include <iostream>
 #include <fstream>
@@ -32,3 +34,5 @@ class FileReader
 public:
 	sFileData readDataFromFile(string filePath);
 };
+
+#endif //FileReader_H

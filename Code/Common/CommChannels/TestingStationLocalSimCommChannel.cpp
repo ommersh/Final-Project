@@ -123,7 +123,7 @@ void TestingStationLocalSimCommChannel::runTest()
 	//Do additional iterations
 	TcaCalculation::TCA tca;
 
-	for (int i = 1; i < m_testRecipe.numberOfIterations; i++)
+	for (unsigned int i = 1; i < m_testRecipe.numberOfIterations; i++)
 	{
 		switch (m_testRecipe.testedAlgorithm)
 		{

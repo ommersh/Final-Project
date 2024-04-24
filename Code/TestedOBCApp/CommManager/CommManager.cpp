@@ -1,6 +1,7 @@
 #include "CommManager.h"
 #include <string.h>
 #include <iostream>
+#include "Utilities.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -12,6 +13,20 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 CommManager::CommManager(ICommChannel& commChannel) : m_commChannel(commChannel)
 {
+	m_pointsData = nullptr;
+	m_messageBuffer = nullptr;
+
+	m_opCodeBufferIndex = 0;
+	m_headerBufferIndex = 0;
+	m_messageBufferIndex = 0;
+	m_messageSize = 0;
+	m_parserState = LookingForOpCode;
+	m_messageBuffer = nullptr;
+	memset(m_opCodeBuffer, 0, MessagesDefinitions::OPCODE_SIZE);
+	memset(m_opCode, 0, MessagesDefinitions::OPCODE_SIZE);
+	memset(m_headerBuffer, 0, MessagesDefinitions::MESSAGE_HEADER_SIZE);
+	m_messageHeader = { 0 };
+	m_testParameters = { 0 };
 
 }
 
@@ -62,22 +77,17 @@ bool CommManager::getTheNextTest()
 	//read everything from the channel
 	while (m_commChannel.getNextMessage(buffer, BUFFER_SIZE, &size))
 	{
-		//if we found a full message
+		//Call the parser on the incoming buffer
 		if (true == parseBuffer(buffer, size))
 		{
-			MessagesDefinitions::MessageHeader header;
-			offset = 0;
-			memcpy(reinterpret_cast<unsigned char*>(&header), m_messageBuffer + offset, MessagesDefinitions::MESSAGE_HEADER_SIZE);
+			//if we found a full message
 			offset += MessagesDefinitions::MESSAGE_HEADER_SIZE;
 			//get the test parameters
 			memcpy(reinterpret_cast<unsigned char*>(&m_testParameters), m_messageBuffer + offset, sizeof(TestRecipe));
 			offset += sizeof(TestRecipe);
-			std::cout << "Received Test " << m_testParameters.testID << std::endl;
-
 			//get the data
 			int numberOfPoints = m_messageHeader.dataSize / sizeof(TcaCalculation::sPointData);
 			m_pointsData = new TcaCalculation::sPointData[numberOfPoints];
-
 			memcpy(reinterpret_cast<unsigned char*>(m_pointsData), m_messageBuffer + offset, m_messageHeader.dataSize);
 
 			resetParser();
@@ -128,6 +138,7 @@ void CommManager::endTest()
 	if (nullptr != m_pointsData)
 	{
 		delete[] m_pointsData;
+		m_pointsData = nullptr;
 	}
 	resetParser();
 	m_commChannel.reset();
@@ -143,14 +154,14 @@ void CommManager::endTest()
 //////////////////////////////////////////////////////////////////////////////////////////////
 void CommManager::sendTestResults(TestResults::TestResult testResults)
 {
-	unsigned char buffer[sizeof(MessagesDefinitions::MessageHeader) + sizeof(TestResults::TestResult)];
-	unsigned int size = sizeof(MessagesDefinitions::MessageHeader) + sizeof(TestResults::TestResult);
-	MessagesDefinitions::MessageHeader header;
-	header.opcode = MessagesDefinitions::TestResultsMessageOpcode;
-	header.dataSize = sizeof(TestResults::TestResult);
-	memcpy(buffer, reinterpret_cast<unsigned char*>(&header), sizeof(MessagesDefinitions::MessageHeader));
-	memcpy(buffer + sizeof(MessagesDefinitions::MessageHeader), reinterpret_cast<unsigned char*>(&testResults), sizeof(TestResults::TestResult));
-
+	MessagesDefinitions::TestResultsMessage testResultsMessage = { 0 };
+	unsigned char* buffer = reinterpret_cast<unsigned char *>(&testResultsMessage);
+	unsigned int size = sizeof(MessagesDefinitions::TestResultsMessage);
+	testResultsMessage.header.opcode = MessagesDefinitions::TestResultsMessageOpcode;
+	testResultsMessage.header.dataSize = sizeof(TestResults::TestResult);
+	testResultsMessage.results = testResults;
+	//calculate crc
+	testResultsMessage.header.crc = CRC32::calculate(buffer + MessagesDefinitions::MESSAGE_HEADER_SIZE, size - MessagesDefinitions::MESSAGE_HEADER_SIZE);
 	m_commChannel.sendMessage(buffer, size);
 }
 
@@ -165,8 +176,7 @@ void CommManager::initParser(unsigned char opcode[MessagesDefinitions::OPCODE_SI
 	resetParser();
 }
 
-
-bool CommManager::parseBuffer(unsigned char* buffer, int size)
+bool CommManager::parseBuffer(unsigned char* buffer, int32_t size)
 {
 	bool fullMessageFound = false;
 	while (size > 0)
@@ -207,7 +217,6 @@ bool CommManager::parseBuffer(unsigned char* buffer, int size)
 					}
 					m_headerBufferIndex = MessagesDefinitions::OPCODE_SIZE;
 					m_parserState = CommManager::CollectingHeader;
-					std::cout << "Found Opcode " << std::endl;
 				}
 			}
 			break;
@@ -223,6 +232,7 @@ bool CommManager::parseBuffer(unsigned char* buffer, int size)
 			{
 				memcpy(reinterpret_cast<unsigned char*>(&m_messageHeader), m_headerBuffer, MessagesDefinitions::MESSAGE_HEADER_SIZE);
 				m_messageSize = m_messageHeader.dataSize + sizeof(TestRecipe) + MessagesDefinitions::MESSAGE_HEADER_SIZE;
+
 				m_messageBuffer = new unsigned char[m_messageSize];
 				if (nullptr == m_messageBuffer)
 				{
@@ -233,7 +243,6 @@ bool CommManager::parseBuffer(unsigned char* buffer, int size)
 				memcpy(m_messageBuffer, reinterpret_cast<unsigned char*>(&m_messageHeader), MessagesDefinitions::MESSAGE_HEADER_SIZE);
 				m_messageBufferIndex = MessagesDefinitions::MESSAGE_HEADER_SIZE;
 				m_parserState = CommManager::CollectingData;
-				std::cout << "Found header " << std::endl;
 			}
 			break;
 		case CommManager::CollectingData:
@@ -243,10 +252,19 @@ bool CommManager::parseBuffer(unsigned char* buffer, int size)
 			}
 			if (m_messageBufferIndex >= m_messageSize)
 			{
-				m_parserState = CommManager::Done;
-				fullMessageFound = true;
-				std::cout << "Found full message " << std::endl;
-
+				//check for crc errors
+				uint32_t crc = CRC32::calculate(m_messageBuffer + MessagesDefinitions::MESSAGE_HEADER_SIZE, m_messageSize - MessagesDefinitions::MESSAGE_HEADER_SIZE);
+				if (m_messageHeader.crc == crc)
+				{
+					m_parserState = CommManager::Done;
+					fullMessageFound = true;
+				}
+				else
+				{
+					m_parserState = CommManager::LookingForOpCode;
+					fullMessageFound = false;
+					std::cout << "CRC Error" << std::endl;
+				}
 				break;
 			}
 			break;

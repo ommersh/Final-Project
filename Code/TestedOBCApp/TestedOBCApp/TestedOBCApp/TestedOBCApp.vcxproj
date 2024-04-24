@@ -139,7 +139,7 @@
     <ClCompile Include="..\..\..\..\SGP4\CPP\CatchDataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\DataGenerator.cpp" />
     <ClCompile Include="..\..\..\..\SGP4\CPP\SGP4.cpp" />
-    <ClCompile Include="..\..\..\Common\CommChannels\WinTcpCommChannel.cpp" />
+    <ClCompile Include="..\..\..\Common\CommChannels\TcpCommChannel.cpp" />
     <ClCompile Include="..\..\..\Common\CommChannels\WinUdpCommChannel.cpp" />
     <ClCompile Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.cpp" />
     <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
@@ -173,7 +173,7 @@
     <ClInclude Include="..\..\..\..\SGP4\CPP\DataGenerator.h" />
     <ClInclude Include="..\..\..\..\SGP4\CPP\SGP4.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\ICommChannel.h" />
-    <ClInclude Include="..\..\..\Common\CommChannels\WinTcpCommChannel.h" />
+    <ClInclude Include="..\..\..\Common\CommChannels\TcpCommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommChannels\WinUdpCommChannel.h" />
     <ClInclude Include="..\..\..\Common\CommonStructures.h" />
     <ClInclude Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.h" />
@@ -182,6 +182,7 @@
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h" />
     <ClInclude Include="..\..\..\Common\TestRecipe.h" />
     <ClInclude Include="..\..\..\Common\Utils\SafeQueue.h" />
+    <ClInclude Include="..\..\..\Common\Utils\Utilities.h" />
     <ClInclude Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.h" />
     <ClInclude Include="..\..\..\ExternalLibraries\INIH\ini.h" />
     <ClInclude Include="..\..\..\Implementations\ANCAS\ANCAS.h" />

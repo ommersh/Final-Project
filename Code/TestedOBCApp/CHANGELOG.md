@@ -7,17 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Released]
+### version 1.0.5
+#### Changed 24/04/2024
+- Added Parser to the CommManager
+- Added Check for the CRC in incoming message and calculating the CRC for outgoing messages
+- Added TCP and UDP(Win only) to the app configuration and factory
+- Added IP and Ports to the configuration ini file and to the app configuration class
+- Added comments
+- Updated the CMakeLists
+- Common:
+- CommonStructures, TestRecipe,AlgorithmsEnums, TcaCalculations: Update basic types to cstdint types, to get consistent types on different systems
+- CommonStructures, TestRecipe,AlgorithmsEnums, TcaCalculations: Added pragma pack around structs that used in messages, to get consistent struct sized on different systems
+- Added SafeQueue class
+- CommonStructures: Added CRC to the messages header
+- Added CRC32 calculation static class to the Utilities
+- Added ifdef around strncpy_s for different systems where the function is not supported
+- SGP4: Changed basic types to cstdint types, added pragma pack
+
 ### version 1.0.4
-#### Changed 11/03/2024
--New Common structure files
+#### Changed 11/04/2024
+- New Common structure files
 ### version 1.0.3
-#### Changed 09/03/2024
--Added Full catalog options - runnig with a constant number of points over a changing time interval
--Added Full catalog options - runnig over catch degrees - 7/15/31
--Added Tmin factor to the test recipe and results + data generations - Tmin factor is the number we divide the minimum rotation time by to get Gamma
+#### Changed 09/04/2024
+- Added Full catalog options - runnig with a constant number of points over a changing time interval
+- Added Full catalog options - runnig over catch degrees - 7/15/31
+- Added Tmin factor to the test recipe and results + data generations - Tmin factor is the number we divide the minimum rotation time by to get Gamma
 
 ### version 1.0.2
-#### Changed 08/03/2024
+#### Changed 08/04/2024
 -Added Unit Tests for SBO ANCAS
 -Added Additional data to the test recipe and results: segment and interval size, number of points per segment and initial number of points
 -Added Parametes INI file with default values and values for the full catalog test

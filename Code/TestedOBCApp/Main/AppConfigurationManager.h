@@ -14,7 +14,7 @@ namespace AppConfiguration
 	enum CommChannelType
 	{
 		LocalSimulation,
-		WinTcp,
+		Tcp,
 		WinUdp,
 	};
 

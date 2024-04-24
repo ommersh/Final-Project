@@ -3,10 +3,15 @@
 
 static const unsigned int MAX_MESSAGE_SIZE = 65000;
 
+/// <summary>
+/// Entry for holding a single message with up to MAX_MESSAGE_SIZE size
+/// Can be used in comm channels to collect fragmented messages
+/// </summary>
 struct ReceivedMessage {
 	unsigned int size;
 	unsigned char buffer[MAX_MESSAGE_SIZE];
 };
+
 /// <summary>
 /// Interface for a communication channel
 /// Including 3 function to implement:

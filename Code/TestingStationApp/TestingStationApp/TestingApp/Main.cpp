@@ -1,5 +1,7 @@
 #include "../../Database/DatabaseManager.h"
 #include "Lab.h"
+#include "Utilities.h"
+
 void printTestInfo(const TestInfo& test) {
     //std::cout << "Name: " << test.name << std::endl;
     std::cout << "Format: " << int(test.format) << std::endl;
@@ -28,7 +30,7 @@ int main()
     //Initialize the data
     TestInfo info = { 0 };
     info.format = SatelliteDataFormat::Text;
-    strcpy_s(info.name, "STARLINK_NOAA16DEB");
+    strcpy_s(info.name, "STARLINK5447_UNICORN2N");
     info.status = TestStatus::InProgress;
     /*
 STARLINK5447_UNICORN2N

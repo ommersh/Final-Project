@@ -6,31 +6,54 @@
 #include <memory>
 #include <chrono>
 
+/// <summary>
+/// Holds a test while in queue
+/// </summary>
 struct TestInQueue {
     TestRecipe recipe;
     TcaCalculation::sPointData* pointsDataArray;
     int arraySize;
 };
+/// <summary>
+/// Test manager state for inner state machine
+/// </summary>
 enum TestManagerState {
     eWaitingForTheNextTest,
     eWaitingForTestResults,
     eNotActive,
 };
 
+/// <summary>
+/// Manage the outgoing tests and incoming results.
+/// </summary>
 class TestManager {
 public:
     TestManager();
 
-    //Initialize the class
+    /// <summary>
+    /// Initialize the class
+    /// </summary>
+    /// <param name="resultsManager"></param>
+    /// <param name="commManger"></param>
     void init(ResultManager& resultsManager, CommManager& commManger);
 
-    //synchoronized access to the queue!
+    /// <summary>
+    /// Place a test in the outgoing tests queue
+    /// </summary>
+    /// <param name="recipe"></param>
+    /// <param name="pointsDataArray"></param>
+    /// <param name="arraySize"></param>
     void PlaceTestInQueue(TestRecipe recipe, TcaCalculation::sPointData* pointsDataArray,int arraySize);
 
-    //Run forever, send test recipes and collect results
+    /// <summary>
+    /// Run forever, send test recipes and collect results
+    /// </summary>
     void RunTestManagerProcess();
 
-    //Check if the communication seems to be active(synchoronized)
+    /// <summary>
+    /// Check if the communication seems to be active(synchoronized)
+    /// </summary>
+    /// <returns></returns>
     bool CheckCommunication();
 
     void startTestManagerProcess();

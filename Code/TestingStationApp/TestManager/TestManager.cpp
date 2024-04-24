@@ -10,7 +10,7 @@ TestManager::TestManager() :
 {
 	m_keepRunnig = true;
 	m_state = eWaitingForTheNextTest;
-
+	m_startTime = 0;
 }
 
 //Initialize the class
@@ -34,7 +34,6 @@ void TestManager::PlaceTestInQueue(TestRecipe recipe, TcaCalculation::sPointData
 	//Add the new test to the queue
 	m_waitingTestQueue.enqueue(testInQueu);
 }
-
 
 //Run forever, send test recipes and collect results
 void TestManager::RunTestManagerProcess()
@@ -74,7 +73,7 @@ void TestManager::RunTestManagerProcess()
 				}
 			}
 			else {
-				//Continue to wait for the results
+				//Continue to wait for the incoming test
 				//Try sleeping for a little while! 
 				std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MILLISEC));
 			}
@@ -91,7 +90,7 @@ void TestManager::RunTestManagerProcess()
 			else if ((getCurrentTimeInMicroseconds() - m_startTime) >= TIME_OUT_MICROSEC)
 			{
 				//Timeout, No results arrived, handle the error!
-				std::cout << "Timeout! FNo results arrived for the following test, TestID: " << nextTest.recipe.testID << std::endl;
+				std::cout << "Timeout! No results arrived for the following test, TestID: " << nextTest.recipe.testID << std::endl;
 				std::cout << "Returning the test to queue" << std::endl;
 				m_waitingTestQueue.enqueue(nextTest);
 				m_state = eWaitingForTheNextTest;
@@ -119,6 +118,7 @@ void TestManager::startTestManagerProcess()
 {
 	m_keepRunnig = true;
 }
+
 void TestManager::stopTestManagerProcess()
 {
 	m_keepRunnig = false;

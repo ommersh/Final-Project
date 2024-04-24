@@ -94,8 +94,7 @@ ICommChannel* Factory::getCommChannel()
 			m_commChannel = localSimulationCommChannel;
 		}
 		break;
-#ifdef WIN32
-		case AppConfiguration::CommChannelType::WinTcp:
+		case AppConfiguration::CommChannelType::Tcp:
 		{
 			TCPClient* TcpCommChannel = new TCPClient();
 			if (false == TcpCommChannel->init(m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
@@ -105,6 +104,7 @@ ICommChannel* Factory::getCommChannel()
 			m_commChannel = TcpCommChannel;
 		}
 		break;
+#ifdef WIN32
 		case AppConfiguration::CommChannelType::WinUdp:
 		{
 			WinTUdpCommChannel* winTcpCommChannel = new WinTUdpCommChannel();
