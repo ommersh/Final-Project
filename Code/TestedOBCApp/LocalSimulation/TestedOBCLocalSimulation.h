@@ -45,7 +45,7 @@ public:
 		StateWaitForCatchEnd,
 	};
 
-	void init(const std::string& catalogFilePath);
+	void Init(const std::string& catalogFilePath);
 
 protected:
 	InnerStateMachine m_state;

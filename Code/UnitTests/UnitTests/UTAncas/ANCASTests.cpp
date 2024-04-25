@@ -332,7 +332,7 @@ TEST_F(ANCASTestCase, TEST_test_case_STARLINK5447_UNICORN2N)
 
     if (data  != nullptr)
     {
-        TCA tca = ancas.runAlgorithm(data, size-1);
+        TCA tca = ancas.RunAlgorithm(data, size-1);
         delete[] SimpleDataGeneration.m_pointsDataANCAS;
         delete[] SimpleDataGeneration.m_pointsDataCATCH;
         EXPECT_TRUE(TestUtils::CompareValues(tca.distance, expectedResultsDistance, maxErrorDistance));

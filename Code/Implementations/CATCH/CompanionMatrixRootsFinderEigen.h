@@ -18,7 +18,7 @@ using namespace Eigen;
 class CompanionMatrixRootsFinderEigen : public CompanionMatrixRootsFinder
 {
 public:
-	void init(int degree) override;
+	void Init(int degree) override;
 	int findEigenValues() override;
 private:
 	Eigen::MatrixXd m_EigenCompanionMatrix;

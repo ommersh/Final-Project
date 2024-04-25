@@ -2,9 +2,9 @@
 #include <string.h>
 #include "Utilities.h"
 
-void TestedOBCLocalSimulation::init(const std::string& catalogFilePath)
+void TestedOBCLocalSimulation::Init(const std::string& catalogFilePath)
 {
-	if (true == m_fullCatalogTestDataGeneration.init(catalogFilePath))
+	if (true == m_fullCatalogTestDataGeneration.Init(catalogFilePath))
 	{
 		std::cout << std::endl << std::endl << "Running Local Simulation In Full Catalog Mode..." << std::endl << std::endl << std::endl;
 		m_fullCatalog = true;
@@ -193,31 +193,31 @@ bool TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int s
 void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStepAroundPoint(double timePoint, double segmentSize)
 {
 	//Find the real TCA
-	Factory::getReference()->getTimer()->startTimer();
+	Factory::GetReference()->GetTimer()->startTimer();
 	TcaCalculation::TCA tca = m_SimpleDataGeneration.FindTcaWithSmallTimeStepArountPoint(m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min, m_params.TOLt/10, timePoint, segmentSize);
-	Factory::getReference()->getTimer()->stopTimer();
+	Factory::GetReference()->GetTimer()->stopTimer();
 	std::cout << std::setprecision(15)
 		<< "Results with small time step:" << std::endl
 		<< "Time step		: " << m_params.TOLt << std::endl
 		<< "Distance		: " << tca.distance << std::endl
 		<< "Time			: " << tca.time << std::endl
 		<< "Number of points: " << tca.numberOfPoints << std::endl
-		<< "Run time		: " << Factory::getReference()->getTimer()->getTimeInSec() << std::endl;
+		<< "Run time		: " << Factory::GetReference()->GetTimer()->getTimeInSec() << std::endl;
 }
 
 void TestedOBCLocalSimulation::calculateTheTcaWithSmallTimeStep()
 {
 	//Find the real TCA
-	Factory::getReference()->getTimer()->startTimer();
+	Factory::GetReference()->GetTimer()->startTimer();
 	TcaCalculation::TCA tca = m_SimpleDataGeneration.FindTcaWithSmallTimeStep(14, m_params.elsetrec1, m_params.elsetrec2, m_params.startTime1Min, m_params.startTime2Min, m_params.TOLt);
-	Factory::getReference()->getTimer()->stopTimer();
+	Factory::GetReference()->GetTimer()->stopTimer();
 	std::cout << std::setprecision(25)
 		<< "Results with small time step:" << std::endl
 		<< "Time step		: " << m_params.TOLt << std::endl
 		<< "Distance		: " << tca.distance << std::endl
 		<< "Time			: " << tca.time << std::endl
 		<< "Number of points: " << tca.numberOfPoints << std::endl
-		<< "Run time		: " << Factory::getReference()->getTimer()->getTimeInSec() << std::endl;
+		<< "Run time		: " << Factory::GetReference()->GetTimer()->getTimeInSec() << std::endl;
 }
 
 
@@ -371,8 +371,8 @@ void TestedOBCLocalSimulation::getSboAncasData()
 	m_params.testID = testID++;
 	m_params.numberOfIterations = 1;
 
-	m_params.TOLd = Factory::getReference()->getConfigurationManager()->getTOLd();
-	m_params.TOLt = Factory::getReference()->getConfigurationManager()->getTOLt();
+	m_params.TOLd = Factory::GetReference()->GetConfigurationManager()->GetTOLd();
+	m_params.TOLt = Factory::GetReference()->GetConfigurationManager()->GetTOLt();
 
 }
 

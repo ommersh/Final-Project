@@ -51,7 +51,7 @@ void TestManager::RunTestManagerProcess()
 				if (m_waitingTestQueue.dequeue(nextTest) == true)
 				{
 					//send the data, check if the data sent successfully
-					if (m_commManger->sendMessage(nextTest.recipe, nextTest.pointsDataArray) == true)
+					if (m_commManger->SendMessage(nextTest.recipe, nextTest.pointsDataArray) == true)
 					{
 						//delete the data
 						if (nextTest.pointsDataArray != nullptr)
@@ -80,9 +80,9 @@ void TestManager::RunTestManagerProcess()
 			break;
 		case eWaitingForTestResults:
 			//If a message received
-			if (m_commManger->getNextMessage() == true)
+			if (m_commManger->GetNextMessage() == true)
 			{
-				TestResults::TestResult results = m_commManger->getLastReceivedTestResult();
+				TestResults::TestResult results = m_commManger->GetLastReceivedTestResult();
 				m_resultsManager->UpdateTestResult(results);
 				m_state = eWaitingForTheNextTest;
 			}

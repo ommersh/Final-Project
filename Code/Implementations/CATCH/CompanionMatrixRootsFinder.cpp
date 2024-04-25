@@ -5,7 +5,7 @@
 CompanionMatrixRootsFinder::CompanionMatrixRootsFinder(){
 
 }
-void CompanionMatrixRootsFinder::init(int degree)
+void CompanionMatrixRootsFinder::Init(int degree)
 {
 	m_polynomialDegree = degree;
 	InitCompanionMatrix();
@@ -68,7 +68,7 @@ int  CompanionMatrixRootsFinder::Delta(int q, int r)
 }
 
 
-int CompanionMatrixRootsFinder::findRoots(double* coefficients, int degree, double* roots)
+int CompanionMatrixRootsFinder::FindRoots(double* coefficients, int degree, double* roots)
 {
 	int numberOfRoots = 0;
 	if (nullptr != coefficients && nullptr != roots && m_polynomialDegree == degree)

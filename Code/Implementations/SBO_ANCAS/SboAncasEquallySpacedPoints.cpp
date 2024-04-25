@@ -15,7 +15,7 @@
 /// <returns>
 /// TCA, time of closest approach and the corresponding distance
 /// </returns>
-TCA SboAncasEquallySpacedPoints::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
+TCA SboAncasEquallySpacedPoints::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
 	TCA iterationTca;

@@ -21,31 +21,31 @@ public:
 	/// <summary>
 	/// Initialize the structs and communication channel if necessary
 	/// </summary>
-	virtual void init();
+	virtual void Init();
 	/// <summary>
 	/// Get the next available test command from the communication channel(if exist)
 	/// </summary>
 	/// <returns>true if a messgae received</returns>
-	virtual bool getTheNextTest();
+	virtual bool GetTheNextTest();
 	/// <summary>
-	/// Get the test parameters from the last message received
+	/// Get the Test Recipe from the last message received
 	/// </summary>
 	/// <returns></returns>
-	virtual TestRecipe getTheTestParameters();
+	virtual TestRecipe GetTheTestRecipe();
 	/// <summary>
 	///Get the test data from the last message received
 	/// </summary>
 	/// <returns></returns>
-	virtual TcaCalculation::sPointData* getTheTestData();
+	virtual TcaCalculation::sPointData* GetTheTestData();
 	/// <summary>
 	/// Call the function when the test end to free all the memory if necessary
 	/// </summary>
-	virtual void endTest();
+	virtual void EndTest();
 	/// <summary>
 	/// Send the results back to the TestingStationApp
 	/// </summary>
 	/// <param name="testResults"></param>
-	virtual void sendTestResults(TestResults::TestResult testResults);
+	virtual void SendTestResults(TestResults::TestResult testResults);
 protected:
 	ICommChannel& m_commChannel;
 	TestRecipe m_testParameters;
@@ -57,18 +57,18 @@ protected:
 	/// Initialize the parser
 	/// </summary>
 	/// <param name="opcode">The incoming message expected OpCode</param>
-	void initParser(unsigned char opcode[MessagesDefinitions::OPCODE_SIZE]);
+	void InitParser(unsigned char opcode[MessagesDefinitions::OPCODE_SIZE]);
 	/// <summary>
 	/// Parse the incoming buffer, return true if a full message was found
 	/// </summary>
 	/// <param name="buffer"></param>
 	/// <param name="size"></param>
 	/// <returns></returns>
-	bool parseBuffer(unsigned char* buffer, int32_t size);
+	bool ParseBuffer(unsigned char* buffer, int32_t size);
 	/// <summary>
 	/// Reset the parser states and variables
 	/// </summary>
-	void resetParser();
+	void ResetParser();
 	/// <summary>
 	/// State for the internal parser state machine
 	/// </summary>

@@ -27,7 +27,7 @@ TEST_F(CPPTests, TEST_interpolation_matrix_when_N_is_2)
     };
     // the interpulation matrix is calculated in the constructor
     MockCpp cpp;
-    cpp.init(2);
+    cpp.Init(2);
     //get the resulted matrix
     double interpolationMatrix[CATCH_MAX_DEGREE + 1][CATCH_MAX_DEGREE + 1];
     cpp.getInterpulationMatrix(interpolationMatrix);
@@ -54,7 +54,7 @@ TEST_F(CPPTests, TEST_Fitting_the_CPP)
     // [ 1 / 4   , - 1 / 2 , 1 / 4     ]   
     // the interpulation matrix is calculated in the constructor
     MockCpp cpp;
-    cpp.init(2);
+    cpp.Init(2);
     
     double gx1[3] = { 1,0,0 };
     double expectedResults1[3] = { 0.25, -0.5, 0.25 } ;
@@ -103,7 +103,7 @@ TEST_F(CPPTests, TEST_GetValue)
     // [ 1 / 4   , - 1 / 2 , 1 / 4     ]   
     // the interpulation matrix is calculated in the constructor
     MockCpp cpp;
-    cpp.init(2);
+    cpp.Init(2);
 
     double gx1[3] = { 1,0,0 };
     double expectedResults1[3] = { 0.25, -0.5, 0.25 };
@@ -175,7 +175,7 @@ TEST_F(CATCHTestCase, TEST_test_case_STARLINK5447_UNICORN2N_Eigen_Lib)
 
     CompanionMatrixRootsFinderEigen rootsFinder;
     CATCH Catch;
-    Catch.init(&rootsFinder, degree);
+    Catch.Init(&rootsFinder, degree);
 
     char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
     char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
@@ -195,7 +195,7 @@ TEST_F(CATCHTestCase, TEST_test_case_STARLINK5447_UNICORN2N_Eigen_Lib)
 
     if (data != nullptr)
     {
-        TCA tca = Catch.runAlgorithm(data, size-1);
+        TCA tca = Catch.RunAlgorithm(data, size-1);
         delete[] SimpleDataGeneration.m_pointsDataANCAS;
         delete[] SimpleDataGeneration.m_pointsDataCATCH;
 

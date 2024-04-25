@@ -14,8 +14,8 @@ class CompanionMatrixRootsFinder : public IRootsFindAlg
 {
 public:
 	CompanionMatrixRootsFinder();
-	virtual void init(int degree) override;
-	int findRoots(double* coefficients, int degree, double* roots) override;
+	virtual void Init(int degree) override;
+	int FindRoots(double* coefficients, int degree, double* roots) override;
 private:
 	void InitCompanionMatrix();
 	void computeCompanionMatrix();

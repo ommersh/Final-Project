@@ -2,7 +2,7 @@
 #include <string.h>
 #include <iostream>
 #include "Utilities.h"
-
+#include "EventLogger.h"
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	Function name: CommManager
@@ -51,11 +51,11 @@ CommManager::~CommManager()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void CommManager::init()
+void CommManager::Init()
 {
-	resetParser();
+	ResetParser();
 	unsigned short opCode = MessagesDefinitions::TestRequestMessageOpcode;
-	initParser(reinterpret_cast<unsigned char*>(&opCode));
+	InitParser(reinterpret_cast<unsigned char*>(&opCode));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ void CommManager::init()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool CommManager::getTheNextTest()
+bool CommManager::GetTheNextTest()
 {
 	static const unsigned int BUFFER_SIZE = MAX_MESSAGE_SIZE;
 	unsigned char buffer[BUFFER_SIZE];
@@ -78,7 +78,7 @@ bool CommManager::getTheNextTest()
 	while (m_commChannel.getNextMessage(buffer, BUFFER_SIZE, &size))
 	{
 		//Call the parser on the incoming buffer
-		if (true == parseBuffer(buffer, size))
+		if (true == ParseBuffer(buffer, size))
 		{
 			//if we found a full message
 			offset += MessagesDefinitions::MESSAGE_HEADER_SIZE;
@@ -90,12 +90,12 @@ bool CommManager::getTheNextTest()
 			m_pointsData = new TcaCalculation::sPointData[numberOfPoints];
 			memcpy(reinterpret_cast<unsigned char*>(m_pointsData), m_messageBuffer + offset, m_messageHeader.dataSize);
 
-			resetParser();
+			ResetParser();
 			messageReceived = true;
 			break;
 		}
 	}
-	resetParser();
+	ResetParser();
 	return messageReceived;
 }
 
@@ -107,7 +107,7 @@ bool CommManager::getTheNextTest()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-TestRecipe CommManager::getTheTestParameters()
+TestRecipe CommManager::GetTheTestRecipe()
 {
 	return m_testParameters;
 }
@@ -120,7 +120,7 @@ TestRecipe CommManager::getTheTestParameters()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-TcaCalculation::sPointData* CommManager::getTheTestData()
+TcaCalculation::sPointData* CommManager::GetTheTestData()
 {
 	return m_pointsData;
 }
@@ -133,14 +133,14 @@ TcaCalculation::sPointData* CommManager::getTheTestData()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void CommManager::endTest()
+void CommManager::EndTest()
 {
 	if (nullptr != m_pointsData)
 	{
 		delete[] m_pointsData;
 		m_pointsData = nullptr;
 	}
-	resetParser();
+	ResetParser();
 	m_commChannel.reset();
 }
 
@@ -152,7 +152,7 @@ void CommManager::endTest()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void CommManager::sendTestResults(TestResults::TestResult testResults)
+void CommManager::SendTestResults(TestResults::TestResult testResults)
 {
 	MessagesDefinitions::TestResultsMessage testResultsMessage = { 0 };
 	unsigned char* buffer = reinterpret_cast<unsigned char *>(&testResultsMessage);
@@ -163,20 +163,22 @@ void CommManager::sendTestResults(TestResults::TestResult testResults)
 	//calculate crc
 	testResultsMessage.header.crc = CRC32::calculate(buffer + MessagesDefinitions::MESSAGE_HEADER_SIZE, size - MessagesDefinitions::MESSAGE_HEADER_SIZE);
 	m_commChannel.sendMessage(buffer, size);
+	std::string logString = "Results Message sent. For test - " + std::to_string(testResults.testID);
+	EventLogger::getInstance().log(logString, "CommManager::SendTestResults");
 }
 
 
-void CommManager::initParser(unsigned char opcode[MessagesDefinitions::OPCODE_SIZE])
+void CommManager::InitParser(unsigned char opcode[MessagesDefinitions::OPCODE_SIZE])
 {
 	for (int i = 0; i < MessagesDefinitions::OPCODE_SIZE; i++)
 	{
 		m_opCode[i] = opcode[i];
 	}
 	m_messageBuffer = nullptr;
-	resetParser();
+	ResetParser();
 }
 
-bool CommManager::parseBuffer(unsigned char* buffer, int32_t size)
+bool CommManager::ParseBuffer(unsigned char* buffer, int32_t size)
 {
 	bool fullMessageFound = false;
 	while (size > 0)
@@ -236,8 +238,10 @@ bool CommManager::parseBuffer(unsigned char* buffer, int32_t size)
 				m_messageBuffer = new unsigned char[m_messageSize];
 				if (nullptr == m_messageBuffer)
 				{
-					std::cout << "Failed to created Message Buffer!!!" << std::endl;
-					resetParser();
+					//std::cout << "Failed to created Message Buffer!!!" << std::endl;
+					EventLogger::getInstance().log("Failed to created Message Buffer!!!", "CommManager::ParseBuffer");
+
+					ResetParser();
 					return false;
 				}
 				memcpy(m_messageBuffer, reinterpret_cast<unsigned char*>(&m_messageHeader), MessagesDefinitions::MESSAGE_HEADER_SIZE);
@@ -263,7 +267,9 @@ bool CommManager::parseBuffer(unsigned char* buffer, int32_t size)
 				{
 					m_parserState = CommManager::LookingForOpCode;
 					fullMessageFound = false;
-					std::cout << "CRC Error" << std::endl;
+					//std::cout << "CRC Error" << std::endl;
+					EventLogger::getInstance().log("CRC Error!!!", "CommManager::ParseBuffer");
+
 				}
 				break;
 			}
@@ -279,7 +285,7 @@ bool CommManager::parseBuffer(unsigned char* buffer, int32_t size)
 	return fullMessageFound;
 }
 
-void CommManager::resetParser()
+void CommManager::ResetParser()
 {
 	m_opCodeBufferIndex = 0;
 	m_headerBufferIndex = 0;

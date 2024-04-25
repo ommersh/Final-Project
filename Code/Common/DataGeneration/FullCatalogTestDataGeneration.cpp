@@ -1,30 +1,30 @@
 #include "FullCatalogTestDataGeneration.h"
 #include "Factory.h"
 
-bool FullCatalogTestDataGeneration::init(const std::string& catalogFilePath)
+bool FullCatalogTestDataGeneration::Init(const std::string& catalogFilePath)
 {
 	m_state = eStartCase;
 	m_testID = 0;
-	m_minNumberOfPointsInSegment = Factory::getReference()->getConfigurationManager()->getMinNumberOfPointsPerSegment();
-	m_maxNumberOfPointsInSegment = Factory::getReference()->getConfigurationManager()->getMaxNumberOfPointsPerSegment();
+	m_minNumberOfPointsInSegment = Factory::GetReference()->GetConfigurationManager()->GetMinNumberOfPointsPerSegment();
+	m_maxNumberOfPointsInSegment = Factory::GetReference()->GetConfigurationManager()->GetMaxNumberOfPointsPerSegment();
 
 	m_currentNumberOfPointsInSegment = m_minNumberOfPointsInSegment;
 	m_firstObjectIndex = 0;
 	m_secondObjectIndex = 1;
 
-	m_numberOfiterations = Factory::getReference()->getConfigurationManager()->getNumberOfIterations();
-	m_numberOfDays = Factory::getReference()->getConfigurationManager()->getTimeFrameSizeInDays();
+	m_numberOfiterations = Factory::GetReference()->GetConfigurationManager()->GetNumberOfIterations();
+	m_numberOfDays = Factory::GetReference()->GetConfigurationManager()->GetTimeFrameSizeInDays();
 
-	m_sboAncasTolDKm = Factory::getReference()->getConfigurationManager()->getTOLd();
-	m_sboAncasTolTSec = Factory::getReference()->getConfigurationManager()->getTOLt();
-	m_TMinFactor = Factory::getReference()->getConfigurationManager()->getTminFactor();
+	m_sboAncasTolDKm = Factory::GetReference()->GetConfigurationManager()->GetTOLd();
+	m_sboAncasTolTSec = Factory::GetReference()->GetConfigurationManager()->GetTOLt();
+	m_TMinFactor = Factory::GetReference()->GetConfigurationManager()->GetTminFactor();
 
-	m_runAncas = Factory::getReference()->getConfigurationManager()->getRunAncas();
-	m_runSboAncas = Factory::getReference()->getConfigurationManager()->getRunSboAncas();
-	m_runCatch = Factory::getReference()->getConfigurationManager()->getRunCatch();
+	m_runAncas = Factory::GetReference()->GetConfigurationManager()->GetRunAncas();
+	m_runSboAncas = Factory::GetReference()->GetConfigurationManager()->GetRunSboAncas();
+	m_runCatch = Factory::GetReference()->GetConfigurationManager()->GetRunCatch();
 
-	m_testVariation = Factory::getReference()->getConfigurationManager()->getFullCatalogTestDataVariation();
-	m_fullCatalogTestTypeVariation = Factory::getReference()->getConfigurationManager()->getFullCatalogTestTypeVariation();
+	m_testVariation = Factory::GetReference()->GetConfigurationManager()->GetFullCatalogTestDataVariation();
+	m_fullCatalogTestTypeVariation = Factory::GetReference()->GetConfigurationManager()->GetFullCatalogTestTypeVariation();
 	if (m_fullCatalogTestTypeVariation == AppConfiguration::FullCatalogTestTypeVariation::eTimeInterval)
 	{
 		m_runCatch = false;//cant run catch with the changing number of points per interval
@@ -552,10 +552,10 @@ void FullCatalogTestDataGeneration::calculateWithSmallTimestep(double timePoint)
 	results.testID = m_testID++;
 	results.degree = 0;
 	//Find the real TCA
-	Factory::getReference()->getTimer()->startTimer();
+	Factory::GetReference()->GetTimer()->startTimer();
 	results.tca = m_simpleDataGeneration.FindTcaWithSmallTimeStepArountPoint(m_elsetrec1, m_elsetrec2, m_startDataElem1, m_startDataElem2, m_timeStepSec, timePoint, m_timeIntervalSec);
-	Factory::getReference()->getTimer()->stopTimer();
-	results.runTimeMicro = Factory::getReference()->getTimer()->getTimeInMicroSec();
+	Factory::GetReference()->GetTimer()->stopTimer();
+	results.runTimeMicro = Factory::GetReference()->GetTimer()->getTimeInMicroSec();
 	results.minTimeMicro = results.runTimeMicro;
 	results.avgTimeMicro = results.runTimeMicro;
 
@@ -567,7 +567,7 @@ void FullCatalogTestDataGeneration::calculateWithSmallTimestep(double timePoint)
 	strncpy(results.testName, m_testName, MAX_TEST_NAME_SIZE);
 	results.testName[MAX_TEST_NAME_SIZE - 1] = '\0'; // Ensure null-termination
 #endif
-	Factory::getReference()->getResultsLogger()->log(results, m_timeIntervalSec, m_timeStepSec, "SmallTimeStep");
+	Factory::GetReference()->GetResultsLogger()->log(results, m_timeIntervalSec, m_timeStepSec, "SmallTimeStep");
 }
 
 void FullCatalogTestDataGeneration::stateUpdate()

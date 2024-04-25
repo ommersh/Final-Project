@@ -13,11 +13,11 @@ ICommChannel& CommChannelFactory::getCommChannel(CommChannelConfig::TestingStati
 	switch (type)
 	{
 	case CommChannelConfig::Udp:
-		m_WinTUdpCommChannel.init(CommChannelConfig::LOCAL_IP_ADDRESS, CommChannelConfig::LOCAL_PORT, CommChannelConfig::DEST_IP_ADDRESS, CommChannelConfig::DEST_PORT);
+		m_WinTUdpCommChannel.Init(CommChannelConfig::LOCAL_IP_ADDRESS, CommChannelConfig::LOCAL_PORT, CommChannelConfig::DEST_IP_ADDRESS, CommChannelConfig::DEST_PORT);
 		return m_WinTUdpCommChannel;
 		break;
 	case CommChannelConfig::Tcp:
-		m_tcpServer.init(CommChannelConfig::LOCAL_IP_ADDRESS, CommChannelConfig::LOCAL_PORT);
+		m_tcpServer.Init(CommChannelConfig::LOCAL_IP_ADDRESS, CommChannelConfig::LOCAL_PORT);
 		return m_tcpServer;
 		break;
 	default:

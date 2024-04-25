@@ -14,7 +14,7 @@ public:
 	WinTUdpCommChannel();
 	virtual ~WinTUdpCommChannel();
 
-	bool init(std::string localIp, int localPort, std::string destIp, int destPort);
+	bool Init(std::string localIp, int localPort, std::string destIp, int destPort);
 
 	/// <summary>
 	/// Get the next message, return false if no message received

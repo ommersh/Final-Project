@@ -7,7 +7,7 @@
 #include "MainProcess.h"
 #include "CommManager.h"
 #include "Utilities.h"
-
+#include "EventLogger.h"
 
 
 
@@ -33,12 +33,21 @@ int main() {
         << ProjectVersions::VERSION_MINOR << "." 
         << ProjectVersions::VERSION_PATCH << std::endl;
 
-    Factory *factory = Factory::getReference();
-    TestManager testManager(factory->getTimer());
-    CommManager commManager(*factory->getCommChannel());
-    commManager.init();
-    MainProcess mainProcess(&testManager,&commManager, factory->getResultsLogger());
-    mainProcess.process();
+    EventLogger::getInstance().log("App Started", "main");
+    std::string versionInfo = "App Version: " + 
+        std::to_string(ProjectVersions::VERSION_MAJOR) + "." + 
+        std::to_string(ProjectVersions::VERSION_MINOR) + "." +
+        std::to_string(ProjectVersions::VERSION_PATCH);
+    EventLogger::getInstance().log(versionInfo, "main");
+
+    Factory *factory = Factory::GetReference();
+    EventLogger::getInstance().log("Factory created", "main");
+
+    TestManager testManager(factory->GetTimer());
+    CommManager commManager(*factory->GetCommChannel());
+    commManager.Init();
+    MainProcess mainProcess(&testManager,&commManager, factory->GetResultsLogger());
+    mainProcess.Process();
     
     return 0;
 }

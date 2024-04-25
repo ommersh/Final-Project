@@ -64,7 +64,7 @@ double ANCASCubicPolynomial::getValue(double x)
 /// <returns>
 /// TCA, time of closest approach and the corresponding distance
 /// </returns>
-TCA ANCAS::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
+TCA ANCAS::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
 	TCA tempTca;

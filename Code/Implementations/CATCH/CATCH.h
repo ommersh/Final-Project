@@ -16,7 +16,7 @@ class CPP
 public:
 	CPP();
 	~CPP();
-	void init( int degree);
+	void Init( int degree);
 
 	void fitCPP(double intervalStart, double intervalEnd, double g[CATCH_MAX_DEGREE + 1]);
 	double getValue(double x);
@@ -43,9 +43,9 @@ class CATCH : public ITcaAlgorithm
 public:
 	CATCH();
 	~CATCH();
-	void init(IRootsFindAlg* rootsFinder, int degree);
+	void Init(IRootsFindAlg* rootsFinder, int degree);
 
-	TCA runAlgorithm(TcaCalculation::sPointData * pointsInTime, int lastPointIndex);
+	TCA RunAlgorithm(TcaCalculation::sPointData * pointsInTime, int lastPointIndex);
 protected:
 	IRootsFindAlg* m_rootsFinder;
 private:

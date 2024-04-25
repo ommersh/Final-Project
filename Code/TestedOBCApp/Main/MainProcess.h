@@ -21,7 +21,7 @@ public:
 	/// <summary>
 	/// Run nonstop, try to get a message, run a test, send the results back and wait for the next messgae.
 	/// </summary>
-	virtual void process();
+	virtual void Process();
 private:
 	TestManager* m_testManager;
 	CommManager* m_commManager;

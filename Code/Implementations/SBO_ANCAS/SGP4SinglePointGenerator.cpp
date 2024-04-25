@@ -1,6 +1,6 @@
 #include "SGP4SinglePointGenerator.h"
 
-void SGP4SinglePointGenerator::init(elsetrec elsetrec1, elsetrec elsetrec2,double startTime1Min, double startTime2Min)
+void SGP4SinglePointGenerator::Init(elsetrec elsetrec1, elsetrec elsetrec2,double startTime1Min, double startTime2Min)
 {
 	m_elsetrec1 = elsetrec1;
 	m_elsetrec2 = elsetrec2;

@@ -17,7 +17,7 @@ WinTUdpCommChannel::~WinTUdpCommChannel() {
     WSACleanup();
 }
 
-bool WinTUdpCommChannel::init(std::string localIp, int localPort, std::string destIp, int destPort) {
+bool WinTUdpCommChannel::Init(std::string localIp, int localPort, std::string destIp, int destPort) {
     if ((localSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == INVALID_SOCKET) {
         std::cerr << "Could not create socket: " << WSAGetLastError() << "\n";
         return false;

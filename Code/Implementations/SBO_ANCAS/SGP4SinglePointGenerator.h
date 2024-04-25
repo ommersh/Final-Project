@@ -17,7 +17,7 @@ public:
 	{
 
 	};
-	virtual void init(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1Min, double startTime2Min);
+	virtual void Init(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1Min, double startTime2Min);
 	virtual TcaCalculation::sPointData getSinglePoint(double timePointSec) override;
 
 protected:

@@ -57,100 +57,44 @@ namespace AppConfiguration
 class AppConfigurationManager
 {
 public:
-	void init(const std::string& filename);
-	AppConfiguration::TimerType getTimerType()
-	{
-		return m_timerType;
-	}
+	void Init(const std::string& filename);
+	AppConfiguration::TimerType GetTimerType();
 
-	AppConfiguration::CommChannelType getCommChannelType()
-	{
-		return m_commChannelType;
-	}
+	AppConfiguration::CommChannelType GetCommChannelType();
 
-	int getSourcePort()
-	{
-		return m_localPort;
-	}
+	int GetSourcePort();
 
-	int getDestPort()
-	{
-		return m_destPort;
-	}
+	int GetDestPort();
 
-	std::string getLocalIpAddress()
-	{
-		return m_localIpAddress;
-	}
+	std::string GetLocalIpAddress();
 
-	std::string getDestIpAddress()
-	{
-		return m_destIpAddress;
-	}
+	std::string GetDestIpAddress();
 
-	double getTOLd()
-	{
-		return m_TOLd;
-	}
+	//For the internal sim
+	double GetTOLd();
+	//For the internal sim
+	double GetTOLt();
+	//For the internal sim
+	AppConfiguration::FullCatalogTestDataVariation GetFullCatalogTestDataVariation();
+	//For the internal sim
+	AppConfiguration::FullCatalogTestTypeVariation GetFullCatalogTestTypeVariation();
+	//For the internal sim
+	int GetMinNumberOfPointsPerSegment();
+	//For the internal sim
+	int GetMaxNumberOfPointsPerSegment();
+	//For the internal sim
+	int GetNumberOfIterations();
+	//For the internal sim
+	int GetTimeFrameSizeInDays();
+	//For the internal sim
+	int GetTminFactor();
+	//For the internal sim
+	bool GetRunAncas();
+	//For the internal sim
+	bool GetRunSboAncas();
+	//For the internal sim
+	bool GetRunCatch();
 
-	double getTOLt()
-	{
-		return m_TOLt;
-	}
-
-	AppConfiguration::FullCatalogTestDataVariation getFullCatalogTestDataVariation()
-	{
-		return m_fullCatalogTestDataVariation;
-	}
-
-	AppConfiguration::FullCatalogTestTypeVariation getFullCatalogTestTypeVariation()
-	{
-		return m_fullCatalogTestTypeVariation;
-	}
-
-	int getMinNumberOfPointsPerSegment()
-	{
-		return m_minNumberOfPointsPerSegment;
-	}
-
-	int getMaxNumberOfPointsPerSegment()
-	{
-		return m_maxNumberOfPointsPerSegment;
-	}
-
-	int getNumberOfIterations()
-	{
-		return m_numberOfIterations;
-	}
-
-	int getTimeFrameSizeInDays()
-	{
-		return m_timeFrameSizeInDays;
-	}
-
-	int getTminFactor()
-	{
-		return m_TminFactor;
-	}
-
-	bool getRunAncas()
-	{
-		return m_ancas == 1;
-	}
-
-	bool getRunSboAncas()
-	{
-		return m_sboAncas == 1;
-	}
-
-	bool getRunCatch()
-	{
-		return m_catch == 1;
-	}
-	/*get()
-	{
-		return;
-	}*/
 private:
 	void setDefaults();
 

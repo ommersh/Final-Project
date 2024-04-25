@@ -15,19 +15,19 @@ CATCH::~CATCH() {
 
 }
 
-void CATCH::init(IRootsFindAlg* rootsFinder, int degree)
+void CATCH::Init(IRootsFindAlg* rootsFinder, int degree)
 {
 	m_degree = degree;
 	m_rootsFinder = rootsFinder;
-	rootsFinder->init(degree);
-	m_FdCpp.init(m_degree);
-	m_xCpp.init(m_degree);
-	m_yCpp.init(m_degree);
-	m_zCpp.init(m_degree);
+	rootsFinder->Init(degree);
+	m_FdCpp.Init(m_degree);
+	m_xCpp.Init(m_degree);
+	m_yCpp.Init(m_degree);
+	m_zCpp.Init(m_degree);
 }
 
 
-TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
+TCA CATCH::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
@@ -61,7 +61,7 @@ TCA CATCH::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 		}
 		m_FdCpp.fitCPP(a, b, m_fd);
 		//get the roots
-		numberOfRoots = m_rootsFinder->findRoots(m_FdCpp.coefficients, m_degree, Tau);
+		numberOfRoots = m_rootsFinder->FindRoots(m_FdCpp.coefficients, m_degree, Tau);
 
 		//fit cpp to x\y\z
 		m_xCpp.fitCPP(a, b, m_fx);
@@ -99,7 +99,7 @@ CPP::~CPP()
 
 }
 
-void CPP::init(int degree)
+void CPP::Init(int degree)
 {
 	m_degree = degree;
 	calculateInterpolationMatrix();

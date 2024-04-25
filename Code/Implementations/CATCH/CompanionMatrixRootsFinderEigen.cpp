@@ -1,9 +1,9 @@
 #include "CompanionMatrixRootsFinderEigen.h"
 
 
-void CompanionMatrixRootsFinderEigen::init(int degree)
+void CompanionMatrixRootsFinderEigen::Init(int degree)
 {
-	CompanionMatrixRootsFinder::init(degree);
+	CompanionMatrixRootsFinder::Init(degree);
 	m_EigenCompanionMatrix = Eigen::MatrixXd(degree, degree);
 }
 

@@ -8,7 +8,7 @@
         m_testManager()
     {
 
-        m_commManager.init(&(CommChannelFactory::GetInstance().getCommChannel(CommChannelConfig::LocalSim)));
+        m_commManager.Init(&(CommChannelFactory::GetInstance().getCommChannel(CommChannelConfig::LocalSim)));
         
         m_testManager.init(m_resultManager, m_commManager);
         if (!m_databaseManager.createTables()) {

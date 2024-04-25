@@ -13,13 +13,13 @@
 class SboAncas : public ANCAS
 {
 public:
-	void init(ISinglePointPropogator* propogator, double TOLd, double TOLt);
+	void Init(ISinglePointPropogator* propogator, double TOLd, double TOLt);
 
 	virtual ~SboAncas()
 	{
 
 	};
-	virtual TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex);
+	virtual TCA RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex);
 
 protected:
 	ISinglePointPropogator* m_propogator;

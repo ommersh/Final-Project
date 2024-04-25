@@ -17,7 +17,7 @@ public:
 	{
 
 	};
-	TCA runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex) override;
+	TCA RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex) override;
 
 };
 

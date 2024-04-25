@@ -1,5 +1,6 @@
 #include "TcpCommChannel.h"
 #include "Utilities.h"
+#include "EventLogger.h"
 
 #ifdef WIN32
 TCPServer::TCPServer() : listenSocket(INVALID_SOCKET), clientSocket(INVALID_SOCKET) {
@@ -17,7 +18,7 @@ TCPServer::~TCPServer() {
     WSACleanup();
 }
 
-bool TCPServer::init(std::string serverIp, int serverPort) {
+bool TCPServer::Init(std::string serverIp, int serverPort) {
     listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (listenSocket == INVALID_SOCKET) {
         std::cout << "Error at socket(): " << WSAGetLastError() << std::endl;
@@ -175,7 +176,7 @@ TCPClient::~TCPClient() {
     reset();
 }
 
-bool TCPClient::init(std::string serverIp, int serverPort) {
+bool TCPClient::Init(std::string serverIp, int serverPort) {
     m_serverIp = serverIp;
     m_serverPort = serverPort;
     return connectToServer(serverIp, serverPort);
@@ -229,6 +230,8 @@ bool TCPClient::connectToServer(const std::string& serverIp, int serverPort) {
     m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (m_socket == INVALID_SOCKET) {
         std::cerr << "Error at socket(): " << WSAGetLastError() << std::endl;
+        std::string logString = "ConnectToServer: Error at socket(): " + std::to_string(WSAGetLastError());
+        EventLogger::getInstance().log(logString, "TCPClient");
         WSACleanup();
         return false;
     }
@@ -240,6 +243,8 @@ bool TCPClient::connectToServer(const std::string& serverIp, int serverPort) {
 
     if (connect(m_socket, (SOCKADDR*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR) {
         std::cerr << "Connect failed with error: " << WSAGetLastError() << std::endl;
+        std::string logString = "ConnectToServer: Connect failed with error: " + std::to_string(WSAGetLastError());
+        EventLogger::getInstance().log(logString, "TCPClient");
         closesocket(m_socket);
         WSACleanup();
         return false;
@@ -252,6 +257,8 @@ bool TCPClient::connectToServer(const std::string& serverIp, int serverPort)
     m_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (m_socket < 0)
         return false;
+    std::string logString = "ConnectToServer: socket created";
+    EventLogger::getInstance().log(logString, "TCPClient");
     std::cerr << "socket created" << std::endl;
     struct sockaddr_in server;
     server.sin_family = AF_INET;
@@ -261,13 +268,15 @@ bool TCPClient::connectToServer(const std::string& serverIp, int serverPort)
     if (connect(m_socket, (struct sockaddr*)&server, sizeof(server)) < 0)
     {
         std::cerr << "Failed to conect" << std::endl;
-
+        logString = "ConnectToServer: Failed to conect";
+        EventLogger::getInstance().log(logString, "TCPClient");
         close(m_socket);
         m_socket = -1;
         return false;
     }
     std::cout << "Connected to server" << std::endl;
-
+    logString = "ConnectToServer: Connected to server";
+    EventLogger::getInstance().log(logString, "TCPClient");
     return true;
 }
 #endif //WIN32

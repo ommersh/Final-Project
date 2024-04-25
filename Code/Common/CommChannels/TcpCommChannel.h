@@ -37,7 +37,7 @@ public:
     /// <param name="serverIp"></param>
     /// <param name="serverPort"></param>
     /// <returns></returns>
-    bool init(std::string serverIp, int serverPort);
+    bool Init(std::string serverIp, int serverPort);
     /// <summary>
     /// Send a message to the client(if exist). 
     /// Return true on success
@@ -103,7 +103,7 @@ public:
     /// <param name="serverIp"></param>
     /// <param name="serverPort"></param>
     /// <returns></returns>
-    bool init(std::string serverIp, int serverPort);
+    bool Init(std::string serverIp, int serverPort);
     /// <summary>
     /// Send a message to the server. 
     /// Return true on success

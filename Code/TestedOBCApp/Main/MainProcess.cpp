@@ -2,7 +2,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-
+#include "EventLogger.h"
 
 
 extern bool g_keepRunning;
@@ -22,21 +22,24 @@ MainProcess::~MainProcess()
 
 
 
-void MainProcess::process()
+void MainProcess::Process()
 {
 	std::cout << "Staring MainProcess " << std::endl;
-
+	EventLogger::getInstance().log("Staring MainProcess", "MainProcess");
+	std::string logString = "";
 	//Running forever
 	while (true == g_keepRunning)
 	{
 		//Check for a new data set and test setting from the communication channel
-		if (m_commManager->getTheNextTest())
+		if (m_commManager->GetTheNextTest())
 		{
 			//collect the data
-			TestRecipe params = m_commManager->getTheTestParameters();
-			TcaCalculation::sPointData* data = m_commManager->getTheTestData();
+			TestRecipe params = m_commManager->GetTheTestRecipe();
+			TcaCalculation::sPointData* data = m_commManager->GetTheTestData();
 
-			std::cout << "Staring test " << params.testID << std::endl;
+			logString = "Test Received. Staring test - " + std::to_string(params.testID);
+			EventLogger::getInstance().log(logString, "MainProcess");
+			std::cout << logString << std::endl;
 
 			//run the test
 			//m_testManager->runTest()
@@ -48,11 +51,14 @@ void MainProcess::process()
 			resultsLogger->log(testResults, params.TOLd, params.TOLt);
 
 			//send the test results back
-			m_commManager->sendTestResults(testResults);
-			std::cout << "Completed test " << params.testID << std::endl;
+			m_commManager->SendTestResults(testResults);
+
+			logString = "Test " + std::to_string(params.testID) + " Completed";
+			EventLogger::getInstance().log(logString, "MainProcess");
+			std::cout << logString << std::endl;
 
 			//end the test, reset everything and free any memory
-			m_commManager->endTest();
+			m_commManager->EndTest();
 		}
 		//sleep some time
 		//std::cout << "Sleeping for 1 seconds...\n";

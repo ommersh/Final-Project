@@ -8,21 +8,21 @@ CommManager::CommManager()
     m_lastReceivedResultsMessage = { 0 };
 }
 
-void CommManager::init(ICommChannel* commChannel)
+void CommManager::Init(ICommChannel* commChannel)
 {
     m_commChannel = commChannel;
     m_crcError = false;
 }
 
-TestResults::TestResult CommManager::getLastReceivedTestResult() {
+TestResults::TestResult CommManager::GetLastReceivedTestResult() {
     return m_lastReceivedResultsMessage.results;
 }
 
-bool CommManager::getIsCrcError() {
+bool CommManager::GetIsCrcError() {
     return m_crcError;
 }
 
-bool CommManager::getNextMessage() {
+bool CommManager::GetNextMessage() {
     unsigned char buffer[sizeof(MessagesDefinitions::TestResultsMessage)];
     unsigned int size = 0;
     bool messageReceived = false;
@@ -63,7 +63,7 @@ bool CommManager::getNextMessage() {
     return messageReceived; 
 }
 
-bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData)
+bool CommManager::SendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData)
 {
     MessagesDefinitions::MessageHeader header;
     int dataSize;
@@ -115,7 +115,7 @@ bool CommManager::sendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
     return messageSentSuccessfully;
 }
 
-bool CommManager::sendMessageInchunks(unsigned char* buffer, unsigned int size) {
+bool CommManager::SendMessageInchunks(unsigned char* buffer, unsigned int size) {
     unsigned int bytesSent = 0; // Tracks the number of bytes sent
 
     while (bytesSent < size) {

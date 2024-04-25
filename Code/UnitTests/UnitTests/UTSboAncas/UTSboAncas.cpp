@@ -21,8 +21,8 @@ TEST_F(SboAncasTestCase, TEST_test_case_STARLINK5447_UNICORN2N)
     getSboAncasData();
     int size = m_SimpleDataGeneration.m_numberOfPoints;
     data = m_SimpleDataGeneration.m_pointsDataANCAS;
-    m_SGP4SinglePointGenerator.init(elsetrec1, elsetrec2, startTime1Min, startTime2Min);
-    sboAncas.init(&m_SGP4SinglePointGenerator, TOLd, TOLt);
+    m_SGP4SinglePointGenerator.Init(elsetrec1, elsetrec2, startTime1Min, startTime2Min);
+    sboAncas.Init(&m_SGP4SinglePointGenerator, TOLd, TOLt);
 
     //run Sbo Ancas
     if (size == -1)
@@ -34,7 +34,7 @@ TEST_F(SboAncasTestCase, TEST_test_case_STARLINK5447_UNICORN2N)
 
     if (data != nullptr)
     {
-        TCA tca = sboAncas.runAlgorithm(data, size);
+        TCA tca = sboAncas.RunAlgorithm(data, size);
         //calculateWithSmallTimestep(tca.time);
 
         EXPECT_TRUE(TestUtils::CompareValues(tca.distance, expectedResultsDistance, TOLd));
@@ -110,7 +110,7 @@ TEST_F(SboAncasWorstCaseTest, TEST_alg_worst_case)
         int size = 4;
         TcaCalculation::sPointData testData[4] = { 0 };
 
-        sboAncas.init(&worstCasePropogator, TOLd, TOLt);
+        sboAncas.Init(&worstCasePropogator, TOLd, TOLt);
 
         for (t_distance = 0.01; t_distance < 1000; t_distance *= 10)
         {
@@ -123,7 +123,7 @@ TEST_F(SboAncasWorstCaseTest, TEST_alg_worst_case)
             sboAncas.iterations = 0;
 
             timer.startTimer();
-            results.tca = sboAncas.runAlgorithm(testData, size);
+            results.tca = sboAncas.RunAlgorithm(testData, size);
             timer.stopTimer();
 
 

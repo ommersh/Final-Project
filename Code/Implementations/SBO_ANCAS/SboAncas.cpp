@@ -2,7 +2,7 @@
 
 
 
-void SboAncas::init(ISinglePointPropogator* propogator,double TOLd,double TOLt)
+void SboAncas::Init(ISinglePointPropogator* propogator,double TOLd,double TOLt)
 {
 	m_propogator = propogator;
 	m_TOLd = TOLd;
@@ -26,7 +26,7 @@ void SboAncas::init(ISinglePointPropogator* propogator,double TOLd,double TOLt)
 /// <returns>
 /// TCA, time of closest approach and the corresponding distance
 /// </returns>
-TCA SboAncas::runAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
+TCA SboAncas::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
 	TCA tca;
 	TCA iterationTca;

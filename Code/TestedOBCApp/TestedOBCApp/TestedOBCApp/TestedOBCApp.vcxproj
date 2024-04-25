@@ -179,6 +179,7 @@
     <ClInclude Include="..\..\..\Common\DataGeneration\FullCatalogTestDataGeneration.h" />
     <ClInclude Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.h" />
     <ClInclude Include="..\..\..\Common\Enums\AlgorithmEnum.h" />
+    <ClInclude Include="..\..\..\Common\Logger\EventLogger.h" />
     <ClInclude Include="..\..\..\Common\Logger\ResultsLogger.h" />
     <ClInclude Include="..\..\..\Common\TestRecipe.h" />
     <ClInclude Include="..\..\..\Common\Utils\SafeQueue.h" />

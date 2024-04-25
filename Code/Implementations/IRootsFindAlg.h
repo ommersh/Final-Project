@@ -16,8 +16,8 @@ public:
 	/// <param name="degree">the polynomial degree</param>
 	/// <param name="roots">array for the results, with size = degree</param>
 	/// <returns>the number of real roots found</returns>
-	virtual int findRoots(double* coefficients, int degree, double* roots) = 0;
-	virtual void init(int degrre) = 0;
+	virtual int FindRoots(double* coefficients, int degree, double* roots) = 0;
+	virtual void Init(int degrre) = 0;
 
 };
 #endif //SHIELD_IRootsFindAlg_H

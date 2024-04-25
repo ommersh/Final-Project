@@ -20,14 +20,14 @@ public:
     /// Initialize the comm manager, with the given comm channel
     /// </summary>
     /// <param name="commChannel"></param>
-    void init(ICommChannel* commChannel);
+    void Init(ICommChannel* commChannel);
     /// <summary>
     /// Get the next message from the comm channel
     /// If a message exist, read the message, parse and save it
     /// Return  true if a full message was found
     /// </summary>
     /// <returns>True if a full message was found</returns>
-    bool getNextMessage();
+    bool GetNextMessage();
     /// <summary>
     /// Send a test request message to the testedOBCApp
     /// Return true if the message sent successfully 
@@ -35,17 +35,17 @@ public:
     /// <param name="recipe">The test recipe</param>
     /// <param name="testData">The test data</param>
     /// <returns>True if the message sent successfully</returns>
-    bool sendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData);
+    bool SendMessage(const TestRecipe& recipe, TcaCalculation::sPointData* testData);
     /// <summary>
     /// Get the last received test results from the testedOBCApp
     /// </summary>
     /// <returns></returns>
-    TestResults::TestResult getLastReceivedTestResult();
+    TestResults::TestResult GetLastReceivedTestResult();
     /// <summary>
     /// Return true if the last getNextMessage call failed because of crc error
     /// </summary>
     /// <returns></returns>
-    bool getIsCrcError();
+    bool GetIsCrcError();
 private:
     ICommChannel* m_commChannel;
     MessagesDefinitions::TestResultsMessage m_lastReceivedResultsMessage;
@@ -57,7 +57,7 @@ private:
     /// <param name="buffer"></param>
     /// <param name="size"></param>
     /// <returns></returns>
-    bool sendMessageInchunks(unsigned char* buffer, unsigned int size);
+    bool SendMessageInchunks(unsigned char* buffer, unsigned int size);
 };
 
 #endif // COMM_MANAGER_H

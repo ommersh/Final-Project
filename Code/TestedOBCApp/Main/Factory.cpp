@@ -1,4 +1,5 @@
 #include "Factory.h"
+#include "EventLogger.h"
 
 Factory* Factory::m_reference = nullptr; // Define the static member variable
 
@@ -15,7 +16,7 @@ Factory::Factory() :
 	m_commChannel(nullptr)
 {
 
-	m_configManager.init("TestedObcAppSettings.INI");
+	m_configManager.Init("TestedObcAppSettings.INI");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +48,7 @@ Factory::~Factory()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-Factory* Factory::getReference()
+Factory* Factory::GetReference()
 {
 	if (nullptr == m_reference)
 	{
@@ -65,11 +66,11 @@ Factory* Factory::getReference()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-ITimer* Factory::getTimer()
+ITimer* Factory::GetTimer()
 {
 	if (nullptr == m_timer)
 	{
-		switch (m_configManager.getTimerType())
+		switch (m_configManager.GetTimerType())
 		{
 		default:
 		case AppConfiguration::TimerType::ChronoTimer:
@@ -80,26 +81,27 @@ ITimer* Factory::getTimer()
 	return m_timer;
 }
 
-ICommChannel* Factory::getCommChannel()
+ICommChannel* Factory::GetCommChannel()
 {
 	if (nullptr == m_commChannel)
 	{
-		switch (m_configManager.getCommChannelType())
+		switch (m_configManager.GetCommChannelType())
 		{
 		default:
 		case AppConfiguration::CommChannelType::LocalSimulation:
 		{
 			TestedOBCLocalSimulation* localSimulationCommChannel = new TestedOBCLocalSimulation();
-			localSimulationCommChannel->init("gpCatalog.txt");
+			localSimulationCommChannel->Init("gpCatalog.txt");
 			m_commChannel = localSimulationCommChannel;
 		}
 		break;
 		case AppConfiguration::CommChannelType::Tcp:
 		{
 			TCPClient* TcpCommChannel = new TCPClient();
-			if (false == TcpCommChannel->init(m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
+			if (false == TcpCommChannel->Init(m_configManager.GetDestIpAddress(), m_configManager.GetDestPort()))
 			{
 				std::cerr << "Failed to create/open the socket" << std::endl;
+				EventLogger::getInstance().log("Failed to create/open the socket", "Factory");
 			}
 			m_commChannel = TcpCommChannel;
 		}
@@ -108,9 +110,10 @@ ICommChannel* Factory::getCommChannel()
 		case AppConfiguration::CommChannelType::WinUdp:
 		{
 			WinTUdpCommChannel* winTcpCommChannel = new WinTUdpCommChannel();
-			if (false == winTcpCommChannel->init(m_configManager.getLocalIpAddress(), m_configManager.getSourcePort(), m_configManager.getDestIpAddress(), m_configManager.getDestPort()))
+			if (false == winTcpCommChannel->Init(m_configManager.GetLocalIpAddress(), m_configManager.GetSourcePort(), m_configManager.GetDestIpAddress(), m_configManager.GetDestPort()))
 			{
 				std::cerr << "Failed to create/open the socket" << std::endl;
+				EventLogger::getInstance().log("Failed to create/open the socket", "Factory");
 			}
 			m_commChannel = winTcpCommChannel;
 		}
@@ -130,7 +133,7 @@ ICommChannel* Factory::getCommChannel()
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-IRootsFindAlg* Factory::getRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, int degree)
+IRootsFindAlg* Factory::GetRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, int degree)
 {
 	IRootsFindAlg* rootsFindAlg = nullptr;
 	switch (algType)
@@ -154,9 +157,9 @@ IRootsFindAlg* Factory::getRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, 
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-CATCH* Factory::getCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree)
+CATCH* Factory::GetCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree)
 {
-	m_catch.init(getRootsFindAlg(algType, degree), degree);
+	m_catch.Init(GetRootsFindAlg(algType, degree), degree);
 	return &m_catch;
 }
 
@@ -168,30 +171,30 @@ CATCH* Factory::getCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree)
 //		
 // 
 //////////////////////////////////////////////////////////////////////////////////////////////
-ANCAS* Factory::getANCAS()
+ANCAS* Factory::GetANCAS()
 {
 	return &m_ancas;
 }
 
-SboAncas* Factory::getSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt)
+SboAncas* Factory::GetSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt)
 {
-	m_sboAncas.init(getSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
+	m_sboAncas.Init(GetSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
 	return &m_sboAncas;
 }
 
-ISinglePointPropogator* Factory::getSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2)
+ISinglePointPropogator* Factory::GetSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2)
 {
-	m_SGP4SinglePointGenerator.init(elsetrec1, elsetrec2, startTime1, startTime2);
+	m_SGP4SinglePointGenerator.Init(elsetrec1, elsetrec2, startTime1, startTime2);
 	return &m_SGP4SinglePointGenerator;
 }
 
-ResultsLogger* Factory::getResultsLogger()
+ResultsLogger* Factory::GetResultsLogger()
 {
 	return &m_resultsLogger;
 
 }
 
-AppConfigurationManager* Factory::getConfigurationManager()
+AppConfigurationManager* Factory::GetConfigurationManager()
 {
 	return &m_configManager;
 }

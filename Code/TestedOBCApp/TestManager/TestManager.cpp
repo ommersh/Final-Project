@@ -41,19 +41,19 @@ TestResults::TestResult TestManager::runTest(TestRecipe params, TcaCalculation::
 	{
 	default:
 	case AlgorithmsEnums::Algorithm::ANCAS:
-		Algoritm = Factory::getReference()->getANCAS();
+		Algoritm = Factory::GetReference()->GetANCAS();
 		break;
 	case AlgorithmsEnums::Algorithm::CATCH:
-		Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.catchPolynomialDegree);
+		Algoritm = Factory::GetReference()->GetCATCH(params.catchRootsAlg, params.catchPolynomialDegree);
 		break;
 	case AlgorithmsEnums::Algorithm::SBO_ANCAS:
-		Algoritm = Factory::getReference()->getSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
+		Algoritm = Factory::GetReference()->GetSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
 		break;
 	}
 
 	m_timer->startTimer();
 
-	results.tca = Algoritm->runAlgorithm(pointsData, params.numberOfPoints - 1);
+	results.tca = Algoritm->RunAlgorithm(pointsData, params.numberOfPoints - 1);
 
 	m_timer->stopTimer();
 
@@ -70,18 +70,18 @@ TestResults::TestResult TestManager::runTest(TestRecipe params, TcaCalculation::
 		{
 		default:
 		case AlgorithmsEnums::Algorithm::ANCAS:
-			Algoritm = Factory::getReference()->getANCAS();
+			Algoritm = Factory::GetReference()->GetANCAS();
 			break;
 		case AlgorithmsEnums::Algorithm::CATCH:
-			Algoritm = Factory::getReference()->getCATCH(params.catchRootsAlg, params.catchPolynomialDegree);
+			Algoritm = Factory::GetReference()->GetCATCH(params.catchRootsAlg, params.catchPolynomialDegree);
 			break;
 		case AlgorithmsEnums::Algorithm::SBO_ANCAS:
-			Algoritm = Factory::getReference()->getSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
+			Algoritm = Factory::GetReference()->GetSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
 			break;
 		}
 		m_timer->startTimer();
 
-		tca = Algoritm->runAlgorithm(pointsData, params.numberOfPoints);
+		tca = Algoritm->RunAlgorithm(pointsData, params.numberOfPoints);
 
 		m_timer->stopTimer();
 

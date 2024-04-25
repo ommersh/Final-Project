@@ -109,19 +109,19 @@ void TestingStationLocalSimCommChannel::runTest()
 		Algoritm = &algAncas;
 		break;
 	case AlgorithmsEnums::Algorithm::CATCH:
-		algCatch.init(&companionMatrixRootsFinderEigen, m_testRecipe.catchPolynomialDegree);
+		algCatch.Init(&companionMatrixRootsFinderEigen, m_testRecipe.catchPolynomialDegree);
 		Algoritm = &algCatch;
 		break;
 	case AlgorithmsEnums::Algorithm::SBO_ANCAS:
-		singlePointGenerator.init(m_testRecipe.elsetrec1, m_testRecipe.elsetrec2, m_testRecipe.startTime1Min, m_testRecipe.startTime2Min);
-		algSboAncas.init(&singlePointGenerator, m_testRecipe.TOLd, m_testRecipe.TOLt);
+		singlePointGenerator.Init(m_testRecipe.elsetrec1, m_testRecipe.elsetrec2, m_testRecipe.startTime1Min, m_testRecipe.startTime2Min);
+		algSboAncas.Init(&singlePointGenerator, m_testRecipe.TOLd, m_testRecipe.TOLt);
 		Algoritm = &algSboAncas;
 		break;
 	}
 
 	startTimer();
 
-	m_resultsMessage.results.tca = Algoritm->runAlgorithm(m_pointsData, m_testRecipe.numberOfPoints - 1);
+	m_resultsMessage.results.tca = Algoritm->RunAlgorithm(m_pointsData, m_testRecipe.numberOfPoints - 1);
 
 	stopTimer();
 
@@ -142,18 +142,18 @@ void TestingStationLocalSimCommChannel::runTest()
 			Algoritm = &algAncas;
 			break;
 		case AlgorithmsEnums::Algorithm::CATCH:
-			algCatch.init(&companionMatrixRootsFinderEigen, m_testRecipe.catchPolynomialDegree);
+			algCatch.Init(&companionMatrixRootsFinderEigen, m_testRecipe.catchPolynomialDegree);
 			Algoritm = &algCatch;
 			break;
 		case AlgorithmsEnums::Algorithm::SBO_ANCAS:
-			singlePointGenerator.init(m_testRecipe.elsetrec1, m_testRecipe.elsetrec2, m_testRecipe.startTime1Min, m_testRecipe.startTime2Min);
-			algSboAncas.init(&singlePointGenerator, m_testRecipe.TOLd, m_testRecipe.TOLt);
+			singlePointGenerator.Init(m_testRecipe.elsetrec1, m_testRecipe.elsetrec2, m_testRecipe.startTime1Min, m_testRecipe.startTime2Min);
+			algSboAncas.Init(&singlePointGenerator, m_testRecipe.TOLd, m_testRecipe.TOLt);
 			Algoritm = &algSboAncas;
 			break;
 		}
 		startTimer();
 
-		tca = Algoritm->runAlgorithm(m_pointsData, m_testRecipe.numberOfPoints - 1);
+		tca = Algoritm->RunAlgorithm(m_pointsData, m_testRecipe.numberOfPoints - 1);
 
 		stopTimer();
 

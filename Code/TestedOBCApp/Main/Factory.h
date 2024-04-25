@@ -45,40 +45,40 @@ public:
 	/// Get a reference to the single instance of the factory
 	/// </summary>
 	/// <returns></returns>
-	static Factory* getReference();
+	static Factory* GetReference();
 	~Factory();
 	/// <summary>
 	/// Get the timer, for timing tests.
 	/// </summary>
 	/// <returns></returns>
-	ITimer*			getTimer();
+	ITimer*			GetTimer();
 	/// <summary>
 	/// Get appropriate IRootsFindAlg object based on the requested type;
 	/// </summary>
 	/// <param name="algType"></param>
 	/// <param name="degree"></param>
 	/// <returns></returns>
-	IRootsFindAlg*	getRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, int degree);
+	IRootsFindAlg*	GetRootsFindAlg(AlgorithmsEnums::CatchRootsAlg algType, int degree);
 	/// <summary>
 	/// Get Catch object initialize to the requested degree and root finding algorithm.
 	/// </summary>
 	/// <param name="algType"></param>
 	/// <param name="degree"></param>
 	/// <returns></returns>
-	CATCH*			getCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree);
+	CATCH*			GetCATCH(AlgorithmsEnums::CatchRootsAlg algType, int degree);
 	/// <summary>
 	/// Get Ancas object, should be initialized.
 	/// </summary>
 	/// <returns></returns>
-	ANCAS*			getANCAS();
+	ANCAS*			GetANCAS();
 
-	SboAncas*		getSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt);
+	SboAncas*		GetSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt);
 
-	ISinglePointPropogator* getSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2);
-	ResultsLogger* getResultsLogger();
-	AppConfigurationManager* getConfigurationManager();
+	ISinglePointPropogator* GetSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2);
+	ResultsLogger* GetResultsLogger();
+	AppConfigurationManager* GetConfigurationManager();
 
-	ICommChannel* getCommChannel();
+	ICommChannel* GetCommChannel();
 private:
 	static Factory* m_reference;
 	Factory();

@@ -41,15 +41,15 @@ public:
 
     void _initParser(unsigned char opcode[MessagesDefinitions::OPCODE_SIZE])
     {
-        initParser(opcode);
+        InitParser(opcode);
     }
     bool _parseBuffer(unsigned char* buffer, int size)
     {
-        return parseBuffer(buffer, size);
+        return ParseBuffer(buffer, size);
     }
     void _resetParser()
     {
-        resetParser();
+        ResetParser();
     }
     unsigned char* getTheResultBuffer(unsigned int* bufferSize)
     {

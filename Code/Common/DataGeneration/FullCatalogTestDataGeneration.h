@@ -36,7 +36,7 @@ private:
     DataGenerator m_dataGenerator;
     SimpleDataGeneration m_simpleDataGeneration;
 public:
-    bool init(const std::string& filePath);
+    bool Init(const std::string& filePath);
 
     void getNextTestData(sFileData& fileData, TestRecipe& TestRecipe);
     void handleTestResults(TestResults::TestResult results);

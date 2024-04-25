@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [Released]
+### version 1.0.7
+#### Changed 25/04/2024
+- Renamed functions
+- Added Events Logger
 ### version 1.0.6
 #### Changed 24/04/2024
 - Fixed missing crc in Local Sim

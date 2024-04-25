@@ -259,5 +259,8 @@
     <ClInclude Include="..\..\..\Common\Utils\Utilities.h">
       <Filter>Common\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Logger\EventLogger.h">
+      <Filter>Common\Logger</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
