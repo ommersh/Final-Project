@@ -5,6 +5,32 @@ project(TestedOBCApp)
 set(CMAKE_CXX_STANDARD 17) # Adjust the C++ standard as needed
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+# Set a variable to the path of your version file
+set(VERSION_HEADER "${CMAKE_SOURCE_DIR}/../Main/Version.h")
+message("Version header path: ${VERSION_HEADER}")
+
+function(parse_version_component VARIABLE COMPONENT)
+    file(STRINGS ${VERSION_HEADER} VERSION_LINES REGEX "static const int ${COMPONENT} = [0-9]+;")
+    if(VERSION_LINES)
+        string(REGEX REPLACE ".*static const int ${COMPONENT} = ([0-9]+).*" "\\1" ${VARIABLE} "${VERSION_LINES}")
+        set(${VARIABLE} ${${VARIABLE}} PARENT_SCOPE)  # Ensure variable is set in parent scope
+        message("Parsed ${COMPONENT}: ${${VARIABLE}}")
+    else()
+        message(WARNING "No line found for ${COMPONENT} in ${VERSION_HEADER}")
+    endif()
+endfunction()
+
+
+# Parse each version component
+parse_version_component(MAJOR_VERSION "VERSION_MAJOR")
+parse_version_component(MINOR_VERSION "VERSION_MINOR")
+parse_version_component(PATCH_VERSION "VERSION_PATCH")
+
+# Combine version components into a full version string
+set(TESTEDOBCAPP_VERSION "${MAJOR_VERSION}_${MINOR_VERSION}_${PATCH_VERSION}")
+message("Configuring build for TestedOBCApp version ${TESTEDOBCAPP_VERSION}")
+
 # Add include directories
 include_directories(
                     ../CommManager
@@ -66,6 +92,8 @@ add_executable(${PROJECT_NAME}
 
                 ../../Common/Logger/ResultsLogger.cpp
                 )
+
+set_target_properties(TestedOBCApp PROPERTIES OUTPUT_NAME "TestedOBCApp_v_${TESTEDOBCAPP_VERSION}")
 
 
 
