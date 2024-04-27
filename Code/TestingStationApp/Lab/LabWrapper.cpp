@@ -22,7 +22,11 @@ namespace LabWrap {
         { 
             TestInfo testInfo = lab->GetTestInfo(testId);
             UserTestData userData;
+            //Test identifiers 
+            userData.testID = testInfo.recipe.testID;
             strncpy_s(userData.testName, testInfo.recipe.testName, MAX_TEST_NAME_SIZE);
+            //Test Data
+            //For runnig a test
             userData.catchPolynomialDegree = testInfo.recipe.catchPolynomialDegree;
             userData.numberOfPointsPerSegment = testInfo.recipe.numberOfPointsPerSegment;
             userData.catchRootsAlg = testInfo.recipe.catchRootsAlg;
@@ -32,7 +36,20 @@ namespace LabWrap {
             userData.timeIntervalSizeSec = testInfo.recipe.timeIntervalSizeSec;
             userData.TOLdKM = testInfo.recipe.TOLd;
             userData.TOLtSec = testInfo.recipe.TOLt;
-            userData.testID = testInfo.recipe.testID;
+            //For displaying the info
+            //userData.julianDate = 0;
+            userData.initialNumberOfPoints = testInfo.recipe.numberOfPoints;
+            userData.segmentSizeSec = testInfo.recipe.segmentSizeSec;
+            userData.format = testInfo.format;
+            //Test Results
+            //The results and run time of the first run
+            userData.timeOfTcaFromStartingPointSec = testInfo.timeOfTcaFromStartingPointSec;
+            userData.distanceOfTcaKM = testInfo.distanceOfTcaKM;
+            userData.numberOfPointsTheAlgUsed = testInfo.numberOfPointsTheAlgUsed;
+            userData.runTimeMicro = testInfo.runTimeMicro;
+            userData.avgRunTimeMicro = testInfo.avgRunTimeMicro;
+            userData.minRunTimeMicro = testInfo.minRunTimeMicro;
+
             return userData;
         }
 

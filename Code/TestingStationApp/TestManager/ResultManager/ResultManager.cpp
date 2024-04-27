@@ -1,5 +1,33 @@
 #include "ResultManager.h"
 #include <iomanip>
+#include "Lab.h"
+
+
+void ResultManager::UpdateTestResult(TestResults::TestResult results) {
+	printTestResults(results);
+	TestInfo testInfo = { 0 };
+	//The updateTestResults only use the test results values, the test ID and the test status
+	testInfo.recipe.testID = results.testID;
+	//the results values
+	//The results and run time of the first run
+	testInfo.timeOfTcaFromStartingPointSec = results.tca.time;
+	testInfo.distanceOfTcaKM = results.tca.distance;
+	testInfo.numberOfPointsTheAlgUsed = results.tca.numberOfPoints;
+	testInfo.runTimeMicro = results.runTimeMicro;
+
+	//Repeated tests results - the iterations
+	testInfo.avgRunTimeMicro = results.avgTimeMicro;
+	testInfo.minRunTimeMicro = results.minTimeMicro;
+
+	testInfo.status = TestStatus::Completed;
+
+	Lab::GetInstance().updateTestResults(testInfo);
+}
+
+void ResultManager::FillResults()//Fill the results in FullTestData
+{
+
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////

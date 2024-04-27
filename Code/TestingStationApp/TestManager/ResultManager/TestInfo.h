@@ -12,13 +12,22 @@ struct TestInfo {
     TestStatus status;
     TestRecipe recipe;
 
-    //STRUCT TCA exist
+    //Real Results
     double realTCA;
     double realDistance;
-    //struct testResult
-    double distance;
-    double TCA;
-    double runTime;
+
+    //Test Results
+    //The results and run time of the first run
+    double timeOfTcaFromStartingPointSec;
+    double distanceOfTcaKM;
+    int numberOfPointsTheAlgUsed;
+    double runTimeMicro;
+
+    //Repeated tests results - the iterations
+    double avgRunTimeMicro;
+    double minRunTimeMicro;
+
+
     SatelliteDataFormat format;
     char firstElemData[180]; //send elstrac
     char secondElemData[180];

@@ -21,6 +21,10 @@ public:
     TestInfo getTestInfo(int testId);
     std::set<int> getAllTestIds();
 
+    //Handle Test State Change and Test Results
+    bool updateTestResults(const TestInfo test);
+    bool updateTestStatus(const TestStatus status,const unsigned int testId);
+
 private:
     sqlite3* db;
 

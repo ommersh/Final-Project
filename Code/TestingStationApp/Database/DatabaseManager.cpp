@@ -26,21 +26,25 @@ bool DatabaseManager::createTables() {
 
     // Create table
     std::string createTestInfoTableSql = "CREATE TABLE IF NOT EXISTS TestInfo ("
-        "testId INTEGER PRIMARY KEY,"
-        "name TEXT,"
-        "format INTEGER,"
-        "timeInterval REAL,"
-        "iterations INTEGER,"
-        "alg INTEGER,"
-        "catchPolynomDeg INTEGER,"
-        "numOfTimePoints INTEGER,"
-        "realTCA REAL,"
-        "realDistance REAL,"
-        "distance REAL,"
-        "TCA REAL,"
-        "runTime REAL,"
-        "status INTEGER,"
-        "description TEXT"
+        "testId INTEGER PRIMARY KEY,"           //0
+        "name TEXT,"                            //1
+        "format INTEGER,"                       //2
+        "timeInterval REAL,"                    //3
+        "iterations INTEGER,"                   //4
+        "alg INTEGER,"                          //5
+        "catchPolynomDeg INTEGER,"              //6
+        "numberOfPointsPerSegment INTEGER,"     //7
+        "numOfTimePoints INTEGER,"              //8
+        "realTCA REAL,"                         //9
+        "realDistance REAL,"                    //10
+        "timeOfTcaFromStartingPointSec REAL, "  //11
+        "distanceOfTcaKM REAL, "                //12
+        "numberOfPointsTheAlgUsed INTEGER,"     //13
+        "runTimeMicro REAL, "                   //14
+        "avgRunTimeMicro REAL, "                //15
+        "minRunTimeMicro REAL, "                //16
+        "status INTEGER,"                       //17
+        "description TEXT"                      //18
         ");";
     success &= executeSql(createTestInfoTableSql);
 
@@ -117,8 +121,9 @@ bool DatabaseManager::tablesExist() {
 }
 
 bool DatabaseManager::createTest(TestInfo& test) {
-    std::string sql = "INSERT INTO TestInfo (name, format, timeInterval, iterations, alg, catchPolynomDeg, numOfTimePoints, realTCA, realDistance, distance, TCA, runTime, status) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    //                                         1      2         3           4         5         6                       7                     8          9           10                  11                       12                 13                     14                15            16           17
+    std::string sql = "INSERT INTO TestInfo (name, format, timeInterval, iterations, alg, catchPolynomDeg, numberOfPointsPerSegment, numOfTimePoints, realTCA, realDistance, timeOfTcaFromStartingPointSec, distanceOfTcaKM, numberOfPointsTheAlgUsed, runTimeMicro, avgRunTimeMicro, minRunTimeMicro, status) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     // Prepare statement 
     sqlite3_stmt* stmt;
@@ -134,13 +139,17 @@ bool DatabaseManager::createTest(TestInfo& test) {
     sqlite3_bind_int(stmt, 4, test.recipe.numberOfIterations);
     sqlite3_bind_int(stmt, 5, static_cast<int>(test.recipe.testedAlgorithm));
     sqlite3_bind_int(stmt, 6, test.recipe.catchPolynomialDegree);
-    sqlite3_bind_int(stmt, 7, test.recipe.numberOfPoints);
-    sqlite3_bind_double(stmt, 8, test.realTCA);
-    sqlite3_bind_double(stmt, 9, test.realDistance);
-    sqlite3_bind_double(stmt, 10, test.distance);
-    sqlite3_bind_double(stmt, 11, test.TCA);
-    sqlite3_bind_double(stmt, 12, test.runTime);
-    sqlite3_bind_int(stmt, 13, static_cast<int>(test.status));
+    sqlite3_bind_int(stmt, 7, test.recipe.numberOfPointsPerSegment);
+    sqlite3_bind_int(stmt, 8, test.recipe.numberOfPoints);
+    sqlite3_bind_double(stmt, 9, test.realTCA);
+    sqlite3_bind_double(stmt, 10, test.realDistance);
+    sqlite3_bind_double(stmt, 11, test.timeOfTcaFromStartingPointSec);
+    sqlite3_bind_double(stmt, 12, test.distanceOfTcaKM);
+    sqlite3_bind_int(stmt, 13, test.numberOfPointsTheAlgUsed);
+    sqlite3_bind_double(stmt, 14, test.runTimeMicro);
+    sqlite3_bind_double(stmt, 15, test.avgRunTimeMicro);
+    sqlite3_bind_double(stmt, 16, test.minRunTimeMicro);
+    sqlite3_bind_int(stmt, 17, static_cast<int>(test.status));
 
     // Execute the statement
     rc = sqlite3_step(stmt);
@@ -166,12 +175,16 @@ bool DatabaseManager::editTest(const TestInfo& test) {
         "iterations = ?, "
         "alg = ?, "
         "catchPolynomDeg = ?, "
+        "numberOfPointsPerSegment = ?, "
         "numOfTimePoints = ?, "
         "realTCA = ?, "
         "realDistance = ?, "
-        "distance = ?, "
-        "TCA = ?, "
-        "runTime = ?, "
+        "timeOfTcaFromStartingPointSec = ?, "
+        "distanceOfTcaKM = ?, "
+        "numberOfPointsTheAlgUsed = ?, "
+        "runTimeMicro = ?, "
+        "avgRunTimeMicro = ?, "
+        "minRunTimeMicro = ?, "
         "status = ? "
         "WHERE testId = ?;";
 
@@ -189,14 +202,18 @@ bool DatabaseManager::editTest(const TestInfo& test) {
     sqlite3_bind_int(stmt, 4, test.recipe.numberOfIterations);
     sqlite3_bind_int(stmt, 5, static_cast<int>(test.recipe.testedAlgorithm));
     sqlite3_bind_int(stmt, 6, test.recipe.catchPolynomialDegree);
-    sqlite3_bind_int(stmt, 7, test.recipe.numberOfPoints);
-    sqlite3_bind_double(stmt, 8, test.realTCA);
-    sqlite3_bind_double(stmt, 9, test.realDistance);
-    sqlite3_bind_double(stmt, 10, test.distance);
-    sqlite3_bind_double(stmt, 11, test.TCA);
-    sqlite3_bind_double(stmt, 12, test.runTime);
-    sqlite3_bind_int(stmt, 13, static_cast<int>(test.status));
-    sqlite3_bind_int(stmt, 14, test.recipe.testID);
+    sqlite3_bind_int(stmt, 7, test.recipe.numberOfPointsPerSegment);
+    sqlite3_bind_int(stmt, 8, test.recipe.numberOfPoints);
+    sqlite3_bind_double(stmt, 9, test.realTCA);
+    sqlite3_bind_double(stmt, 10, test.realDistance);
+    sqlite3_bind_double(stmt, 11, test.timeOfTcaFromStartingPointSec);
+    sqlite3_bind_double(stmt, 12, test.distanceOfTcaKM);
+    sqlite3_bind_int(stmt, 13, test.numberOfPointsTheAlgUsed);
+    sqlite3_bind_double(stmt, 14, test.runTimeMicro);
+    sqlite3_bind_double(stmt, 15, test.avgRunTimeMicro);
+    sqlite3_bind_double(stmt, 16, test.minRunTimeMicro);
+    sqlite3_bind_int(stmt, 17, static_cast<int>(test.status));
+    sqlite3_bind_int(stmt, 18, test.recipe.testID);
 
     // Execute the statement
     rc = sqlite3_step(stmt);
@@ -260,17 +277,21 @@ TestInfo DatabaseManager::getTestInfo(int testId) {
         strncpy_s(testInfo.name, reinterpret_cast<const char*>(columnData), sizeof(testInfo.name) - 1);
         testInfo.name[sizeof(testInfo.name) - 1] = '\0';
         testInfo.format = static_cast<SatelliteDataFormat>(sqlite3_column_int(stmt, 2));
-        testInfo.recipe.segmentSizeSec = sqlite3_column_double(stmt, 3);
+        testInfo.recipe.timeIntervalSizeSec = sqlite3_column_double(stmt, 3);
         testInfo.recipe.numberOfIterations = sqlite3_column_int(stmt, 4);
         testInfo.recipe.testedAlgorithm = static_cast<AlgorithmsEnums::Algorithm>(sqlite3_column_int(stmt, 5));
         testInfo.recipe.catchPolynomialDegree = sqlite3_column_int(stmt, 6); 
-        testInfo.recipe.numberOfPoints = sqlite3_column_int(stmt, 7); 
-        testInfo.realTCA = sqlite3_column_double(stmt, 8);
-        testInfo.realDistance = sqlite3_column_double(stmt, 9); 
-        testInfo.distance = sqlite3_column_double(stmt, 10);
-        testInfo.TCA = sqlite3_column_double(stmt, 11);
-        testInfo.runTime = sqlite3_column_double(stmt, 12);
-        testInfo.status = static_cast<TestStatus>(sqlite3_column_int(stmt, 13)); 
+        testInfo.recipe.numberOfPointsPerSegment = sqlite3_column_int(stmt, 7);
+        testInfo.recipe.numberOfPoints = sqlite3_column_int(stmt, 8); 
+        testInfo.realTCA = sqlite3_column_double(stmt, 9);
+        testInfo.realDistance = sqlite3_column_double(stmt, 10); 
+        testInfo.timeOfTcaFromStartingPointSec = sqlite3_column_double(stmt, 11);
+        testInfo.distanceOfTcaKM = sqlite3_column_double(stmt, 12);
+        testInfo.numberOfPointsTheAlgUsed = sqlite3_column_int(stmt, 13);
+        testInfo.runTimeMicro = sqlite3_column_double(stmt, 14);
+        testInfo.avgRunTimeMicro = sqlite3_column_double(stmt, 15);
+        testInfo.minRunTimeMicro = sqlite3_column_double(stmt, 16);
+        testInfo.status = static_cast<TestStatus>(sqlite3_column_int(stmt, 17)); 
     }
 
     // Finalize the statement
@@ -278,7 +299,6 @@ TestInfo DatabaseManager::getTestInfo(int testId) {
 
     return testInfo;
 }
-
 
 std::set<int> DatabaseManager::getAllTestIds() {
     std::set<int> testIds ;
@@ -304,4 +324,80 @@ std::set<int> DatabaseManager::getAllTestIds() {
     sqlite3_finalize(stmt);
 
     return testIds;
+}
+
+//Handle Test State Change and Test Results
+bool DatabaseManager::updateTestResults(const TestInfo test)
+{
+    std::string sql = "UPDATE TestInfo SET "
+        "realTCA = ?, "                         //1
+        "realDistance = ?, "                    //2
+        "timeOfTcaFromStartingPointSec = ?, "   //3
+        "distanceOfTcaKM = ?, "                 //4
+        "numberOfPointsTheAlgUsed = ?, "        //5
+        "runTimeMicro = ?, "                    //6
+        "avgRunTimeMicro = ?, "                 //7
+        "minRunTimeMicro = ?, "                 //8
+        "status = ? "                           //9
+        "WHERE testId = ?;";                    //10
+
+    sqlite3_stmt* stmt;
+    int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        return false;
+    }
+
+    // Bind parameters
+    sqlite3_bind_double (stmt, 1, test.realTCA);
+    sqlite3_bind_double (stmt, 2, test.realDistance);
+    sqlite3_bind_double (stmt, 3, test.timeOfTcaFromStartingPointSec);
+    sqlite3_bind_double (stmt, 4, test.distanceOfTcaKM);
+    sqlite3_bind_int    (stmt, 5, test.numberOfPointsTheAlgUsed);
+    sqlite3_bind_double (stmt, 6, test.runTimeMicro);
+    sqlite3_bind_double (stmt, 7, test.avgRunTimeMicro);
+    sqlite3_bind_double (stmt, 8, test.minRunTimeMicro);
+    sqlite3_bind_int    (stmt, 9, static_cast<int>(test.status));
+    sqlite3_bind_int    (stmt, 10, test.recipe.testID);
+
+    // Execute the statement
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        std::cerr << "Failed to update test record: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        return false;
+    }
+
+    sqlite3_finalize(stmt);
+    std::cout << "Test record updated successfully." << std::endl;
+    return true;
+}
+bool DatabaseManager::updateTestStatus(const TestStatus status, const unsigned int testId)
+{
+    std::string sql = "UPDATE TestInfo SET "
+        "status = ? "           //1
+        "WHERE testId = ?;";    //2
+
+    sqlite3_stmt* stmt;
+    int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        return false;
+    }
+
+    // Bind parameters
+    sqlite3_bind_int(stmt, 1, static_cast<int>(status));
+    sqlite3_bind_int(stmt, 2, testId);
+
+    // Execute the statement
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        std::cerr << "Failed to update test record: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        return false;
+    }
+
+    sqlite3_finalize(stmt);
+    std::cout << "Test record updated successfully." << std::endl;
+    return true;
 }

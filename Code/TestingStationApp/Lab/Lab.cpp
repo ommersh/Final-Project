@@ -65,3 +65,12 @@
     }
 
 
+    bool Lab::updateTestResults(const TestInfo test)
+    {
+        return m_databaseManager.updateTestResults(test);
+    }
+
+    bool Lab::updateTestStatus(const TestStatus status, const unsigned int testId)
+    {
+        return m_databaseManager.updateTestStatus(status, testId);
+    }

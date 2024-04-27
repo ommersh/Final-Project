@@ -10,14 +10,8 @@ using namespace std;
 class ResultManager {
 public:
 
-    void UpdateTestResult(TestResults::TestResult results) {
-        printTestResults(results);
-    }
-
-    void FillResults()//Fill the results in FullTestData
-    {
-
-    }
+    void UpdateTestResult(TestResults::TestResult results);
+    void FillResults();
 
 private:
     void printTestResults(TestResults::TestResult testResults);
