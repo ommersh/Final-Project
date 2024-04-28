@@ -38,7 +38,7 @@ int main()
         TestInfo info = { 0 };
         info.format = SatelliteDataFormat::Text;
         strcpy_s(info.recipe.testName, "STARLINK5447_UNICORN2N");
-        info.status = TestStatus::NotStarted;
+        info.status = TestStatus::Queued;
         /*
     STARLINK5447_UNICORN2N
 

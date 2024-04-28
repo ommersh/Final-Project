@@ -1,6 +1,25 @@
 #include "lab.h"
 #include "CommChannelFactory.h"
 
+/*TODO:
+Default values for tolerances - copy from main:
+    info.recipe.TOLd = 10e-9;
+    info.recipe.TOLt = 10e-5;
+Limit points for segments - 1 to 33
+fix path to relative path
+Twin factor - limit to 2, 4, 8 - combobox or slide
+Time Interval - 2 weeks
+Texts TLE - seperate to 2 lines
+Make gui BEAUTIFULLLL
+
+Hallel:
+DB - iterations: minimal time, average time, actual number of points
+add to test info fields from TestResults:
+minimal time, average time, actual number of points
+
+
+*/
+
     Lab::Lab() : m_databaseManager("Tests.db"),
         m_commManager(),
         m_resultManager(),
@@ -11,9 +30,14 @@
         m_commManager.Init(&(CommChannelFactory::GetInstance().getCommChannel(CommChannelConfig::LocalSim)));
         
         m_testManager.init(m_resultManager, m_commManager);
-        if (!m_databaseManager.createTables()) {
-            std::cerr << "Failed to create tables." << std::endl;
+
+        if (!m_databaseManager.createDatabase("Tests.db")) {
+            std::cout << "Failed to create database." << std::endl;
         }
+        if (!m_databaseManager.createTables()) {
+            std::cout << "Failed to create tables." << std::endl;
+        }
+
     }
 
     Lab::~Lab() {}
@@ -25,6 +49,7 @@
 
     TestInfo Lab::GetTestInfo(int testId) {
         TestInfo testInfo = m_databaseManager.getTestInfo(testId);
+        std::cout << "Get info Name: " << testInfo.recipe.testName << std::endl;
         return testInfo;
     }
 
@@ -41,10 +66,7 @@
         TcaCalculation::sPointData* pointsData;
 
         m_dataGenerator.GenerateTestData(testInfo, &pointsData);
-
         m_databaseManager.createTest(testInfo);
-        //todo: send test to card
-        //TODO - Via Test Manager? place the recipe in the test queue
         //The test manager should have a different thread - running an
         m_testManager.PlaceTestInQueue(recipe, pointsData, recipe.numberOfPoints);
 

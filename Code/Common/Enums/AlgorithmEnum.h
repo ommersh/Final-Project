@@ -8,8 +8,8 @@ namespace AlgorithmsEnums
     /// Which algorithm to test
     /// </summary>
     enum Algorithm {
-        CATCH,
         ANCAS,
+        CATCH,
         SBO_ANCAS
     };
 
