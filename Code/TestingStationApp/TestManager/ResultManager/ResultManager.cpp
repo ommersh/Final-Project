@@ -4,6 +4,7 @@
 
 
 void ResultManager::UpdateTestResult(TestResults::TestResult results) {
+
 	printTestResults(results);
 	TestInfo testInfo = { 0 };
 	//The updateTestResults only use the test results values, the test ID and the test status
@@ -19,14 +20,23 @@ void ResultManager::UpdateTestResult(TestResults::TestResult results) {
 	testInfo.avgRunTimeMicro = results.avgTimeMicro;
 	testInfo.minRunTimeMicro = results.minTimeMicro;
 
-	testInfo.status = TestStatus::Completed;
+	//testInfo.status = TestStatus::Completed;
 
 	Lab::GetInstance().updateTestResults(testInfo);
 }
 
-void ResultManager::FillResults()//Fill the results in FullTestData
+void ResultManager::UpdateTestRealTcaResult(TcaCalculation::TCA tca, int testID)
 {
+	TestInfo testInfo = { 0 };
+	testInfo.recipe.testID = testID;
+	testInfo.realTCA = tca.time;
+	testInfo.realDistance = tca.distance;
+	Lab::GetInstance().updateRealTca(testInfo);
+}
 
+void ResultManager::TestCompleted(int testID)
+{
+	Lab::GetInstance().updateTestStatus(TestStatus::Completed, testID);
 }
 
 

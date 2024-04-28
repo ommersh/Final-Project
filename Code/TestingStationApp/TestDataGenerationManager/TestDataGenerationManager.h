@@ -17,6 +17,7 @@ public:
     void ProcessOrbitingElement(std::string& tle, elsetrec& orbitingElement, SatelliteDataFormat format);
     void GeneratePointsByAlgorithm(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[], AlgorithmsEnums::Algorithm alg);
 
+    TcaCalculation::TCA FindTcaWithSmallTimeStepArountPoint(elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2, double stepSize, double timePoint, double segmentSizeSec);
 
 private:
     DataGenerator m_dataGenerator;

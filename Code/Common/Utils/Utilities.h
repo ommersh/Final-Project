@@ -89,4 +89,36 @@ inline unsigned int getMin(unsigned int a, unsigned int b) {
     return (a < b) ? a : b;
 }
 
+#include <map>
+class IDTracker {
+private:
+    std::map<int, int> inProgressTasks;
+
+public:
+    // Function to mark an ID as completed
+    void markInProgress(int id) {
+        if (inProgressTasks.find(id) == inProgressTasks.end()) {
+            inProgressTasks[id] = 1;
+        }
+        else {
+            inProgressTasks[id]++;
+        }
+    }
+
+    // Function to check if an ID is completed
+    bool isInProgress(int id) {
+        return inProgressTasks.find(id) != inProgressTasks.end();
+    }
+
+    void markCompleted(int id) {
+        auto it = inProgressTasks.find(id);
+        if (it != inProgressTasks.end()) {
+                inProgressTasks.erase(it);
+        }
+    }
+
+};
+
+
+
 #endif

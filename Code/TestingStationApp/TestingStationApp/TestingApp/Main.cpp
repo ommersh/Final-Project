@@ -32,7 +32,8 @@ int main()
 {
 
     Lab& lab = Lab::GetInstance();
-    while (1)
+    int i = 20;
+    while (i--)
     {
         //Initialize the data
         TestInfo info = { 0 };
@@ -64,8 +65,8 @@ int main()
         info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::ANCAS;
         //Run the test
         info.recipe.testID = lab.CreateTest(info);
-        printTestInfo(info);
-        
+        //printTestInfo(info);
+        /*
         //set the algorithm
         info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::CATCH;
         //Run the test
@@ -75,16 +76,17 @@ int main()
         info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::SBO_ANCAS;
         //Run the test
         lab.CreateTest(info);
-        
+        */
 
 
 
-        std::this_thread::sleep_for(std::chrono::seconds(4));
-        /*//check that the results was updated(hoping 2 seconds is enough!)
-        TestInfo results = { 0 };
-        results = lab.GetTestInfo(info.recipe.testID);
-        printTestInfo(results);
-
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        // 
+        //check that the results was updated(hoping 8 seconds is enough!)
+        //TestInfo results = { 0 };
+        //results = lab.GetTestInfo(info.recipe.testID);
+        //printTestInfo(results);
+        /*
         std::this_thread::sleep_for(std::chrono::seconds(2));
         //Update status
         results = { 0 };

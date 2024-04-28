@@ -20,7 +20,8 @@ void TestManager::init(ResultManager& resultsManager, CommManager& commManger)
 	m_commManger = &commManger;
 	m_keepRunnig = true;
 	m_state = eWaitingForTheNextTest;
-	m_thisThread = std::thread(&TestManager::RunTestManagerProcess, this);
+	m_testManagementThread = std::thread(&TestManager::RunTestManagerProcess, this);
+	m_realTcaCalculationsThread = std::thread(&TestManager::RunRealTcaCalculationsProcess, this);
 
 }
 
@@ -33,6 +34,7 @@ void TestManager::PlaceTestInQueue(TestRecipe recipe, TcaCalculation::sPointData
 	testInQueu.arraySize = arraySize;
 	//Add the new test to the queue
 	m_waitingTestQueue.enqueue(testInQueu);
+	m_waitingForRealTcaQueue.enqueue(testInQueu);
 }
 
 //Run forever, send test recipes and collect results
@@ -90,11 +92,29 @@ void TestManager::RunTestManagerProcess()
 					logString = "Test Results Arrived For Test - " + std::to_string(nextTest.recipe.testID);
 					EventLogger::getInstance().log(logString, "TestManager");
 
-					//delete the data
-					if (nextTest.pointsDataArray != nullptr)
-					{
-						delete[] nextTest.pointsDataArray;
-					}
+					{	// Check if the test completed
+						std::lock_guard<std::mutex> lock(m_completedIdsMutex);
+						if (m_idTracker.isInProgress(nextTest.recipe.testID))
+						{
+							// The test is completed
+							m_idTracker.markCompleted(nextTest.recipe.testID);
+							m_resultsManager->TestCompleted(nextTest.recipe.testID);
+							logString = "Test Mark As Completed - " + std::to_string(nextTest.recipe.testID);
+							EventLogger::getInstance().log(logString, "TestManager");
+							//Clear the data
+							if (nextTest.pointsDataArray != nullptr)
+							{
+								delete[] nextTest.pointsDataArray;
+								logString = "Memory Cleared For Test - " + std::to_string(nextTest.recipe.testID);
+								EventLogger::getInstance().log(logString, "TestManager");
+							}
+						}
+						else
+						{
+							m_idTracker.markInProgress(nextTest.recipe.testID);
+						}
+					}	// The lock_guard object is destroyed here, and the mutex is unlocked.
+					
 					//reset the nextTest object
 					nextTest = { 0 };
 					m_state = eWaitingForTheNextTest;
@@ -153,4 +173,70 @@ unsigned long int TestManager::getCurrentTimeInMicroseconds() {
 	auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
 
 	return microseconds;
+}
+
+#include "SboAncas.h"
+#include "SGP4SinglePointGenerator.h"
+void TestManager::RunRealTcaCalculationsProcess()
+{
+	TcaCalculation::TCA tca;
+	TestInQueue nextTest = { 0 };
+	std::string logString = "";
+	SboAncas sboAncas;
+	SGP4SinglePointGenerator propogator;
+	TestDataGenerationManager dataGenerationManager;
+	while (m_keepRunnig)
+	{
+		if (m_waitingForRealTcaQueue.isEmpty() == false)
+		{
+			if (m_waitingForRealTcaQueue.dequeue(nextTest) == true)
+			{
+				//Calculate the real tca
+				tca = { 0 };
+				//Use SBO-ANCAS for the TCA
+				propogator.Init(nextTest.recipe.elsetrec1, nextTest.recipe.elsetrec2, nextTest.recipe.startTime1Min, nextTest.recipe.startTime2Min);
+				sboAncas.Init(&propogator, nextTest.recipe.TOLd * 0.1, nextTest.recipe.TOLt * 0.1);
+				tca = sboAncas.RunAlgorithm(nextTest.pointsDataArray, nextTest.recipe.numberOfPoints);
+
+				//Use Small time step around the TCA from SBO-ANCAS
+				tca = dataGenerationManager.FindTcaWithSmallTimeStepArountPoint(nextTest.recipe.elsetrec1, nextTest.recipe.elsetrec2,
+					nextTest.recipe.startTime1Min, nextTest.recipe.startTime2Min, nextTest.recipe.TOLt * 0.1, tca.time, 2);
+
+				logString = "Finished Calculating The Real TCA And Disntance For Test - " + std::to_string(nextTest.recipe.testID);
+				EventLogger::getInstance().log(logString, "TestManager");
+				//update the results
+				m_resultsManager->UpdateTestRealTcaResult(tca, nextTest.recipe.testID);
+
+				{	// Check if the test completed
+					std::lock_guard<std::mutex> lock(m_completedIdsMutex);
+					if (m_idTracker.isInProgress(nextTest.recipe.testID))
+					{
+						// The test is completed
+						m_idTracker.markCompleted(nextTest.recipe.testID);
+						m_resultsManager->TestCompleted(nextTest.recipe.testID);
+						logString = "Test Mark As Completed - " + std::to_string(nextTest.recipe.testID);
+						EventLogger::getInstance().log(logString, "TestManager");
+						//Clear the data
+						if (nextTest.pointsDataArray != nullptr)
+						{
+							delete[] nextTest.pointsDataArray;
+							logString = "Memory Cleared For Test - " + std::to_string(nextTest.recipe.testID);
+							EventLogger::getInstance().log(logString, "TestManager");
+						}
+					}
+					else
+					{
+						m_idTracker.markInProgress(nextTest.recipe.testID);
+					}
+				}	// The lock_guard object is destroyed here, and the mutex is unlocked.
+				nextTest = { 0 };
+			}
+		}
+		else
+		{
+			//Continue to wait for the incoming test
+			//Try sleeping for a little while! 
+			std::this_thread::sleep_for(std::chrono::milliseconds(SLEEP_TIME_MILLISEC));
+		}
+	}
 }

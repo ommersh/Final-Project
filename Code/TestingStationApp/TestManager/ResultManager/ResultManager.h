@@ -11,7 +11,8 @@ class ResultManager {
 public:
 
     void UpdateTestResult(TestResults::TestResult results);
-    void FillResults();
+    void UpdateTestRealTcaResult(TcaCalculation::TCA tca,int testID);
+    void TestCompleted(int testID);
 
 private:
     void printTestResults(TestResults::TestResult testResults);

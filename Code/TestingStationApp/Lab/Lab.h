@@ -69,6 +69,7 @@ public:
 
     //For internal App use
     bool updateTestResults(const TestInfo test);
+    bool updateRealTca(const TestInfo test);
     bool updateTestStatus(const TestStatus status, const unsigned int testId);
 private:
     Lab();

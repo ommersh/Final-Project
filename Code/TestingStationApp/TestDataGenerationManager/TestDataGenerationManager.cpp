@@ -101,3 +101,40 @@ void TestDataGenerationManager::GeneratePointsByAlgorithm(int n, double tEnd, do
     // Call the corresponding method based on the algorithm
     return (this->*methodMap[alg])(n, tEnd, gamma, elementsVectors);
 }
+
+TcaCalculation::TCA TestDataGenerationManager::FindTcaWithSmallTimeStepArountPoint(elsetrec& elsetrec1, elsetrec& elsetrec2, double& startDataElem1, double& startDataElem2, double stepSize, double timePoint, double segmentSizeSec)
+{
+    TcaCalculation::TCA tca;
+    tca.time = 0;
+    tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
+    tca.numberOfPoints = 0;
+
+    //test variables
+    double r1[3], v1[3];
+    double r2[3], v2[3];
+    double tempDistance = 0;
+    double timeInMinutes = 0;
+
+    //calculate the time of the end of the test(in seconds)
+    double testEndSec = timePoint + segmentSizeSec;
+    double currentStepSec = timePoint - segmentSizeSec;
+
+    while (currentStepSec < testEndSec)
+    {
+        //generate test data
+        timeInMinutes = currentStepSec / 60;
+        SGP4Funcs::sgp4(elsetrec1, startDataElem1 + timeInMinutes, r1, v1);
+        SGP4Funcs::sgp4(elsetrec2, startDataElem2 + timeInMinutes, r2, v2);
+        tca.numberOfPoints++;
+        tempDistance = sqrt(pow((r1[0] - r2[0]), 2) + pow((r1[1] - r2[1]), 2) + pow((r1[2] - r2[2]), 2));
+        if (tempDistance < tca.distance)
+        {
+            tca.distance = tempDistance;
+            tca.time = currentStepSec;
+        }
+
+        currentStepSec += stepSize;
+    }
+
+    return tca;
+}

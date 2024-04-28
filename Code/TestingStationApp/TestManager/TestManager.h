@@ -1,10 +1,13 @@
 #ifndef TESTMANAGER_H
 #define TESTMANAGER_H
+#include <memory>
+#include <chrono>
+#include <unordered_set>
+#include <mutex>
 #include "ResultManager.h"
 #include "CommManager.h"
 #include "SafeQueue.h"
-#include <memory>
-#include <chrono>
+#include "Utilities.h"
 
 /// <summary>
 /// Holds a test while in queue
@@ -14,6 +17,7 @@ struct TestInQueue {
     TcaCalculation::sPointData* pointsDataArray;
     int arraySize;
 };
+
 /// <summary>
 /// Test manager state for inner state machine
 /// </summary>
@@ -51,6 +55,11 @@ public:
     void RunTestManagerProcess();
 
     /// <summary>
+    /// Run forever, calculate the real tca
+    /// </summary>
+    void RunRealTcaCalculationsProcess();
+
+    /// <summary>
     /// Check if the communication seems to be active(synchoronized)
     /// </summary>
     /// <returns></returns>
@@ -72,7 +81,15 @@ private:
 
     unsigned long int getCurrentTimeInMicroseconds();
 
-    std::thread m_thisThread;
+    std::thread m_testManagementThread;
+    std::thread m_realTcaCalculationsThread;
+
+    //Real Tca Calculations
+    SafeQueue<TestInQueue> m_waitingForRealTcaQueue;  // A queue of waiting tests
+    std::mutex m_completedIdsMutex; // For Handling A Completed Test
+    IDTracker m_idTracker; // For Tracking a test that completed
+
+
 };
 
 #endif

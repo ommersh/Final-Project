@@ -26,6 +26,10 @@ bool TestingStationLocalSimCommChannel::getNextMessage(unsigned char* buffer, un
 			m_resultsMessage.header.dataSize = 0;
 			m_resultsMessage.header.crc = CRC32::calculate(reinterpret_cast<unsigned char *>(&m_resultsMessage.results), sizeof(MessagesDefinitions::TestResultsMessage) - sizeof(MessagesDefinitions::MessageHeader));
 			*size = sizeof(MessagesDefinitions::TestResultsMessage);
+			if (nullptr != m_pointsData)
+			{
+				delete[] m_pointsData;
+			}
 			memcpy(buffer, reinterpret_cast<unsigned char*>(&m_resultsMessage), *size);
 		}
 

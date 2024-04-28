@@ -330,16 +330,13 @@ std::set<int> DatabaseManager::getAllTestIds() {
 bool DatabaseManager::updateTestResults(const TestInfo test)
 {
     std::string sql = "UPDATE TestInfo SET "
-        "realTCA = ?, "                         //1
-        "realDistance = ?, "                    //2
-        "timeOfTcaFromStartingPointSec = ?, "   //3
-        "distanceOfTcaKM = ?, "                 //4
-        "numberOfPointsTheAlgUsed = ?, "        //5
-        "runTimeMicro = ?, "                    //6
-        "avgRunTimeMicro = ?, "                 //7
-        "minRunTimeMicro = ?, "                 //8
-        "status = ? "                           //9
-        "WHERE testId = ?;";                    //10
+        "timeOfTcaFromStartingPointSec = ?, "   //1
+        "distanceOfTcaKM = ?, "                 //2
+        "numberOfPointsTheAlgUsed = ?, "        //3
+        "runTimeMicro = ?, "                    //4
+        "avgRunTimeMicro = ?, "                 //5
+        "minRunTimeMicro = ? "                  //6
+        "WHERE testId = ?;";                    //7
 
     sqlite3_stmt* stmt;
     int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
@@ -349,16 +346,13 @@ bool DatabaseManager::updateTestResults(const TestInfo test)
     }
 
     // Bind parameters
-    sqlite3_bind_double (stmt, 1, test.realTCA);
-    sqlite3_bind_double (stmt, 2, test.realDistance);
-    sqlite3_bind_double (stmt, 3, test.timeOfTcaFromStartingPointSec);
-    sqlite3_bind_double (stmt, 4, test.distanceOfTcaKM);
-    sqlite3_bind_int    (stmt, 5, test.numberOfPointsTheAlgUsed);
-    sqlite3_bind_double (stmt, 6, test.runTimeMicro);
-    sqlite3_bind_double (stmt, 7, test.avgRunTimeMicro);
-    sqlite3_bind_double (stmt, 8, test.minRunTimeMicro);
-    sqlite3_bind_int    (stmt, 9, static_cast<int>(test.status));
-    sqlite3_bind_int    (stmt, 10, test.recipe.testID);
+    sqlite3_bind_double (stmt, 1, test.timeOfTcaFromStartingPointSec);
+    sqlite3_bind_double (stmt, 2, test.distanceOfTcaKM);
+    sqlite3_bind_int    (stmt, 3, test.numberOfPointsTheAlgUsed);
+    sqlite3_bind_double (stmt, 4, test.runTimeMicro);
+    sqlite3_bind_double (stmt, 5, test.avgRunTimeMicro);
+    sqlite3_bind_double (stmt, 6, test.minRunTimeMicro);
+    sqlite3_bind_int    (stmt, 7, test.recipe.testID);
 
     // Execute the statement
     rc = sqlite3_step(stmt);
@@ -372,6 +366,37 @@ bool DatabaseManager::updateTestResults(const TestInfo test)
     std::cout << "Test record updated successfully." << std::endl;
     return true;
 }
+bool DatabaseManager::updateRealTca(const TestInfo test)
+{
+    std::string sql = "UPDATE TestInfo SET "
+        "realTCA = ?, "          //1
+        "realDistance = ? "      //2
+        "WHERE testId = ?;";     //3
+    sqlite3_stmt* stmt;
+    int rc = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        return false;
+    }
+
+    // Bind parameters
+    sqlite3_bind_double(stmt, 1, test.realTCA);
+    sqlite3_bind_double(stmt, 2, test.realDistance);
+    sqlite3_bind_int(stmt, 3, test.recipe.testID);
+
+    // Execute the statement
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        std::cerr << "Failed to update test record: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        return false;
+    }
+
+    sqlite3_finalize(stmt);
+    std::cout << "Test record updated successfully." << std::endl;
+    return true;
+}
+
 bool DatabaseManager::updateTestStatus(const TestStatus status, const unsigned int testId)
 {
     std::string sql = "UPDATE TestInfo SET "
