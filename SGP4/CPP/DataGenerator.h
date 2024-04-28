@@ -14,7 +14,7 @@ public:
 		m_catchDataGenerator = CatchDataGenerator();
 	}
 	void GenearateDiffVectorFor2OrbitalElementsCSV(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, std::string& fileName, TcaCalculation::sPointData elementsVectors[], double& startTime1, double& startTime2);
-	void CalculateRelativeVectorsForTwoElements(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, TcaCalculation::sPointData elementsVectors[], double& startTime1, double& startTime2);
+	bool CalculateRelativeVectorsForTwoElements(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, TcaCalculation::sPointData elementsVectors[], double& startTime1, double& startTime2);
 	void InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& satrec);
 	void InitOrbitalElementsFromTLE(char longstr1[130], char longstr2[130], elsetrec& satrec);
 	std::string GetDataFromXmlNode(std::string xmlContent, std::string nodeName);

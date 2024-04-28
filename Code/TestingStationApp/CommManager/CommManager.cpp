@@ -1,5 +1,6 @@
 #include "CommManager.h"
 #include "Utilities.h"
+#include "EventLogger.h"
 
 CommManager::CommManager()
 {
@@ -12,6 +13,8 @@ void CommManager::Init(ICommChannel* commChannel)
 {
     m_commChannel = commChannel;
     m_crcError = false;
+    EventLogger::getInstance().log("Comm Manager Initialized", "CommManager");
+
 }
 
 TestResults::TestResult CommManager::GetLastReceivedTestResult() {
@@ -26,9 +29,14 @@ bool CommManager::GetNextMessage() {
     unsigned char buffer[sizeof(MessagesDefinitions::TestResultsMessage)];
     unsigned int size = 0;
     bool messageReceived = false;
+    std::string logString = "";
+
     m_crcError = false;
     if (m_commChannel->getNextMessage(buffer, sizeof(MessagesDefinitions::TestResultsMessage), &size))
     {
+        logString = "Received Buffer With Size " + std::to_string(size);
+        EventLogger::getInstance().log(logString, "CommManager");
+
         //check if we got the full header
         if (size >= sizeof(MessagesDefinitions::MessageHeader)) {
 
@@ -50,10 +58,14 @@ bool CommManager::GetNextMessage() {
                         //save the results message
                         memcpy(&m_lastReceivedResultsMessage, buffer, sizeof(MessagesDefinitions::TestResultsMessage));
                         messageReceived = true;
+                        logString = "Full Message Received For Test - " + std::to_string(m_lastReceivedResultsMessage.results.testID);
+                        EventLogger::getInstance().log(logString, "CommManager");
                     }
                     else
                     {
                         m_crcError = true;
+                        logString = "CRC Error!! Expected CRC: " + std::to_string(header.crc) + "Calculated CRC : " + std::to_string(crc);
+                        EventLogger::getInstance().log(logString, "CommManager");
                     }
                 }
             }
@@ -104,6 +116,8 @@ bool CommManager::SendMessage(const TestRecipe& recipe, TcaCalculation::sPointDa
         if(true == m_commChannel->sendMessage(buffer, size))
         {
             messageSentSuccessfully = true;
+            EventLogger::getInstance().log("Message Sent Successfully", "CommManager");
+
         }
         delete[] buffer;
     }

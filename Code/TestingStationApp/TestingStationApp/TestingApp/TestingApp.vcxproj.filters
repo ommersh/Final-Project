@@ -53,6 +53,12 @@
     <Filter Include="Common\Utils">
       <UniqueIdentifier>{7d1e99d6-0e69-4b6b-b9e3-0927a10a9040}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Logger">
+      <UniqueIdentifier>{c0ede42b-ba42-4709-aeea-1b67a096bf2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ExternalLibraries">
+      <UniqueIdentifier>{ddaf2747-82bc-4ab8-a5a5-b50b2ba6543a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Implementations\FileReader.cpp">
@@ -132,6 +138,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\CommChannels\TcpCommChannel.cpp">
       <Filter>Common\CommChannels</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\ini.c">
+      <Filter>ExternalLibraries</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.cpp">
+      <Filter>ExternalLibraries</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,5 +258,22 @@
     <ClInclude Include="..\..\..\Common\Utils\Utilities.h">
       <Filter>Common\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Logger\EventLogger.h">
+      <Filter>Common\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ExternalLibraries\INIH\ini.h">
+      <Filter>ExternalLibraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.h">
+      <Filter>ExternalLibraries</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Lab\AppVersion.h">
+      <Filter>Lab</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestingStationAppSettings.INI">
+      <Filter>Main</Filter>
+    </None>
   </ItemGroup>
 </Project>

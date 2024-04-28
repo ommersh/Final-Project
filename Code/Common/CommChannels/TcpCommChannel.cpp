@@ -60,6 +60,10 @@ bool TCPServer::Init(std::string serverIp, int serverPort) {
 }
 
 bool TCPServer::sendMessage(unsigned char* buffer, unsigned int size) {
+    if (INVALID_SOCKET == clientSocket)
+    {
+        return false;
+    }
     int iSendResult = send(clientSocket, (const char*)buffer, size, 0);
     if (iSendResult == SOCKET_ERROR) {
         return false;
@@ -136,11 +140,13 @@ void TCPServer::runServerService() {
                         // Somebody disconnected, get his details and print
                         std::cout << "Host disconnected, socket fd: " << sock << std::endl;
                         closesocket(sock);
+                        clientSocket = INVALID_SOCKET;
                         it = clientSockets.erase(it); // Remove from list of sockets
                     }
                     else {
                         // Save the message that came in
-                        m_receivedMessages.enqueue(receivedMessage);
+                        if (receivedMessage.size > 0 && receivedMessage.size <= MAX_MESSAGE_SIZE)
+                            m_receivedMessages.enqueue(receivedMessage);
                         ++it;
                     }
                 }

@@ -27,9 +27,9 @@ void DataGenerator::GenearateDiffVectorFor2OrbitalElementsCSV(int timePointsArrL
     saveDataInCSVFile(timePointsArrLength, fileName, elementsVectors);
 }
 
-void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, TcaCalculation::sPointData elementsVectors[], double& startTime1, double& startTime2)
+bool DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLength, elsetrec elsetrec1, elsetrec elsetrec2, TcaCalculation::sPointData elementsVectors[], double& startTime1, double& startTime2)
 {
-
+    bool dataGenerated = true;
     GetStartTimeOfOrbElem(elsetrec1, elsetrec2, startTime1, startTime2);
     //todo add starttime to recipe
 
@@ -39,8 +39,8 @@ void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLeng
     // Compute position and velocity for each time point
     for (int i = 0; i < timePointsArrLength; ++i) {
         double timeInMinutes = elementsVectors[i].time / 60;
-        SGP4Funcs::sgp4(elsetrec1, startTime1 + timeInMinutes, r1, v1);
-        SGP4Funcs::sgp4(elsetrec2, startTime2 + timeInMinutes, r2, v2);
+        dataGenerated &= SGP4Funcs::sgp4(elsetrec1, startTime1 + timeInMinutes, r1, v1);
+        dataGenerated &= SGP4Funcs::sgp4(elsetrec2, startTime2 + timeInMinutes, r2, v2);
 
         elementsVectors[i].r1x = r1[0];
         elementsVectors[i].r1y = r1[1];
@@ -55,6 +55,7 @@ void DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLeng
         elementsVectors[i].v2y = v2[1];
         elementsVectors[i].v2z = v2[2];
     }
+    return dataGenerated;
 }
 
 /// <summary>

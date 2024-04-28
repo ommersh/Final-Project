@@ -8,11 +8,13 @@
 #include <chrono>
 #include <sstream>
 #include <string>
+#include <mutex>
 
 class EventLogger {
 private:
     std::ofstream outFile;
     std::string m_fileName; // Store the file name
+    mutable std::mutex mtx;
 
     // Constructors
     EventLogger()
@@ -76,6 +78,7 @@ public:
     /// <param name="EventHolder"></param>
     void log(std::string Event, std::string EventHolder)
     {
+        std::lock_guard<std::mutex> lock(mtx);
         if (outFile.is_open()) {
             //Build the time string
             // Get the current time

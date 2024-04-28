@@ -1,7 +1,8 @@
 #ifndef SAFE_QUEUE_H
 #define SAFE_QUEUE_H
-#include <queue>
+#include <deque>
 #include <mutex>
+
 template<typename T>
 /// <summary>
 /// Implementation of a generic queue with limited access using a mutex.
@@ -9,7 +10,7 @@ template<typename T>
 /// </summary>
 class SafeQueue {
 private:
-    std::queue<T> queue;
+    std::deque<T> queue;
     mutable std::mutex mtx;
 
 public:
@@ -25,7 +26,16 @@ public:
     /// <param name="value"></param>
     void enqueue(T value) {
         std::lock_guard<std::mutex> lock(mtx);
-        queue.push(std::move(value));
+        queue.push_back(std::move(value));
+    }
+
+    /// <summary>
+    /// Return something to the top of the queue
+    /// </summary>
+    /// <param name="value"></param>
+    void returnToTopOFQueue(T value) {
+        std::lock_guard<std::mutex> lock(mtx);
+        queue.push_front(std::move(value));
     }
 
     /// <summary>
@@ -39,7 +49,7 @@ public:
             return false;
         }
         value = std::move(queue.front());
-        queue.pop();
+        queue.pop_front();
         return true;
     }
 

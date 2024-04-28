@@ -1,8 +1,8 @@
 #include "TestManager.h"
 #include <thread>
 #include <iostream>
-
-
+#include "Lab.h"
+#include "EventLogger.h"
 
 TestManager::TestManager() :
 	m_commManger(nullptr),
@@ -39,7 +39,7 @@ void TestManager::PlaceTestInQueue(TestRecipe recipe, TcaCalculation::sPointData
 void TestManager::RunTestManagerProcess()
 {
 	TestInQueue nextTest = { 0 };
-
+	std::string logString = "";
 	while (m_keepRunnig)
 	{
 		switch (m_state)
@@ -53,22 +53,21 @@ void TestManager::RunTestManagerProcess()
 					//send the data, check if the data sent successfully
 					if (m_commManger->SendMessage(nextTest.recipe, nextTest.pointsDataArray) == true)
 					{
-						//delete the data
-						if (nextTest.pointsDataArray != nullptr)
-						{
-							delete[] nextTest.pointsDataArray;
-						}
-						//reset the nextTest object
-						nextTest = { 0 };
+
 						m_state = eWaitingForTestResults;
 						m_startTime = getCurrentTimeInMicroseconds();
+						//Update the test state
+						Lab::GetInstance().updateTestStatus(TestStatus::InProgress, nextTest.recipe.testID);
+						logString = "Test Request Sent Successfully For Test - " + std::to_string(nextTest.recipe.testID);
+						EventLogger::getInstance().log(logString, "TestManager");
+
 					}
 					else
 					{
 						//we got the test data but failed to send! handle the error!
-						//std::cout << "Failed To send the following test, TestID: " << nextTest.recipe.testID << std::endl;
-						//std::cout << "Returning the test to queue" << std::endl;
-						m_waitingTestQueue.enqueue(nextTest);
+						logString = "Failed To Send The Following Test - " + std::to_string(nextTest.recipe.testID) + " Returning The Test To Queue";
+						EventLogger::getInstance().log(logString, "TestManager");
+						m_waitingTestQueue.returnToTopOFQueue(nextTest);
 					}
 				}
 			}
@@ -83,16 +82,38 @@ void TestManager::RunTestManagerProcess()
 			if (m_commManger->GetNextMessage() == true)
 			{
 				TestResults::TestResult results = m_commManger->GetLastReceivedTestResult();
-				m_resultsManager->UpdateTestResult(results);
-				m_state = eWaitingForTheNextTest;
+				//Confirm we received the correct results
+				if (results.testID == nextTest.recipe.testID)
+				{
+					m_resultsManager->UpdateTestResult(results);
+
+					logString = "Test Results Arrived For Test - " + std::to_string(nextTest.recipe.testID);
+					EventLogger::getInstance().log(logString, "TestManager");
+
+					//delete the data
+					if (nextTest.pointsDataArray != nullptr)
+					{
+						delete[] nextTest.pointsDataArray;
+					}
+					//reset the nextTest object
+					nextTest = { 0 };
+					m_state = eWaitingForTheNextTest;
+				}
+				else
+				{
+					logString = "Error!! Received Results For A Different Test! Expected Test ID - " + std::to_string(nextTest.recipe.testID)
+						+ " Received Test ID - " + std::to_string(results.testID);
+					EventLogger::getInstance().log(logString, "TestManager");
+				}
 			}
 			//Check for timeout
 			else if ((getCurrentTimeInMicroseconds() - m_startTime) >= TIME_OUT_MICROSEC)
 			{
 				//Timeout, No results arrived, handle the error!
-				std::cout << "Timeout! No results arrived for the following test, TestID: " << nextTest.recipe.testID << std::endl;
-				std::cout << "Returning the test to queue" << std::endl;
-				m_waitingTestQueue.enqueue(nextTest);
+				logString = "Timeout! No Results Arrived For The Following Test - " + std::to_string(nextTest.recipe.testID) + " Returning The Test To Queue";
+				EventLogger::getInstance().log(logString, "TestManager");
+
+				m_waitingTestQueue.returnToTopOFQueue(nextTest);
 				m_state = eWaitingForTheNextTest;
 			}
 			else {

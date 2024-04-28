@@ -1,5 +1,7 @@
 #include "lab.h"
 #include "CommChannelFactory.h"
+#include "EventLogger.h"
+#include "AppVersion.h"
 
     Lab::Lab() : m_databaseManager("Tests.db"),
         m_commManager(),
@@ -7,12 +9,22 @@
         m_dataGenerator(),
         m_testManager()
     {
+        EventLogger::getInstance().log("Lab Instance Created", "Lab");
 
-        m_commManager.Init(&(CommChannelFactory::GetInstance().getCommChannel(CommChannelConfig::LocalSim)));
-        
+        std::string versionInfo = "App Version: " +
+            std::to_string(ProjectVersions::VERSION_MAJOR) + "." +
+            std::to_string(ProjectVersions::VERSION_MINOR) + "." +
+            std::to_string(ProjectVersions::VERSION_PATCH);
+        EventLogger::getInstance().log(versionInfo, "Lab");
+
+
+        m_commManager.Init(&(CommChannelFactory::GetInstance().getCommChannel()));
+        EventLogger::getInstance().log("Comm Manager Initialized", "Lab");
+
         m_testManager.init(m_resultManager, m_commManager);
         if (!m_databaseManager.createTables()) {
             std::cerr << "Failed to create tables." << std::endl;
+            EventLogger::getInstance().log("DatabaseManager:Failed to create tables", "Lab");
         }
     }
 
@@ -33,24 +45,53 @@
     }
 
     int Lab::CreateTest(TestInfo testInfo){
+        int returnValue = -1; //return testID on success and -1 on failure
+        std::string logString = "";
         TestRecipe &recipe = testInfo.recipe;
         recipe.elsetrec1 = { 0 };
         recipe.elsetrec2 = { 0 };
 
         //Create unique pointer and don't free the memory - the test manager will delete it when needed
-        TcaCalculation::sPointData* pointsData;
+        TcaCalculation::sPointData* pointsData = nullptr;
+        logString = "Creating Test";
+        EventLogger::getInstance().log(logString, "Lab");
 
-        m_dataGenerator.GenerateTestData(testInfo, &pointsData);
+        if (true == m_dataGenerator.GenerateTestData(testInfo, &pointsData))
+        {
+            logString = "Test Data Generated";
+            EventLogger::getInstance().log(logString, "Lab");
+            if (true == m_databaseManager.createTest(testInfo))
+            {
+                //todo: send test to card
+                //TODO - Via Test Manager? place the recipe in the test queue
+                //The test manager should have a different thread - running an
+                m_testManager.PlaceTestInQueue(recipe, pointsData, recipe.numberOfPoints);
 
-        m_databaseManager.createTest(testInfo);
-        //todo: send test to card
-        //TODO - Via Test Manager? place the recipe in the test queue
-        //The test manager should have a different thread - running an
-        m_testManager.PlaceTestInQueue(recipe, pointsData, recipe.numberOfPoints);
-
-        //delete[] pointsData;
-        return testInfo.recipe.testID;
-
+                //delete[] pointsData;
+                returnValue = testInfo.recipe.testID;
+                logString = "Test Created And In Queue, Test ID " + std::to_string(testInfo.recipe.testID);
+                EventLogger::getInstance().log(logString, "Lab");
+            }
+            else
+            {
+                logString = "Failed To Save Test To DB";
+                EventLogger::getInstance().log(logString, "Lab");
+                if (nullptr != pointsData)
+                {
+                    delete[] pointsData;
+                }
+            }
+        }
+        else
+        {
+            logString = "Failed To Generate Test Data";
+            EventLogger::getInstance().log(logString, "Lab");
+            if (nullptr != pointsData)
+            {
+                delete[] pointsData;
+            }
+        }
+        return returnValue;
     }
 
     std::set<int> Lab::getAllTestIds()
