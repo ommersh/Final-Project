@@ -8,9 +8,8 @@
 
 
 struct TestInfo {
-    char name[MAX_TEST_NAME_SIZE];
-    TestStatus status;
     TestRecipe recipe;
+    TestStatus status;
 
     //Real Results
     double realTCA;

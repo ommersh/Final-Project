@@ -4,7 +4,7 @@
 
 void printTestInfo(const TestInfo& test) {
     std::cout << "ID: " << test.recipe.testID << std::endl;
-    std::cout << "Name: " << test.name << std::endl;
+    std::cout << "Name: " << test.recipe.testName << std::endl;
     std::cout << "Format: " << int(test.format) << std::endl;
     std::cout << "Time Interval: " << test.recipe.timeIntervalSizeSec << std::endl;
     std::cout << "Iterations: " << test.recipe.numberOfIterations<< std::endl;
@@ -37,7 +37,7 @@ int main()
         //Initialize the data
         TestInfo info = { 0 };
         info.format = SatelliteDataFormat::Text;
-        strcpy_s(info.name, "STARLINK5447_UNICORN2N");
+        strcpy_s(info.recipe.testName, "STARLINK5447_UNICORN2N");
         info.status = TestStatus::NotStarted;
         /*
     STARLINK5447_UNICORN2N

@@ -133,7 +133,7 @@ bool DatabaseManager::createTest(TestInfo& test) {
         return false;
     }
 
-    sqlite3_bind_text(stmt, 1, test.name, 80, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, test.recipe.testName, 80, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, static_cast<int>(test.format));
     sqlite3_bind_double(stmt, 3, test.recipe.timeIntervalSizeSec);
     sqlite3_bind_int(stmt, 4, test.recipe.numberOfIterations);
@@ -196,7 +196,7 @@ bool DatabaseManager::editTest(const TestInfo& test) {
     }
 
     // Bind parameters
-    sqlite3_bind_text(stmt, 1, test.name, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, test.recipe.testName, -1, SQLITE_STATIC);
     sqlite3_bind_int(stmt, 2, static_cast<int>(test.format));
     sqlite3_bind_double(stmt, 3, test.recipe.timeIntervalSizeSec);
     sqlite3_bind_int(stmt, 4, test.recipe.numberOfIterations);
@@ -274,8 +274,8 @@ TestInfo DatabaseManager::getTestInfo(int testId) {
     if (rc == SQLITE_ROW) {
         testInfo.recipe.testID = sqlite3_column_int(stmt, 0);
         const unsigned char* columnData = sqlite3_column_text(stmt, 1);
-        strncpy_s(testInfo.name, reinterpret_cast<const char*>(columnData), sizeof(testInfo.name) - 1);
-        testInfo.name[sizeof(testInfo.name) - 1] = '\0';
+        strncpy_s(testInfo.recipe.testName, reinterpret_cast<const char*>(columnData), sizeof(testInfo.recipe.testName) - 1);
+        testInfo.recipe.testName[sizeof(testInfo.recipe.testName) - 1] = '\0';
         testInfo.format = static_cast<SatelliteDataFormat>(sqlite3_column_int(stmt, 2));
         testInfo.recipe.timeIntervalSizeSec = sqlite3_column_double(stmt, 3);
         testInfo.recipe.numberOfIterations = sqlite3_column_int(stmt, 4);
