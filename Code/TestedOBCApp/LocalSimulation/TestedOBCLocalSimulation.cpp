@@ -400,6 +400,12 @@ void TestedOBCLocalSimulation::reset()
 	}
 }
 
+bool TestedOBCLocalSimulation::checkConnection()
+{
+	return true;
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	Function name: printResult

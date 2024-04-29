@@ -148,3 +148,8 @@ bool CommManager::SendMessageInchunks(unsigned char* buffer, unsigned int size) 
     return true;
 
 }
+
+bool CommManager::CheckConnection()
+{
+    return m_commChannel->checkConnection();
+}

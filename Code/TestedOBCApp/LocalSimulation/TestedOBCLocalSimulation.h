@@ -27,6 +27,7 @@ public:
 	bool getNextMessage(unsigned char* buffer, unsigned int maxSize, unsigned int* size) override;
 	bool sendMessage(unsigned char* buffer, unsigned int size) override;
 	void reset() override;
+	bool checkConnection() override;
 
 	/// <summary>
 	/// Internal state machine for the class.

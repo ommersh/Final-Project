@@ -91,4 +91,13 @@ bool WinTUdpCommChannel::sendMessage(unsigned char* buffer, unsigned int size) {
 }
 
 void WinTUdpCommChannel::reset()  {
+
+}
+
+bool WinTUdpCommChannel::checkConnection() {
+    if (localSocket == INVALID_SOCKET)
+    {
+        return false;
+    }
+    return true;
 }

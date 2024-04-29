@@ -34,7 +34,11 @@ public:
 	/// Reset the channel between messages
 	/// </summary>
 	virtual void reset() override;
-
+	/// <summary>
+	/// Check if we are connected successfully
+	/// </summary>
+	/// <returns></returns>
+	virtual bool checkConnection() override;
 
 private:
 	SOCKET localSocket;

@@ -32,6 +32,11 @@ int main()
 {
 
     Lab& lab = Lab::GetInstance();
+    /*
+    std::cout << "connection " << lab.CheckConnection() << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    std::cout << "connection " << lab.CheckConnection() << std::endl;
+    */
     int i = 20;
     while (i--)
     {

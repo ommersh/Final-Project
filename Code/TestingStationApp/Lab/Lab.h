@@ -67,9 +67,16 @@ public:
 
     std::set<int> getAllTestIds();
 
+    /// <summary>
+    /// Check if the Tested OBC App is connected
+    /// </summary>
+    /// <returns></returns>
+    bool CheckConnection();
     //For internal App use
     bool updateTestResults(const TestInfo test);
+    //For internal App use
     bool updateRealTca(const TestInfo test);
+    //For internal App use
     bool updateTestStatus(const TestStatus status, const unsigned int testId);
 private:
     Lab();

@@ -48,8 +48,11 @@ public:
 	/// Reset the channel between messages
 	/// </summary>
 	virtual void reset() = 0;
-
-	
+	/// <summary>
+	/// Check if we are connected successfully
+	/// </summary>
+	/// <returns></returns>
+	virtual bool checkConnection() = 0;
 protected:
 
 };

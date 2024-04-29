@@ -46,6 +46,11 @@ public:
     /// </summary>
     /// <returns></returns>
     bool GetIsCrcError();
+    /// <summary>
+    /// Chcek if the Tested OBC Is Connected
+    /// </summary>
+    /// <returns></returns>
+    bool CheckConnection();
 private:
     ICommChannel* m_commChannel;
     MessagesDefinitions::TestResultsMessage m_lastReceivedResultsMessage;

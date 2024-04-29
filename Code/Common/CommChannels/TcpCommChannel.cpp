@@ -87,7 +87,15 @@ bool TCPServer::getNextMessage(unsigned char* buffer, unsigned int maxSize, unsi
 }
 
 void TCPServer::reset() {
-    
+
+}
+
+bool TCPServer::checkConnection() {
+    if (INVALID_SOCKET == clientSocket)
+    {
+        return false;
+    }
+    return true;
 }
 
 void TCPServer::runServerService() {
@@ -286,3 +294,7 @@ bool TCPClient::connectToServer(const std::string& serverIp, int serverPort)
     return true;
 }
 #endif //WIN32
+
+bool TCPClient::checkConnection() {
+    return true;
+}

@@ -59,6 +59,11 @@ public:
     /// Reset the communication(Not the channel, for cleaning buffers and similar stuff)
     /// </summary>
     void reset();
+    /// <summary>
+    /// Check if we are connected successfully
+    /// </summary>
+    /// <returns></returns>
+    virtual bool checkConnection() override;
 private:
     /// <summary>
     /// thread running the server tasks
@@ -125,6 +130,11 @@ public:
     /// Reset the communication(Not the channel, for cleaning buffers and similar stuff)
     /// </summary>
     void reset();
+    /// <summary>
+    /// Check if we are connected successfully
+    /// </summary>
+    /// <returns></returns>
+    virtual bool checkConnection() override;
 private:
 #ifdef WIN32
     SOCKET m_socket;
