@@ -24,11 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TestingStationApp\TestingApp\TestingApp.vcxproj">
-      <Private>False</Private>
-      <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </ProjectReference>
+    <ProjectReference Include="..\..\TestingStationApp\TestingApp\TestingApp.vcxproj" />
   </ItemGroup>
 
   <ItemGroup>

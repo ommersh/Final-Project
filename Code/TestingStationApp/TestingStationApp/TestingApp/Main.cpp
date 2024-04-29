@@ -1,4 +1,4 @@
-#include "../../Database/DatabaseManager.h"
+﻿#include "../../Database/DatabaseManager.h"
 #include "Lab.h"
 #include "Utilities.h"
 
@@ -48,7 +48,9 @@ int main()
     {
         //Initialize the data
         TestInfo info = { 0 };
-        info.format = SatelliteDataFormat::Text;
+        //info.format = SatelliteDataFormat::Text;
+        info.format = SatelliteDataFormat::XML;
+
         strcpy_s(info.recipe.testName, "STARLINK5447_UNICORN2N");
         info.status = TestStatus::Queued;
         /*
@@ -60,8 +62,11 @@ int main()
         char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
         char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
         */
-        strcpy_s(info.firstElemData, "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993\n2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489");
-        strcpy_s(info.secondElemData, "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990\n2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268");
+        //strcpy_s(info.firstElemData, "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993\n2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489");
+        //strcpy_s(info.secondElemData, "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990\n2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268");
+        strcpy_s(info.firstElemData, "COSMOS.xml");
+        strcpy_s(info.secondElemData, "LEMUR2.xml");
+        strcpy_s(info.recipe.testName, "STARLINK5447_UNICORN2N");
         strcpy_s(info.recipe.testName, "STARLINK5447_UNICORN2N");
         info.recipe.catchPolynomialDegree = 15;
         info.recipe.numberOfPointsPerSegment = 16;

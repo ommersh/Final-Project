@@ -12,11 +12,13 @@ namespace BlazorApp1.Components.Pages
         public IBrowserFile elemenetFile1;
         public IBrowserFile elemenetFile2;
 
-        TestDataWrapper userTestDataWrapper = new TestDataWrapper()
+        private TestDataWrapper userTestDataWrapper = new TestDataWrapper()
         {
             testName = "",
             orbitingElementData1 = "",
             orbitingElementData2 = "",
+            TOLdKM = "",
+            TOLtSec = "",
         };
 
         private IntPtr labPtr;
@@ -24,6 +26,12 @@ namespace BlazorApp1.Components.Pages
         protected override void OnInitialized()
         {
             labPtr = LabInterop.Lab_Create();
+            userTestDataWrapper.numberOfIterations = 1;
+            userTestDataWrapper.numberOfPointsPerSegment = 16;
+            userTestDataWrapper.TminFactor = 2;
+            userTestDataWrapper.timeIntervalSizeSec = 1209600;
+            userTestDataWrapper.TOLdKM =  "0.00000001";
+            userTestDataWrapper.TOLtSec = "0.0004";
         }
 
         void HandleValidSubmit()
@@ -32,27 +40,25 @@ namespace BlazorApp1.Components.Pages
             LabInterop.Lab_CreateTest(labPtr, testData);
         }
 
-        void HandleFileSelection(InputFileChangeEventArgs e, int orbitingElementIndex)
+        async Task HandleFileSelection(InputFileChangeEventArgs e, int orbitingElementIndex)
         {
             var file = e.File;
             if (file != null)
             {
-                string? rootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string? savePath = Path.Combine("C:/OmmXMLs", file.Name);
-                //string savePath = Path.Combine(rootDirectory, $"OmmXml/{file.Name}");
-
+                string? currentDirectory = Environment.CurrentDirectory;
+                string savePath = Path.Combine(currentDirectory, $"OmmXmls/{file.Name}");
 
                 if (orbitingElementIndex == 1)
                 {
                     elemenetFile1 = file;
-                    SaveFile(elemenetFile1, savePath);
-                    userTestDataWrapper.orbitingElementData1 = savePath;
+                    await SaveFile(elemenetFile1, savePath);
+                    userTestDataWrapper.orbitingElementData1 = file.Name;
                 }
                 else if (orbitingElementIndex == 2)
                 {
                     elemenetFile2 = file;
-                    SaveFile(elemenetFile2, savePath);
-                    userTestDataWrapper.orbitingElementData2 = savePath;
+                    await SaveFile(elemenetFile2, savePath);
+                    userTestDataWrapper.orbitingElementData2 = file.Name;
 
 
                 }
@@ -71,8 +77,8 @@ namespace BlazorApp1.Components.Pages
             userTestData.numberOfIterations = (uint)userTestDataWrapper.numberOfIterations;
             userTestData.TminFactor = userTestDataWrapper.TminFactor;
             userTestData.timeIntervalSizeSec = userTestDataWrapper.timeIntervalSizeSec;
-            userTestData.TOLdKM = userTestDataWrapper.TOLdKM;
-            userTestData.TOLtSec = userTestDataWrapper.TOLtSec;
+            userTestData.TOLdKM = double.Parse(userTestDataWrapper.TOLdKM);
+            userTestData.TOLtSec = double.Parse(userTestDataWrapper.TOLtSec);
             userTestData.format = userTestDataWrapper.format;
 
             userTestData.orbitingElementData1 = userTestDataWrapper.orbitingElementData1;
@@ -90,8 +96,6 @@ namespace BlazorApp1.Components.Pages
             {
                 if (file != null && file.Size > 0)
                 {
-
-                    //Console.WriteLine($"Save path: {savePath}");
 
                     if (File.Exists(savePath))
                     {

@@ -5,7 +5,7 @@
 #include <vector>
 #include "DataGenerator.h"
 #include <TcaCalculation.h>
-
+#include <filesystem>
 static const double PI = 3.14159265358979323846;
 
 /// <summary>
@@ -73,7 +73,12 @@ void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& s
 
 
     // Read XML file
-    std::ifstream file(xmlFile);
+    std::wstring rootDirectory = std::filesystem::current_path().wstring();
+    std::wstring subfolder = L"\\OmmXmls\\";
+    std::wstring xmlFileWideString(xmlFile.length(), L' ');
+    std::copy(xmlFile.begin(), xmlFile.end(), xmlFileWideString.begin());
+    std::wstring xmlFullPath = rootDirectory.append(subfolder).append(xmlFileWideString);
+    std::ifstream file(xmlFullPath);
     std::string xmlContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
     // Find relevant data from XML

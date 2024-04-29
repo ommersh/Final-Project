@@ -1,37 +1,115 @@
-﻿@page "/testresults"
+﻿@page "/testResults"
 @using System.Collections.Generic
 @rendermode InteractiveServer
 
-<h1>Test results</h1>
+<PageTitle>Test creation</PageTitle>
 
+<h1>Test results</h1>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 overflow-auto" style="height: 100vh; border-right: 2px solid #dee2e6;">
+        <div class="col-md-3 overflow-auto" style="height: 100vh; border-right: 2px solid #dee2e6;">
             @foreach (var test in allTests)
             {
-                        <div class="card mb-3" style="width: 18rem;" @onclick="() => SelectTest(test)">
-                        <div class="card-body">
-                                <h5 class="card-title">@test.testID</h5>
-                                    <h4 class="card-title">@test.testName</h4>
-                               
-                        </div>
+                <div class="card mb-3" style="width: 18rem;" @onclick="() => SelectTest(test)">
+                    <div class="card-body">
+                        <h4 class="card-title">@test.testName</h4>
                     </div>
+                </div>
             }
         </div>
 
         <div class="col-md-6">
             @if (SelectedTest.HasValue)
             {
-                <div>
-                    <h3>@SelectedTest.Value.testName : @testName</h3>
-                    <p>Format: @SelectedTest.Value.format</p>
-                    <p>Algorithm: @SelectedTest.Value.testedAlgorithm</p>
-                    <p>ID: @SelectedTest.Value.testID</p>
-                    <p>Degree @SelectedTest.Value.numberOfPointsPerSegment</p>
-                    <p>Any @SelectedTest.Value.</p>
-                </div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td><strong>Test ID:</strong></td>
+                            <td>@SelectedTest.Value.testID</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Test Name:</strong></td>
+                            <td>@SelectedTest.Value.testName</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Catch Polynomial Degree:</strong></td>
+                            <td>@SelectedTest.Value.catchPolynomialDegree</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number Of Points Per Segment:</strong></td>
+                            <td>@SelectedTest.Value.numberOfPointsPerSegment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Catch Roots Algorithm:</strong></td>
+                            <td>@SelectedTest.Value.catchRootsAlg</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tested Algorithm:</strong></td>
+                            <td>@SelectedTest.Value.testedAlgorithm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number Of Iterations:</strong></td>
+                            <td>@SelectedTest.Value.numberOfIterations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tmin Factor:</strong></td>
+                            <td>@SelectedTest.Value.TminFactor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time Interval Size (Sec):</strong></td>
+                            <td>@SelectedTest.Value.timeIntervalSizeSec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TOLdKM:</strong></td>
+                            <td>@SelectedTest.Value.TOLdKM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TOLtSec:</strong></td>
+                            <td>@SelectedTest.Value.TOLtSec</td>
+                        </tr>                    
+                        <tr>
+                            <td><strong>Initial Number Of Points:</strong></td>
+                            <td>@SelectedTest.Value.initialNumberOfPoints</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Segment Size (Sec):</strong></td>
+                            <td>@SelectedTest.Value.segmentSizeSec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Format:</strong></td>
+                            <td>@SelectedTest.Value.format</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Test Status:</strong></td>
+                            <td>@SelectedTest.Value.status</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time Of TCA From Starting Point (Sec):</strong></td>
+                            <td>@SelectedTest.Value.timeOfTcaFromStartingPointSec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Distance Of TCA (KM):</strong></td>
+                            <td>@SelectedTest.Value.distanceOfTcaKM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number Of Points The Algorithm Used:</strong></td>
+                            <td>@SelectedTest.Value.numberOfPointsTheAlgUsed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Run Time (Micro):</strong></td>
+                            <td>@SelectedTest.Value.runTimeMicro</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Average Run Time (Micro):</strong></td>
+                            <td>@SelectedTest.Value.avgRunTimeMicro</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Minimum Run Time (Micro):</strong></td>
+                            <td>@SelectedTest.Value.minRunTimeMicro</td>
+                        </tr>
+                    </tbody>
+                </table>
             }
         </div>
     </div>
 </div>
-
