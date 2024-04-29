@@ -52,7 +52,7 @@ int Lab::CreateTest(TestInfo testInfo) {
     TestRecipe& recipe = testInfo.recipe;
     recipe.elsetrec1 = { 0 };
     recipe.elsetrec2 = { 0 };
-
+    testInfo.status = TestStatus::Queued;
     //Create unique pointer and don't free the memory - the test manager will delete it when needed
     TcaCalculation::sPointData* pointsData = nullptr;
     logString = "Creating Test";
@@ -64,12 +64,8 @@ int Lab::CreateTest(TestInfo testInfo) {
         EventLogger::getInstance().log(logString, "Lab");
         if (true == m_databaseManager.createTest(testInfo))
         {
-            //todo: send test to card
-            //TODO - Via Test Manager? place the recipe in the test queue
-            //The test manager should have a different thread - running an
             m_testManager.PlaceTestInQueue(recipe, pointsData, recipe.numberOfPoints);
 
-            //delete[] pointsData;
             returnValue = testInfo.recipe.testID;
             logString = "Test Created And In Queue, Test ID " + std::to_string(testInfo.recipe.testID);
             EventLogger::getInstance().log(logString, "Lab");
@@ -82,6 +78,7 @@ int Lab::CreateTest(TestInfo testInfo) {
             {
                 delete[] pointsData;
             }
+            returnValue = - 1;
         }
     }
     else
@@ -92,6 +89,7 @@ int Lab::CreateTest(TestInfo testInfo) {
         {
             delete[] pointsData;
         }
+        returnValue = - 2;
     }
     return returnValue;
 }
