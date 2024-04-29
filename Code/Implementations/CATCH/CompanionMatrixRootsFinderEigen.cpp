@@ -5,6 +5,7 @@ void CompanionMatrixRootsFinderEigen::Init(int degree)
 {
 	CompanionMatrixRootsFinder::Init(degree);
 	m_EigenCompanionMatrix = Eigen::MatrixXd(degree, degree);
+	solver = Eigen::EigenSolver<Eigen::MatrixXd>(degree);
 }
 
 
@@ -20,7 +21,7 @@ int CompanionMatrixRootsFinderEigen::findEigenValues()
 		}
 	}
 	//vector<double> eigenvalues = ; // Compute the eigenvalues
-	EigenSolver<Eigen::MatrixXd> solver(m_EigenCompanionMatrix);
+	solver.compute(m_EigenCompanionMatrix, false);
 	VectorXcd eigenvalues = solver.eigenvalues();
 	int numberOfRealRoots = 0;
 	for (int i = 0; i < eigenvalues.size(); i++)

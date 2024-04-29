@@ -22,6 +22,7 @@ public:
 	int findEigenValues() override;
 private:
 	Eigen::MatrixXd m_EigenCompanionMatrix;
+	Eigen::EigenSolver<Eigen::MatrixXd> solver;
 };
 
 #endif //SHIELD_CompanionMatrixRootsFinderEigen_H
