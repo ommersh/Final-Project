@@ -56,7 +56,7 @@ TestResultsToCsv::~TestResultsToCsv() {
     }
 }
 
-void TestResultsToCsv::SaveInfo(TestInfo testInfo) {
+void TestResultsToCsv::SaveInfo(TestInfo testInfo, int FullTolReached, int ToldReached, int ToltReached, int NoRootsFound) {
     std::string algName ="";
     switch (testInfo.recipe.testedAlgorithm)
     {
@@ -69,16 +69,18 @@ void TestResultsToCsv::SaveInfo(TestInfo testInfo) {
     case AlgorithmsEnums::SBO_ANCAS:
         algName = "SBO ANCAS";
         break;
-
+    case AlgorithmsEnums::SBO_ANCAS_ES:
+        algName = "SBO ANCAS ES";
+        break;
     default:
         algName = "????";
         break;
     }
-    SaveInfo(testInfo, algName);
+    SaveInfo(testInfo, algName, FullTolReached, ToldReached, ToltReached, NoRootsFound);
 }
 
 // Method to log a single row of results
-void TestResultsToCsv::SaveInfo(TestInfo testInfo, std::string algName)
+void TestResultsToCsv::SaveInfo(TestInfo testInfo, std::string algName, int FullTolReached, int ToldReached, int ToltReached, int NoRootsFound)
 {
     if (outFile.is_open()) {
         outFile << std::fixed << std::setprecision(30)
@@ -104,7 +106,13 @@ void TestResultsToCsv::SaveInfo(TestInfo testInfo, std::string algName)
             << testInfo.realTCA << ","                                                  //19    "Real TCA[Sec]"
             << fabs(testInfo.realTCA - testInfo.timeOfTcaFromStartingPointSec) << ","   //20    "Error Time[Sec]"
             << fabs(testInfo.realDistance - testInfo.distanceOfTcaKM) << ","            //21    "Error Distance[Km]"
-            << testInfo.numberOfPointsTheAlgUsed << ""                                  //22    "Number of Points Used"
+            << testInfo.numberOfPointsTheAlgUsed << ","                                  //22    "Number of Points Used"
+
+            << FullTolReached << ","      //23
+            << ToldReached << ","         //24
+            << ToldReached << ","         //25
+            << NoRootsFound << ""         //26
+
             << std::endl;
     }
     else {
@@ -139,7 +147,14 @@ void TestResultsToCsv::SetFileHeader()
             << "Real TCA[Sec]" << ","               //19
             << "Error Time[Sec]" << ","             //20
             << "Error Distance[Km]" << ","          //21
-            << "Number of Points Used" << ""        //22
+            << "Number of Points Used" << ","       //22
+
+            << "FullTolReached" << ","      //23
+            << "ToldReached" << ","         //24
+            << "ToldReached" << ","         //25
+            << "NoRootsFound" << ""         //26
+
+
             << std::endl;
     }
 }

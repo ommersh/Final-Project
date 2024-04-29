@@ -176,7 +176,7 @@ bool DatabaseManager::createTest(TestInfo& test) {
     test.recipe.testID = sqlite3_last_insert_rowid(db);
 
     sqlite3_finalize(stmt);
-    std::cout << "Test record inserted successfully with testId: " << test.recipe.testID << std::endl;
+    //std::cout << "Test record inserted successfully with testId: " << test.recipe.testID << std::endl;
     return true;
 }
 
@@ -245,7 +245,7 @@ bool DatabaseManager::editTest(const TestInfo& test) {
     }
 
     sqlite3_finalize(stmt);
-    std::cout << "Test record updated successfully." << std::endl;
+    //std::cout << "Test record updated successfully." << std::endl;
     return true;
 }
 
@@ -271,7 +271,7 @@ bool DatabaseManager::deleteTest(unsigned int testId) {
     }
 
     sqlite3_finalize(stmt);
-    std::cout << "Test record deleted successfully." << std::endl;
+    //std::cout << "Test record deleted successfully." << std::endl;
     return true;
 }
 
@@ -389,7 +389,7 @@ bool DatabaseManager::updateTestResults(const TestInfo test)
     }
 
     sqlite3_finalize(stmt);
-    std::cout << "Test record updated successfully." << std::endl;
+    //std::cout << "Test record updated successfully." << std::endl;
     return true;
 }
 bool DatabaseManager::updateRealTca(const TestInfo test)
@@ -419,7 +419,7 @@ bool DatabaseManager::updateRealTca(const TestInfo test)
     }
 
     sqlite3_finalize(stmt);
-    std::cout << "Test record updated successfully." << std::endl;
+    //std::cout << "Test record updated successfully." << std::endl;
     return true;
 }
 
@@ -449,6 +449,6 @@ bool DatabaseManager::updateTestStatus(const TestStatus status, const unsigned i
     }
 
     sqlite3_finalize(stmt);
-    std::cout << "Test record updated successfully." << std::endl;
+    //std::cout << "Test record updated successfully." << std::endl;
     return true;
 }

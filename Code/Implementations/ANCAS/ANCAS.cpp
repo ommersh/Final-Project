@@ -66,7 +66,7 @@ double ANCASCubicPolynomial::getValue(double x)
 /// </returns>
 TCA ANCAS::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
-	TCA tca;
+	TCA tca = { 0 };
 	TCA tempTca;
 
 	tca.time = 0;
@@ -90,6 +90,10 @@ TCA ANCAS::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 		}
 
 		tempTca = ANCASIteration();
+		if (tempTca.time == -1)
+		{
+			tca.numberOf_NoRootsFound++;
+		}
 		if (tempTca.distance < tca.distance)
 		{
 			tca.distance = tempTca.distance;

@@ -29,7 +29,7 @@ void CATCH::Init(IRootsFindAlg* rootsFinder, int degree)
 
 TCA CATCH::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
-	TCA tca;
+	TCA tca = { 0 };
 	tca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.time = 0;
 	tca.numberOfPoints = 0;

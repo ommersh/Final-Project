@@ -5,6 +5,7 @@
 #include "TestInfo.h"
 #include "CommonStructures.h"
 #include "TestResultsToCsv.h"
+#include <map>      // For std::map
 
 using namespace std;
 class ResultManager {
@@ -19,6 +20,8 @@ private:
     void printResult(std::string algName, TestResults::TestResult results);
     void startPrint();
     TestResultsToCsv m_resultsToCsv;
+    std::map<int, TcaCalculation::TCA> myMap;
+
 };
 
 #endif

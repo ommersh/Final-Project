@@ -195,12 +195,12 @@ void TestManager::RunRealTcaCalculationsProcess()
 				tca = { 0 };
 				//Use SBO-ANCAS for the TCA
 				propogator.Init(nextTest.recipe.elsetrec1, nextTest.recipe.elsetrec2, nextTest.recipe.startTime1Min, nextTest.recipe.startTime2Min);
-				sboAncas.Init(&propogator, nextTest.recipe.TOLd * 0.1, nextTest.recipe.TOLt * 0.1);
+				sboAncas.Init(&propogator, nextTest.recipe.TOLd, nextTest.recipe.TOLt);
 				tca = sboAncas.RunAlgorithm(nextTest.pointsDataArray, nextTest.recipe.numberOfPoints);
 
 				//Use Small time step around the TCA from SBO-ANCAS
 				tca = dataGenerationManager.FindTcaWithSmallTimeStepArountPoint(nextTest.recipe.elsetrec1, nextTest.recipe.elsetrec2,
-					nextTest.recipe.startTime1Min, nextTest.recipe.startTime2Min, nextTest.recipe.TOLt * 0.1, tca.time, 2);
+					nextTest.recipe.startTime1Min, nextTest.recipe.startTime2Min, nextTest.recipe.TOLt * 0.1, tca.time, 0.5);
 
 				logString = "Finished Calculating The Real TCA And Disntance For Test - " + std::to_string(nextTest.recipe.testID);
 				EventLogger::getInstance().log(logString, "TestManager");

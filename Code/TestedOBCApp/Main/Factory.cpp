@@ -182,6 +182,12 @@ SboAncas* Factory::GetSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double st
 	return &m_sboAncas;
 }
 
+SboAncasEquallySpacedPoints* Factory::GetSboAncasEs(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt)
+{
+	m_sboAncasEquallySpacedPoints.Init(GetSinglePointPropogator(elsetrec1, elsetrec2, startTime1, startTime2), TOLd, TOLt);
+	return &m_sboAncasEquallySpacedPoints;
+}
+
 ISinglePointPropogator* Factory::GetSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2)
 {
 	m_SGP4SinglePointGenerator.Init(elsetrec1, elsetrec2, startTime1, startTime2);

@@ -118,7 +118,128 @@ public:
     }
 
 };
+#ifdef WIN32
+#include "TestRecipe.h";
+class CatalogReader
+{
+
+public:
+    bool Init(const std::string& catalogFilePath)
+    {
+        m_inputFile.open(catalogFilePath);
+
+        if (!m_inputFile.is_open()) {
+            std::cout << "Failed to open catalog file: " << catalogFilePath << std::endl;
+            return false;
+        }
+        m_catalogSize = getCatalogSize();
+        if (m_catalogSize < 2)
+        {
+            std::cout << "The Catalog Size is too small" << std::endl;
+            return false;
+        }
+        return true;
+    }
+    //The input file
+    std::ifstream m_inputFile;
+    std::string m_tleLine1;
+    std::string m_tleLine2;
+    std::string m_name;
+    char m_testName[MAX_TEST_NAME_SIZE];
+    int m_catalogSize;
+    int getCatalogSize()
+    {
+        if (!m_inputFile.is_open()) {
+            std::cerr << "File is not open" << std::endl;
+            return 0;
+        }
+
+        m_inputFile.clear();  // Clear any error flags
+        m_inputFile.seekg(0, std::ios::beg);  // Seek to the beginning of the file
+
+        std::string line;
+        int lineCount = 0;
+        int satelliteCount = 0;
+        while (getline(m_inputFile, line)) {
+            if (lineCount++ % 3 == 2) {
+                satelliteCount++;
+
+            }
+        }
+        return satelliteCount;
+    }
+    bool getTLE(int position)
+    {
+        if (!m_inputFile.is_open()) {
+            std::cerr << "File is not open" << std::endl;
+            return false;
+        }
+
+        m_inputFile.clear();  // Clear any error flags
+        m_inputFile.seekg(0, std::ios::beg);  // Seek to the beginning of the file
+
+        std::string line;
+        int lineCount = 0;
+        int satelliteCount = 0;
+
+        while (getline(m_inputFile, line)) {
 
 
+            if (lineCount++ % 3 == 0) {
+                if (satelliteCount++ == position) {
+                    // Copy the satellite name to the global variable
+                    m_name = line;
+                    if (getline(m_inputFile, line)) {
+                        m_tleLine1 = line;
+                        if (getline(m_inputFile, line)) {
+                            m_tleLine2 = line;
+                        }
+                        else {
+                            std::cerr << "Failed to read TLE line 2" << std::endl;
+                            return false;
+                        }
+                    }
+                    else {
+                        std::cerr << "Failed to read TLE line 1" << std::endl;
+                        return false;
+                    }
+                    return true;
+                }
+            }
+        }
+
+        if (satelliteCount < position) {
+            std::cerr << "Position exceeds number of satellites in file" << std::endl;
+            return false;
+        }
+    }
+    void printPercentage(int position , int catalogSize)
+    {
+        double percentage = static_cast<double>(position) / catalogSize * 100.0;
+
+        // Move cursor to the beginning of the line with '\r'
+        // Set text color to green with ANSI escape code "\033[32m"
+        // Reset text color to default with "\033[0m" at the end
+        std::cout << "\r\033[32m" // Set text color to green
+            << std::fixed << std::setprecision(10) << percentage << "%"
+            << "\033[0m" // Reset text color to default
+            << std::flush; // Flush the stream to ensure immediate output
+    }
+    void parseTestName(std::string n1, std::string n2)
+    {
+        std::string tempName;
+        tempName = n1;  // Copying n1 to tempName
+        tempName += '_';    // Appending '_' to tempName
+        tempName += n2;  // Append n2 to tempName
+
+        tempName.erase(std::remove(tempName.begin(), tempName.end(), ' '), tempName.end());
+        tempName.erase(std::remove(tempName.begin(), tempName.end(), '\t'), tempName.end());
+        tempName.erase(std::remove(tempName.begin(), tempName.end(), '\n'), tempName.end());
+
+        //Get the test name
+        strncpy(m_testName, tempName.c_str(), MAX_TEST_NAME_SIZE - 1);
+    }
+};
+#endif //WIN32
 
 #endif

@@ -17,7 +17,7 @@
 /// </returns>
 TCA SboAncasEquallySpacedPoints::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointIndex)
 {
-	TCA tca;
+	TCA tca = { 0 };
 	TCA iterationTca;
 	TCA ancasTca;
 
@@ -27,7 +27,7 @@ TCA SboAncasEquallySpacedPoints::RunAlgorithm(TcaCalculation::sPointData* points
 	iterationTca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 	tca.numberOfPoints = 0;
 	//1. Prepare the variables
-	
+
 	int startPointIndex, endPointIndex;
 	int roundNumber = 0;
 	int offset = 0;
@@ -45,9 +45,9 @@ TCA SboAncasEquallySpacedPoints::RunAlgorithm(TcaCalculation::sPointData* points
 	startPointIndex = 0;
 	endPointIndex = 3;
 	//run over all the data
-	while (endPointIndex <= lastPointIndex)
+	while (endPointIndex < lastPointIndex)
 	{
-		offset = (3)*roundNumber;
+		offset = (3) * roundNumber;
 		numberOfPoints += 3;
 
 		//initialize the data point->tnew
@@ -59,17 +59,18 @@ TCA SboAncasEquallySpacedPoints::RunAlgorithm(TcaCalculation::sPointData* points
 		innerLoopCondition = true;
 		timeToleranceReached = false;
 		distToleranceReached = false;
-		rd = std::numeric_limits<double>::max();
-		tm = 0;
-		iterationTca.time = 0;
-		iterationTca.distance = std::numeric_limits<double>::max();//initialize the distance to inf
 		do
 		{
 			ancasTca = ANCASIteration();
-			//no root was found - give up
+			//in root was found - give up
 			if (ancasTca.time == -1)
 			{
 				innerLoopCondition = false;
+				tca.numberOf_NoRootsFound++;
+				if (distToleranceReached)
+					tca.numberOf_ToldReached++;
+				if (timeToleranceReached)
+					tca.numberOf_ToltReached++;
 			}
 			else
 			{
@@ -82,7 +83,6 @@ TCA SboAncasEquallySpacedPoints::RunAlgorithm(TcaCalculation::sPointData* points
 				//get rt(tm)
 				iterationTca.distance = sqrt(pow((tmData.r1x - tmData.r2x), 2) + pow((tmData.r1y - tmData.r2y), 2) + pow((tmData.r1z - tmData.r2z), 2));
 				iterationTca.time = tm;
-
 				//check the conditions
 				if (fabs(iterationTca.distance - rd) < m_TOLd)
 				{
@@ -101,42 +101,55 @@ TCA SboAncasEquallySpacedPoints::RunAlgorithm(TcaCalculation::sPointData* points
 
 				}
 				//update tnew
+								//update tnew
 				// we will remove the first or the last point in the array
 				// keeping the closest
 				int srcIndex = 0;
 				int dstIndex = 0;
 				tmIndex = 0;
-				//find the location of tm
-				for (int i = 0; i < 4; i++)
+
+				if (fabs(tm - m_dataPoints[0].time) > fabs(tm - m_dataPoints[3].time))
 				{
-					//check the location of tm in the array
-					if (tm > m_dataPoints[i].time)
+					// We are keeping the last point
+					srcIndex = 1;
+					for (int i = 1; i < 4; i++)
 					{
-						tmIndex++;
+						//check the location of tm in the array
+						if (tm > m_dataPoints[i].time)
+						{
+							tmIndex++;
+						}
 					}
-				}
-				//if tm > last point or tm < first point
-				if (tmIndex == 0)
-				{
-					m_tempDataPoints[0] = tmData;
-					m_tempDataPoints[3] = m_dataPoints[0];
-				}
-				else if (tmIndex == 3)
-				{
-					m_tempDataPoints[0] = m_dataPoints[3];
-					m_tempDataPoints[3] = tmData;
 				}
 				else
 				{
-					m_tempDataPoints[0] = m_dataPoints[tmIndex - 1];
-					m_tempDataPoints[3] = m_dataPoints[tmIndex + 1];
+					// We are keeping the first point
+					for (int i = 0; i < 3; i++)
+					{
+						//check the location of tm in the array
+						if (tm > m_dataPoints[i].time)
+						{
+							tmIndex++;
+						}
+					}
+				}
+				while ((dstIndex < 4) && (srcIndex < 4))
+				{
+					if (dstIndex == tmIndex)
+					{
+						dstIndex++;
+						m_tempDataPoints[tmIndex] = tmData;
+					}
+					else
+					{
+						m_tempDataPoints[dstIndex++] = m_dataPoints[srcIndex++];
+					}
 				}
 				double timeDistance = (m_tempDataPoints[3].time - m_tempDataPoints[0].time) / 3;
 				m_tempDataPoints[1] = m_propogator->getSinglePoint(m_tempDataPoints[0].time + timeDistance);
 				m_tempDataPoints[2] = m_propogator->getSinglePoint(m_tempDataPoints[0].time + 2 * timeDistance);
 				numberOfPoints++;
 				numberOfPoints++;
-
 				for (int i = 0; i < 4; i++)
 				{
 					m_dataPoints[i] = m_tempDataPoints[i];
@@ -145,6 +158,9 @@ TCA SboAncasEquallySpacedPoints::RunAlgorithm(TcaCalculation::sPointData* points
 				if (true == distToleranceReached && true == timeToleranceReached)
 				{
 					innerLoopCondition = false;
+					tca.numberOf_ToldReached++;
+					tca.numberOf_ToltReached++;
+					tca.numberOf_FullTolReached++;
 				}
 			}
 		} while (innerLoopCondition);

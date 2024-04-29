@@ -49,6 +49,9 @@ TestResults::TestResult TestManager::runTest(TestRecipe params, TcaCalculation::
 	case AlgorithmsEnums::Algorithm::SBO_ANCAS:
 		Algoritm = Factory::GetReference()->GetSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
 		break;
+	case AlgorithmsEnums::Algorithm::SBO_ANCAS_ES:
+		Algoritm = Factory::GetReference()->GetSboAncasEs(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
+		break;
 	}
 
 	m_timer->startTimer();
@@ -77,6 +80,9 @@ TestResults::TestResult TestManager::runTest(TestRecipe params, TcaCalculation::
 			break;
 		case AlgorithmsEnums::Algorithm::SBO_ANCAS:
 			Algoritm = Factory::GetReference()->GetSboAncas(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
+			break;
+		case AlgorithmsEnums::Algorithm::SBO_ANCAS_ES:
+			Algoritm = Factory::GetReference()->GetSboAncasEs(params.elsetrec1, params.elsetrec2, params.startTime1Min, params.startTime2Min, params.TOLd, params.TOLt);
 			break;
 		}
 		m_timer->startTimer();

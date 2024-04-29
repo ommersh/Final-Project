@@ -73,7 +73,7 @@ public:
 	ANCAS*			GetANCAS();
 
 	SboAncas*		GetSboAncas(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt);
-
+	SboAncasEquallySpacedPoints* GetSboAncasEs(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2, double TOLd, double TOLt);
 	ISinglePointPropogator* GetSinglePointPropogator(elsetrec elsetrec1, elsetrec elsetrec2, double startTime1, double startTime2);
 	ResultsLogger* GetResultsLogger();
 	AppConfigurationManager* GetConfigurationManager();
@@ -87,6 +87,7 @@ private:
 	CATCH m_catch;
 	ANCAS m_ancas;
 	SboAncas m_sboAncas;
+	SboAncasEquallySpacedPoints m_sboAncasEquallySpacedPoints;
 	CompanionMatrixRootsFinderEigen m_companionMatrixRootsFinderEigen;
 	//CompanionMatrixRootsFinderArmadillo m_companionMatrixRootsFinderAArmadillo;
 	SGP4SinglePointGenerator m_SGP4SinglePointGenerator;

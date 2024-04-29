@@ -10,7 +10,8 @@ namespace AlgorithmsEnums
     enum Algorithm {
         ANCAS,
         CATCH,
-        SBO_ANCAS
+        SBO_ANCAS,
+        SBO_ANCAS_ES
     };
 
     /// <summary>

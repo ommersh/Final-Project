@@ -28,6 +28,7 @@ private:
     std::map<AlgorithmsEnums::Algorithm, void (TestDataGenerationManager::*)(int, double, double, TcaCalculation::sPointData[])> methodMap{
     {AlgorithmsEnums::Algorithm::ANCAS, &TestDataGenerationManager::GenerateTimePointsForAncas},
     {AlgorithmsEnums::Algorithm::SBO_ANCAS, &TestDataGenerationManager::GenerateTimePointsForAncas},
+    {AlgorithmsEnums::Algorithm::SBO_ANCAS_ES, &TestDataGenerationManager::GenerateTimePointsForAncas},
     {AlgorithmsEnums::Algorithm::CATCH, &TestDataGenerationManager::GenerateTimePointsForCatch}
     };
 

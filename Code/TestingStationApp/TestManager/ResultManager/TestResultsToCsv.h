@@ -25,8 +25,8 @@ public:
     ~TestResultsToCsv();
 
     // Methods to save a single test
-    void SaveInfo(TestInfo testInfo, std::string algName);
-    void SaveInfo(TestInfo testInfo);
+    void SaveInfo(TestInfo testInfo, std::string algName, int FullTolReached, int ToldReached, int ToltReached, int NoRootsFound);
+    void SaveInfo(TestInfo testInfo, int FullTolReached, int ToldReached, int ToltReached, int NoRootsFound);
 };
 
 
