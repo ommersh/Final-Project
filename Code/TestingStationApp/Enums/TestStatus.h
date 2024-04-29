@@ -2,7 +2,7 @@
 #define TEST_STATUS_H
 
 enum class TestStatus {
-    NotStarted,
+    Queued,
     InProgress,
     Completed,
     Failed

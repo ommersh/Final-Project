@@ -21,10 +21,10 @@ namespace LabWrap {
         __declspec(dllexport) UserTestData Lab_GetTestInfo(Lab* lab, int testId)
         { 
             TestInfo testInfo = lab->GetTestInfo(testId);
-            UserTestData userData;
-            //Test identifiers 
+            UserTestData userData = UserTestData();
             userData.testID = testInfo.recipe.testID;
-            strncpy_s(userData.testName, testInfo.recipe.testName, MAX_TEST_NAME_SIZE);
+            strncpy_s(userData.testName, testInfo.recipe.testName, strlen(testInfo.recipe.testName));
+            userData.testName[strlen(testInfo.recipe.testName) + 1] = '\0';
             //Test Data
             //For runnig a test
             userData.catchPolynomialDegree = testInfo.recipe.catchPolynomialDegree;
@@ -50,6 +50,9 @@ namespace LabWrap {
             userData.avgRunTimeMicro = testInfo.avgRunTimeMicro;
             userData.minRunTimeMicro = testInfo.minRunTimeMicro;
 
+            userData.format = testInfo.format;
+            userData.status = testInfo.status;
+            userData.initialNumberOfPoints = testInfo.recipe.numberOfPoints;
             return userData;
         }
 
@@ -58,15 +61,10 @@ namespace LabWrap {
             lab->DeleteTest(testId); 
         }
 
-        //__declspec(dllexport) unsigned int Lab_CreateTest(Lab* lab, const std::string& name, double timeInterval, int iterations, AlgorithmsEnums::Algorithm alg, int catchPolynomDeg, int numOfTimePoints, const std::string& elemDataOne, const std::string& elemDataTwo, SatelliteDataFormat format)
-        //{
-        //    return lab->CreateTest("name", timeInterval, iterations, alg, catchPolynomDeg, numOfTimePoints, "data1", "data2", format);
-        //}
 
         __declspec(dllexport) int Lab_CreateTest(Lab* lab, UserTestData userData)
         {
             TestInfo testInfo;
-            //CopyTestData(userTestData, testInfo);
             strncpy_s(testInfo.recipe.testName, userData.testName, MAX_TEST_NAME_SIZE);
             testInfo.recipe.catchPolynomialDegree = userData.catchPolynomialDegree;
             testInfo.recipe.numberOfPointsPerSegment = userData.numberOfPointsPerSegment;
@@ -77,7 +75,9 @@ namespace LabWrap {
             testInfo.recipe.timeIntervalSizeSec = userData.timeIntervalSizeSec;
             testInfo.recipe.TOLd = userData.TOLdKM;
             testInfo.recipe.TOLt = userData.TOLtSec;
-
+            testInfo.format = userData.format;
+            strncpy_s(testInfo.firstElemData, userData.orbitingElementData1, 262);
+            strncpy_s(testInfo.secondElemData, userData.orbitingElementData2, 262);
 
             return lab->CreateTest(testInfo);
         }
@@ -97,19 +97,4 @@ namespace LabWrap {
             return testidStruct;
         }
     }
-
-
-    //void CopyTestData(const UserTestData& userData, TestInfo& testInfo)
-    //{
-    //    strncpy_s(testInfo.recipe.testName, userData.testName, MAX_TEST_NAME_SIZE);
-    //    testInfo.recipe.catchPolynomialDegree = userData.catchPolynomialDegree;
-    //    testInfo.recipe.numberOfPointsPerSegment = userData.numberOfPointsPerSegment;
-    //    testInfo.recipe.catchRootsAlg = userData.catchRootsAlg;
-    //    testInfo.recipe.testedAlgorithm = userData.testedAlgorithm;
-    //    testInfo.recipe.numberOfIterations = userData.numberOfIterations;
-    //    testInfo.recipe.TminFactor = userData.TminFactor;
-    //    testInfo.recipe.timeIntervalSizeSec = userData.timeIntervalSizeSec;
-    //    testInfo.recipe.TOLd = userData.TOLdKM;
-    //    testInfo.recipe.TOLt = userData.TOLtSec;
-    //}
 }

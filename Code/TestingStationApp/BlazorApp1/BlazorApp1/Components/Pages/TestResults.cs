@@ -12,11 +12,11 @@ namespace BlazorApp1.Components.Pages
         private IntPtr labPtr;
         private string? testName;
         private int[]? uniqueIds;
-        private List<UserTestData> allTests;
+        private List<UserTestData> allTests = new List<UserTestData>();
         private void SelectTest(UserTestData test)
         {
             SelectedTest = test;
-            testName = test.testName;
+            //testName = test.testName;
             StateHasChanged();
 
         }

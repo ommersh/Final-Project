@@ -28,8 +28,8 @@ struct TestInfo {
 
 
     SatelliteDataFormat format;
-    char firstElemData[180]; //send elstrac
-    char secondElemData[180];
+    char firstElemData[262]; //send elstrac
+    char secondElemData[262];
 
 };
 

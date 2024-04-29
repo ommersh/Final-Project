@@ -14,9 +14,8 @@
 using namespace std;
 
 struct UserTestData{
-    //Test identifiers 
     int testID;
-    char testName[MAX_TEST_NAME_SIZE];
+    char testName[80];
 
     //Test Data
     //For runnig a test
@@ -29,16 +28,15 @@ struct UserTestData{
     double timeIntervalSizeSec;
     double TOLdKM; // tolerance of distance for SBO ANCAS in KM
     double TOLtSec; // tolerance of time for SBO ANCAS in SEC
-    char orbitingElementData1[400];
-    char orbitingElementData2[400];
-
-
+    char orbitingElementData1[262];
+    char orbitingElementData2[262];
 
     //For displaying the info
     double julianDate; // the julian date of the first point
     int initialNumberOfPoints;
     double segmentSizeSec; //Gamma in secons
     SatelliteDataFormat format;
+    TestStatus status;
     //We can hold the inputs strings
 
     //Test Results
@@ -51,7 +49,6 @@ struct UserTestData{
     //Repeated tests results - the iterations
     double avgRunTimeMicro;
     double minRunTimeMicro;
-
 };
 
 
@@ -81,6 +78,7 @@ public:
 private:
     Lab();
     ~Lab();
+    static Lab instance;
 
     // Private copy constructor and assignment operator to prevent duplication
     Lab(const Lab&);

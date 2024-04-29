@@ -1,0 +1,136 @@
+﻿@page "/testCreation"
+@rendermode InteractiveServer
+
+<style>
+    .form-group {
+        display: -ms-flexbox;
+        align-items: baseline;
+    }
+
+        .form-group > label {
+            flex: 1;
+            text-align: left;
+        }
+
+        .form-group > .input-container {
+            flex: 2;
+        }
+</style>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Create Test</h2>
+
+    <EditForm Model="@userTestDataWrapper" OnValidSubmit="HandleValidSubmit" class="needs-validation" novalidate>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="testName">Test Name:</label>
+                <InputText id="testName" class="form-control" @bind-Value="userTestDataWrapper.testName" required />
+                <div class="invalid-feedback">
+                    Please enter a test name.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="numberOfPointsPerSegment">Number of Points Per Segment:</label>
+                <InputNumber id="numberOfPointsPerSegment" class="form-control" @bind-Value="userTestDataWrapper.numberOfPointsPerSegment" />
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="catchRootsAlg">Catch Roots Algorithm:</label>
+                <InputSelect id="catchRootsAlg" class="form-control" @bind-Value="userTestDataWrapper.catchRootsAlg">
+                    @foreach (var alg in Enum.GetValues(typeof(CatchRootsAlg)))
+                    {
+                        <option value="@alg">@alg</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="testedAlgorithm">Tested Algorithm:</label>
+                <InputSelect id="testedAlgorithm" class="form-control" @bind-Value="userTestDataWrapper.testedAlgorithm">
+                    @foreach (var alg in Enum.GetValues(typeof(Algorithm)))
+                    {
+                        <option value="@alg">@alg</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="numberOfIterations">Number of Iterations:</label>
+                <InputNumber id="numberOfIterations" class="form-control" @bind-Value="userTestDataWrapper.numberOfIterations" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="TminFactor">Tmin Factor:</label>
+                <InputNumber id="TminFactor" class="form-control" @bind-Value="userTestDataWrapper.TminFactor" />
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="timeIntervalSizeSec">Time Interval Size (Seconds):</label>
+                <InputNumber id="timeIntervalSizeSec" class="form-control" @bind-Value="userTestDataWrapper.timeIntervalSizeSec" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="TOLdKM">Tolerance for Distance (km):</label>
+                <InputNumber id="TOLdKM" class="form-control" @bind-Value="userTestDataWrapper.TOLdKM" />
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="TOLtSec">Tolerance for Time (Seconds):</label>
+                <InputNumber id="TOLtSec" class="form-control" @bind-Value="userTestDataWrapper.TOLtSec" />
+            </div>
+        </div>
+
+        <label for="dataFormat" style="margin-right: 100px;">Output Format:</label>
+        <InputRadioGroup id="dataFormat" @bind-Value="userTestDataWrapper.format">
+            <InputRadio class="form-check-input" Value="SatelliteDataFormat.XML" />
+            <label class="form-check-label style=" margin-right: 20px;"">XML</label>
+            <InputRadio class="form-check-input" Value="SatelliteDataFormat.Text" />
+            <label class="form-check-label">Text</label>
+        </InputRadioGroup>
+
+
+            @if (userTestDataWrapper.format == SatelliteDataFormat.XML)
+        {
+            <div class="form-group">
+                <label>Load XML Files</label>
+            </div>
+
+            <div class="form-group">
+                <label for="xmlFile1">First orbiting element:</label>
+                <InputFile id="xmlFile1" class="form-control-file" OnChange="(e) => HandleFileSelection(e, 1)" />
+            </div>
+
+            <div class="form-group">
+                <label for="xmlFile2">Second orbiting element:</label>
+                <InputFile id="xmlFile2" class="form-control-file" OnChange="(e) => HandleFileSelection(e, 2)" />
+            </div> 
+        }
+
+        @if (userTestDataWrapper.format == SatelliteDataFormat.Text)
+        {
+            <div class="form-group">
+                <label for="orbitingElementData1">Orbiting Element Data 1:</label>
+                <textarea id="orbitingElementData1" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData1"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="orbitingElementData2">Orbiting Element Data 2:</label>
+                <textarea id="orbitingElementData2" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData2"></textarea>
+            </div>
+        }
+
+        <button type="submit" class="btn btn-primary">Create Test</button>
+    </EditForm>
+</div>

@@ -101,6 +101,7 @@ void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& s
 #endif //WIN32
     satrec.satnum[5] = '\0';
 
+
     // Mean Motion
     meanMotion = GetDataFromXmlNode(xmlContent, "MEAN_MOTION");
     satrec.no_kozai = std::stod(meanMotion);
@@ -112,6 +113,7 @@ void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& s
     // Inclination
     inclination = GetDataFromXmlNode(xmlContent, "INCLINATION");
     satrec.inclo = std::stod(inclination);
+
 
     // RA of Ascending Node
     raOfAscNode = GetDataFromXmlNode(xmlContent, "RA_OF_ASC_NODE");
@@ -151,6 +153,9 @@ void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& s
 
     // Epoch
     epoch = GetDataFromXmlNode(xmlContent, "EPOCH");
+    file.close();
+
+    
     int year = std::stoi(epoch.substr(0, 4));
     int month = std::stoi(epoch.substr(5, 2));
     int day = std::stoi(epoch.substr(8, 2));
@@ -210,11 +215,15 @@ void DataGenerator::InitOrbitalElementsFromTLE(char longstr1[130], char longstr2
 /// <returns></returns>
 std::string DataGenerator::GetDataFromXmlNode(std::string xmlContent, std::string nodeName)
 {
-    std::string nodeStartTag = "<" + nodeName + ">";
+    /*std::string nodeStartTag = "<" + nodeName + ">";
     std::string nodeEndTag = "</" + nodeName + ">";
     int dataStartPos = xmlContent.find(nodeStartTag) + nodeStartTag.length();
     int dataEndPos = xmlContent.find(nodeEndTag, dataStartPos);
-    return xmlContent.substr(dataStartPos, dataEndPos);
+    return xmlContent.substr(dataStartPos, dataEndPos);*/
+    std::size_t startTagPos = xmlContent.find("<" + nodeName + ">");
+    startTagPos += nodeName.length() + 2; // Move to start of data
+    std::size_t endTagPos = xmlContent.find("</" + nodeName + ">", startTagPos);
+    return xmlContent.substr(startTagPos, endTagPos - startTagPos);
 }
 
 /// <summary>

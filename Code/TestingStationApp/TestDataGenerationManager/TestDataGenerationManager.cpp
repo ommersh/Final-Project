@@ -15,6 +15,9 @@ bool TestDataGenerationManager::GenerateTestData(TestInfo& testInfo, TcaCalculat
     std::string firstElemData(testInfo.firstElemData);
     std::string secondElemData(testInfo.secondElemData);
 
+    std::cout << "First Element Data:\n" << testInfo.firstElemData << std::endl;
+    std::cout << "Second Element Data:\n" << testInfo.secondElemData << std::endl;
+
     TestDataGenerationManager::ProcessOrbitingElement(firstElemData, recipe.elsetrec1, testInfo.format);
     TestDataGenerationManager::ProcessOrbitingElement(secondElemData, recipe.elsetrec2, testInfo.format);
     //check elsetrec pbjects for errors

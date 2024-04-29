@@ -22,13 +22,14 @@
         <div class="col-md-6">
             @if (SelectedTest.HasValue)
             {
-                    <div>
-                        <h3>@SelectedTest.Value.testName : @testName</h3>
-                        <p>Format: @SelectedTest.Value.format</p>
-                        <p>Algorithm: @SelectedTest.Value.testedAlgorithm</p>
-                        <p>ID: @SelectedTest.Value.testID</p>
-                        <p>Degree @SelectedTest.Value.numberOfPointsPerSegment</p>
-                    </div>
+                <div>
+                    <h3>@SelectedTest.Value.testName : @testName</h3>
+                    <p>Format: @SelectedTest.Value.format</p>
+                    <p>Algorithm: @SelectedTest.Value.testedAlgorithm</p>
+                    <p>ID: @SelectedTest.Value.testID</p>
+                    <p>Degree @SelectedTest.Value.numberOfPointsPerSegment</p>
+                    <p>Any @SelectedTest.Value.</p>
+                </div>
             }
         </div>
     </div>
