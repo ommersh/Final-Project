@@ -71,6 +71,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -194,7 +195,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\INIH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -232,7 +233,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\INIH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -268,7 +269,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\INIH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -308,7 +309,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\Implementations\SBO_ANCAS;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\INIH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\TestDataGenerationManager;..\..\..\Common;..\..\..\Common\CommChannels;..\..\..\Common\DataGeneration;..\..\..\Common\Enums;..\..\..\Common\Utils;..\..\..\Common\Logger;..\..\..\..\SGP4\CPP;..\..\..\Implementations;..\..\*;..\..\CommManager;..\..\Database;..\..\Database\SqlLite;..\..\Enums;..\..\Lab;..\..\TestManager;..\..\TestManager\ResultManager;..\..\..\TestedOBCApp\ExternalLibraries\eigen-3.4.0;..\..\..\Implementations\ANCAS;..\..\..\Implementations\CATCH;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\INIH;..\..\..\Implementations\SBO_ANCAS;..\..\..\ExternalLibraries\INIH\cpp;..\..\..\ExternalLibraries\INIH;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
@@ -332,7 +333,16 @@
     <ClCompile Include="..\..\..\Common\CommChannels\WinUdpCommChannel.cpp" />
     <ClCompile Include="..\..\..\Common\DataGeneration\SimpleDataGeneration.cpp" />
     <ClCompile Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.cpp" />
-    <ClCompile Include="..\..\..\ExternalLibraries\INIH\ini.c" />
+    <ClCompile Include="..\..\..\ExternalLibraries\INIH\ini.c">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='DebugDll|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ReleaseDll|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='DebugDll|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
+    </ClCompile>
     <ClCompile Include="..\..\..\Implementations\ANCAS\ANCAS.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CATCH.cpp" />
     <ClCompile Include="..\..\..\Implementations\CATCH\CompanionMatrixRootsFinder.cpp" />
@@ -367,6 +377,7 @@
     <ClCompile Include="..\..\Lab\LabWrapper.cpp" />
     <ClCompile Include="..\..\TestDataGenerationManager\TestDataGenerationManager.cpp" />
     <ClCompile Include="..\..\TestManager\ResultManager\ResultManager.cpp" />
+    <ClCompile Include="..\..\TestManager\ResultManager\TestResultsToCsv.cpp" />
     <ClCompile Include="..\..\TestManager\TestManager.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
@@ -411,6 +422,7 @@
     <ClInclude Include="..\..\TestDataGenerationManager\TestDataGenerationManager.h" />
     <ClInclude Include="..\..\TestManager\ResultManager\ResultManager.h" />
     <ClInclude Include="..\..\TestManager\ResultManager\TestInfo.h" />
+    <ClInclude Include="..\..\TestManager\ResultManager\TestResultsToCsv.h" />
     <ClInclude Include="..\..\TestManager\TestManager.h" />
   </ItemGroup>
   <ItemGroup>

@@ -24,6 +24,12 @@ void printTestInfo(const TestInfo& test) {
     std::cout << "avgRunTimeMicro: " << test.avgRunTimeMicro << std::endl;
     std::cout << "minRunTimeMicro: " << test.minRunTimeMicro << std::endl;
 
+    std::cout << "Segment Size: " << test.recipe.segmentSizeSec << std::endl;
+    std::cout << "Tmin Factor: " << test.recipe.TminFactor << std::endl;
+    std::cout << "TOLd: " << test.recipe.TOLd << std::endl;
+    std::cout << "TOLt: " << test.recipe.TOLt << std::endl;
+
+
     std::cout << "Status: " << int(test.status) << std::endl;
 }
 
@@ -37,7 +43,7 @@ int main()
     std::this_thread::sleep_for(std::chrono::seconds(5));
     std::cout << "connection " << lab.CheckConnection() << std::endl;
     */
-    int i = 20;
+    int i = 10;
     while (i--)
     {
         //Initialize the data
@@ -70,8 +76,8 @@ int main()
         info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::ANCAS;
         //Run the test
         info.recipe.testID = lab.CreateTest(info);
-        //printTestInfo(info);
-        /*
+        printTestInfo(info);
+        
         //set the algorithm
         info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::CATCH;
         //Run the test
@@ -81,16 +87,18 @@ int main()
         info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::SBO_ANCAS;
         //Run the test
         lab.CreateTest(info);
-        */
+        
 
 
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
         // 
         //check that the results was updated(hoping 8 seconds is enough!)
-        //TestInfo results = { 0 };
-        //results = lab.GetTestInfo(info.recipe.testID);
-        //printTestInfo(results);
+        /*
+        TestInfo results = { 0 };
+        results = lab.GetTestInfo(info.recipe.testID);
+        printTestInfo(results);
+        */
         /*
         std::this_thread::sleep_for(std::chrono::seconds(2));
         //Update status

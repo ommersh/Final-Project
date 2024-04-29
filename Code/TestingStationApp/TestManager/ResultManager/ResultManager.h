@@ -4,7 +4,7 @@
 #include <string>
 #include "TestInfo.h"
 #include "CommonStructures.h"
-#include <string.h>
+#include "TestResultsToCsv.h"
 
 using namespace std;
 class ResultManager {
@@ -18,7 +18,7 @@ private:
     void printTestResults(TestResults::TestResult testResults);
     void printResult(std::string algName, TestResults::TestResult results);
     void startPrint();
-
+    TestResultsToCsv m_resultsToCsv;
 };
 
 #endif

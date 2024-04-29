@@ -145,6 +145,9 @@
     <ClCompile Include="..\..\..\ExternalLibraries\INIH\cpp\INIReader.cpp">
       <Filter>ExternalLibraries</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\TestManager\ResultManager\TestResultsToCsv.cpp">
+      <Filter>TestManager\ResultManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\CommonStructures.h">
@@ -269,6 +272,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Lab\AppVersion.h">
       <Filter>Lab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\TestManager\ResultManager\TestResultsToCsv.h">
+      <Filter>TestManager\ResultManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

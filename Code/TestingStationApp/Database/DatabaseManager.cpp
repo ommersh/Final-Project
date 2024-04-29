@@ -44,7 +44,11 @@ bool DatabaseManager::createTables() {
         "avgRunTimeMicro REAL, "                //15
         "minRunTimeMicro REAL, "                //16
         "status INTEGER,"                       //17
-        "description TEXT"                      //18
+        "SegmentSize REAL, "                    //18
+        "TminFactor REAL, "                     //19
+        "TOLd INTEGER, "                        //20
+        "TOLt INTEGER, "                        //21
+        "description TEXT"                      //22
         ");";
     success &= executeSql(createTestInfoTableSql);
 
@@ -121,9 +125,14 @@ bool DatabaseManager::tablesExist() {
 }
 
 bool DatabaseManager::createTest(TestInfo& test) {
-    //                                         1      2         3           4         5         6                       7                     8          9           10                  11                       12                 13                     14                15            16           17
-    std::string sql = "INSERT INTO TestInfo (name, format, timeInterval, iterations, alg, catchPolynomDeg, numberOfPointsPerSegment, numOfTimePoints, realTCA, realDistance, timeOfTcaFromStartingPointSec, distanceOfTcaKM, numberOfPointsTheAlgUsed, runTimeMicro, avgRunTimeMicro, minRunTimeMicro, status) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    //                                         1      2         3           4         5         6                       7                     8          
+    std::string sql = "INSERT INTO TestInfo (name, format, timeInterval, iterations, alg, catchPolynomDeg, numberOfPointsPerSegment, numOfTimePoints, " 
+    //      9           10                  11                       12                 13                     14                15            16         
+        "realTCA, realDistance, timeOfTcaFromStartingPointSec, distanceOfTcaKM, numberOfPointsTheAlgUsed, runTimeMicro, avgRunTimeMicro, minRunTimeMicro, "
+    //      17         18          19      20    21
+        "status, SegmentSize, TminFactor, TOLd, TOLt) "
+    //           1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     // Prepare statement 
     sqlite3_stmt* stmt;
@@ -150,6 +159,10 @@ bool DatabaseManager::createTest(TestInfo& test) {
     sqlite3_bind_double(stmt, 15, test.avgRunTimeMicro);
     sqlite3_bind_double(stmt, 16, test.minRunTimeMicro);
     sqlite3_bind_int(stmt, 17, static_cast<int>(test.status));
+    sqlite3_bind_double(stmt, 18, test.recipe.segmentSizeSec);
+    sqlite3_bind_int(stmt, 19, test.recipe.TminFactor);
+    sqlite3_bind_double(stmt, 20, test.recipe.TOLd);
+    sqlite3_bind_double(stmt, 21, test.recipe.TOLt);
 
     // Execute the statement
     rc = sqlite3_step(stmt);
@@ -186,6 +199,10 @@ bool DatabaseManager::editTest(const TestInfo& test) {
         "avgRunTimeMicro = ?, "
         "minRunTimeMicro = ?, "
         "status = ? "
+        "SegmentSize = ? "
+        "TminFactor = ? "
+        "TOLd = ? "
+        "TOLt = ? "
         "WHERE testId = ?;";
 
     sqlite3_stmt* stmt;
@@ -213,7 +230,11 @@ bool DatabaseManager::editTest(const TestInfo& test) {
     sqlite3_bind_double(stmt, 15, test.avgRunTimeMicro);
     sqlite3_bind_double(stmt, 16, test.minRunTimeMicro);
     sqlite3_bind_int(stmt, 17, static_cast<int>(test.status));
-    sqlite3_bind_int(stmt, 18, test.recipe.testID);
+    sqlite3_bind_double(stmt, 18, test.recipe.segmentSizeSec);
+    sqlite3_bind_int(stmt, 19, test.recipe.TminFactor);
+    sqlite3_bind_double(stmt, 20, test.recipe.TOLd);
+    sqlite3_bind_double(stmt, 21, test.recipe.TOLt);
+    sqlite3_bind_int(stmt, 22, test.recipe.testID);
 
     // Execute the statement
     rc = sqlite3_step(stmt);
@@ -292,6 +313,11 @@ TestInfo DatabaseManager::getTestInfo(int testId) {
         testInfo.avgRunTimeMicro = sqlite3_column_double(stmt, 15);
         testInfo.minRunTimeMicro = sqlite3_column_double(stmt, 16);
         testInfo.status = static_cast<TestStatus>(sqlite3_column_int(stmt, 17)); 
+        testInfo.recipe.segmentSizeSec = sqlite3_column_double(stmt, 18);
+        testInfo.recipe.TminFactor = sqlite3_column_int(stmt, 19);
+        testInfo.recipe.TOLd = sqlite3_column_double(stmt, 20);
+        testInfo.recipe.TOLt = sqlite3_column_double(stmt, 21);
+
     }
 
     // Finalize the statement

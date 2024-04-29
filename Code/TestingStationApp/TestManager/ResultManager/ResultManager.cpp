@@ -37,6 +37,8 @@ void ResultManager::UpdateTestRealTcaResult(TcaCalculation::TCA tca, int testID)
 void ResultManager::TestCompleted(int testID)
 {
 	Lab::GetInstance().updateTestStatus(TestStatus::Completed, testID);
+	TestInfo testInfo = Lab::GetInstance().GetTestInfo(testID);
+	m_resultsToCsv.SaveInfo(testInfo);
 }
 
 
