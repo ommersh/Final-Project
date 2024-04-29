@@ -31,7 +31,6 @@ bool DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLeng
 {
     bool dataGenerated = true;
     GetStartTimeOfOrbElem(elsetrec1, elsetrec2, startTime1, startTime2);
-    //todo add starttime to recipe
 
     double r1[3], v1[3];
     double r2[3], v2[3];

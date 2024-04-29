@@ -5,14 +5,30 @@
 <PageTitle>Test creation</PageTitle>
 
 <h1>Test results</h1>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 overflow-auto" style="height: 100vh; border-right: 2px solid #dee2e6;">
             @foreach (var test in allTests)
             {
+
                 <div class="card mb-3" style="width: 18rem;" @onclick="() => SelectTest(test)">
                     <div class="card-body">
-                        <h4 class="card-title">@test.testName</h4>
+                        <h4 class="card-title">
+                            @if (test.status.Equals(TestStatus.Completed))
+                            {
+                                <span class="dot Complete"></span>
+                            } else if (test.status.Equals(TestStatus.InProgress))
+                            {
+                                <span class="dot InProgress"></span>
+                            }
+                            else
+                            {
+                                <span class="dot Failed"></span>
+                            }
+
+                            @test.testName
+                        </h4>
                     </div>
                 </div>
             }
@@ -24,12 +40,16 @@
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
+                            <td><strong>Test Name:</strong></td>
+                            <td>@SelectedTest.Value.testName</td>
+                        </tr>
+                        <tr>
                             <td><strong>Test ID:</strong></td>
                             <td>@SelectedTest.Value.testID</td>
                         </tr>
                         <tr>
-                            <td><strong>Test Name:</strong></td>
-                            <td>@SelectedTest.Value.testName</td>
+                            <td><strong>Test Status:</strong></td>
+                            <td>@SelectedTest.Value.status</td>
                         </tr>
                         <tr>
                             <td><strong>Catch Polynomial Degree:</strong></td>
@@ -79,10 +99,7 @@
                             <td><strong>Format:</strong></td>
                             <td>@SelectedTest.Value.format</td>
                         </tr>
-                        <tr>
-                            <td><strong>Test Status:</strong></td>
-                            <td>@SelectedTest.Value.status</td>
-                        </tr>
+
                         <tr>
                             <td><strong>Time Of TCA From Starting Point (Sec):</strong></td>
                             <td>@SelectedTest.Value.timeOfTcaFromStartingPointSec</td>

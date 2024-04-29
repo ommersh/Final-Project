@@ -23,7 +23,7 @@
         <div class="form-group">
             <div class="input-group">
                 <label for="numberOfPointsPerSegment">Number of Points Per Segment:</label>
-                <InputNumber id="numberOfPointsPerSegment" class="form-control" @bind-Value:event="oninput" @bind-Value="userTestDataWrapper.numberOfPointsPerSegment" />
+                <InputNumber id="numberOfPointsPerSegment" class="form-control" @bind-Value="userTestDataWrapper.numberOfPointsPerSegment" />
             </div>
         </div>
 
@@ -61,14 +61,18 @@
         <div class="form-group">
             <div class="input-group">
                 <label for="TminFactor">Tmin Factor:</label>
-                <InputNumber id="TminFactor" class="form-control" @bind-Value:event="oninput" @bind-Value="userTestDataWrapper.TminFactor" />
+                <InputSelect id="TminFactor" class="form-control" @bind-Value="userTestDataWrapper.TminFactor">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                </InputSelect>
             </div>
         </div>
 
         <div class="form-group">
             <div class="input-group">
                 <label for="timeIntervalSizeSec">Time Interval Size (Seconds):</label>
-                <InputNumber id="timeIntervalSizeSec" class="form-control" @bind-Value:event="oninput" @bind-Value="userTestDataWrapper.timeIntervalSizeSec" />
+                <InputNumber id="timeIntervalSizeSec" class="form-control" @bind-Value="userTestDataWrapper.timeIntervalSizeSec" />
             </div>
         </div>
 

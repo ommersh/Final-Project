@@ -36,6 +36,7 @@ namespace LabWrap {
             userData.timeIntervalSizeSec = testInfo.recipe.timeIntervalSizeSec;
             userData.TOLdKM = testInfo.recipe.TOLd;
             userData.TOLtSec = testInfo.recipe.TOLt;
+
             //For displaying the info
             //userData.julianDate = 0;
             userData.initialNumberOfPoints = testInfo.recipe.numberOfPoints;
@@ -49,6 +50,7 @@ namespace LabWrap {
             userData.runTimeMicro = testInfo.runTimeMicro;
             userData.avgRunTimeMicro = testInfo.avgRunTimeMicro;
             userData.minRunTimeMicro = testInfo.minRunTimeMicro;
+
 
             userData.format = testInfo.format;
             userData.status = testInfo.status;
@@ -76,6 +78,11 @@ namespace LabWrap {
             testInfo.recipe.TOLd = userData.TOLdKM;
             testInfo.recipe.TOLt = userData.TOLtSec;
             testInfo.format = userData.format;
+            testInfo.avgRunTimeMicro = 0;
+            testInfo.minRunTimeMicro = 0;
+            testInfo.runTimeMicro = 0;
+            testInfo.realDistance = 0;
+            testInfo.realTCA = 0;
             strncpy_s(testInfo.firstElemData, userData.orbitingElementData1, 262);
             strncpy_s(testInfo.secondElemData, userData.orbitingElementData2, 262);
 

@@ -24,7 +24,6 @@ public:
 	void GenerateTimePointForCatch(int n, double tEnd, double gamma, TcaCalculation::sPointData elementsVectors[]);
 	static double GetGamma(elsetrec elsetrec1, elsetrec elsetrec2, double factor);
 	void GetStartTimeOfOrbElem(elsetrec elsetrec1, elsetrec elsetrec2, double& elemOneTime, double& ElemTwoTime);
-	//todo: add static
 
 private:
 	AncasDataGenerator m_ancasDataGenerator;
