@@ -14,21 +14,27 @@
 
                 <div class="card mb-3" style="width: 18rem;" @onclick="() => SelectTest(test)">
                     <div class="card-body">
-                        <h4 class="card-title">
+                        <h6 class="card-title">
+                            @test.testName
                             @if (test.status.Equals(TestStatus.Completed))
                             {
-                                <span class="dot Complete"></span>
+                                <div>
+                                    <span class="dot Complete"></span>Completed
+                                </div>              
                             } else if (test.status.Equals(TestStatus.InProgress))
                             {
-                                <span class="dot InProgress"></span>
+                                <div>
+                                    <span class="dot InProgress"></span>In Progress
+                                </div>
                             }
                             else
                             {
-                                <span class="dot Failed"></span>
+                                <div>
+                                    <span class="dot Failed"></span>Failed
+                                </div>
                             }
 
-                            @test.testName
-                        </h4>
+                        </h6>
                     </div>
                 </div>
             }

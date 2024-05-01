@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Components.Forms;
 using System.IO;
 
-
 namespace BlazorApp1.Components.Pages
 {
 
@@ -11,6 +10,8 @@ namespace BlazorApp1.Components.Pages
 
         public IBrowserFile elemenetFile1;
         public IBrowserFile elemenetFile2;
+        private bool submissionSuccess = false;
+        private string submissionMessage = "";
 
         private TestDataWrapper userTestDataWrapper = new TestDataWrapper()
         {
@@ -30,14 +31,42 @@ namespace BlazorApp1.Components.Pages
             userTestDataWrapper.numberOfPointsPerSegment = 16;
             userTestDataWrapper.TminFactor = 2;
             userTestDataWrapper.timeIntervalSizeSec = 1209600;
-            userTestDataWrapper.TOLdKM =  "0.00000001";
+            userTestDataWrapper.TOLdKM = "0.00000001";
             userTestDataWrapper.TOLtSec = "0.0004";
         }
 
-        void HandleValidSubmit()
-        {;
+        private void HandleValidSubmit()
+        {
             UserTestData testData = CreateStructFromWrapper(userTestDataWrapper);
-            LabInterop.Lab_CreateTest(labPtr, testData);
+            if (testData.format == SatelliteDataFormat.XML)
+            {
+                if (elemenetFile1 == null || elemenetFile2 == null)
+                {
+                    submissionSuccess = false;
+                    submissionMessage = "Error: Missing input file.";
+                    return;
+                }
+            }
+            int result = LabInterop.Lab_CreateTest(labPtr, testData);
+            switch (result)
+            {
+                case >= 0:
+                    submissionSuccess = true;
+                    submissionMessage = $"Test created successfully! Test ID: {result}";
+                    break;
+                case -1:
+                    submissionSuccess = false;
+                    submissionMessage = "Error: Failed to save the test to the database.";
+                    break;
+                case -2:
+                    submissionSuccess = false;
+                    submissionMessage = "Error: Data generation failed, try different input.";
+                    break;
+                default:
+                    submissionSuccess = false;
+                    submissionMessage = "Error: Failed to create the test";
+                    break;
+            }
         }
 
         async Task HandleFileSelection(InputFileChangeEventArgs e, int orbitingElementIndex)
@@ -71,7 +100,7 @@ namespace BlazorApp1.Components.Pages
             UserTestData userTestData = new UserTestData();
             userTestData.testName = userTestDataWrapper.testName;
             userTestData.numberOfPointsPerSegment = userTestDataWrapper.numberOfPointsPerSegment;
-            userTestData.catchPolynomialDegree = userTestDataWrapper.numberOfPointsPerSegment -1;
+            userTestData.catchPolynomialDegree = userTestDataWrapper.numberOfPointsPerSegment - 1;
             userTestData.catchRootsAlg = userTestDataWrapper.catchRootsAlg;
             userTestData.testedAlgorithm = userTestDataWrapper.testedAlgorithm;
             userTestData.numberOfIterations = (uint)userTestDataWrapper.numberOfIterations;
@@ -124,6 +153,7 @@ namespace BlazorApp1.Components.Pages
             return savePath;
         }
     }
+
 }
 
     

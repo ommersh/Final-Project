@@ -1,4 +1,5 @@
 using BlazorApp1.Components;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,5 +24,10 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+// Adding a minimal API endpoint for checking connection
+app.MapGet("/api/checkconnection", () => {
+    return LabInterop.Lab_CheckConnection();
+});
 
 app.Run();

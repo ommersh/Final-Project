@@ -18,4 +18,7 @@ public class LabInterop
 
     [DllImport("TestingStationApp.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern TestIdsStruct Lab_GetAllTestIds(IntPtr lab);
+
+    [DllImport("TestingStationApp.dll", CallingConvention = CallingConvention.Cdecl)]
+    public static extern bool Lab_CheckConnection();
 }

@@ -49,3 +49,12 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+#connectivityDiv strong {
+    vertical-align: middle; /* Aligns the text vertically with the circle */
+}
+
+#statusCircle {
+    vertical-align: middle; /* Ensures the circle aligns with the text */
+    margin-right: 5px; /* Adds some space between the circle and the text */
+}

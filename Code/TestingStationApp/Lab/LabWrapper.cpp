@@ -103,5 +103,10 @@ namespace LabWrap {
             }
             return testidStruct;
         }
+
+        __declspec(dllexport) bool Lab_CheckConnection()
+        {
+            return Lab::GetInstance().CheckConnection();
+        }
     }
 }
