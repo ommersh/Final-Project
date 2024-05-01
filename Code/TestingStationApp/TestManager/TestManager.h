@@ -69,7 +69,7 @@ public:
     void stopTestManagerProcess();
 
 private:
-    static const unsigned long int TIME_OUT_MICROSEC = 1000000 * 60 * 10;//Ten Minutes
+    static const unsigned long int TIME_OUT_MICROSEC = 1000000 * 60 * 20;//20 Minutes
     static const unsigned long int SLEEP_TIME_MILLISEC = 500;//0.5 Seconds
 
     ResultManager* m_resultsManager;
