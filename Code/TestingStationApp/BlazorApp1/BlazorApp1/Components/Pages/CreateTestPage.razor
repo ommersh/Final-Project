@@ -13,7 +13,7 @@
         <div class="form-group">
             <div class="input-group">
                 <label for="testName">Test Name:</label>
-                <InputText id="testName" class="form-control" @bind-Value="userTestDataWrapper.testName" required />
+                <InputText id="testName" class="form-control" @bind-Value="userTestDataWrapper.testName" required placeholder="Enter the test name..." />
             </div>
             <div class="invalid-feedback">
                 Please enter a test name.
@@ -127,20 +127,29 @@
             <div class="form-group">
                 <div class="input-group">
                     <label for="orbitingElementData1">Orbiting Element Data 1:</label>
-                    <textarea id="orbitingElementData1" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData1"></textarea>
+                    <textarea id="orbitingElementData1" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData1" placeholder="Enter the first object TLE in 2 lines..."></textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="input-group">
                     <label for="orbitingElementData2">Orbiting Element Data 2:</label>
-                    <textarea id="orbitingElementData2" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData2"></textarea>
+                    <textarea id="orbitingElementData2" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData2" placeholder="Enter the second object TLE in 2 lines..."></textarea>
                 </div>
             </div>
         }
 
         <button type="submit" class="btn btn-primary">Create Test</button>
     </EditForm>
+
+    <!-- Message display -->
+    @if (!string.IsNullOrEmpty(submissionMessage))
+    {
+        <div id="alertBox" class="alert @(submissionSuccess ? "alert-success" : "alert-danger") mt-3">
+            @submissionMessage
+        </div>
+    }
+
 </div>
 
 
