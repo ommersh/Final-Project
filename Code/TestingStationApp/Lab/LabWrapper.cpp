@@ -51,6 +51,11 @@ namespace LabWrap {
             userData.avgRunTimeMicro = testInfo.avgRunTimeMicro;
             userData.minRunTimeMicro = testInfo.minRunTimeMicro;
 
+            userData.realTCASec = testInfo.realTCA;
+            userData.realTCAdistanceKM = testInfo.realDistance;
+
+            userData.TCAErrorSec = fabs(testInfo.realTCA - testInfo.timeOfTcaFromStartingPointSec);
+            userData.TCAErrorKm = fabs(testInfo.realDistance - testInfo.distanceOfTcaKM);
 
             userData.format = testInfo.format;
             userData.status = testInfo.status;

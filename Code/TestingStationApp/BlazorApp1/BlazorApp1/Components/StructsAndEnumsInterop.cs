@@ -30,6 +30,11 @@ public struct UserTestData
     public double runTimeMicro;
     public double avgRunTimeMicro;
     public double minRunTimeMicro;
+    public double realTCASec;
+    public double realTCAdistanceKM;
+    public double TCAErrorSec;
+    public double TCAErrorKm;
+
 }
 
 

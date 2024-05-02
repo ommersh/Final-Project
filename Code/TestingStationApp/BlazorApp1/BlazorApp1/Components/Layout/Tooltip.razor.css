@@ -18,6 +18,8 @@
     margin-left: -60px;
     opacity: 0;
     transition: opacity 0.3s;
+    min-width: 200px;
+    max-width: 400px;
 }
 
 .tooltip-container:hover .tooltip {

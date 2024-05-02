@@ -59,7 +59,10 @@
                             <td>@SelectedTest.Value.status</td>
                         </tr>
                         <tr>
-                            <td><strong>Number Of Points Per Segment:</strong></td>
+                            <td><strong>Number Of Points Per Segment:</strong>
+                                <Tooltip TooltipText="The number point of data per Gamma time interval">
+                                </Tooltip>
+                            </td>
                             <td>@SelectedTest.Value.numberOfPointsPerSegment</td>
                         </tr>
 
@@ -73,7 +76,7 @@
                         </tr>
                         <tr>
                             <td><strong>Tmin Factor:</strong>
-                                <Tooltip TooltipText="Constand to calculate the size of Gamma">
+                                <Tooltip TooltipText="Constand used for calculating the size of Gamma, where Gamma = min satellite iteration / TMin Factor">
                                 </Tooltip>
                                 </td>
                             <td>@SelectedTest.Value.TminFactor</td>
@@ -84,40 +87,57 @@
                         </tr>
                         <tr>
                             <td><strong>TOLdKM:</strong>
-                                <Tooltip TooltipText="Tolerance of the distance used when on SBO algorithm as a stopping condition">
+                                <Tooltip TooltipText="SBO-ANCAS distance tolerance[KM]">
                                 </Tooltip>
                                 </td>
                             <td>@SelectedTest.Value.TOLdKM</td>
                         </tr>
                         <tr>
                             <td><strong>TOLtSec:</strong>
-                                <Tooltip TooltipText="Tolerance of the time used when on SBO algorithm as a stopping condition">
+                                <Tooltip TooltipText="SBO-ANCAS time tolerance[Sec]">
                                 </Tooltip>
                                 </td>
                             <td>@SelectedTest.Value.TOLtSec</td>
                         </tr>
                         <tr>
-                            <td><strong>Initial Number Of Points:</strong></td>
+                            <td><strong>Initial Number Of Points:</strong>
+                                <Tooltip TooltipText="The number of input points of data">
+                                </Tooltip>
+                            </td>
                             <td>@SelectedTest.Value.initialNumberOfPoints</td>
                         </tr>
                         <tr>
-                            <td><strong>Segment Size (Sec):</strong></td>
+                            <td><strong>Segment Size (Sec):</strong>
+                                <Tooltip TooltipText="Gamma">
+                                </Tooltip>
+                                </td>
                             <td>@SelectedTest.Value.segmentSizeSec</td>
                         </tr>
                         <tr>
                             <td><strong>Format:</strong></td>
                             <td>@SelectedTest.Value.format</td>
                         </tr>
+                        @if (@SelectedTest.Value.status == TestStatus.Completed)
+                        {
                         <tr>
-                            <td><strong>Time Of TCA From Starting Point (Sec):</strong></td>
+                            <td><strong>TCA (Sec):</strong>
+                                <Tooltip TooltipText="TCA offset from the starting point(the first input point) from the tested algorithm">
+                                </Tooltip>
+                            </td>
                             <td>@SelectedTest.Value.timeOfTcaFromStartingPointSec</td>
                         </tr>
                         <tr>
-                            <td><strong>Distance Of TCA (KM):</strong></td>
+                            <td><strong>Distance Of TCA (KM):</strong>
+                                <Tooltip TooltipText="distance of TCA from the tested algorithm">
+                                </Tooltip>
+                            </td>
                             <td>@SelectedTest.Value.distanceOfTcaKM</td>
                         </tr>
                         <tr>
-                            <td><strong>Number Of Points The Algorithm Used:</strong></td>
+                            <td><strong>Number Of Points The Algorithm Used:</strong>
+                                <Tooltip TooltipText="The total number of points in time the algorithm used">
+                                </Tooltip>
+                            </td>
                             <td>@SelectedTest.Value.numberOfPointsTheAlgUsed</td>
                         </tr>
                         <tr>
@@ -128,6 +148,35 @@
                             <td><strong>Minimum Run Time (Micro):</strong></td>
                             <td>@SelectedTest.Value.minRunTimeMicro</td>
                         </tr>
+                        <tr>
+                            <td><strong>Real TCA (Sec):</strong>
+                                <Tooltip TooltipText="To accurately determine the real TCA we initially employed the SBO-ANCAS algorithm with the given tolerances to get the TCA then used a small time-step of 1/10 * TOLt with 1 second around the found TCA to get a more accurate result">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.realTCASec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Real Distance Of TCA (KM):</strong>
+                                <Tooltip TooltipText="To accurately determine the real TCA we initially employed the SBO-ANCAS algorithm with the given tolerances to get the TCA then used a small time-step of 1/10 * TOLt with 1 second around the found TCA to get a more accurate result">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.realTCAdistanceKM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Distance Of TCA Error (KM):</strong>
+                                <Tooltip TooltipText=" = |TCA Distance - Real TCA Distance |">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.TCAErrorKm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TCA Error (Sec):</strong>
+                                <Tooltip TooltipText=" = |TCA - Real TCA |">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.TCAErrorSec</td>
+                        </tr>
+                        }
                         @if (@SelectedTest.Value.testedAlgorithm == Algorithm.CATCH)
                         {
                             <tr>

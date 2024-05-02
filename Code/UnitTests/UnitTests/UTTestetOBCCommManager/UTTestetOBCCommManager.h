@@ -27,6 +27,11 @@ public:
     {
         ;
     }
+    bool checkConnection() override
+    {
+        return false;
+
+    }
 };
 
 
