@@ -2,13 +2,10 @@
 @rendermode InteractiveServer
 
 <PageTitle>Test creation</PageTitle>
+<h1 class="title">Test creation</h1>
 
 <div class="container mt-5">
-    <h2 class="mb-4">Create Test</h2>
-
-    <EditForm Model="@userTestDataWrapper" OnValidSubmit="HandleValidSubmit" class="needs-validation" novalidate>
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+    <EditForm Model="@userTestDataWrapper" OnValidSubmit="HandleValidSubmit">
 
         <div class="form-group">
             <div class="input-group">
@@ -57,6 +54,7 @@
                 <InputNumber id="numberOfIterations" class="form-control" @bind-Value="userTestDataWrapper.numberOfIterations" />
             </div>
         </div>
+
         <div class="form-group">
             <div class="input-group">
                 <label for="TminFactor">Tmin Factor:</label>
@@ -93,12 +91,12 @@
             <div class="input-group">
                 <label for="dataFormat">Output Format:</label>
                 <div class="radio-container">
-                <InputRadioGroup id="dataFormat" @bind-Value="userTestDataWrapper.format">
-                    <InputRadio class="form-check-inline" Value="SatelliteDataFormat.XML" />
-                    <label class="form-check-label">XML</label>
-                    <InputRadio class="form-check-inline" Value="SatelliteDataFormat.Text" />
-                    <label class="form-check-label">Text</label>
-                </InputRadioGroup>
+                    <InputRadioGroup id="dataFormat" @bind-Value="userTestDataWrapper.format">
+                        <InputRadio class="form-check-inline" Value="SatelliteDataFormat.XML" />
+                        <label class="form-check-label">XML</label>
+                        <InputRadio class="form-check-inline" Value="SatelliteDataFormat.Text" />
+                        <label class="form-check-label">Text</label>
+                    </InputRadioGroup>
                 </div>
             </div>
         </div>

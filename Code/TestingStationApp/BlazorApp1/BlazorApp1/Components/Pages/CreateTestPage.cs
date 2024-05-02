@@ -47,6 +47,12 @@ namespace BlazorApp1.Components.Pages
                     return;
                 }
             }
+            if (testData.TOLdKM.Equals(0) || testData.TOLtSec.Equals(0))
+            {
+                submissionSuccess = false;
+                submissionMessage = "Error: invalid tolerance value";
+                return;
+            }
             int result = LabInterop.Lab_CreateTest(labPtr, testData);
             switch (result)
             {
@@ -88,8 +94,6 @@ namespace BlazorApp1.Components.Pages
                     elemenetFile2 = file;
                     await SaveFile(elemenetFile2, savePath);
                     userTestDataWrapper.orbitingElementData2 = file.Name;
-
-
                 }
             }
         }
@@ -106,14 +110,31 @@ namespace BlazorApp1.Components.Pages
             userTestData.numberOfIterations = (uint)userTestDataWrapper.numberOfIterations;
             userTestData.TminFactor = userTestDataWrapper.TminFactor;
             userTestData.timeIntervalSizeSec = userTestDataWrapper.timeIntervalSizeSec;
-            userTestData.TOLdKM = double.Parse(userTestDataWrapper.TOLdKM);
-            userTestData.TOLtSec = double.Parse(userTestDataWrapper.TOLtSec);
+            //userTestData.TOLdKM = double.Parse(userTestDataWrapper.TOLdKM);
+            //userTestData.TOLtSec = double.Parse(userTestDataWrapper.TOLtSec);
+            if (double.TryParse(userTestDataWrapper.TOLdKM, out double tolDkmResult))
+            {
+                userTestData.TOLdKM = tolDkmResult;
+            }
+            else
+            {
+                userTestDataWrapper.TOLdKM = "0";
+                userTestData.TOLdKM = 0;
+            }
+
+            if (double.TryParse(userTestDataWrapper.TOLtSec, out double tolTSecResult))
+            {
+                userTestData.TOLtSec = tolTSecResult;
+            }
+            else
+            {
+                userTestDataWrapper.TOLtSec = "0";
+                userTestData.TOLtSec = 0;
+            }
             userTestData.format = userTestDataWrapper.format;
 
             userTestData.orbitingElementData1 = userTestDataWrapper.orbitingElementData1;
             userTestData.orbitingElementData2 = userTestDataWrapper.orbitingElementData2;
-
-
 
             return userTestData;
 
@@ -156,5 +177,5 @@ namespace BlazorApp1.Components.Pages
 
 }
 
-    
+
 

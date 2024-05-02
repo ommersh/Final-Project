@@ -1,7 +1,66 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Forms
+@using System.IO
 
-<PageTitle>Home</PageTitle>
+<h1 class="title">Welcome to the testing station app</h1>
 
-<h1>Welcome to the Testing Station App!</h1>
+<div class="container">
+    <div class="section">
+        <h2>Introduction</h2>
+        <p class="lead">
+            To efficiently test algorithms on a dedicated on-board computer, this system was created. Each test begins with creating a dataset, consisting of time points for ANCAS, CATCH,or SBO-ANCAS, and determining the actual TCA for comparison. The testing setup comprises two components: the Test Station, responsible for data creation and result handling, and the Tested OBC which runs the algorithms and monitor time.
+        </p>
+    </div>
 
-Welcome to your new app.
+    <div class="section">
+        <h2>Steps to Create a Test</h2>
+
+        <div class="step">
+            <h3>Step 1: Navigate to the "Create test" page</h3>
+            <p>
+                Navigate to the page or section of your Blazor application where the CreateTestPage component is located.
+            </p>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Provide Test Information</h3>
+            <ol>
+                <li><strong>Test Name:</strong> Enter a descriptive name for your test in the provided input field.</li>
+                <li><strong>Set Test Parameters:</strong> Adjust the parameters as needed for your test. These parameters define the behavior and characteristics of the test.</li>
+                <li>
+                    <strong>Give Input Data Of The Orbiting Elements:</strong>
+                    <ul>
+                        <li>
+                            If the data is stored in XML format, click on the "Choose File" button to select the input data file for the first orbiting element. <br>
+                            Otherwise, copy the TLE of the lements into the text boxes
+                        </li>
+                        <li>Repeat the process to select the input data file for the second orbiting element.</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Submit the Form</h3>
+            <p>
+                Once you have provided all the necessary information:
+            </p>
+            <ol>
+                <li>Click on the "Submit" button to initiate the test creation process.</li>
+                <li>Input validation will occur, followed by the test creation attempt.</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>Step 4: Review Test Creation Result</h3>
+            <p>
+                After submitting the form, one of the following outcomes will occur:
+            </p>
+            <ul>
+                <li><strong>Success:</strong> If the test creation is successful, a confirmation message will be displayed, indicating the test ID assigned to your newly created test.</li>
+                <li><strong>Error:</strong> If there are any issues during test creation (e.g., missing input files, validation errors), an error message will be displayed, providing details about the issue encountered.</li>
+            </ul>
+        </div>
+    </div>
+
+</div>

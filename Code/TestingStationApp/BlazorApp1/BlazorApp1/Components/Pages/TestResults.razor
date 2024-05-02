@@ -3,9 +3,8 @@
 @rendermode InteractiveServer
 @using BlazorApp1.Components.Layout;
 
-<PageTitle>Test creation</PageTitle>
-
-<h1>Test results</h1>
+<PageTitle>Tests results</PageTitle>
+<h1 class="title">Test results</h1>
 
 <div class="container-fluid">
     <div class="row">
@@ -76,7 +75,7 @@
                         </tr>
                         <tr>
                             <td><strong>Tmin Factor:</strong>
-                                <Tooltip TooltipText="Constand used for calculating the size of Gamma, where Gamma = min satellite iteration / TMin Factor">
+                                <Tooltip TooltipText="Constant used for calculating the size of Gamma, where Gamma = min satellite iteration / TMin Factor">
                                 </Tooltip>
                                 </td>
                             <td>@SelectedTest.Value.TminFactor</td>
