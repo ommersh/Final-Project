@@ -1,0 +1,29 @@
+﻿@* <link rel="stylesheet" href="Tooltip.razor.css" />
+ *@
+<div class="tooltip-container">
+    
+    @ChildContent
+    <div class="tooltip-container">
+        <div class="tooltip-trigger"><img src="/Info.png" /></div>
+        <div class="tooltip">@TooltipText</div>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string TooltipText { get; set; }
+
+    // private bool IsTooltipVisible = false;
+
+    // private void ShowTooltip()
+    // {
+    //     IsTooltipVisible = true;
+    // }
+
+    // private void HideTooltip()
+    // {
+    //     IsTooltipVisible = false;
+    // }
+}

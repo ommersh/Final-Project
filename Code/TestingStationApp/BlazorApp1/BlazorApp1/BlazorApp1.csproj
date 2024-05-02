@@ -13,6 +13,7 @@
   <ItemGroup>
     <Content Remove="Components\Pages\Test.razor" />
     <Content Remove="Components\Pages\Test2.razor" />
+    <Content Remove="wwwroot\Info2.png" />
   </ItemGroup>
 
   <ItemGroup>

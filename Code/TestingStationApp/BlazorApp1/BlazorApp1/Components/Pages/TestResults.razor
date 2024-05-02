@@ -1,6 +1,7 @@
 ﻿@page "/testResults"
 @using System.Collections.Generic
 @rendermode InteractiveServer
+@using BlazorApp1.Components.Layout;
 
 <PageTitle>Test creation</PageTitle>
 
@@ -8,10 +9,9 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 overflow-auto" style="height: 100vh; border-right: 2px solid #dee2e6;">
+        <div class="col-md-3 overflow-auto" style="height: 86vh; border-right: 2px solid #dee2e6;">
             @foreach (var test in allTests)
             {
-
                 <div class="card mb-3" style="width: 18rem;" @onclick="() => SelectTest(test)">
                     <div class="card-body">
                         <h6 class="card-title">
@@ -20,8 +20,9 @@
                             {
                                 <div>
                                     <span class="dot Complete"></span>Completed
-                                </div>              
-                            } else if (test.status.Equals(TestStatus.InProgress))
+                                </div>
+                            }
+                            else if (test.status.Equals(TestStatus.InProgress))
                             {
                                 <div>
                                     <span class="dot InProgress"></span>In Progress
@@ -40,13 +41,13 @@
             }
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 overflow-auto" style="height: 86vh;">
             @if (SelectedTest.HasValue)
             {
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
-                            <td><strong>Test Name:</strong></td>
+                            <td style="width:45%"><strong>Test Name:</strong></td>
                             <td>@SelectedTest.Value.testName</td>
                         </tr>
                         <tr>
@@ -58,17 +59,10 @@
                             <td>@SelectedTest.Value.status</td>
                         </tr>
                         <tr>
-                            <td><strong>Catch Polynomial Degree:</strong></td>
-                            <td>@SelectedTest.Value.catchPolynomialDegree</td>
-                        </tr>
-                        <tr>
                             <td><strong>Number Of Points Per Segment:</strong></td>
                             <td>@SelectedTest.Value.numberOfPointsPerSegment</td>
                         </tr>
-                        <tr>
-                            <td><strong>Catch Roots Algorithm:</strong></td>
-                            <td>@SelectedTest.Value.catchRootsAlg</td>
-                        </tr>
+
                         <tr>
                             <td><strong>Tested Algorithm:</strong></td>
                             <td>@SelectedTest.Value.testedAlgorithm</td>
@@ -78,7 +72,10 @@
                             <td>@SelectedTest.Value.numberOfIterations</td>
                         </tr>
                         <tr>
-                            <td><strong>Tmin Factor:</strong></td>
+                            <td><strong>Tmin Factor:</strong>
+                                <Tooltip TooltipText="Constand to calculate the size of Gamma">
+                                </Tooltip>
+                                </td>
                             <td>@SelectedTest.Value.TminFactor</td>
                         </tr>
                         <tr>
@@ -86,13 +83,19 @@
                             <td>@SelectedTest.Value.timeIntervalSizeSec</td>
                         </tr>
                         <tr>
-                            <td><strong>TOLdKM:</strong></td>
+                            <td><strong>TOLdKM:</strong>
+                                <Tooltip TooltipText="Tolerance of the distance used when on SBO algorithm as a stopping condition">
+                                </Tooltip>
+                                </td>
                             <td>@SelectedTest.Value.TOLdKM</td>
                         </tr>
                         <tr>
-                            <td><strong>TOLtSec:</strong></td>
+                            <td><strong>TOLtSec:</strong>
+                                <Tooltip TooltipText="Tolerance of the time used when on SBO algorithm as a stopping condition">
+                                </Tooltip>
+                                </td>
                             <td>@SelectedTest.Value.TOLtSec</td>
-                        </tr>                    
+                        </tr>
                         <tr>
                             <td><strong>Initial Number Of Points:</strong></td>
                             <td>@SelectedTest.Value.initialNumberOfPoints</td>
@@ -105,7 +108,6 @@
                             <td><strong>Format:</strong></td>
                             <td>@SelectedTest.Value.format</td>
                         </tr>
-
                         <tr>
                             <td><strong>Time Of TCA From Starting Point (Sec):</strong></td>
                             <td>@SelectedTest.Value.timeOfTcaFromStartingPointSec</td>
@@ -119,10 +121,6 @@
                             <td>@SelectedTest.Value.numberOfPointsTheAlgUsed</td>
                         </tr>
                         <tr>
-                            <td><strong>Run Time (Micro):</strong></td>
-                            <td>@SelectedTest.Value.runTimeMicro</td>
-                        </tr>
-                        <tr>
                             <td><strong>Average Run Time (Micro):</strong></td>
                             <td>@SelectedTest.Value.avgRunTimeMicro</td>
                         </tr>
@@ -130,6 +128,13 @@
                             <td><strong>Minimum Run Time (Micro):</strong></td>
                             <td>@SelectedTest.Value.minRunTimeMicro</td>
                         </tr>
+                        @if (@SelectedTest.Value.testedAlgorithm == Algorithm.CATCH)
+                        {
+                            <tr>
+                                <td><strong>Catch Polynomial Degree:</strong></td>
+                                <td>@SelectedTest.Value.catchPolynomialDegree</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             }
