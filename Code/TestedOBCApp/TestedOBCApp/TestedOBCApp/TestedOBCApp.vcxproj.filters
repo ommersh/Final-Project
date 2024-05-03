@@ -262,5 +262,12 @@
     <ClInclude Include="..\..\..\Common\Logger\EventLogger.h">
       <Filter>Common\Logger</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Icon\ObcAppIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
 </Project>

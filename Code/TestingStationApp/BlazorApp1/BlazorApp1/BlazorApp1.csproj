@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>stationIcon.ico</ApplicationIcon>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +20,10 @@
 
   <ItemGroup>
     <None Remove="Components\LabCaller.cpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="stationIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>

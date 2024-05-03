@@ -26,7 +26,6 @@ Implementations/TestApp/Debug/
 TestedOBCApp/TestedOBCApp/Debug/
 TestedOBCApp/TestedOBCApp/Release/
 TestedOBCApp/TestedOBCApp/TestedOBCApp/Debug/
-Versions/
 Code/Implementations/.vs/
 Code/Implementations/TestApp/.vs/
 Code/Implementations/TestApp/Debug/
@@ -68,7 +67,6 @@ Code/TestingStationApp/TestingStationApp/Release/
 Code/TestingStationApp/TestingStationApp/TestingApp/Release/
 Code/UnitTests/UnitTests/UTTestetOBCCommManager/.vs/
 Code/UnitTests/UnitTests/UTTestetOBCCommManager/Debug/
-ReleasedVersions/TestedObcApp/build/
 Code/TestingStationApp/BlazorApp1/BlazorApp1/Tests.db
 Code/TestingStationApp/BlazorApp1/BlazorApp1/bin/
 Code/TestingStationApp/TestingStationApp/Dlls/TestingStationApp.dll

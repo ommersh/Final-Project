@@ -56,7 +56,7 @@ bool DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLeng
     }
     return dataGenerated;
 }
-
+#ifndef TestedOBCApp
 /// <summary>
 /// this function converts the Omm (Orbit Mean-Element Message) xml file data to
 /// variables and initializes the sgp4 variables.
@@ -192,7 +192,7 @@ void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& s
     SGP4Funcs::sgp4init(wgs72, 'i', satrec.satnum, (satrec.jdsatepoch + satrec.jdsatepochF) - 2433281.5, satrec.bstar, satrec.ndot, satrec.nddot, satrec.ecco,
         satrec.argpo, satrec.inclo, satrec.mo, satrec.no_kozai, satrec.nodeo, satrec);
 }
-
+#endif // !TestedOBCApp
 /// <summary>
 ///  Wrapper method for the original SGP4 initializing orbiting element values from tle
 /// </summary>

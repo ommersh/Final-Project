@@ -1,0 +1,11 @@
+03/05/2024-22:38:08::main::App Started
+03/05/2024-22:38:08::main::App Version: 1.0.7
+03/05/2024-22:38:08::AppConfigurationManager::CommChannelType: Tcp
+03/05/2024-22:38:08::AppConfigurationManager::TimerType: ChronoTimer
+03/05/2024-22:38:08::AppConfigurationManager::SourcePort: 8888
+03/05/2024-22:38:08::AppConfigurationManager::DestinationPort: 8889
+03/05/2024-22:38:08::AppConfigurationManager::LocalIpAddress: 127.0.0.1
+03/05/2024-22:38:08::AppConfigurationManager::DestIpAddress: 127.0.0.1
+03/05/2024-22:38:08::AppConfigurationManager::App Started
+03/05/2024-22:38:08::main::Factory created
+03/05/2024-22:38:08::MainProcess::Staring MainProcess
