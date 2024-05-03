@@ -30,6 +30,11 @@ public struct UserTestData
     public double runTimeMicro;
     public double avgRunTimeMicro;
     public double minRunTimeMicro;
+    public double realTCASec;
+    public double realTCAdistanceKM;
+    public double TCAErrorSec;
+    public double TCAErrorKm;
+
 }
 
 
@@ -81,8 +86,8 @@ public class TestDataWrapper
     public int numberOfIterations;
     public int TminFactor;                         // 2/4/8 what we divide the smaller iteration by to get Gamma
     public double timeIntervalSizeSec;
-    public double TOLdKM;                          // tolerance of distance for SBO ANCAS in KM
-    public double TOLtSec;                         // tolerance of time for SBO ANCAS in SEC
+    public required string TOLdKM;                          // tolerance of distance for SBO ANCAS in KM
+    public required string TOLtSec;                         // tolerance of time for SBO ANCAS in SEC
     public required string orbitingElementData1;
     public required string orbitingElementData2;
     public SatelliteDataFormat format;

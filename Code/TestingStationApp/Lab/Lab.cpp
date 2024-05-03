@@ -57,7 +57,6 @@ int Lab::CreateTest(TestInfo testInfo) {
     TcaCalculation::sPointData* pointsData = nullptr;
     logString = "Creating Test";
     EventLogger::getInstance().log(logString, "Lab");
-
     if (true == m_dataGenerator.GenerateTestData(testInfo, &pointsData))
     {
         logString = "Test Data Generated";

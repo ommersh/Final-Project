@@ -1,37 +1,191 @@
-﻿@page "/testresults"
+﻿@page "/testResults"
 @using System.Collections.Generic
 @rendermode InteractiveServer
+@using BlazorApp1.Components.Layout;
 
-<h1>Test results</h1>
+<PageTitle>Tests results</PageTitle>
+<h1 class="title">Test results</h1>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 overflow-auto" style="height: 100vh; border-right: 2px solid #dee2e6;">
+        <div class="col-md-3 overflow-auto" style="height: 86vh; border-right: 2px solid #dee2e6;">
             @foreach (var test in allTests)
             {
-                        <div class="card mb-3" style="width: 18rem;" @onclick="() => SelectTest(test)">
-                        <div class="card-body">
-                                <h5 class="card-title">@test.testID</h5>
-                                    <h4 class="card-title">@test.testName</h4>
-                               
-                        </div>
+                <div class="card mb-3" style="width: 18rem;" @onclick="() => SelectTest(test)">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            @test.testName
+                            @if (test.status.Equals(TestStatus.Completed))
+                            {
+                                <div>
+                                    <span class="dot Complete"></span>Completed
+                                </div>
+                            }
+                            else if (test.status.Equals(TestStatus.InProgress))
+                            {
+                                <div>
+                                    <span class="dot InProgress"></span>In Progress
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <span class="dot Failed"></span>Failed
+                                </div>
+                            }
+
+                        </h6>
                     </div>
+                </div>
             }
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 overflow-auto" style="height: 86vh;">
             @if (SelectedTest.HasValue)
             {
-                <div>
-                    <h3>@SelectedTest.Value.testName : @testName</h3>
-                    <p>Format: @SelectedTest.Value.format</p>
-                    <p>Algorithm: @SelectedTest.Value.testedAlgorithm</p>
-                    <p>ID: @SelectedTest.Value.testID</p>
-                    <p>Degree @SelectedTest.Value.numberOfPointsPerSegment</p>
-                    <p>Any @SelectedTest.Value.</p>
-                </div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td style="width:45%"><strong>Test Name:</strong></td>
+                            <td>@SelectedTest.Value.testName</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Test ID:</strong></td>
+                            <td>@SelectedTest.Value.testID</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Test Status:</strong></td>
+                            <td>@SelectedTest.Value.status</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number Of Points Per Segment:</strong>
+                                <Tooltip TooltipText="The number point of data per Gamma time interval">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.numberOfPointsPerSegment</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Tested Algorithm:</strong></td>
+                            <td>@SelectedTest.Value.testedAlgorithm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number Of Iterations:</strong></td>
+                            <td>@SelectedTest.Value.numberOfIterations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tmin Factor:</strong>
+                                <Tooltip TooltipText="Constant used for calculating the size of Gamma, where Gamma = min satellite iteration / TMin Factor">
+                                </Tooltip>
+                                </td>
+                            <td>@SelectedTest.Value.TminFactor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time Interval Size (Sec):</strong></td>
+                            <td>@SelectedTest.Value.timeIntervalSizeSec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TOLdKM:</strong>
+                                <Tooltip TooltipText="SBO-ANCAS distance tolerance[KM]">
+                                </Tooltip>
+                                </td>
+                            <td>@SelectedTest.Value.TOLdKM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TOLtSec:</strong>
+                                <Tooltip TooltipText="SBO-ANCAS time tolerance[Sec]">
+                                </Tooltip>
+                                </td>
+                            <td>@SelectedTest.Value.TOLtSec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Initial Number Of Points:</strong>
+                                <Tooltip TooltipText="The number of input points of data">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.initialNumberOfPoints</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Segment Size (Sec):</strong>
+                                <Tooltip TooltipText="Gamma">
+                                </Tooltip>
+                                </td>
+                            <td>@SelectedTest.Value.segmentSizeSec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Format:</strong></td>
+                            <td>@SelectedTest.Value.format</td>
+                        </tr>
+                        @if (@SelectedTest.Value.status == TestStatus.Completed)
+                        {
+                        <tr>
+                            <td><strong>TCA (Sec):</strong>
+                                <Tooltip TooltipText="TCA offset from the starting point(the first input point) from the tested algorithm">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.timeOfTcaFromStartingPointSec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Distance Of TCA (KM):</strong>
+                                <Tooltip TooltipText="distance of TCA from the tested algorithm">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.distanceOfTcaKM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number Of Points The Algorithm Used:</strong>
+                                <Tooltip TooltipText="The total number of points in time the algorithm used">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.numberOfPointsTheAlgUsed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Average Run Time (Micro):</strong></td>
+                            <td>@SelectedTest.Value.avgRunTimeMicro</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Minimum Run Time (Micro):</strong></td>
+                            <td>@SelectedTest.Value.minRunTimeMicro</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Real TCA (Sec):</strong>
+                                <Tooltip TooltipText="To accurately determine the real TCA we initially employed the SBO-ANCAS algorithm with the given tolerances to get the TCA then used a small time-step of 1/10 * TOLt with 1 second around the found TCA to get a more accurate result">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.realTCASec</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Real Distance Of TCA (KM):</strong>
+                                <Tooltip TooltipText="To accurately determine the real TCA we initially employed the SBO-ANCAS algorithm with the given tolerances to get the TCA then used a small time-step of 1/10 * TOLt with 1 second around the found TCA to get a more accurate result">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.realTCAdistanceKM</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Distance Of TCA Error (KM):</strong>
+                                <Tooltip TooltipText=" = |TCA Distance - Real TCA Distance |">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.TCAErrorKm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TCA Error (Sec):</strong>
+                                <Tooltip TooltipText=" = |TCA - Real TCA |">
+                                </Tooltip>
+                            </td>
+                            <td>@SelectedTest.Value.TCAErrorSec</td>
+                        </tr>
+                        }
+                        @if (@SelectedTest.Value.testedAlgorithm == Algorithm.CATCH)
+                        {
+                            <tr>
+                                <td><strong>Catch Polynomial Degree:</strong></td>
+                                <td>@SelectedTest.Value.catchPolynomialDegree</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
         </div>
     </div>
 </div>
-

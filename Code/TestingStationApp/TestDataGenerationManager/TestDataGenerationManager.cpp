@@ -1,12 +1,6 @@
 #include "TestDataGenerationManager.h"
-//void TestDataGenerationManager::CreateTest(TestInfo& testInfo)
-//{
-//    elsetrec orbElem1 = elsetrec();
-//    elsetrec orbElem2 = elsetrec();
-//    TcaCalculation::sPointData* elementsVectors;
-//
-//    GenerateTestData(testInfo.recipe, orbElem1, orbElem2, &elementsVectors);
-//}
+#include <iostream>
+
 
 bool TestDataGenerationManager::GenerateTestData(TestInfo& testInfo, TcaCalculation::sPointData* elementsVectors[])
 {

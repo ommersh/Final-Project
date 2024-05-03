@@ -5,7 +5,7 @@
 #include <vector>
 #include "DataGenerator.h"
 #include <TcaCalculation.h>
-
+#include <filesystem>
 static const double PI = 3.14159265358979323846;
 
 /// <summary>
@@ -31,7 +31,6 @@ bool DataGenerator::CalculateRelativeVectorsForTwoElements(int timePointsArrLeng
 {
     bool dataGenerated = true;
     GetStartTimeOfOrbElem(elsetrec1, elsetrec2, startTime1, startTime2);
-    //todo add starttime to recipe
 
     double r1[3], v1[3];
     double r2[3], v2[3];
@@ -73,7 +72,12 @@ void DataGenerator::InitOrbitalElementsFromXml(std::string& xmlFile, elsetrec& s
 
 
     // Read XML file
-    std::ifstream file(xmlFile);
+    std::wstring rootDirectory = std::filesystem::current_path().wstring();
+    std::wstring subfolder = L"\\OmmXmls\\";
+    std::wstring xmlFileWideString(xmlFile.length(), L' ');
+    std::copy(xmlFile.begin(), xmlFile.end(), xmlFileWideString.begin());
+    std::wstring xmlFullPath = rootDirectory.append(subfolder).append(xmlFileWideString);
+    std::ifstream file(xmlFullPath);
     std::string xmlContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
     // Find relevant data from XML

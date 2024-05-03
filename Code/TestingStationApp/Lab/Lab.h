@@ -49,6 +49,12 @@ struct UserTestData{
     //Repeated tests results - the iterations
     double avgRunTimeMicro;
     double minRunTimeMicro;
+
+    //Real TCA
+    double realTCASec;
+    double realTCAdistanceKM;
+    double TCAErrorSec;
+    double TCAErrorKm;
 };
 
 

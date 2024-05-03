@@ -1,46 +1,31 @@
 ﻿@page "/testCreation"
 @rendermode InteractiveServer
 
-<style>
-    .form-group {
-        display: -ms-flexbox;
-        align-items: baseline;
-    }
-
-        .form-group > label {
-            flex: 1;
-            text-align: left;
-        }
-
-        .form-group > .input-container {
-            flex: 2;
-        }
-</style>
+<PageTitle>Test creation</PageTitle>
+<h1 class="title">Test creation</h1>
 
 <div class="container mt-5">
-    <h2 class="mb-4">Create Test</h2>
+    <EditForm Model="@userTestDataWrapper" OnValidSubmit="HandleValidSubmit">
 
-    <EditForm Model="@userTestDataWrapper" OnValidSubmit="HandleValidSubmit" class="needs-validation" novalidate>
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <div class="form-group">
+            <div class="input-group">
                 <label for="testName">Test Name:</label>
-                <InputText id="testName" class="form-control" @bind-Value="userTestDataWrapper.testName" required />
-                <div class="invalid-feedback">
-                    Please enter a test name.
-                </div>
+                <InputText id="testName" class="form-control" @bind-Value="userTestDataWrapper.testName" required placeholder="Enter the test name..." />
+            </div>
+            <div class="invalid-feedback">
+                Please enter a test name.
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <div class="form-group">
+            <div class="input-group">
                 <label for="numberOfPointsPerSegment">Number of Points Per Segment:</label>
                 <InputNumber id="numberOfPointsPerSegment" class="form-control" @bind-Value="userTestDataWrapper.numberOfPointsPerSegment" />
             </div>
+        </div>
 
-            <div class="form-group col-md-6">
+        <div class="form-group">
+            <div class="input-group">
                 <label for="catchRootsAlg">Catch Roots Algorithm:</label>
                 <InputSelect id="catchRootsAlg" class="form-control" @bind-Value="userTestDataWrapper.catchRootsAlg">
                     @foreach (var alg in Enum.GetValues(typeof(CatchRootsAlg)))
@@ -51,8 +36,8 @@
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <div class="form-group">
+            <div class="input-group">
                 <label for="testedAlgorithm">Tested Algorithm:</label>
                 <InputSelect id="testedAlgorithm" class="form-control" @bind-Value="userTestDataWrapper.testedAlgorithm">
                     @foreach (var alg in Enum.GetValues(typeof(Algorithm)))
@@ -61,76 +46,105 @@
                     }
                 </InputSelect>
             </div>
+        </div>
 
-            <div class="form-group col-md-6">
+        <div class="form-group">
+            <div class="input-group">
                 <label for="numberOfIterations">Number of Iterations:</label>
                 <InputNumber id="numberOfIterations" class="form-control" @bind-Value="userTestDataWrapper.numberOfIterations" />
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <div class="form-group">
+            <div class="input-group">
                 <label for="TminFactor">Tmin Factor:</label>
-                <InputNumber id="TminFactor" class="form-control" @bind-Value="userTestDataWrapper.TminFactor" />
+                <InputSelect id="TminFactor" class="form-control" @bind-Value="userTestDataWrapper.TminFactor">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                </InputSelect>
             </div>
+        </div>
 
-            <div class="form-group col-md-6">
+        <div class="form-group">
+            <div class="input-group">
                 <label for="timeIntervalSizeSec">Time Interval Size (Seconds):</label>
                 <InputNumber id="timeIntervalSizeSec" class="form-control" @bind-Value="userTestDataWrapper.timeIntervalSizeSec" />
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <div class="form-group">
+            <div class="input-group">
                 <label for="TOLdKM">Tolerance for Distance (km):</label>
-                <InputNumber id="TOLdKM" class="form-control" @bind-Value="userTestDataWrapper.TOLdKM" />
-            </div>
-
-            <div class="form-group col-md-6">
-                <label for="TOLtSec">Tolerance for Time (Seconds):</label>
-                <InputNumber id="TOLtSec" class="form-control" @bind-Value="userTestDataWrapper.TOLtSec" />
+                <InputText id="TOLdKM" class="form-control" @bind-Value="userTestDataWrapper.TOLdKM" />
             </div>
         </div>
 
-        <label for="dataFormat" style="margin-right: 100px;">Output Format:</label>
-        <InputRadioGroup id="dataFormat" @bind-Value="userTestDataWrapper.format">
-            <InputRadio class="form-check-input" Value="SatelliteDataFormat.XML" />
-            <label class="form-check-label style=" margin-right: 20px;"">XML</label>
-            <InputRadio class="form-check-input" Value="SatelliteDataFormat.Text" />
-            <label class="form-check-label">Text</label>
-        </InputRadioGroup>
+        <div class="form-group">
+            <div class="input-group">
+                <label for="TOLtSec">Tolerance for Time (Seconds):</label>
+                <InputText id="TOLtSec" class="form-control" @bind-Value="userTestDataWrapper.TOLtSec" />
+            </div>
+        </div>
 
+        <div class="form-group">
+            <div class="input-group">
+                <label for="dataFormat">Output Format:</label>
+                <div class="radio-container">
+                    <InputRadioGroup id="dataFormat" @bind-Value="userTestDataWrapper.format">
+                        <InputRadio class="form-check-inline" Value="SatelliteDataFormat.XML" />
+                        <label class="form-check-label">XML</label>
+                        <InputRadio class="form-check-inline" Value="SatelliteDataFormat.Text" />
+                        <label class="form-check-label">Text</label>
+                    </InputRadioGroup>
+                </div>
+            </div>
+        </div>
 
-            @if (userTestDataWrapper.format == SatelliteDataFormat.XML)
+        @if (userTestDataWrapper.format == SatelliteDataFormat.XML)
         {
+
             <div class="form-group">
-                <label>Load XML Files</label>
+                <div class="input-group">
+                    <label for="xmlFile1">First orbiting element:</label>
+                    <InputFile id="xmlFile1" class="form-control" type="file" OnChange="(e) => HandleFileSelection(e, 1)" />
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="xmlFile1">First orbiting element:</label>
-                <InputFile id="xmlFile1" class="form-control-file" OnChange="(e) => HandleFileSelection(e, 1)" />
+                <div class="input-group">
+                    <label for="xmlFile2">Second orbiting element:</label>
+                    <InputFile id="xmlFile2" class="form-control" type="file" OnChange="(e) => HandleFileSelection(e, 2)" />
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="xmlFile2">Second orbiting element:</label>
-                <InputFile id="xmlFile2" class="form-control-file" OnChange="(e) => HandleFileSelection(e, 2)" />
-            </div> 
         }
 
         @if (userTestDataWrapper.format == SatelliteDataFormat.Text)
         {
             <div class="form-group">
-                <label for="orbitingElementData1">Orbiting Element Data 1:</label>
-                <textarea id="orbitingElementData1" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData1"></textarea>
+                <div class="input-group">
+                    <label for="orbitingElementData1">Orbiting Element Data 1:</label>
+                    <textarea id="orbitingElementData1" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData1" placeholder="Enter the first object TLE in 2 lines..."></textarea>
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="orbitingElementData2">Orbiting Element Data 2:</label>
-                <textarea id="orbitingElementData2" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData2"></textarea>
+                <div class="input-group">
+                    <label for="orbitingElementData2">Orbiting Element Data 2:</label>
+                    <textarea id="orbitingElementData2" class="form-control" rows="2" @bind="userTestDataWrapper.orbitingElementData2" placeholder="Enter the second object TLE in 2 lines..."></textarea>
+                </div>
             </div>
         }
 
         <button type="submit" class="btn btn-primary">Create Test</button>
     </EditForm>
+
+    <!-- Message display -->
+    @if (!string.IsNullOrEmpty(submissionMessage))
+    {
+        <div id="alertBox" class="alert @(submissionSuccess ? "alert-success" : "alert-danger") mt-3">
+            @submissionMessage
+        </div>
+    }
+
 </div>

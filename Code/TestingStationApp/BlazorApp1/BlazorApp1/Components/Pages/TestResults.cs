@@ -25,7 +25,6 @@ namespace BlazorApp1.Components.Pages
         {
             labPtr = LabInterop.Lab_Create();
             TestIdsStruct testsIdsStruct;
-            //await AsyncGetAllIds(out testsIdsStruct); // await LabInterop.Lab_GetAllTestIds(labPtr);
             testsIdsStruct = LabInterop.Lab_GetAllTestIds(labPtr);
             uniqueIds = new int[testsIdsStruct.size];
 
