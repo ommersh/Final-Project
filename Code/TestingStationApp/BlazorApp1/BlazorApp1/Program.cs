@@ -1,4 +1,5 @@
 using BlazorApp1.Components;
+using System.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,4 +31,18 @@ app.MapGet("/api/checkconnection", () => {
     return LabInterop.Lab_CheckConnection();
 });
 
+Console.WriteLine("Trying to open browser");
+// Open the browser to the application's URL after the app starts
+var url = "http://localhost:5000"; // Modify the URL as needed
+try
+{
+    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true });
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Could not open the browser: {ex.Message}");
+}
+
+Console.WriteLine("Running app");
 app.Run();
+
