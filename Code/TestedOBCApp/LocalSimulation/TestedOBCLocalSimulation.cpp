@@ -176,20 +176,20 @@ bool TestedOBCLocalSimulation::sendMessage(unsigned char* buffer, unsigned int s
 			break;
 		case AlgorithmsEnums::Algorithm::SBO_ANCAS:
 			printResult("SBO_ANCAS", testResults);
-			std::cout << "FullTolReached " << testResults.tca.numberOf_FullTolReached << std::endl;
+			/*std::cout << "FullTolReached " << testResults.tca.numberOf_FullTolReached << std::endl;
 			std::cout << "NoRootsFound " << testResults.tca.numberOf_NoRootsFound << std::endl;
 			std::cout << "ToldReached " << testResults.tca.numberOf_ToldReached << std::endl;
 			std::cout << "ToltReached " << testResults.tca.numberOf_ToltReached << std::endl;
-
+			*/
 			//calculateTheTcaWithSmallTimeStepAroundPoint(testResults.tca.time, 0.05);
 			break;
 		case AlgorithmsEnums::Algorithm::SBO_ANCAS_ES:
 			printResult("SBO_ANCAS_ES", testResults);
-			std::cout << "FullTolReached " << testResults.tca.numberOf_FullTolReached << std::endl;
+			/*std::cout << "FullTolReached " << testResults.tca.numberOf_FullTolReached << std::endl;
 			std::cout << "NoRootsFound " << testResults.tca.numberOf_NoRootsFound << std::endl;
 			std::cout << "ToldReached " << testResults.tca.numberOf_ToldReached << std::endl;
 			std::cout << "ToltReached " << testResults.tca.numberOf_ToltReached << std::endl;
-
+			*/
 			//calculateTheTcaWithSmallTimeStepAroundPoint(testResults.tca.time, 0.05);
 			break;
 		default:

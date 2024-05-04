@@ -77,11 +77,11 @@ TCA SboAncas::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 			if (ancasTca.time == -1)
 			{
 				innerLoopCondition = false;
-				tca.numberOf_NoRootsFound++;
+				/**.numberOf_NoRootsFound++;
 				if (distToleranceReached)
 					tca.numberOf_ToldReached++;
 				if (timeToleranceReached)
-					tca.numberOf_ToltReached++;
+					tca.numberOf_ToltReached++;*/
 			}
 			else
 			{
@@ -163,9 +163,9 @@ TCA SboAncas::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPoi
 				if (true == distToleranceReached && true == timeToleranceReached)
 				{
 					innerLoopCondition = false;
-					tca.numberOf_ToldReached++;
-					tca.numberOf_ToltReached++;
-					tca.numberOf_FullTolReached++;
+					//tca.numberOf_ToldReached++;
+					//tca.numberOf_ToltReached++;
+					//tca.numberOf_FullTolReached++;
 				}
 			}
 		} while (innerLoopCondition);

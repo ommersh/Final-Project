@@ -20,7 +20,7 @@ private:
     void printResult(std::string algName, TestResults::TestResult results);
     void startPrint();
     TestResultsToCsv m_resultsToCsv;
-    std::map<int, TcaCalculation::TCA> myMap;
+    //std::map<int, TcaCalculation::TCA> myMap;
 
 };
 

@@ -56,7 +56,8 @@ TestResultsToCsv::~TestResultsToCsv() {
     }
 }
 
-void TestResultsToCsv::SaveInfo(TestInfo testInfo, int FullTolReached, int ToldReached, int ToltReached, int NoRootsFound) {
+void TestResultsToCsv::SaveInfo(TestInfo testInfo)//, int FullTolReached, int ToldReached, int ToltReached, int NoRootsFound) 
+{
     std::string algName ="";
     switch (testInfo.recipe.testedAlgorithm)
     {
@@ -76,11 +77,11 @@ void TestResultsToCsv::SaveInfo(TestInfo testInfo, int FullTolReached, int ToldR
         algName = "????";
         break;
     }
-    SaveInfo(testInfo, algName, FullTolReached, ToldReached, ToltReached, NoRootsFound);
+    SaveInfo(testInfo, algName);// , FullTolReached, ToldReached, ToltReached, NoRootsFound);
 }
 
 // Method to log a single row of results
-void TestResultsToCsv::SaveInfo(TestInfo testInfo, std::string algName, int FullTolReached, int ToldReached, int ToltReached, int NoRootsFound)
+void TestResultsToCsv::SaveInfo(TestInfo testInfo, std::string algName)//, int FullTolReached, int ToldReached, int ToltReached, int NoRootsFound)
 {
     if (outFile.is_open()) {
         outFile << std::fixed << std::setprecision(30)
@@ -108,10 +109,10 @@ void TestResultsToCsv::SaveInfo(TestInfo testInfo, std::string algName, int Full
             << fabs(testInfo.realDistance - testInfo.distanceOfTcaKM) << ","            //21    "Error Distance[Km]"
             << testInfo.numberOfPointsTheAlgUsed << ","                                  //22    "Number of Points Used"
 
-            << FullTolReached << ","      //23
-            << ToldReached << ","         //24
-            << ToldReached << ","         //25
-            << NoRootsFound << ""         //26
+            //<< FullTolReached << ","      //23
+            //<< ToldReached << ","         //24
+            //<< ToldReached << ","         //25
+            //<< NoRootsFound << ""         //26
 
             << std::endl;
     }
@@ -149,10 +150,10 @@ void TestResultsToCsv::SetFileHeader()
             << "Error Distance[Km]" << ","          //21
             << "Number of Points Used" << ","       //22
 
-            << "FullTolReached" << ","      //23
-            << "ToldReached" << ","         //24
-            << "ToldReached" << ","         //25
-            << "NoRootsFound" << ""         //26
+            //<< "FullTolReached" << ","      //23
+            //<< "ToldReached" << ","         //24
+            //<< "ToldReached" << ","         //25
+            //<< "NoRootsFound" << ""         //26
 
 
             << std::endl;

@@ -19,7 +19,7 @@ void ResultManager::UpdateTestResult(TestResults::TestResult results) {
 	//Repeated tests results - the iterations
 	testInfo.avgRunTimeMicro = results.avgTimeMicro;
 	testInfo.minRunTimeMicro = results.minTimeMicro;
-	myMap[results.testID] = results.tca;
+	//myMap[results.testID] = results.tca;
 	//testInfo.status = TestStatus::Completed;
 
 	Lab::GetInstance().updateTestResults(testInfo);
@@ -36,12 +36,13 @@ void ResultManager::UpdateTestRealTcaResult(TcaCalculation::TCA tca, int testID)
 
 void ResultManager::TestCompleted(int testID)
 {
-	int FullTolReached = 0;
+	/*int FullTolReached = 0;
 	int ToldReached = 0;
 	int ToltReached = 0;
-	int NoRootsFound = 0;
+	int NoRootsFound = 0;*/
 	Lab::GetInstance().updateTestStatus(TestStatus::Completed, testID);
 	TestInfo testInfo = Lab::GetInstance().GetTestInfo(testID);
+	/*
 	if (myMap.find(testID) != myMap.end()) {
 		FullTolReached = myMap[testID].numberOf_FullTolReached;
 		ToldReached = myMap[testID].numberOf_ToldReached;
@@ -49,8 +50,8 @@ void ResultManager::TestCompleted(int testID)
 		NoRootsFound = myMap[testID].numberOf_NoRootsFound;
 
 		myMap.erase(testID);
-	}
-	m_resultsToCsv.SaveInfo(testInfo, FullTolReached, ToldReached, ToltReached, NoRootsFound);
+	}*/
+	m_resultsToCsv.SaveInfo(testInfo);
 }
 
 

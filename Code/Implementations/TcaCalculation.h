@@ -15,10 +15,10 @@ namespace TcaCalculation
 		double distance;
 		int32_t numberOfPoints;
 		//Temp Stuff for my testings
-		int32_t numberOf_FullTolReached;
-		int32_t numberOf_ToldReached;
-		int32_t numberOf_ToltReached;
-		int32_t numberOf_NoRootsFound;
+		//int32_t numberOf_FullTolReached;
+		//int32_t numberOf_ToldReached;
+		//int32_t numberOf_ToltReached;
+		//int32_t numberOf_NoRootsFound;
 	};
 
 

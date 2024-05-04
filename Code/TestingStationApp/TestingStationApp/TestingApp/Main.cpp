@@ -33,99 +33,51 @@ void printTestInfo(const TestInfo& test) {
     std::cout << "Status: " << int(test.status) << std::endl;
 }
 void runSboAncasVariationsTest();
+void runAlgorithmsTimesTest(int TMIN_FACTOR, int NUMBER_OF_POINTS_PER_SEGMENT, double TIME_INTERVAL_SIZE_SEC,int howManyShouldIRun);
 
 int main()
 {
 
     Lab& lab = Lab::GetInstance();
-    /*
-    std::cout << "connection " << lab.CheckConnection() << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    std::cout << "connection " << lab.CheckConnection() << std::endl;
-    */
-    /*
-    int i = 1;
-    while (i--)
+    
+    //Test algorithms run time
+   // runAlgorithmsTimesTest(2, 16, 7 * 24 * 60 * 60,10000);
+
+    //Test constant time interval with different number of points
+    /*for (int tminFactor = 1; tminFactor < 8; tminFactor++)
     {
-        
-        //Initialize the data
-        TestInfo info = { 0 };
-        info.format = SatelliteDataFormat::Text;
-        strcpy_s(info.recipe.testName, "STARLINK5447_UNICORN2N");
-        info.status = TestStatus::Queued;
-        */
-        /*
-    STARLINK5447_UNICORN2N
+        runAlgorithmsTimesTest(tminFactor, 16, 7 * 24 * 60 * 60, 30);
+    }*/
 
-        char Obj1le1[] = "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993";
-        char Obj1le2[] = "2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489";
+    //Test constant number of points with changing time interval
+    
+    const int secPerDay = 24 * 60 * 60;
+    int TminF, numOfDay;
+    TminF = 24;
+    numOfDay = 1;
+    runAlgorithmsTimesTest(TminF, 16, numOfDay* secPerDay, 30);
+    TminF = 12;
+    numOfDay = 2;
+    runAlgorithmsTimesTest(TminF, 16, numOfDay * secPerDay, 30);
+    TminF = 8;
+    numOfDay = 3;
+    runAlgorithmsTimesTest(TminF, 16, numOfDay * secPerDay, 30);
+    TminF = 6;
+    numOfDay = 4;
+    runAlgorithmsTimesTest(TminF, 16, numOfDay * secPerDay, 30);
+    TminF = 4;
+    numOfDay = 6;
+    runAlgorithmsTimesTest(TminF, 16, numOfDay * secPerDay, 30);
+    TminF = 3;
+    numOfDay = 8;
+    runAlgorithmsTimesTest(TminF, 16, numOfDay * secPerDay, 30);
+    TminF = 2;
+    numOfDay = 12;
+    runAlgorithmsTimesTest(TminF, 16, numOfDay * secPerDay, 30);
+    
+   // runAlgorithmsTimesTest(4, 16, 7 * 24 * 60 * 60);
+    //runAlgorithmsTimesTest(8, 16, 7 * 24 * 60 * 60);
 
-        char Obj2le1[] = "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990";
-        char Obj2le2[] = "2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268";
-        */
-        /*
-        strcpy_s(info.firstElemData, "1 54779U 22175X   24081.08811856 -.00001209  00000+0 -57887-4 0  9993\n2 54779  53.2184  15.1482 0001476 102.2379 257.8779 15.08836826 69489");
-        strcpy_s(info.secondElemData, "1 58642U 23185N   24081.15647041  .00022282  00000+0  15749-2 0  9990\n2 58642  97.6346 149.4102 0018842 223.6176 136.3561 15.04756794 13268");
-        strcpy_s(info.recipe.testName, "STARLINK5447_UNICORN2N");
-        info.recipe.catchPolynomialDegree = 15;
-        info.recipe.numberOfPointsPerSegment = 16;
-        info.recipe.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
-        info.recipe.numberOfIterations = 1;
-        info.recipe.TminFactor = 2;
-        info.recipe.timeIntervalSizeSec = 7 * 24 * 60 * 60;//A Week
-        info.recipe.TOLd = 10e-9;
-        info.recipe.TOLt = 10e-5;
-
-        //set the algorithm
-        info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::ANCAS;
-        info.recipe.numberOfIterations = 5;
-        //Run the test
-        info.recipe.testID = lab.CreateTest(info);
-        printTestInfo(info);
-        */
-        /*
-        //set the algorithm
-        info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::CATCH;
-        info.recipe.numberOfIterations = 1;
-        //Run the test
-        lab.CreateTest(info);
-        */
-        /*
-        //set the algorithm
-        info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::SBO_ANCAS;
-        info.recipe.numberOfIterations = 5;
-        //Run the test
-        lab.CreateTest(info);
-        
-
-
-
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        */
-        // 
-        //check that the results was updated(hoping 8 seconds is enough!)
-        /*
-        TestInfo results = { 0 };
-        results = lab.GetTestInfo(info.recipe.testID);
-        printTestInfo(results);
-        */
-        /*
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-        //Update status
-        results = { 0 };
-        lab.updateTestStatus(TestStatus::Failed, info.recipe.testID);
-        results = lab.GetTestInfo(info.recipe.testID);
-        printTestInfo(results);
-
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-        //Update status
-        results = { 0 };
-        lab.updateTestStatus(TestStatus::Completed, info.recipe.testID);
-        results = lab.GetTestInfo(info.recipe.testID);
-        printTestInfo(results);*/
-    /**}
-    */
-    runSboAncasVariationsTest();
     while (1) {
         std::this_thread::sleep_for(std::chrono::seconds(30));
     }
@@ -208,6 +160,117 @@ void runSboAncasVariationsTest()
                     info.recipe.testID = lab.CreateTest(info);
 
                     std::this_thread::sleep_for(std::chrono::milliseconds(700));
+                    catalogReader.printPercentage(i, catalogSize);
+                }
+                else {
+                    //failed to get the data! that bad!
+                    std::cout << "Failed To Get Data!" << std::endl;
+                }
+            }
+        }
+    }
+    ;
+}
+
+
+void runAlgorithmsTimesTest(int TMIN_FACTOR, int NUMBER_OF_POINTS_PER_SEGMENT, double TIME_INTERVAL_SIZE_SEC, int howManyShouldIRun)
+{
+    /*
+    static const int TMIN_FACTOR = 2;
+    static const int NUMBER_OF_POINTS_PER_SEGMENT = 16;
+    static const double TIME_INTERVAL_SIZE_SEC = 7 * 24 * 60 * 60;//A Week
+    */
+    Lab& lab = Lab::GetInstance();
+    TestInfo info = { 0 };
+    CatalogReader catalogReader;
+    std::string tleLine1;
+    std::string tleLine2;
+    std::string tempString;
+    std::string firstElemName;
+    std::string secondElemName;
+    char firstElemData[262];
+    char secondElemData[262];
+    if (true == catalogReader.Init("gpCatalog.txt"))
+    {
+        if (true == catalogReader.getTLE(0))
+        {
+            tleLine1 = catalogReader.m_tleLine1;
+            tleLine2 = catalogReader.m_tleLine2;
+            firstElemName = catalogReader.m_name;
+            tempString = tleLine1 + "\n" + tleLine2;
+            strncpy(firstElemData, tempString.c_str(), tempString.size());
+            firstElemData[tempString.size()] = '\0';
+            //Runnig over the catalog
+            int catalogSize = catalogReader.getCatalogSize();
+            int numberOfCases = min(catalogSize, howManyShouldIRun);
+            for (int i = 1; i < numberOfCases; i++)
+            {
+                //Get the second element data
+                if (true == catalogReader.getTLE(i))
+                {
+                    tleLine1 = catalogReader.m_tleLine1;
+                    tleLine2 = catalogReader.m_tleLine2;
+                    secondElemName = catalogReader.m_name;
+                    tempString = tleLine1 + "\n" + tleLine2;
+                    strncpy(secondElemData, tempString.c_str(), tempString.size());
+                    secondElemData[tempString.size()] = '\0';
+                    //handle the name
+                    std::string tempName = firstElemName + '_' + secondElemName;
+                    tempName.erase(std::remove(tempName.begin(), tempName.end(), ' '), tempName.end());//remove spaces
+                    tempName.erase(std::remove(tempName.begin(), tempName.end(), '\t'), tempName.end());//remove tabs
+                    tempName.erase(std::remove(tempName.begin(), tempName.end(), '\n'), tempName.end());//remove new lines
+
+                    //Do the test :^)
+                    info = { 0 };
+                    info.format = SatelliteDataFormat::Text;
+                    //Set the name to the test number
+                    tempName = std::to_string(i - 1);
+                    strcpy_s(info.recipe.testName, tempName.c_str());
+                    info.status = TestStatus::Queued;
+                    strcpy_s(info.firstElemData, firstElemData);
+                    strcpy_s(info.secondElemData, secondElemData);
+                    info.recipe.catchPolynomialDegree = NUMBER_OF_POINTS_PER_SEGMENT - 1;
+                    info.recipe.numberOfPointsPerSegment = NUMBER_OF_POINTS_PER_SEGMENT;
+                    info.recipe.catchRootsAlg = AlgorithmsEnums::CatchRootsAlg::EigenCompanionMatrix;
+                    info.recipe.numberOfIterations = 1;
+                    info.recipe.TminFactor = TMIN_FACTOR;
+                    info.recipe.timeIntervalSizeSec = TIME_INTERVAL_SIZE_SEC;
+                    info.recipe.TOLd = 10e-9;
+                    info.recipe.TOLt = 10e-5;
+
+
+                    //set the algorithm
+                    info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::ANCAS;
+                    info.recipe.numberOfIterations = 1;
+                    info.recipe.TminFactor = TMIN_FACTOR;
+                    //Run the test
+                    info.recipe.testID = lab.CreateTest(info);
+
+                    //set the algorithm
+                    info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::SBO_ANCAS;
+                    info.recipe.numberOfIterations = 1;
+                    info.recipe.TminFactor = TMIN_FACTOR;
+                    //Run the test
+                    info.recipe.testID = lab.CreateTest(info);
+
+                    //set the algorithm
+                    info.recipe.testedAlgorithm = AlgorithmsEnums::Algorithm::CATCH;
+                    info.recipe.numberOfIterations = 1;
+                    info.recipe.TminFactor = TMIN_FACTOR;
+                    //Run the test
+                    info.recipe.testID = lab.CreateTest(info);
+
+
+                    //Wait for the tests to end before creating more tests
+                    //Even if we waste some time, we dont want to fill the memory with waiting tests
+                    //And the emulator is slow
+                    int id = info.recipe.testID;
+                    TestInfo tempinfo = { 0 };
+                    do
+                    {
+                        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                        tempinfo = lab.GetTestInfo(id);
+                    } while (tempinfo.status != TestStatus::Completed && id >= 0);
                     catalogReader.printPercentage(i, catalogSize);
                 }
                 else {

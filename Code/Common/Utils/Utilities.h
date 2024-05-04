@@ -215,7 +215,7 @@ public:
     }
     void printPercentage(int position , int catalogSize)
     {
-        double percentage = static_cast<double>(position) / catalogSize * 100.0;
+        double percentage = static_cast<double>(position - 1) / (catalogSize - 1) * 100.0;
 
         // Move cursor to the beginning of the line with '\r'
         // Set text color to green with ANSI escape code "\033[32m"

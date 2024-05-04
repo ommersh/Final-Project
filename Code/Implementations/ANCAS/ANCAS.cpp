@@ -90,10 +90,10 @@ TCA ANCAS::RunAlgorithm(TcaCalculation::sPointData* pointsInTime, int lastPointI
 		}
 
 		tempTca = ANCASIteration();
-		if (tempTca.time == -1)
+		/*if (tempTca.time == -1)
 		{
 			tca.numberOf_NoRootsFound++;
-		}
+		}*/
 		if (tempTca.distance < tca.distance)
 		{
 			tca.distance = tempTca.distance;
