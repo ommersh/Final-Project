@@ -93,6 +93,9 @@ add_executable(${PROJECT_NAME}
                 ../../Common/Logger/ResultsLogger.cpp
                 )
 
+# Add preprocessor define(s)
+target_compile_definitions(${PROJECT_NAME} PRIVATE TestedOBCApp)
+
 set_target_properties(TestedOBCApp PROPERTIES OUTPUT_NAME "TestedOBCApp_v_${TESTEDOBCAPP_VERSION}")
 
 
