@@ -1,0 +1,7 @@
+CPU: X86/TimingSimpleCPU
+cpu-clock=400MHz
+caches:
+l1d_size=32kB
+l1i_size=32kB
+mem-type=SimpleMemory
+
