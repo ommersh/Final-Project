@@ -77,3 +77,6 @@ Code/TestingStationApp/TestingStationApp/TestingApp/Tests.db
 Code/TestingStationApp/TestingStationApp/TestingApp/Logger/
 Code/TestingStationApp/BlazorApp1/BlazorApp1/Logger/
 ReleasedVersions/TestedObcApp/build/
+ReleasedVersions/TestedObcApp/Logger/
+ReleasedVersions/TestingStation/Versions/x64/Logger/
+ReleasedVersions/TestingStation/Versions/x64/OmmXmls/
